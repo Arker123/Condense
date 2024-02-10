@@ -22,7 +22,7 @@ const otpSchema = new Schema({
 async function sendVerificationEmail(email, otp) {
   try {
     const info = await transporter.sendMail({
-      from: "cs305.t07@gmail.com",
+      from: "DEP24.P01@outlook.com",
       to: email, // list of receivers
       subject: "OTP Verification", // Subject line
       html: `<p>Your otp for verification is ${otp}. It will expire in 5 minutes.</p>`, // plain text body
