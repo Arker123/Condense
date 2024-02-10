@@ -3,12 +3,15 @@ const {
   logoutUser,
   registerUser,
   sendOtp,
+  verifyOtp,
 } = require("../controllers/auth");
+
 const express = require("express");
 
 const Router = express.Router();
 
 Router.post("/otp", sendOtp);
+Router.post("/verifyOTP", verifyOtp);
 
 Router.post("/register", registerUser);
 

@@ -1,9 +1,8 @@
-
 const User = require("../models/UserModel");
+const OTP = require("../models/OtpModel");
 const bcrypt = require("bcrypt");
 
-
- const sendOtp = async (req, res) => {
+const sendOtp = async (req, res) => {
   const generateOtp = () => {
     let otp = "";
     for (let i = 0; i < 6; i++) {
@@ -27,7 +26,22 @@ const bcrypt = require("bcrypt");
   }
 };
 
- const registerUser = async (req, res) => {
+const verifyOtp = async (req, res) => {
+  const { email, otp } = req?.body;
+  const result = await OTP.findOne({ email, otp });
+
+  if (result) {
+    res.status(200).json({
+      success: true,
+      message: "OTP verified successfully",
+    });
+  } else {
+    console.log("OTP entered is wrong");
+    res.status(400).json({ success: false, message: "OTP entered is wrong" });
+  }
+};
+
+const registerUser = async (req, res) => {
   const { email, password } = req.body;
   console.log({ email, password });
   const result = await User.findOne({ email: email });
@@ -57,7 +71,7 @@ const bcrypt = require("bcrypt");
   }
 };
 
- const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req?.body;
 
   const user = await User.findOne({ email: email });
@@ -85,7 +99,7 @@ const bcrypt = require("bcrypt");
   }
 };
 
- const logoutUser = async (req, res) => {
+const logoutUser = async (req, res) => {
   try {
     jwt.verify(
       refreshToken,
@@ -107,4 +121,4 @@ const bcrypt = require("bcrypt");
   }
 };
 
-module.exports = { sendOtp, registerUser, loginUser, logoutUser };
+module.exports = { sendOtp, registerUser, loginUser, logoutUser, verifyOtp };
