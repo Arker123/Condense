@@ -1,8 +1,9 @@
-import User from "../models/UserModel.js";
 
-import bcrypt from "bcrypt";
+const User = require("../models/UserModel");
+const bcrypt = require("bcrypt");
 
-export const sendOtp = async (req, res) => {
+
+ const sendOtp = async (req, res) => {
   const generateOtp = () => {
     let otp = "";
     for (let i = 0; i < 6; i++) {
@@ -26,7 +27,7 @@ export const sendOtp = async (req, res) => {
   }
 };
 
-export const registerUser = async (req, res) => {
+ const registerUser = async (req, res) => {
   const { email, password } = req.body;
   console.log({ email, password });
   const result = await User.findOne({ email: email });
@@ -56,7 +57,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+ const loginUser = async (req, res) => {
   const { email, password } = req?.body;
 
   const user = await User.findOne({ email: email });
@@ -84,7 +85,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const logoutUser = async (req, res) => {
+ const logoutUser = async (req, res) => {
   try {
     jwt.verify(
       refreshToken,
@@ -105,3 +106,5 @@ export const logoutUser = async (req, res) => {
     res.status(400).json({ message: "Error while logging out" });
   }
 };
+
+module.exports = { sendOtp, registerUser, loginUser, logoutUser };
