@@ -2,7 +2,10 @@ import os
 import whisper
 from langdetect import detect
 from pytube import YouTube
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 def startfile(fn):
     os.system('open %s' % fn)
 
