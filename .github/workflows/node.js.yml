@@ -25,8 +25,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        path: 'client'
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -34,8 +32,5 @@ jobs:
         cache: 'npm'
         cache-dependency-path: ./client/package-lock.json
     - run: npm ci
-      working-directory: ./client
     - run: npm run build --if-present
-      working-directory: ./client
     - run: npm test
-      working-directory: ./client
