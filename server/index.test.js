@@ -1,3 +1,4 @@
+// remove this dummy test after adding real tests
 function sum(a, b) {
     return a + b;
 }
