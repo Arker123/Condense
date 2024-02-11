@@ -21,7 +21,6 @@ def generate(audio_stream, output_path, filename):
 
     model = whisper.load_model("base")
     absolute_audio_path = os.path.join(output_path, filename)
-    print(absolute_audio_path)
 
     result = model.transcribe(absolute_audio_path)
     transcribed_text = result["text"]
