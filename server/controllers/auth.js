@@ -1,6 +1,7 @@
 const User = require("../models/UserModel");
 const OTP = require("../models/OtpModel");
 const bcrypt = require("bcrypt");
+const tokenService = require("../services/token-service");
 
 const sendOtp = async (req, res) => {
   const generateOtp = () => {
@@ -42,7 +43,6 @@ const verifyOtp = async (req, res) => {
         message: "OTP verified successfully",
       });
     } else {
-      console.log("OTP entered is wrong");
       res.status(400).json({ success: false, message: "OTP entered is wrong" });
     }
   } catch (err) {
@@ -52,45 +52,110 @@ const verifyOtp = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    console.log({ email, password });
-    if (!email || !password)
-      return res
-        .status(400)
-        .json({ error: "Email and password cannot be empty" });
-    const result = await User.findOne({ email: email });
+  const { email, password } = req.body;
+  console.log({ email, password });
+  if (!email || !password)
+    return res
+      .status(400)
+      .json({ error: "Email and password cannot be empty" });
+  const result = await User.findOne({ email: email });
 
-    if (!result) {
-      await bcrypt.hash(password, 10).then((hash) => {
-        // const newUser = await User.create(user);
-        User.create({ ...req.body, password: hash })
-          .then((user) => {
-            res.status(200).json({
-              success: true,
-              user: user.email,
-              message: "User added successfully",
-            });
-          })
-          .catch((err) => {
-            res.status(400).json({
-              success: false,
-              message: err.message,
-            });
-          });
-      });
-    } else {
+  try {
+    if (result) {
       return res
         .status(400)
         .json({ success: false, message: "User already exists" });
     }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = await User.create({
+      ...req.body,
+      password: hashedPassword,
+    });
+
+    const { accessToken, refreshToken } = tokenService.generateTokens({
+      _id: newUser._id,
+      activated: false,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      user: newUser.email,
+      message: "User added successfully",
+      accessToken,
+      // refreshToken
+    });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: err.message,
     });
   }
+};
+
+const refresh = async (req, res) => {
+  // get refresh token from cookie
+  const { refreshToken: refreshTokenFromCookie } = req.cookies;
+  // check if token is valid
+  let userData;
+  try {
+    userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid Token" });
+  }
+  // Check if token is in db
+  try {
+    const token = await tokenService.findRefreshToken(
+      userData._id,
+      refreshTokenFromCookie
+    );
+    if (!token) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: "Internal error" });
+  }
+  // check if valid user
+  const user = await userService.findUser({ _id: userData._id });
+  if (!user) {
+    return res.status(404).json({ message: "No user" });
+  }
+  // Generate new tokens
+  const { refreshToken, accessToken } = tokenService.generateTokens({
+    _id: userData._id,
+  });
+
+  // Update refresh token
+  try {
+    await tokenService.updateRefreshToken(userData._id, refreshToken);
+  } catch (err) {
+    return res.status(500).json({ message: "Internal error" });
+  }
+  // put in cookie
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+    httpOnly: true,
+  });
+
+  res.cookie("accessToken", accessToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+    httpOnly: true,
+  });
+  // response
+  res.json({ user: user, auth: true });
 };
 
 const loginUser = async (req, res) => {
@@ -157,4 +222,11 @@ const logoutUser = async (req, res) => {
   }
 };
 
-module.exports = { sendOtp, registerUser, loginUser, logoutUser, verifyOtp };
+module.exports = {
+  sendOtp,
+  registerUser,
+  loginUser,
+  logoutUser,
+  verifyOtp,
+  refresh,
+};
