@@ -24,7 +24,6 @@ def generate(audio_stream, output_path, filename):
 
     result = model.transcribe(absolute_audio_path)
     transcribed_text = result["text"]
-    print(transcribed_text)
 
     language = detect(transcribed_text)
     print(f"Detected language: {language}")
