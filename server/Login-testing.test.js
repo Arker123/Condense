@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../index")
+const app = require("./index")
 const port = process.env.PORT || 5000;
 
 server = app.listen(() => {
