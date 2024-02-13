@@ -1,6 +1,17 @@
+const mongoose = require("mongoose");
 const request = require("supertest");
 const app = require("../index")
 const port = process.env.PORT || 5000;
+
+require("dotenv").config();
+
+beforeEach(async () => {
+await mongoose.connect(process.env.MONGODB_URI);
+});
+
+afterEach(async () => {
+await mongoose.connection.close();
+});
 
 server = app.listen(() => {
     console.log(`Server is running on ${port} `);
