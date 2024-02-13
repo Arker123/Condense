@@ -6,11 +6,11 @@ const port = process.env.PORT || 5000;
 require("dotenv").config();
 
 beforeEach(async () => {
-await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGO_URL);
 });
 
 afterEach(async () => {
-await mongoose.connection.close();
+    await mongoose.connection.close();
 });
 
 server = app.listen(() => {
