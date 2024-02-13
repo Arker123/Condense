@@ -163,11 +163,7 @@ const loginUser = async (req, res) => {
     const { email, password } = req?.body;
 
     if (!email || !password)
-<<<<<<< HEAD
       return res.status(400).json({
-=======
-      return res.json({
->>>>>>> d7144949899367253d45a6aff4a15bc3ef5dbd5e
         success: false,
         message: "Email and password cannot be empty",
       });
