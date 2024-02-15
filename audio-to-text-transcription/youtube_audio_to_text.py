@@ -1,3 +1,4 @@
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 import os
 import csv
 import sys
@@ -9,8 +10,8 @@ import logging
 import argparse
 
 import whisper
-from langdetect import detect
 from pytube import YouTube
+from langdetect import detect
 
 current_dir2 = os.path.dirname(os.path.abspath(__file__))
 parent_dir2 = os.path.dirname(current_dir2)
@@ -33,7 +34,6 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[li
 
     result = model.transcribe(absolute_audio_path)
     print(result)
-
     segments = result["segments"]
 
     transcribed_text = result["text"]
