@@ -29,9 +29,6 @@ from utils import save_to_file
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-# https://www.youtube.com/watch?v=jbjYdVYvvbg
-# https://www.youtube.com/watch?v=78CMgzZptZk
-
 def make_parser() -> argparse.ArgumentParser:
     """
     Create the argument parser.
