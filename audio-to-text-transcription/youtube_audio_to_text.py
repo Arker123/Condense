@@ -12,62 +12,14 @@ import whisper
 from langdetect import detect
 from pytube import YouTube
 
+current_dir2 = os.path.dirname(os.path.abspath(__file__))
+parent_dir2 = os.path.dirname(current_dir2)
+module_dir2 = os.path.join(parent_dir2, 'constants')
+sys.path.append(module_dir2)
+from utils import save_to_file
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-
-def save_to_text(data: list[dict[str, str]], text_filename: str) -> None:
-    """
-    Save the transcript text to a text file.
-    """
-    with open(text_filename, mode="w", encoding="utf-8") as text_file:
-        for caption in data:
-            start = caption["start"]
-            end = caption["end"]
-            text = caption["text"]
-            text_file.write(f"{start} --> {end}  ")
-            text_file.write(f"{text}\n")
-
-
-def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> None:
-    """
-    Save the transcript data to a CSV file.
-    """
-    with open(csv_filename, mode="w", encoding="utf-8") as csv_file:
-        fieldnames = ["start", "end", "text"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for field in data:
-            writer.writerow(
-                {
-                    fieldnames[0]: field[fieldnames[0]],
-                    fieldnames[1]: field[fieldnames[1]],
-                    fieldnames[2]: field[fieldnames[2]],
-                }
-            )
-
-def save_data(data: list[dict[str, str]], args: argparse.Namespace) -> None:
-    """
-    Save the data to the specified format(s).
-    """
-    # Save data to JSON
-    if args.json:
-        json_filename = "transcript_data.json"
-        with open(json_filename, "w") as json_file:
-            json.dump(data, json_file, indent=4)
-            logger.info("Transcript data saved to %s", json_filename)
-
-    # Save data to text
-    if args.text:
-        text_filename = "transcript_text.txt"
-        save_to_text(data, text_filename)
-        logger.info("Transcript text saved to %s", text_filename)
-
-    # Save data to CSV
-    if args.csv:
-        csv_filename = "transcript_data.csv"
-        save_to_csv(data, csv_filename)
-        logger.info("Transcript data saved to %s", csv_filename)
-
 
 def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
     """
@@ -121,7 +73,7 @@ def get_transcript(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]
 def main(args):
     logging.basicConfig(level=logging.DEBUG)
     text, lang = get_transcript(args)
-    save_data(text, args)
+    save_to_file(text, args)
     print("Language: ", lang)
     print(text)
 
