@@ -5,18 +5,16 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.5.2",
     "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^3.5.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "r3f-pack start",
+    "build": "r3f-pack build",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -37,6 +35,8 @@
     ]
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "r3f-pack": "^2.7.0",
     "tailwindcss": "^3.4.1"
   }
 }

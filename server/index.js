@@ -20,9 +20,11 @@ mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to Database"))
   .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on ${port} `);
-    });
+    if(process.env.NODE_ENV != 'test'){
+      app.listen(port, () => {
+        console.log(`Server is running on ${port} `);
+      });
+    }
   });
 
 module.exports = app;

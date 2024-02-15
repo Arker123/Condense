@@ -1,5 +1,5 @@
 const User = require("../models/UserModel");
-const OTP = require("../models/OtpModel");
+const OTP = require("../models/otpModel");
 const bcrypt = require("bcrypt");
 const tokenService = require("../services/token-service");
 
@@ -163,7 +163,7 @@ const loginUser = async (req, res) => {
     const { email, password } = req?.body;
 
     if (!email || !password)
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "Email and password cannot be empty",
       });
