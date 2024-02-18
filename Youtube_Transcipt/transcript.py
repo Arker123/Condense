@@ -1,10 +1,8 @@
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 from youtube_transcript_api import YouTubeTranscriptApi
 import re
-import csv
 import sys
-import json
 import random
-import shutil
 import string
 import logging
 import argparse
@@ -12,18 +10,9 @@ import argparse
 import os
 import sys
 from pytube import YouTube
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
-module_dir = os.path.join(parent_dir, 'audio-to-text-transcription')
-sys.path.append(module_dir)
-
+sys.path.append("../audio-to-text-transcription")
 from youtube_audio_to_text import main as main_text
-
-current_dir2 = os.path.dirname(os.path.abspath(__file__))
-parent_dir2 = os.path.dirname(current_dir2)
-module_dir2 = os.path.join(parent_dir2, 'constants')
-sys.path.append(module_dir2)
+sys.path.append("../contants")
 from utils import save_to_file
 
 logger = logging.getLogger()
