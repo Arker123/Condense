@@ -12,7 +12,7 @@ import sys
 from pytube import YouTube
 sys.path.append("../audio-to-text-transcription")
 from youtube_audio_to_text import main as main_text
-sys.path.append("../contants")
+sys.path.append("../constants")
 from utils import save_to_file
 
 logger = logging.getLogger()

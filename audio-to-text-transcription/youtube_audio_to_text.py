@@ -11,14 +11,11 @@ import whisper
 from pytube import YouTube
 from langdetect import detect
 
+sys.path.append("../constants")
+from utils import save_to_file
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-
-current_dir2 = os.path.dirname(os.path.abspath(__file__))
-parent_dir2 = os.path.dirname(current_dir2)
-module_dir2 = os.path.join(parent_dir2, 'constants')
-sys.path.append(module_dir2)
-from utils import save_to_file
 
 def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
     """
