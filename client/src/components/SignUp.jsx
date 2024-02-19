@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
-import img from './img1.jpg';
-import img1 from './img4.jpg';
+
+import image1 from './img4.jpg';
 import { motion } from 'framer-motion';
 const SignUp = () => {
 const[toggle,setToggle]=useState(false);
@@ -30,7 +30,7 @@ const[open,setOpen]=useState(false);
         transition={{ duration: 1 }}
       >
         <img
-          src={img1}
+          src={image1}
           alt="Your Image Alt Text"
           className="w-full h-full object-cover"
         />
