@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1708354242721" clover="3.2.0">
-  <project timestamp="1708354242721" name="All files">
-    <metrics statements="261" coveredstatements="149" conditionals="62" coveredconditionals="24" methods="32" coveredmethods="14" elements="355" coveredelements="187" complexity="0" loc="261" ncloc="261" packages="5" files="11" classes="11"/>
+<coverage generated="1708362846294" clover="3.2.0">
+  <project timestamp="1708362846295" name="All files">
+    <metrics statements="261" coveredstatements="138" conditionals="62" coveredconditionals="22" methods="32" coveredmethods="12" elements="355" coveredelements="172" complexity="0" loc="261" ncloc="261" packages="5" files="11" classes="11"/>
     <package name="server">
       <metrics statements="25" coveredstatements="23" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="2"/>
       <file name="index.js" path="C:\Users\dhruv\Desktop\T07-CS305\server\index.js">
@@ -37,27 +37,27 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="176" coveredstatements="79" conditionals="56" coveredconditionals="20" methods="20" coveredmethods="10"/>
+      <metrics statements="176" coveredstatements="75" conditionals="56" coveredconditionals="19" methods="20" coveredmethods="10"/>
       <file name="auth.js" path="C:\Users\dhruv\Desktop\T07-CS305\server\controllers\auth.js">
-        <metrics statements="93" coveredstatements="46" conditionals="28" coveredconditionals="15" methods="9" coveredmethods="5"/>
+        <metrics statements="93" coveredstatements="42" conditionals="28" coveredconditionals="14" methods="9" coveredmethods="5"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="12" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="16" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="17" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
         <line num="32" count="3" type="stmt"/>
@@ -222,7 +222,7 @@
       </file>
     </package>
     <package name="server.models">
-      <metrics statements="25" coveredstatements="23" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <metrics statements="25" coveredstatements="16" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="UserModel.js" path="C:\Users\dhruv\Desktop\T07-CS305\server\models\UserModel.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
@@ -230,21 +230,21 @@
         <line num="31" count="3" type="stmt"/>
       </file>
       <file name="otpModel.js" path="C:\Users\dhruv\Desktop\T07-CS305\server\models\otpModel.js">
-        <metrics statements="15" coveredstatements="13" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <metrics statements="15" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="40" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
         <line num="46" count="3" type="stmt"/>
       </file>
       <file name="refresh-model.js" path="C:\Users\dhruv\Desktop\T07-CS305\server\models\refresh-model.js">
