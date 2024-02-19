@@ -17,7 +17,10 @@ from utils import save_to_file
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
+
+def generate(
+    audio_stream: YouTube, output_path: str, filename: str
+) -> tuple[list[dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
     """
@@ -53,7 +56,9 @@ def get_transcript(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
+    filename = (
+        "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
+    )
     text, lang = generate(audio_stream, output_path, filename)
 
     # keep the audio file, if specified
@@ -72,6 +77,7 @@ def main(args):
     save_to_file(text, args)
     print("Language: ", lang)
     print(text)
+
 
 if __name__ == "__main__":
     args = sys.argv[1]
