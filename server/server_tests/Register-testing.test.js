@@ -77,10 +77,28 @@ describe("When a name or email or password is missing", () =>{
     });
 
     test("should respond with 400 status code if all values are missing", async () => {
-        const response = await request(app).post("/auth/register").send({})
+        const response = await request(server).post("/auth/register").send({})
         expect(response.statusCode).toBe(400)
     });
     
+});
+
+describe("Tests For Send-otp", () =>{
+
+    test("should respond with 400 status code if email is missing", async () => {
+        const response = await request(server).post("/auth/otp").send({
+            
+        });
+        expect(response.statusCode).toBe(400)
+    });
+
+    test("should respond with 200 status code", async () => {
+        const response = await request(server).post("/auth/otp").send({
+            email: "Test_User_1@gmail.com",
+        });
+        expect(response.statusCode).toBe(200)
+    });
+
 });
 
 server.close();
