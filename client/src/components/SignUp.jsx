@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import img from './img1.jpg';
+// import img from './img1.jpg';
 import img1 from './img4.jpg';
 import { motion } from 'framer-motion';
 const SignUp = () => {
@@ -46,7 +46,7 @@ const[open,setOpen]=useState(false);
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px] shadow-lg"
+      className="w-[440px]  bg-white border   items-center rounded-2xl border-black px-10 pb-8 pt-6 mb-4 ml-[150px] shadow-lg"
     >
         <div className='flex flex-row mb-5 justify-center items-center text-black text-semibold text-[23px] font-serif font-medium'>
               <div
