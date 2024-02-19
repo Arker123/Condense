@@ -52,10 +52,15 @@ def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
         print("Invalid YouTube URL.")
         return []
 
+    available = False
     try:
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
-        # print(transcript)
+        available = True
+    except Exception as e:
+        print("Error fetching transcript:", e)
 
+    if available :
+        # print(transcript)
         yt = YouTube(video_url)
         audio_stream = yt.streams.filter(only_audio=True).first()
 
@@ -75,8 +80,7 @@ def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
             captions.append({'start': start, 'end': end, 'text': text})
 
         return captions
-    except Exception as e:
-        # print("Error fetching transcript:", e)
+    else:
         main_text(args)
         return []
     
