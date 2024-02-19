@@ -7,7 +7,7 @@ import argparse
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-def save_to_text(data: list[dict[str, str]], text_filename: str) -> None:
+def save_to_text(data: list[dict[str, str]], text_filename: str) -> True:
     """
     Save the transcript text to a text file.
     """
@@ -20,7 +20,7 @@ def save_to_text(data: list[dict[str, str]], text_filename: str) -> None:
             text_file.write(f"{text}\n")
 
 
-def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> None:
+def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> True:
     """
     Save the transcript data to a CSV file.
     """
@@ -37,7 +37,7 @@ def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> None:
                 }
             )
 
-def save_to_file(data: list[dict[str, str]], args: argparse.Namespace) -> None:
+def save_to_file(data: list[dict[str, str]], args: argparse.Namespace) -> True:
     output_path = "transcripts"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
