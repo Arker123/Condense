@@ -33,7 +33,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Dhananjay Goel, Arnav Kharbanda, Arpit Kumar Gautam, Kritika Bansal, Virat Jain, Dhruv Singh Negi, Edgar Aditya, Niti Shyamsukha, Hardik, Nandini Mundhra, Vikalp",
-    author_email="kharbandarnav@gmail.com, ...",
+    author_email="kharbandarnav@gmail.com",
     url="https://github.com/Arker123/T07-CS305",
     packages=pkgs,
     package_dir={"condense": "condense"},
