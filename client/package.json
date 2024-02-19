@@ -21,7 +21,7 @@
   "scripts": {
     "start": "r3f-pack start",
     "build": "r3f-pack build",
-    "test": "jest"
+    "test": "jest --config ./jest-config.js --coverage"
   },
   "eslintConfig": {
     "extends": [
