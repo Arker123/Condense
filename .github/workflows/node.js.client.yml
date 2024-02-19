@@ -38,3 +38,4 @@ jobs:
       run: |
         echo "${{ secrets.ENV_FILE }}" > .env
     - run: npm test
+    - run: npm run lint
