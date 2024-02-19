@@ -106,6 +106,28 @@ const registerUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  try {
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, user) => {
+        if (err) {
+          res.status(400).json({ message: "Error while logging out" });
+        } else {
+          const email = user?.email;
+          await User.findOneAndUpdate({ email }, { refreshToken: "" });
+
+          res.status(200).json({ message: "Logged out successfully" });
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Error while logging out" });
+  }
+};
+
 const refresh = async (req, res) => {
   // get refresh token from cookie
   const { refreshToken: refreshTokenFromCookie } = req.cookies;
@@ -200,33 +222,11 @@ const loginUser = async (req, res) => {
   }
 };
 
-const logoutUser = async (req, res) => {
-  try {
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, user) => {
-        if (err) {
-          res.status(400).json({ message: "Error while logging out" });
-        } else {
-          const email = user?.email;
-          await User.findOneAndUpdate({ email }, { refreshToken: "" });
-
-          res.status(200).json({ message: "Logged out successfully" });
-        }
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Error while logging out" });
-  }
-};
-
 module.exports = {
   sendOtp,
   registerUser,
   loginUser,
-  logoutUser,
   verifyOtp,
   refresh,
+  logoutUser
 };
