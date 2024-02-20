@@ -5,21 +5,22 @@ const {
   sendOtp,
   verifyOtp,
   refresh,
-} = require("../controllers/auth");
+} = require('../controllers/auth');
 
-const express = require("express");
+const express = require('express');
 
-const Router = express.Router();
+const Router = express.Router;
+const router = new Router();
 
-Router.post("/otp", sendOtp);
-Router.post("/verifyOTP", verifyOtp);
+router.post('/otp', sendOtp);
+router.post('/verifyOTP', verifyOtp);
 
-Router.post("/register", registerUser);
+router.post('/register', registerUser);
 
-Router.post("/refresh", refresh);
+router.post('/refresh', refresh);
 
-Router.post("/login", loginUser);
+router.post('/login', loginUser);
 
-Router.get("/logout", logoutUser);
+router.get('/logout', logoutUser);
 
-module.exports = Router;
+module.exports = router;
