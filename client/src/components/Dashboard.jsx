@@ -12,7 +12,7 @@ import { CgProfile } from "react-icons/cg";
 import image_logo from './image_logo.jpg';
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
-const Home = () => {
+const Dashboard = () => {
   const menus = [
     { name: "dashboard", link: "/", icon: IoMdHome },
     { name: "Chat with AI", link: "/", icon: BsChatFill },
@@ -123,4 +123,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;
