@@ -9,7 +9,7 @@ import { IoExtensionPuzzle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import img from './img4.jpg';
+import image from './img4.jpg';
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    // <div className="bg-gradient-to-b from-red-500 via-red-900 to-black h-screen">
+   
       <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
       <div
         className={`bg-white rounded-r-lg h-screen ${
@@ -32,7 +32,7 @@ const Home = () => {
       >
         <div className="flex flex-row ">
         <p className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
-          <img src={img} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
+          <img src={image} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
          <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
@@ -74,26 +74,13 @@ const Home = () => {
           ))}
         </div>
       </div>
-      {/* <div className="flex flex-col gap-11"> */}
+      
       <div>
       <div className=" flex flex-row items-center justify-center gap-4 mt-5  ml-[1150px]">
       <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4">
   
   <div className=" flex flex-row gap-2"><FiPhoneCall className="mt-1" /> <p>Contact us</p></div>
-  {/* <button className="ml-2 text-red-400">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        d="M13.293 14.707a1 1 0 1 1-1.414 1.414l-3.15-3.15a5 5 0 1 1 1.414-1.414l3.15 3.15zM9 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
-        clipRule="evenodd"
-      />
-    </svg>
-  </button> */}
+  
 </div>
  
 <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
@@ -126,12 +113,9 @@ const Home = () => {
     <button to='/' className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[68px]">Start Summarizing</button>
     </div>
     </div>
-  {/* </div> */}
+
       </div>
-      {/* <div className="flex items-center justify-center w-[500px] h-[500px] bg-white rounded-2xl shadow-md ">
-    <p className="text-extrabold text-[100px]">Absorb Videos Better Now</p>
-  </div>
-      </div> */}
+     
       
     </section>
     
