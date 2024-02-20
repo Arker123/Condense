@@ -21,7 +21,6 @@ const[open,setOpen]=useState(false);
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.5 }}
       className="text-[40px] flex flex-row items-start gap-1 text-white relative font-serif font-bold mb-4"
-      // style={{ marginLeft: '20px', marginTop: '50px' }}
     >
       <motion.div
         className="w-[70px] mt-[270px] ml-[80px] h-[70px] rounded-full overflow-hidden"
