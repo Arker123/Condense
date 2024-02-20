@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
-import img from './img1.jpg';
-import img1 from './img4.jpg';
+import image from './img1.jpg';
+import image1 from './img4.jpg';
 import { motion } from 'framer-motion';
 const SignUp = () => {
 const[toggle,setToggle]=useState(false);
@@ -9,7 +9,6 @@ const[open,setOpen]=useState(false);
     <div className=''>
   <motion.div
   className=" flex flex-row bg-gradient-to-b from-red-500 via-red-900 to-black"
-  // style={{ backgroundImage: `url(${img})` }}
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
@@ -21,7 +20,6 @@ const[open,setOpen]=useState(false);
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.5 }}
       className="text-[40px] flex flex-row items-start gap-1 text-white relative font-serif font-bold mb-4"
-      // style={{ marginLeft: '20px', marginTop: '50px' }}
     >
       <motion.div
         className="w-[70px] mt-[270px] ml-[80px] h-[70px] rounded-full overflow-hidden"
@@ -30,7 +28,7 @@ const[open,setOpen]=useState(false);
         transition={{ duration: 1 }}
       >
         <img
-          src={img1}
+          src={image1}
           alt="Your Image Alt Text"
           className="w-full h-full object-cover"
         />
