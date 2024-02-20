@@ -9,7 +9,7 @@ import { IoExtensionPuzzle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import image from './img4.jpg';
+import image_logo from './image_logo.jpg';
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Home = () => {
@@ -97,9 +97,9 @@ const Home = () => {
      
 
       </div>
-      {/* <div className="flex items-center justify-center h-screen"> */}
+     
     <div className="bg-white h-[310px] w-[800px] ml-[400px] flex flex-col mt-[150px] rounded-2xl">
-    {/* <p className="text-extrabold text-[55px] font-serif flex items-center justify-center mt-7">Absorb Videos Better Now</p> */}
+    
     <motion.p
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
