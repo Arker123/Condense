@@ -9,7 +9,6 @@ const[open,setOpen]=useState(false);
     <div className=''>
   <motion.div
   className=" flex flex-row bg-gradient-to-b from-red-500 via-red-900 to-black"
-  // style={{ backgroundImage: `url(${img})` }}
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1 }}
