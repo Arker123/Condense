@@ -81,7 +81,6 @@ def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
             end = segment["start"] + segment["duration"]
             text = segment["text"]
             captions.append({"start": start, "end": end, "text": text})
-
         return captions
     else:
         main_text(args)
