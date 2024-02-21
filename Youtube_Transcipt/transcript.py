@@ -1,5 +1,5 @@
 # Copyright (C) 2024 Condense, Inc. All Rights Reserved.
-from youtube_transcript_api import YouTubeTranscriptApi
+import os
 import re
 import sys
 import random
@@ -7,9 +7,8 @@ import string
 import logging
 import argparse
 
-import os
-import sys
 from pytube import YouTube
+from youtube_transcript_api import YouTubeTranscriptApi
 
 sys.path.append("../audio-to-text-transcription")
 from youtube_audio_to_text import main as main_text
@@ -39,27 +38,17 @@ def make_parser() -> argparse.ArgumentParser:
     )
 
     output_group = parser.add_argument_group("rendering arguments")
-    output_group.add_argument(
-        "-j", "--json", action="store_true", help="emit JSON instead of text"
-    )
-    output_group.add_argument(
-        "-t", "--text", action="store_true", help="emit text instead of JSON"
-    )
-    output_group.add_argument(
-        "-c", "--csv", action="store_true", help="emit CSV instead of JSON"
-    )
-    output_group.add_argument(
-        "-a", "--audio", action="store_true", help="store audio in the output directory"
-    )
+    output_group.add_argument("-j", "--json", action="store_true", help="emit JSON instead of text")
+    output_group.add_argument("-t", "--text", action="store_true", help="emit text instead of JSON")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
+    output_group.add_argument("-a", "--audio", action="store_true", help="store audio in the output directory")
 
     return parser
 
 
 def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
     video_url = args.video_url
-    video_id_match = re.search(
-        r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=([^&]+)", video_url
-    )
+    video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=([^&]+)", video_url)
 
     if video_id_match:
         video_id = video_id_match.group(1)
@@ -82,9 +71,7 @@ def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
         if not os.path.exists(output_path):
             os.makedirs(output_path)
 
-        filename = (
-            "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
-        )
+        filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
         audio_stream.download(output_path=output_path, filename=filename)
         logger.info(f"Audio downloaded to {output_path}/{filename}")
 

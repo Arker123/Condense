@@ -1,7 +1,7 @@
-import csv
-import logging
 import os
+import csv
 import json
+import logging
 import argparse
 
 logger = logging.getLogger()
