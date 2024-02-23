@@ -1,11 +1,11 @@
-const User = require("../models/UserModel");
-const OTP = require("../models/otpModel");
-const bcrypt = require("bcrypt");
-const tokenService = require("../services/token-service");
+const User = require('../models/UserModel');
+const OTP = require('../models/otpModel');
+const bcrypt = require('bcrypt');
+const tokenService = require('../services/token-service');
 
 const sendOtp = async (req, res) => {
   const generateOtp = () => {
-    let otp = "";
+    let otp = '';
     for (let i = 0; i < 6; i++) {
       otp += Math.floor(Math.random() * 10);
     }
@@ -13,58 +13,61 @@ const sendOtp = async (req, res) => {
   };
   try {
     const otp = generateOtp();
-    if (!req.body.email)
-      return res.status(400).json({ error: "Email cannot be empty" });
+    if (!req.body.email) {
+      return res.status(400).json({error: 'Email cannot be empty'});
+    }
 
-    await OTP.deleteMany({ email: req.body.email });
+    await OTP.deleteMany({email: req.body.email});
 
-    const otpBody = await OTP.create({ email: req.body.email, otp });
+    const otpBody = await OTP.create({email: req.body.email, otp});
     res.status(200).json({
-      message: "OTP sent successfully",
+      message: 'OTP sent successfully',
     });
     console.log(otpBody);
   } catch (err) {
     console.log(err.message);
-    res.status(400).json({ error: err.message });
+    res.status(400).json({error: err.message});
   }
 };
 
 const verifyOtp = async (req, res) => {
   try {
-    const { email, otp } = req?.body;
+    const {email, otp} = req?.body;
 
-    if (!email || !otp)
-      return res.status(400).json({ error: "Email and OTP cannot be empty" });
-    const result = await OTP.findOne({ email, otp });
+    if (!email || !otp) {
+      return res.status(400).json({error: 'Email and OTP cannot be empty'});
+    }
+    const result = await OTP.findOne({email, otp});
 
     if (result) {
       res.status(200).json({
         success: true,
-        message: "OTP verified successfully",
+        message: 'OTP verified successfully',
       });
     } else {
-      res.status(400).json({ success: false, message: "OTP entered is wrong" });
+      res.status(400).json({success: false, message: 'OTP entered is wrong'});
     }
   } catch (err) {
     console.log(err.message);
-    res.status(400).json({ success: false, error: err.message });
+    res.status(400).json({success: false, error: err.message});
   }
 };
 
 const registerUser = async (req, res) => {
-  const { email, password } = req.body;
-  console.log({ email, password });
-  if (!email || !password)
+  const {email, password} = req.body;
+  console.log({email, password});
+  if (!email || !password) {
     return res
-      .status(400)
-      .json({ error: "Email and password cannot be empty" });
-  const result = await User.findOne({ email: email });
+        .status(400)
+        .json({error: 'Email and password cannot be empty'});
+  }
+  const result = await User.findOne({email: email});
 
   try {
     if (result) {
       return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
+          .status(400)
+          .json({success: false, message: 'User already exists'});
     }
 
     // Hash the password
@@ -76,17 +79,17 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const { accessToken, refreshToken } = tokenService.generateTokens({
+    const {accessToken, refreshToken} = tokenService.generateTokens({
       _id: newUser._id,
       activated: false,
     });
 
-    res.cookie("refreshToken", refreshToken, {
+    res.cookie('refreshToken', refreshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
     });
 
-    res.cookie("accessToken", accessToken, {
+    res.cookie('accessToken', accessToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
     });
@@ -94,7 +97,7 @@ const registerUser = async (req, res) => {
     res.status(200).json({
       success: true,
       user: newUser.email,
-      message: "User added successfully",
+      message: 'User added successfully',
       accessToken,
       // refreshToken
     });
@@ -106,57 +109,36 @@ const registerUser = async (req, res) => {
   }
 };
 
-const logoutUser = async (req, res) => {
-  try {
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, user) => {
-        if (err) {
-          res.status(400).json({ message: "Error while logging out" });
-        } else {
-          const email = user?.email;
-          await User.findOneAndUpdate({ email }, { refreshToken: "" });
-
-          res.status(200).json({ message: "Logged out successfully" });
-        }
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Error while logging out" });
-  }
-};
 
 const refresh = async (req, res) => {
   // get refresh token from cookie
-  const { refreshToken: refreshTokenFromCookie } = req.cookies;
+  const {refreshToken: refreshTokenFromCookie} = req.cookies;
   // check if token is valid
   let userData;
   try {
     userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
   } catch (err) {
-    return res.status(401).json({ message: "Invalid Token" });
+    return res.status(401).json({message: 'Invalid Token'});
   }
   // Check if token is in db
   try {
     const token = await tokenService.findRefreshToken(
-      userData._id,
-      refreshTokenFromCookie
+        userData._id,
+        refreshTokenFromCookie,
     );
     if (!token) {
-      return res.status(401).json({ message: "Invalid token" });
+      return res.status(401).json({message: 'Invalid token'});
     }
   } catch (err) {
-    return res.status(500).json({ message: "Internal error" });
+    return res.status(500).json({message: 'Internal error'});
   }
   // check if valid user
-  const user = await userService.findUser({ _id: userData._id });
+  const user = await userService.findUser({_id: userData._id});
   if (!user) {
-    return res.status(404).json({ message: "No user" });
+    return res.status(404).json({message: 'No user'});
   }
   // Generate new tokens
-  const { refreshToken, accessToken } = tokenService.generateTokens({
+  const {refreshToken, accessToken} = tokenService.generateTokens({
     _id: userData._id,
   });
 
@@ -164,53 +146,54 @@ const refresh = async (req, res) => {
   try {
     await tokenService.updateRefreshToken(userData._id, refreshToken);
   } catch (err) {
-    return res.status(500).json({ message: "Internal error" });
+    return res.status(500).json({message: 'Internal error'});
   }
   // put in cookie
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie('refreshToken', refreshToken, {
     maxAge: 1000 * 60 * 60 * 24 * 30,
     httpOnly: true,
   });
 
-  res.cookie("accessToken", accessToken, {
+  res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 30,
     httpOnly: true,
   });
   // response
-  res.json({ user: user, auth: true });
+  res.json({user: user, auth: true});
 };
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req?.body;
+    const {email, password} = req?.body;
 
-    if (!email || !password)
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email and password cannot be empty",
+        message: 'Email and password cannot be empty',
       });
+    }
 
-    const user = await User.findOne({ email: email });
-    console.log("User logged in successfully");
+    const user = await User.findOne({email: email});
+    console.log('User logged in successfully');
     if (user) {
       bcrypt.compare(password, user.password, async (err, result) => {
         if (result) {
           res.status(200).json({
             success: true,
             user: user.email,
-            message: "User logged in successfully",
+            message: 'User logged in successfully',
           });
         } else {
           res.status(400).json({
             success: false,
-            message: "Invalid credentials",
+            message: 'Invalid credentials',
           });
         }
       });
     } else {
       res.status(400).json({
         success: false,
-        message: "User does not exist",
+        message: 'User does not exist',
       });
     }
   } catch (err) {
@@ -219,6 +202,28 @@ const loginUser = async (req, res) => {
       success: false,
       message: err.message,
     });
+  }
+};
+
+const logoutUser = async (req, res) => {
+  try {
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        async (err, user) => {
+          if (err) {
+            res.status(400).json({message: 'Error while logging out'});
+          } else {
+            const email = user?.email;
+            await User.findOneAndUpdate({email}, {refreshToken: ''});
+
+            res.status(200).json({message: 'Logged out successfully'});
+          }
+        },
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message: 'Error while logging out'});
   }
 };
 
