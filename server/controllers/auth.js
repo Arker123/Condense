@@ -233,5 +233,5 @@ module.exports = {
   loginUser,
   verifyOtp,
   refresh,
-  logoutUser
+  logoutUser,
 };

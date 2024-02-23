@@ -1,18 +1,19 @@
-const express = require("express");
+const express = require('express');
 const {
   getAllNotes,
   modifyNote,
   createNote,
   getNote,
   deleteNote,
-} = require("../controllers/note");
-const Router = express.Router();
+} = require('../controllers/note');
 
-Router.get("/all", getAllNotes);
-Router.get("/", getNote);
-Router.put("/", modifyNote);
+const router = express.Router();
 
-Router.post("/", createNote);
-Router.delete("/", deleteNote);
+router.get('/all', getAllNotes);
+router.get('/', getNote);
+router.put('/', modifyNote);
 
-module.exports = Router;
+router.post('/', createNote);
+router.delete('/', deleteNote);
+
+module.exports = router;

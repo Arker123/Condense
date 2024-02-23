@@ -1,86 +1,91 @@
-const User = require("../models/UserModel");
+const User = require('../models/UserModel');
 
 const getAllNotes = async (req, res) => {
   try {
-    const { userId } = req.body;
-    if (!userId)
+    const {userId} = req.body;
+    if (!userId) {
       return res
-        .status(400)
-        .json({ success: false, message: "User Id is required" });
+          .status(400)
+          .json({success: false, message: 'User Id is required'});
+    }
 
     const user = await User.findById(userId);
     if (!user) {
       return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
+          .status(400)
+          .json({success: false, message: 'User not found'});
     }
 
     const notes = user.notes;
 
-    res.send(200).json({ success: true, notes });
+    res.send(200).json({success: true, notes});
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(400).json({success: false, message: err.message});
   }
 };
 
 const getNote = async (req, res) => {
   try {
-    const { userId, videoId } = req.body;
-    if (!userId || !videoId)
+    const {userId, videoId} = req.body;
+    if (!userId || !videoId) {
       return res
-        .status(400)
-        .json({ success: false, message: "User Id and Video Id are required" });
+          .status(400)
+          .json({success: false, message: 'User Id and Video Id are required'});
+    }
 
     const user = await User.findById(userId);
     if (!user) {
       return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
+          .status(400)
+          .json({success: false, message: 'User not found'});
     }
 
     const noteIndex = user.notes.findIndex((note) => note.videoId === videoId);
 
     if (noteIndex === -1) {
-      res.status(400).json({ success: false, message: "Note not found" });
+      res.status(400).json({success: false, message: 'Note not found'});
     }
 
     const reqNote = user.notes[noteIndex];
 
-    res.status(200).json({ success: true, reqNote });
+    res.status(200).json({success: true, reqNote});
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(400).json({success: false, message: err.message});
   }
 };
 
 const modifyNote = async (req, res) => {
   try {
-    const { userId, videoId, note } = req.body;
-    if (!userId || !videoId || !note)
+    const {userId, videoId, note} = req.body;
+    if (!userId || !videoId || !note) {
       return res.status(400).json({
         success: false,
-        message: "User Id, Video Id and note are required",
+        message: 'User Id, Video Id and note are required',
       });
+    }
 
     const user = await User.findById(userId);
     if (!user) {
       return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
+          .status(400)
+          .json({success: false, message: 'User not found'});
     }
 
     const noteIndex = user.notes.findIndex((note) => note.videoId === videoId);
 
     if (noteIndex === -1) {
-      res.status(400).json({ success: false, message: "Note not found" });
+      res.status(400).json({success: false, message: 'Note not found'});
     }
 
-    for (let [key, value] in Object.entries(note)) {
-      user.notes[noteIndex][key] = value;
+    for (const [key, value] in Object.entries(note)) {
+      if (user.notes[noteIndex]) {
+        user.notes[noteIndex][key] = value;
+      }
     }
 
     res
-      .status(200)
-      .json({ success: true, message: "Note updated successfully" });
+        .status(200)
+        .json({success: true, message: 'Note updated successfully'});
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -91,15 +96,15 @@ const modifyNote = async (req, res) => {
 
 const createNote = async (req, res) => {
   try {
-    const { userId, videoId, note } = req.body;
+    const {userId, videoId, note} = req.body;
     if (!userId || !note || !note.body) {
       return res.status(400).json({
         success: false,
-        message: "User Id, video Id and note body cannot be empty",
+        message: 'User Id, video Id and note body cannot be empty',
       });
     }
 
-    const newNote = { ...note, videoId };
+    const newNote = {...note, videoId};
 
     const user = await User.findById(userId);
 
@@ -107,8 +112,8 @@ const createNote = async (req, res) => {
     await user.save();
 
     res
-      .status(200)
-      .json({ success: true, message: "Note created successfully", newNote });
+        .status(200)
+        .json({success: true, message: 'Note created successfully', newNote});
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -119,11 +124,12 @@ const createNote = async (req, res) => {
 
 const deleteNote = async (req, res) => {
   try {
-    const { userId, videoId } = req.body;
-    if (!userId || !videoId)
+    const {userId, videoId} = req.body;
+    if (!userId || !videoId) {
       return res
-        .status(400)
-        .json({ success: false, message: "User Id and Video Id are required" });
+          .status(400)
+          .json({success: false, message: 'User Id and Video Id are required'});
+    }
 
     const user = await User.findById(userId);
 
@@ -131,11 +137,11 @@ const deleteNote = async (req, res) => {
     await user.save();
 
     res
-      .status(200)
-      .json({ success: true, message: "Note deleted successfully" });
+        .status(200)
+        .json({success: true, message: 'Note deleted successfully'});
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(400).json({success: false, message: err.message});
   }
 };
 
-module.exports = { getAllNotes, getNote, modifyNote, createNote, deleteNote };
+module.exports = {getAllNotes, getNote, modifyNote, createNote, deleteNote};

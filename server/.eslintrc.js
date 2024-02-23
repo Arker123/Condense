@@ -25,5 +25,7 @@ module.exports = {
     'sourceType': 'module',
   },
   'rules': {
+    'new-cap': ['error', {'capIsNewExceptions': ['Router']}],
   },
+
 };
