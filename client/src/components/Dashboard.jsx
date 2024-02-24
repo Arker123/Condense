@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { IoIosNotifications } from "react-icons/io";
+import { IoIosNotifications, IoMdSettings ,  IoMdHome } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BsChatFill } from "react-icons/bs";
 import { FaNoteSticky } from "react-icons/fa6";
 import { MdSummarize } from "react-icons/md";
 import { IoExtensionPuzzle } from "react-icons/io5";
-import { IoMdSettings } from "react-icons/io";
-import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import image_logo from './image_logo.jpg';
 import { FiPhoneCall } from "react-icons/fi";
