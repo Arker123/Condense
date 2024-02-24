@@ -48,7 +48,10 @@ def make_parser() -> argparse.ArgumentParser:
 
 def get_transcript(args: argparse.Namespace) -> list[dict[str, str]]:
     video_url = args.video_url
-    video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=([^&]+)", video_url)
+    if 'youtube.com/watch?v=' in video_url:
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=([^&]+)", video_url)
+    elif 'youtu.be' in video_url:
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtu\.be/([^&]+)", video_url)
 
     if video_id_match:
         video_id = video_id_match.group(1)
