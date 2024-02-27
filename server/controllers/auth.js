@@ -54,12 +54,12 @@ const verifyOtp = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  const {email, password} = req.body;
-  console.log({email, password});
+  const {email, password, name} = req.body;
+  console.log({email, password, name});
   if (!email || !password) {
     return res
         .status(400)
-        .json({error: 'Email and password cannot be empty'});
+        .json({error: 'Email, password and name cannot be empty'});
   }
   const result = await User.findOne({email: email});
 

@@ -18,7 +18,7 @@ const getAllNotes = async (req, res) => {
 
     const notes = user.notes;
 
-    res.send(200).json({success: true, notes});
+    res.status(200).json({success: true, notes});
   } catch (err) {
     res.status(400).json({success: false, message: err.message});
   }
@@ -77,11 +77,12 @@ const modifyNote = async (req, res) => {
       res.status(400).json({success: false, message: 'Note not found'});
     }
 
-    for (const [key, value] in Object.entries(note)) {
+    for (const [key, value] of Object.entries(note)) {
       if (user.notes[noteIndex]) {
         user.notes[noteIndex][key] = value;
       }
     }
+    await user.save();
 
     res
         .status(200)
@@ -107,6 +108,11 @@ const createNote = async (req, res) => {
     const newNote = {...note, videoId};
 
     const user = await User.findById(userId);
+    if (!user) {
+      return res
+          .status(400)
+          .json({success: false, message: 'User not found'});
+    }
 
     user.notes.push(newNote);
     await user.save();
@@ -133,8 +139,17 @@ const deleteNote = async (req, res) => {
 
     const user = await User.findById(userId);
 
-    user.notes.filter((note) => note.videoId !== videoId);
-    await user.save();
+    if (!user) {
+      return res
+          .status(400)
+          .json({success: false, message: 'User not found'});
+    }
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: {
+        notes: {videoId: videoId},
+      },
+    });
 
     res
         .status(200)
