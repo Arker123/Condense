@@ -7,7 +7,7 @@ const {
   deleteNote,
 } = require('../controllers/note');
 
-const router = express.Router();
+const router = new express.Router();
 
 router.get('/all', getAllNotes);
 router.get('/', getNote);
