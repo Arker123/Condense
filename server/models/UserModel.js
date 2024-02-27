@@ -23,9 +23,9 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false,
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model('User', userSchema);
