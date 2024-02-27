@@ -56,7 +56,7 @@ const verifyOtp = async (req, res) => {
 const registerUser = async (req, res) => {
   const {email, password, name} = req.body;
   console.log({email, password, name});
-  if (!email || !password) {
+  if (!email || !password || !name) {
     return res
         .status(400)
         .json({error: 'Email, password and name cannot be empty'});
