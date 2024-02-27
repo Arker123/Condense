@@ -54,12 +54,12 @@ const verifyOtp = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  const {email, password} = req.body;
-  console.log({email, password});
-  if (!email || !password) {
+  const {email, password, name} = req.body;
+  console.log({email, password, name});
+  if (!email || !password || !name) {
     return res
         .status(400)
-        .json({error: 'Email and password cannot be empty'});
+        .json({error: 'Email, password and name cannot be empty'});
   }
   const result = await User.findOne({email: email});
 
@@ -108,6 +108,7 @@ const registerUser = async (req, res) => {
     });
   }
 };
+
 
 const refresh = async (req, res) => {
   // get refresh token from cookie
@@ -231,7 +232,7 @@ module.exports = {
   sendOtp,
   registerUser,
   loginUser,
-  logoutUser,
   verifyOtp,
   refresh,
+  logoutUser,
 };
