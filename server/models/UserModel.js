@@ -13,14 +13,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  summaries: [
-    {
-      summaryId: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
   notes: [
     {
       title: {
@@ -39,6 +31,19 @@ const userSchema = new mongoose.Schema({
       videoId: {
         type: String,
         required: true,
+      },
+    },
+  ],
+  summaries: [
+    {
+      summaryId: {
+        type: String,
+        required: true,
+      },
+      favorite: {
+        type: Boolean,
+        required: true,
+        default: false,
       },
     },
   ],
