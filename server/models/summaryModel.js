@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const summarySchema = new mongoose.Schema(
-  {
-    videoId: {
-      type: String,
-      required: true,
-    },
-
-    summary: {
-      body: {
+    {
+      videoId: {
         type: String,
         required: true,
       },
+
+      summary: {
+        body: {
+          type: String,
+          required: true,
+        },
+      },
     },
-  },
-  { timestamps: true }
+    {timestamps: true},
 );
 
-module.exports = mongoose.model("Summary", summarySchema);
+module.exports = mongoose.model('Summary', summarySchema);
