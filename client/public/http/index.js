@@ -5,7 +5,7 @@ const api = axios.create({
     withCredentials: true,
     headers: {
         'Content-type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json',
     },
 });
 
@@ -35,7 +35,7 @@ api.interceptors.response.use(
                     `${process.env.REACT_APP_API_URL}/auth/refresh`,
                     {
                         withCredentials: true,
-                    }
+                    },
                 );
 
                 return api.request(originalRequest);
@@ -44,7 +44,7 @@ api.interceptors.response.use(
             }
         }
         throw error;
-    }
+    },
 );
 
 export default api;
