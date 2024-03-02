@@ -1,4 +1,4 @@
 node_modules
 .env
-./client/coverage
-./server/coverage
+client/coverage
+server/coverage
