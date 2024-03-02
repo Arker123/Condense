@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=League+Gothic');
 
-.App {
+.App2 {
     text-align: center;
     background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
     min-height: 100vh;
+    border: 2px solid white;
 }
 
 .contactus-logo {

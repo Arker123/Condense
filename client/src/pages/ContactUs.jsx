@@ -5,8 +5,8 @@ import './ContactUs.css';
 
 function ContactUs() {
   return (
-    <div className="App">
-      <div className='head'>
+    <div className="App2">
+      <div className='head2'>
         <div className="contactus-logo">
           <img src="/images/logo_condense.jpg" alt="Logo" />
           <h1> CONDENSE </h1> 

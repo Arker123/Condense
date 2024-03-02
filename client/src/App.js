@@ -10,7 +10,7 @@ import ContactUs from './pages/ContactUs';
  */
 function App() {
     return (
-        <div className="App">
+        <div className="">
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route exact path="/landing" element={<LandingPage2 />} />
