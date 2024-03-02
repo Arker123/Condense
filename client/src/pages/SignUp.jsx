@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 
+import image_logo from "/images/logo_condense.jpg" ;
 import { motion } from 'framer-motion';
 const SignUp = () => {
 const[toggle,setToggle]=useState(false);
@@ -27,7 +28,7 @@ const[open,setOpen]=useState(false);
         transition={{ duration: 1 }}
       >
         <img
-          src="/images/logo_condense.jpg"
+          src={image_logo}
           alt="Your Image Alt Text"
           className="w-full h-full object-cover"
         />
