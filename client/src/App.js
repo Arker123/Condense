@@ -10,16 +10,15 @@ import SummaryPage from './pages/SummaryPage';
  * Renders the main application component.
  * @return {JSX.Element} The rendered App component.
  */
-
 function App() {
     return (
-        <div>
+        <div className="">
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route exact path="/landing" element={<LandingPage2 />} />
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/signup" element={<SignUp />} />
-                <Route path='/summary' element={<SummaryPage/>} />
+                <Route exact path='/summary' element={<SummaryPage/>} />
             </Routes>
         </div>
     );
