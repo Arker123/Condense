@@ -11,8 +11,7 @@ import whisper
 from pytube import YouTube
 from langdetect import detect
 
-sys.path.append("../constants")
-from utils import save_to_file
+from condense.utils import save_to_file
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -40,7 +39,7 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[li
     return segments, language
 
 
-def get_transcript(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]:
+def get_transcript_from_video(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]:
     """
     Get the transcript for the video.
     """
@@ -50,32 +49,25 @@ def get_transcript(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]
     audio_stream = yt.streams.filter(only_audio=True).first()
 
     # Create directory if it doesn't exist
-    output_path = "videos"
+    output_path = "audio"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
     filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
     text, lang = generate(audio_stream, output_path, filename)
-
-    # keep the audio file, if specified
-    if args.audio:
-        shutil.move(f"{output_path}/{filename}", "audio.mp3")
-        shutil.rmtree(output_path)
-    else:
-        shutil.rmtree(output_path)
+    
+    shutil.rmtree(output_path)
 
     return text, lang
 
 
-def main(args):
+def main(argv: list[str] = None) -> int:
     logging.basicConfig(level=logging.DEBUG)
-    text, lang = get_transcript(args)
-    save_to_file(text, args)
+    text, lang = get_transcript_from_video(argv)
+    save_to_file(text, argv)
     print("Language: ", lang)
     print(text)
 
 
 if __name__ == "__main__":
-    args = sys.argv[1]
-    main(args)
     sys.exit(main())

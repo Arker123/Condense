@@ -9,6 +9,10 @@ import setuptools
 requirements = [
     "tqdm==4.65.0",
     "rich==13.4.2",
+    "pytube==15.0.0",
+    "youtube_transcript_api==0.6.2",
+    "langdetect==1.0.9",
+    "openai-whisper==20231117",
 ]
 
 # this sets __version__
@@ -58,7 +62,6 @@ setuptools.setup(
             # type stubs for mypy
             "types-PyYAML==6.0.10",
             "pytube==15.0.0",
-            "langdetect==1.0.9",
         ],
         "build": ["pyinstaller==6.3.0", "setuptools==69.0.3", "build==1.0.3"],
     },
