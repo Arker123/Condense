@@ -60,7 +60,6 @@ setuptools.setup(
             "isort==5.13.2",
             "mypy==1.8.0",
             # type stubs for mypy
-            "types-PyYAML==6.0.10",
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.12",
         ],
