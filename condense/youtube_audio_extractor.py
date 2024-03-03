@@ -55,7 +55,7 @@ def get_transcript_from_video(args: argparse.Namespace) -> tuple[list[dict[str, 
 
     filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
     text, lang = generate(audio_stream, output_path, filename)
-    
+
     shutil.rmtree(output_path)
 
     return text, lang

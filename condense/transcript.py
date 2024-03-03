@@ -3,7 +3,9 @@ import re
 import sys
 import logging
 import argparse
+
 import youtube_transcript_api
+
 from condense.utils import save_to_file
 from condense.youtube_audio_extractor import get_transcript_from_video
 
@@ -44,7 +46,7 @@ def get_transcript(argv: argparse.Namespace) -> list[dict[str, str]]:
         video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url)
 
     if video_id_match:
-        video_id = video_id_match.group('url')
+        video_id = video_id_match.group("url")
     else:
         raise ValueError("Invalid YouTube URL.")
 
@@ -65,7 +67,7 @@ def get_transcript(argv: argparse.Namespace) -> list[dict[str, str]]:
     else:
         captions, _ = get_transcript_from_video(argv)
         return captions
-        
+
 
 def main(argv: list[str] = None) -> int:
     parser = make_parser()
