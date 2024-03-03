@@ -1,0 +1,41 @@
+/* SummaryPage.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.video {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.summaryContainer {
+  flex: 1;
+  background-color: #ffffff; /* White background */
+  border: 1px solid #ccc; /* Add border for clarity */
+  border-radius: 5px; /* Add some rounded corners */
+  padding: 10px; /* Add some padding */
+}
+
+.summary {
+  overflow-y: auto; /* Adding a scrollbar when content exceeds container height */
+  max-height: calc(100vh - 160px); /* Adjust the value as needed */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .video,
+  .summaryContainer {
+    margin-right: 0;
+    width: 100%;
+  }
+}
