@@ -1,28 +1,60 @@
 import os
 import re
 import sys
+import logging
+import argparse
 
+import nltk
 from transformers import pipeline
-from nltk.tokenize import sent_tokenize
+
+from condense.transcript import get_transcript
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 
-def clean_data(data) -> int:
+def make_parser() -> argparse.ArgumentParser:
+    """
+    Create the argument parser.
+    """
+    parser = argparse.ArgumentParser(
+        description="Get the summary for a video",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-u",
+        "--url",
+        dest="video_url",
+        type=str,
+        required=True,
+        help="The URL of the video to get the summary for",
+    )
+
+    return parser
+
+
+def clean_data(data: list[str]) -> str:
     if data:
         sentences = []
         # Removing special characters and extra whitespaces
         for sentence in data:
-            print(sentence)
             sentence = re.sub("[^a-zA-Z]", " ", sentence["text"])
             sentence = re.sub("\\s+", " ", sentence)
             sentences.append(sentence.strip())
         display = ". ".join(sentences)
         return display
     else:
-        print(f"data not found")
-        return False
+        raise ValueError("No data found")
 
 
-def summerize_text(data):
+def summerize_text(video_url: str) -> str:
+    nltk.download("punkt")
+    data = get_transcript(video_url)
+    data_clean = clean_data(data)
+    sentences = nltk.tokenize.sent_tokenize(data_clean)
+
+    data = " ".join(sentences)
+
     summarizer = pipeline("summarization")
     max_chunk_length = 400  # Define the maximum length for each chunk
     chunks = [data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)]
@@ -33,30 +65,11 @@ def summerize_text(data):
     return " ".join(summary)
 
 
-def save_file(summary) -> int:
-    text_count = 0
-    output_path = "summaries"
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
-    text_filename = "summary.txt"
-    while os.path.exists(os.path.join(output_path, text_filename)):
-        text_count += 1
-        text_filename = f"summary{text_count}.txt"
-
-    with open(os.path.join(output_path, text_filename), mode="w", encoding="utf-8") as text_file:
-        text_file.write(summary)
-        return True
-
-
-def main(args: list[str] = None) -> int:
-    data = clean_data(args)
-    sentences = sent_tokenize(data)
-
-    text = " ".join(sentences)
-    summary = summerize_text(text)
-    save_file(summary)
-    return True
+def main(argv: list[str] = None) -> None:
+    parser = make_parser()
+    argv = parser.parse_args(argv)
+    summary = summerize_text(argv.video_url)
+    print(summary)
 
 
 if __name__ == "__main__":
