@@ -9,7 +9,6 @@ from transformers import pipeline
 
 from condense.transcript import get_transcript
 
-
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
@@ -48,9 +47,9 @@ def clean_data(data: list[str]) -> str:
         raise ValueError("No data found")
 
 
-def summerize_text(args: list[str]) -> str:
+def summerize_text(video_url: str) -> str:
     nltk.download("punkt")
-    data = get_transcript(args)
+    data = get_transcript(video_url)
     data_clean = clean_data(data)
     sentences = nltk.tokenize.sent_tokenize(data_clean)
 
@@ -66,12 +65,11 @@ def summerize_text(args: list[str]) -> str:
     return " ".join(summary)
 
 
-def main(argv: list[str] = None) -> int:
+def main(argv: list[str] = None) -> None:
     parser = make_parser()
     argv = parser.parse_args(argv)
-    summary = summerize_text(argv)
+    summary = summerize_text(argv.video_url)
     print(summary)
-    return 0
 
 
 if __name__ == "__main__":
