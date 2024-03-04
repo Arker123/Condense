@@ -63,7 +63,7 @@ setuptools.setup(
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.12",
         ],
-        "build": ["pyinstaller==6.3.0", "setuptools==69.1.1", "build==1.0.3"],
+        "build": ["pyinstaller==6.4.0", "setuptools==69.1.1", "build==1.0.3"],
     },
     zip_safe=False,
     keywords="Condense, YouTube, Video, Analysis",
