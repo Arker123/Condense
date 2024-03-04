@@ -66,7 +66,7 @@ setuptools.setup(
             "transformers==4.37.2",
             "dotenv==0.0.5",
             "pyshorteners==1.0.1",
-            "google-api-python-client==2.120.0"
+            "google-api-python-client==2.120.0",
         ],
         "build": ["pyinstaller==6.4.0", "setuptools==69.1.1", "build==1.1.1"],
     },
