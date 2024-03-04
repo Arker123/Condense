@@ -4,8 +4,6 @@ import json
 import logging
 import argparse
 
-from condense.summarizer import main as main_summary
-
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
@@ -77,5 +75,3 @@ def save_to_file(data: list[dict[str, str]], args: argparse.Namespace) -> True:
             csv_filename = f"transcript_data{csv_count}.csv"
         save_to_csv(data, os.path.join(output_path, csv_filename))
         logger.info("Transcript data saved to %s", csv_filename)
-
-    main_summary(data)
