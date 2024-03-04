@@ -2,3 +2,7 @@ node_modules
 .env
 client/coverage
 server/coverage
+
+# Ignore package-lock.json
+server/package-lock.json
+client/package-lock.json
