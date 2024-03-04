@@ -78,9 +78,4 @@ def save_to_file(data: list[dict[str, str]], args: argparse.Namespace) -> True:
         save_to_csv(data, os.path.join(output_path, csv_filename))
         logger.info("Transcript data saved to %s", csv_filename)
 
-    if args.text:
-        main_summary(text_filename)
-    elif args.json:
-        main_summary(json_filename)
-    elif args.csv:
-        main_summary(csv_filename)
+    main_summary(data)

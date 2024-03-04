@@ -62,6 +62,8 @@ setuptools.setup(
             # type stubs for mypy
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.12",
+            "nltk==3.8.1",
+            "transformers==4.37.2",
         ],
         "build": ["pyinstaller==6.3.0", "setuptools==69.1.1", "build==1.0.3"],
     },

@@ -6,21 +6,20 @@ from transformers import pipeline
 from nltk.tokenize import sent_tokenize
 
 
-def clean_data(file_name):
-    try:
-        with open(file_name, "r") as file:
-            filedata = file.read()
-        article = filedata.split(". ")
+def clean_data(data) -> int:
+    if data:
         sentences = []
         # Removing special characters and extra whitespaces
-        for sentence in article:
-            sentence = re.sub("[^a-zA-Z]", " ", sentence)
+        for sentence in data:
+            print(sentence)
+            sentence = re.sub("[^a-zA-Z]", " ", sentence["text"])
             sentence = re.sub("\\s+", " ", sentence)
             sentences.append(sentence.strip())
         display = ". ".join(sentences)
         return display
-    except FileNotFoundError:
-        print(f"File not found: {file_name}")
+    else:
+        print(f"data not found")
+        return False
 
 
 def summerize_text(data):
@@ -34,7 +33,7 @@ def summerize_text(data):
     return " ".join(summary)
 
 
-def save_file(summary):
+def save_file(summary) -> int:
     text_count = 0
     output_path = "summaries"
     if not os.path.exists(output_path):
@@ -47,26 +46,18 @@ def save_file(summary):
 
     with open(os.path.join(output_path, text_filename), mode="w", encoding="utf-8") as text_file:
         text_file.write(summary)
+        return True
 
 
-def main(args):
-    output_path = "transcripts"
-    if not os.path.exists(output_path):
-        print("directory not in sys.path")
-        return False
-
-    folder_name = "transcripts"
-    file_name = os.path.join(folder_name, args)
-
-    data = clean_data(file_name)
+def main(args: list[str] = None) -> int:
+    data = clean_data(args)
     sentences = sent_tokenize(data)
 
     text = " ".join(sentences)
     summary = summerize_text(text)
     save_file(summary)
+    return True
 
 
 if __name__ == "__main__":
-    args = sys.argv
-    main(args)
     sys.exit(main())
