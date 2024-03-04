@@ -1,13 +1,15 @@
 import os
-import csv
-from pprint import pprint
 import re
+import csv
 import sys
 import logging
 import argparse
+from pprint import pprint
+
 import googleapiclient.discovery
 from dotenv import load_dotenv
 from pyshorteners import Shortener  # Install pyshorteners using pip
+
 
 def make_parser() -> argparse.ArgumentParser:
     """
@@ -30,7 +32,6 @@ def make_parser() -> argparse.ArgumentParser:
     output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
-
 
 
 class Ycom(object):
@@ -146,11 +147,9 @@ class Ycom(object):
             self.write_to_csv()  # Write minimum data to CSV in case of an error
 
 
-
-
 def main(argv: list[str] = None) -> int:
     load_dotenv()
-    global myapi 
+    global myapi
     myapi = os.getenv("API_KEY")
     Y = Ycom()
     Y.make_youtube()
@@ -162,7 +161,5 @@ def main(argv: list[str] = None) -> int:
     Y.request_comments()
 
 
-
 if __name__ == "__main__":
     sys.exit(main())
-
