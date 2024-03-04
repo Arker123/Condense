@@ -1,10 +1,36 @@
 import os
 import csv
 from pprint import pprint
-
+import re
+import sys
+import logging
+import argparse
 import googleapiclient.discovery
 from dotenv import load_dotenv
 from pyshorteners import Shortener  # Install pyshorteners using pip
+
+def make_parser() -> argparse.ArgumentParser:
+    """
+    Create the argument parser.
+    """
+    parser = argparse.ArgumentParser(
+        description="Generate youtube comments",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-u",
+        "--url",
+        dest="video_url",
+        type=str,
+        required=True,
+        help="The URL of the video to get the comments for",
+    )
+
+    output_group = parser.add_argument_group("rendering arguments")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
+
+    return parser
+
 
 
 class Ycom(object):
@@ -120,14 +146,23 @@ class Ycom(object):
             self.write_to_csv()  # Write minimum data to CSV in case of an error
 
 
-# main driver
-if __name__ == "__main__":
+
+
+def main(argv: list[str] = None) -> int:
     load_dotenv()
+    global myapi 
     myapi = os.getenv("API_KEY")
     Y = Ycom()
     Y.make_youtube()
-
-    video_link = input("Enter a YouTube video link: ")
-    Y.set_video_id(video_link)
+    parser = make_parser()
+    argv = parser.parse_args(argv)
+    url = argv.video_url
+    Y.set_video_id(url)
 
     Y.request_comments()
+
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+
