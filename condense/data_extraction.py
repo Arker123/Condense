@@ -1,10 +1,10 @@
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 import os
 import re
 import csv
 import sys
 import logging
 import argparse
-from pprint import pprint
 
 import googleapiclient.discovery
 from dotenv import load_dotenv
