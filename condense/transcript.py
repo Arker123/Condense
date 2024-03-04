@@ -75,6 +75,7 @@ def main(argv: list[str] = None) -> int:
     logging.basicConfig(level=logging.DEBUG)
 
     transcript = get_transcript(argv)
+    print(transcript)
     save_to_file(transcript, argv)
 
 
