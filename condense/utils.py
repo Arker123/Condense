@@ -4,7 +4,7 @@ import json
 import logging
 import argparse
 
-from summarizer import main as main_summary
+from condense.summarizer import main as main_summary
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
