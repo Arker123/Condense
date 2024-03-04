@@ -62,6 +62,8 @@ setuptools.setup(
             # type stubs for mypy
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.12",
+            "nltk==3.8.1",
+            "transformers==4.37.2",
             "dotenv==0.0.5",
             "pyshorteners==1.0.1",
             "google-api-python-client==2.120.0"

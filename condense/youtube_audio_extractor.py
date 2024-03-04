@@ -17,6 +17,31 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
+def make_parser() -> argparse.ArgumentParser:
+    """
+    Create the argument parser.
+    """
+    parser = argparse.ArgumentParser(
+        description="Get the transcript for a video",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-u",
+        "--url",
+        dest="video_url",
+        type=str,
+        required=True,
+        help="The URL of the video to get the transcript for",
+    )
+
+    output_group = parser.add_argument_group("rendering arguments")
+    output_group.add_argument("-j", "--json", action="store_true", help="emit JSON instead of text")
+    output_group.add_argument("-t", "--text", action="store_true", help="emit text instead of JSON")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
+
+    return parser
+
+
 def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
@@ -39,12 +64,10 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[li
     return segments, language
 
 
-def get_transcript_from_video(args: argparse.Namespace) -> tuple[list[dict[str, str]], str]:
+def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str]:
     """
     Get the transcript for the video.
     """
-    video_url = args.video_url
-
     yt = YouTube(video_url)
     audio_stream = yt.streams.filter(only_audio=True).first()
 
@@ -63,9 +86,11 @@ def get_transcript_from_video(args: argparse.Namespace) -> tuple[list[dict[str, 
 
 def main(argv: list[str] = None) -> int:
     logging.basicConfig(level=logging.DEBUG)
-    text, lang = get_transcript_from_video(argv)
+    parser = make_parser()
+    argv = parser.parse_args(argv)
+
+    text, lang = get_transcript_from_video(argv.video_url)
     save_to_file(text, argv)
-    print("Language: ", lang)
     print(text)
 
 
