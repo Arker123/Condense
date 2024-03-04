@@ -38,8 +38,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def get_transcript(argv: argparse.Namespace) -> list[dict[str, str]]:
-    video_url = argv.video_url
+def get_transcript(video_url) -> list[dict[str, str]]:
     if "youtube.com/watch?v=" in video_url:
         video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
     elif "youtu.be" in video_url:
@@ -65,7 +64,7 @@ def get_transcript(argv: argparse.Namespace) -> list[dict[str, str]]:
             captions.append({"start": start, "end": end, "text": text})
         return captions
     else:
-        captions, _ = get_transcript_from_video(argv)
+        captions, _ = get_transcript_from_video(video_url)
         return captions
 
 
@@ -74,7 +73,8 @@ def main(argv: list[str] = None) -> int:
     argv = parser.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG)
 
-    transcript = get_transcript(argv)
+    transcript = get_transcript(argv.video_url)
+    print(transcript)
     save_to_file(transcript, argv)
 
 
