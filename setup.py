@@ -4,7 +4,6 @@
 
 from pathlib import Path
 
-import setuptools
 
 requirements = [
     "tqdm==4.65.0",
