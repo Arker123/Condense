@@ -5,12 +5,22 @@ import LandingPage2 from './pages/LandingPage2';
 import ContactUs from './pages/ContactUs';
 import SignUp from './pages/SignUp';
 
+import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
+import Loader from './components/shared/Loader/Loader';
+
 /**
  * Renders the main application component.
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-    return (
+    // call refresh endpoint
+    // const { loading } = useLoadingWithRefresh();
+
+    return 
+    // loading ? (
+    //     <Loader message="Loading, please wait.." />
+    // ) :
+    (
         <div className="">
             <Routes>
                 <Route path="/" element={<Landing />} />
