@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const authRoute = require('./routes/authRoute');
 const summaryRoute = require('./routes/summaryRoute');
 const noteRoute = require('./routes/noteRoute');
-const transcriptRoute  = require('./routes/transcriptRoute')
+const transcriptRoute = require('./routes/transcriptRoute');
 
 
 const app = express();
@@ -15,13 +15,12 @@ app.use(cors());
 app.use(express.json());
 
 
-
 const port = process.env.PORT || 5000;
 
 app.use('/auth', authRoute);
 app.use('/note', noteRoute);
-app.use('/summaries', summaryRoute);
-app.use('/transcript',transcriptRoute);
+app.use('/summary', summaryRoute);
+app.use('/transcript', transcriptRoute);
 
 mongoose
     .connect(process.env.MONGO_URL)
