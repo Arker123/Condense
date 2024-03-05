@@ -20,7 +20,7 @@ function LandingPage2() {
       </nav>
       </header>
       <div className="user-actions">
-          <a href="/login" className="login-signup-button">Login/Sign Up</a>
+          <a href="/signup" className="login-signup-button">Login/Sign Up</a>
       </div>
       <div className="hero">
         <h1>CONDENSE.</h1>
