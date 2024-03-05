@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 
 afterEach(cleanup);
 
-test('app renders without crashing', () => {
+test('contact us page renders without crashing', () => {
     render(
         <Router>
             <ContactUs />
