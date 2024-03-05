@@ -9,6 +9,10 @@ import setuptools
 requirements = [
     "tqdm==4.65.0",
     "rich==13.4.2",
+    "pytube==15.0.0",
+    "youtube_transcript_api==0.6.2",
+    "langdetect==1.0.9",
+    "openai-whisper==20231117",
 ]
 
 # this sets __version__
@@ -32,7 +36,7 @@ setuptools.setup(
     description="A tool to condense and analyze youtube videos",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Dhananjay Goel, Arnav Kharbanda, Arpit Kumar Gautam, Kritika Bansal, Virat Jain, Dhruv Singh Negi, Edgar Aditya, Niti Shyamsukha, Hardik, Nandini Mundhra, Vikalp",
+    author="Dhananjay Goel, Arnav Kharbanda, Arpit Kumar Gautam, Kritika Bansal, Virat Jain, Dhruv Singh Negi, Edgar Aditya, Niti Shyamsukha, Hardik Aggarwal, Nandini Mundhra, Vikalp",
     author_email="kharbandarnav@gmail.com",
     url="https://github.com/Arker123/T07-CS305",
     packages=pkgs,
@@ -47,18 +51,19 @@ setuptools.setup(
     extras_require={
         "dev": [
             "pyyaml==6.0.1",
-            "pytest==8.0.0",
-            "pytest-sugar==0.9.4",
+            "pytest==8.0.2",
+            "pytest-sugar==1.0.0",
             "pytest-instafail==0.5.0",
             "pytest-cov==4.1.0",
             "pycodestyle==2.11.1",
-            "black==23.12.1",
+            "black==24.2.0",
             "isort==5.13.2",
             "mypy==1.8.0",
             # type stubs for mypy
-            "types-PyYAML==6.0.10",
+            "pytube==15.0.0",
+            "types-PyYAML==6.0.12.12",
         ],
-        "build": ["pyinstaller==6.3.0", "setuptools==69.0.3", "build==1.0.3"],
+        "build": ["pyinstaller==6.3.0", "setuptools==69.1.1", "build==1.0.3"],
     },
     zip_safe=False,
     keywords="Condense, YouTube, Video, Analysis",
