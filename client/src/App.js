@@ -4,6 +4,7 @@ import Landing from './pages/LandingPage';
 import LandingPage2 from './pages/LandingPage2';
 import ContactUs from './pages/ContactUs';
 import SignUp from './pages/SignUp';
+import SummaryPage from './pages/SummaryPage';
 
 import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
 import Loader from './components/shared/Loader/Loader';
@@ -27,6 +28,7 @@ function App() {
                 <Route exact path="/landing" element={<LandingPage2 />} />
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/signup" element={<SignUp />} />
+                <Route exact path='/summary' element={<SummaryPage/>} />
             </Routes>
         </div>
     );
