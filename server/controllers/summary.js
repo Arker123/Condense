@@ -8,7 +8,7 @@ const generateSummary = async (req, res) => {
     const { url } = req.body;
     if (!url) throw new Error("URL is required");
 
-    console.log(url)
+    console.log(url);
 
     const pythonProcess = spawnSync("python", [
       "../condense/summarizer.py",
@@ -17,8 +17,11 @@ const generateSummary = async (req, res) => {
     ]);
 
     const dataToSend = await pythonProcess.stdout.toString();
-    res.send(dataToSend);
-    res.end();
+    // res.send(dataToSend);
+    // res.end();
+    res
+      .status(200)
+      .json({ summary: dataToSend, message: "Summary generated successfully" });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
@@ -202,5 +205,5 @@ module.exports = {
   fetchFavSummaries,
   modifyFavSummaries,
   saveSummary,
-  generateSummary
+  generateSummary,
 };

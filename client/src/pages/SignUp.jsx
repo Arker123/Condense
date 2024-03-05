@@ -1,10 +1,170 @@
 import React,{useState} from 'react'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Register from '../https/index'
 
-import image_logo from './image_logo.jpg';
 import { motion } from 'framer-motion';
 const SignUp = () => {
-const[toggle,setToggle]=useState(false);
-const[open,setOpen]=useState(false);
+  const[toggle,setToggle]=useState(false);
+  const[open,setOpen]=useState(false);
+  const[email, setEmail] = useState("");
+  const[name, setName] = useState("");
+  const[password, setPassword] = useState("");
+  const[confirmPassword, setConfirmPassword] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+  let errorMessage = "";
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+
+    // Validate email format using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(newEmail);
+    // const isValid = validator.isEmail(newEmail);
+    setIsValidEmail(isValid);
+};
+
+  const handleSignupSubmit = async(e) => {
+    console.log("in handlesubmit for signup");
+    e.preventDefault();
+
+    //check if all fields are filled
+    if(email === ""){
+      errorMessage = "Email is required.";
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+    
+    if(name === ""){
+      errorMessage = "Name is required.";
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+
+    if(password === ""){
+      errorMessage = "Password is required.";
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+
+    if(confirmPassword === ""){
+      errorMessage = "Confirm Password is required.";
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+
+    if(password !== confirmPassword){
+      errorMessage = "Password does not match.";
+      console.log(errorMessage);
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = {
+        email: email,
+        name : name,
+        password: password,
+      };
+
+      console.log("calling api")
+      const response = await Register(data);
+      console.log(response)
+      // setUserRes(response.data);
+
+      if(response.status !== 200) {
+        errorMessage = response.data.message || 'Server Error';
+        toast.error(errorMessage, toastOptions);
+        return;
+      } else {
+        notifySuccess("Contact Us message sent to your email id");
+      }
+
+      setEmail("");
+      setName("");
+
+  } catch(error) {
+    // errorMessage = "Failed to create an account.";
+    toast.error(error, toastOptions);
+    }
+    setIsLoading(false);
+
+    // Reload the page
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
+
+    // Handle form submission
+    console.log('Form submitted!');
+  };
+
+  // login
+  const handleLoginSubmit = async(e) => {
+    console.log("in handlesubmit for login");
+    e.preventDefault();
+
+    //check if all fields are filled   
+    if(email === ""){
+        errorMessage = "Name is required.";
+        toast.error(errorMessage, toastOptions);
+        return;
+    }
+
+    if(password === ""){
+      errorMessage = "Password is required.";
+      toast.error(errorMessage, toastOptions);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = {
+        email : email,
+        password: password,
+      };
+
+      console.log("calling api")
+      const response = await Register(data);
+      console.log(response)
+      // setUserRes(response.data);
+
+      if(response.status !== 200) {
+        errorMessage = response.data.message || 'Server Error';
+        toast.error(errorMessage, toastOptions);
+        return;
+      } else {
+        notifySuccess("Contact Us message sent to your email id");
+      }
+
+      setEmail("");
+      setName("");
+
+  } catch(error) {
+    // errorMessage = "Failed to create an account.";
+    toast.error(error, toastOptions);
+    }
+    setIsLoading(false);
+
+    // Reload the page
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
+
+    // Handle form submission
+    console.log('Form submitted!');
+  };
+
   return (
     <div className=''>
   <motion.div
@@ -28,7 +188,7 @@ const[open,setOpen]=useState(false);
         transition={{ duration: 1 }}
       >
         <img
-          src={image_logo}
+          src={'/images/logo_condense.jpg'}
           alt="Your Image Alt Text"
           className="w-full h-full object-cover"
         />
@@ -78,6 +238,8 @@ const[open,setOpen]=useState(false);
         className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
         id="email"
         type="text"
+        value={email}
+        onChange={handleEmailChange}
         placeholder=""
         required
       />
@@ -93,6 +255,8 @@ const[open,setOpen]=useState(false);
         className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
         id="username"
         type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         placeholder=""
         required
       />
@@ -108,15 +272,34 @@ const[open,setOpen]=useState(false);
         className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
         id="password"
         type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder=""
+        required
+      />
+    </div>
+    <div className="mb-2">
+      <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor="password"
+      >
+        Confirm Password
+      </label>
+      <input
+        className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+        id="confirmPassword"
+        type="password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
         placeholder=""
         required
       />
     </div>
     <div className="flex items-center justify-center">
       <button
-        className="text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline"
+        className="text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline hover:bg-red-700"
         type="button"
-       
+        onClick={handleSignupSubmit}
       >
         Sign Up
       </button>
@@ -130,12 +313,14 @@ const[open,setOpen]=useState(false);
         className="block text-gray-700 text-sm font-bold mb-2"
         htmlFor="username"
       >
-        Username
+        Email ID
       </label>
       <input
         className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-        id="username"
-        type="text"
+        id="email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder=""
         required
       />
@@ -151,14 +336,17 @@ const[open,setOpen]=useState(false);
         className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
         id="password"
         type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         placeholder=""
         required
       />
     </div>
     <div className="flex justify-center items-center  ">
       <button
-        className={`text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline"
-        type="button`}
+        type="button"
+        className={`text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline transition duration-300 type="button" hover:bg-red-700`}
+        onClick={handleLoginSubmit}
       >
         Login
       </button>
@@ -171,7 +359,7 @@ const[open,setOpen]=useState(false);
     </div>
 
   </motion.div>
- 
+  <ToastContainer />
 </div>
   )
 }

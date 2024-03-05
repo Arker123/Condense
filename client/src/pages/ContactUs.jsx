@@ -2,7 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ContactUs.css';
 
-
 function ContactUs() {
   return (
     <div className="App2">

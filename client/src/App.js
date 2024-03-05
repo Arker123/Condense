@@ -12,6 +12,9 @@ import SummaryPage from './pages/SummaryPage';
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
+// call refresh endpoint
+    // const { loading } = useLoadingWithRefresh();
+
     return (
         <div className="">
             <Routes>
@@ -22,6 +25,7 @@ function App() {
 
                 <Route exact path="/signup" element={<SignUp />} />
                 <Route exact path='/summary' element={<SummaryPage/>} />
+                <Route exact path='/dashboard' element={<Dashboard/>} />
             </Routes>
         </div>
     );
