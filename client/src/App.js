@@ -8,20 +8,17 @@ import SummaryPage from './pages/SummaryPage';
 
 import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
 import Loader from './components/shared/Loader/Loader';
+import Dashboard from './pages/Dashboard';
 
 /**
  * Renders the main application component.
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-    // call refresh endpoint
+// call refresh endpoint
     // const { loading } = useLoadingWithRefresh();
 
-    return 
-    // loading ? (
-    //     <Loader message="Loading, please wait.." />
-    // ) :
-    (
+    return (
         <div className="">
             <Routes>
                 <Route path="/" element={<Landing />} />
@@ -29,6 +26,7 @@ function App() {
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/signup" element={<SignUp />} />
                 <Route exact path='/summary' element={<SummaryPage/>} />
+                <Route exact path='/dashboard' element={<Dashboard/>} />
             </Routes>
         </div>
     );

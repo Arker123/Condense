@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: `${process.env.REACT_APP_API_URL}/email/sendotp`,
+    baseURL: `${process.env.REACT_APP_API_URL}`,
     withCredentials: true,
     headers: {
         'Content-type': 'application/json',
