@@ -1,6 +1,4 @@
 module.exports = {
-<<<<<<< HEAD
-=======
     'env': {
         'browser': true,
         'es2021': true,
@@ -42,5 +40,4 @@ module.exports = {
         'max-len': ['error', 120],
         'react/prop-types': 'off',
     },
->>>>>>> 41e5eb4a408f9aa48df9e4ce20c20d9b3d839a5d
 };

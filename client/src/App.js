@@ -5,9 +5,6 @@ import LandingPage2 from './pages/LandingPage2';
 import ContactUs from './pages/ContactUs';
 import SignUp from './pages/SignUp';
 import SummaryPage from './pages/SummaryPage';
-
-import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
-import Loader from './components/shared/Loader/Loader';
 import Dashboard from './pages/Dashboard';
 
 /**
