@@ -1,115 +1,142 @@
-const Summary = require('../models/summaryModel');
-const User = require('../models/UserModel');
+const Summary = require("../models/summaryModel");
+const User = require("../models/UserModel");
+
+const { spawnSync } = require("child_process");
+
+const generateSummary = async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) throw new Error("URL is required");
+
+    console.log(url);
+
+    const pythonProcess = spawnSync("python", [
+      "../condense/summarizer.py",
+      "--url",
+      url,
+    ]);
+
+    const dataToSend = await pythonProcess.stdout.toString();
+    // res.send(dataToSend);
+    // res.end();
+    res
+      .status(200)
+      .json({ summary: dataToSend, message: "Summary generated successfully" });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
 
 const fetchAllSummaries = async (req, res) => {
   try {
-    const {userId} = req.body;
-    if (!userId) throw new Error('User ID is required');
+    const { userId } = req.body;
+    if (!userId) throw new Error("User ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     // Extract summary IDs from the user document
     const summaryIds = user.summaries.map((summary) => summary.summaryId);
 
     // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+    const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
+    console.log("Found the following summaries:");
     console.log(summaries);
     return res.status(200).json(summaries);
   } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
+    console.error("Error occurred while fetching summaries", error);
     return res.status(400).send(error.message);
   }
 };
 
 const fetchOneSummary = async (req, res) => {
   try {
-    const {userId, summaryId} = req.body;
-    if (!userId) throw new Error('User ID is required');
-    if (!summaryId) throw new Error('Summary ID is required');
+    const { userId, summaryId } = req.body;
+    if (!userId) throw new Error("User ID is required");
+    if (!summaryId) throw new Error("Summary ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
       // throw new Error('User not found');
-      return res.status(400).send('User not found');
+      return res.status(400).send("User not found");
     }
 
     // Extract summary IDs from the user document
     // matching the specific summary ID
     const summaryIds = user.summaries
-        .filter((summary) => summary.summaryId === summaryId)
-        .map((summary) => summary.summaryId);
+      .filter((summary) => summary.summaryId === summaryId)
+      .map((summary) => summary.summaryId);
 
     // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+    const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
+    console.log("Found the following summaries:");
     console.log(summaries);
     return res.status(200).json(summaries);
   } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
+    console.error("Error occurred while fetching summaries", error);
     return res.status(400).send(error.message);
   }
 };
 
 const fetchFavSummaries = async (req, res) => {
   try {
-    const {userId} = req.body;
-    if (!userId) throw new Error('User ID is required');
+    const { userId } = req.body;
+    if (!userId) throw new Error("User ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
       // throw new Error('User not found');
-      return res.status(400).send('User not found');
+      return res.status(400).send("User not found");
     }
 
     // Extract summary IDs from the user document where favorite is true
     const summaryIds = user.summaries
-        .filter((summary) => summary.favorite === true)
-        .map((summary) => summary.summaryId);
+      .filter((summary) => summary.favorite === true)
+      .map((summary) => summary.summaryId);
 
     // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+    const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
+    console.log("Found the following summaries:");
     console.log(summaries);
     return res.status(200).json(summaries);
   } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
+    console.error("Error occurred while fetching summaries", error);
     return res.status(400).send(error.message);
   }
 };
 
 const modifyFavSummaries = async (req, res) => {
   try {
-    const {userId, summaryId} = req.body;
-    if (!userId) throw new Error('User ID is required');
-    if (!summaryId) throw new Error('Summary ID is required');
+    const { userId, summaryId } = req.body;
+    if (!userId) throw new Error("User ID is required");
+    if (!summaryId) throw new Error("Summary ID is required");
 
     // Find the user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
       // throw new Error('User not found');
-      return res.status(400).send('User not found');
+      return res.status(400).send("User not found");
     }
 
     // Find the index of the summary with the given summary ID
-    const summaryIndex = user.summaries
-        .findIndex((summary) => summary.summaryId === summaryId);
+    const summaryIndex = user.summaries.findIndex(
+      (summary) => summary.summaryId === summaryId
+    );
 
     if (summaryIndex === -1) {
-      return res.status(400).send('Summary not found');
+      return res.status(400).send("Summary not found");
     }
 
     const currentFavVal = user.summaries[summaryIndex].favorite;
@@ -123,23 +150,23 @@ const modifyFavSummaries = async (req, res) => {
     console.log(`Favorite attribute for summary ID ${summaryId} 
     modified to ${!currentFavVal}`);
   } catch (error) {
-    console.error('Error occurred while modifying favorite attribute', error);
+    console.error("Error occurred while modifying favorite attribute", error);
     return res.status(400).send(error.message);
   }
 };
 
 const saveSummary = async (req, res) => {
   try {
-    const {userId, videoId, summaryBody} = req.body;
-    if (!userId) throw new Error('User ID is required');
-    if (!videoId) throw new Error('Summary ID is required');
+    const { userId, videoId, summaryBody } = req.body;
+    if (!userId) throw new Error("User ID is required");
+    if (!videoId) throw new Error("Summary ID is required");
 
     // Find the user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
       // throw new Error('User not found');
-      return res.status(400).send('User not found');
+      return res.status(400).send("User not found");
     }
 
     // Create a new summary document
@@ -165,9 +192,9 @@ const saveSummary = async (req, res) => {
     // Save the updated user document
     await user.save();
 
-    console.log('Summary stored successfully');
+    console.log("Summary stored successfully");
   } catch (error) {
-    console.error('Error occurred while storing summary', error);
+    console.error("Error occurred while storing summary", error);
     return res.status(400).send(error.message);
   }
 };
@@ -178,4 +205,5 @@ module.exports = {
   fetchFavSummaries,
   modifyFavSummaries,
   saveSummary,
+  generateSummary,
 };
