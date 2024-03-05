@@ -101,7 +101,7 @@ const registerUser = async (req, res) => {
       accessToken,
       // refreshToken
     });
-    console.log("user  created");
+    console.log('user  created');
   } catch (err) {
     return res.status(400).json({
       success: false,
