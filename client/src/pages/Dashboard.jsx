@@ -13,7 +13,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Dashboard = () => {
   const menus = [
-    { name: "dashboard", link: "/", icon: IoMdHome },
+    { name: "Dashboard", link: "/", icon: IoMdHome },
     { name: "Chat with AI", link: "/", icon: BsChatFill },
     { name: "My Notes", link: "/", icon: FaNoteSticky },
     { name: "Youtube Summaries", link: "/", icon: MdSummarize },
@@ -30,13 +30,14 @@ const Dashboard = () => {
         } duration-500 text-gray-500 px-4 absolute `}
       >
         <div className="flex flex-row ">
-        <p className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
-          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
+        <div className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
+          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5" data-testid = "condense-logo"/><div className="mt-2 text-[25px]">Condense</div></div>
          <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
             className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
             onClick={() => setOpen(!open)}
+            data-testid = "SidebarButton"
           />
         </div>
         
