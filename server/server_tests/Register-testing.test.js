@@ -13,7 +13,7 @@ afterEach(async () => {
     await mongoose.connection.close();
 });
 
-server = app.listen(() => {
+const server = app.listen(() => {
     console.log(`Server is running on ${port} `);
 });
 
