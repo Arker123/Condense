@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "DISABLE_ESLINT_PLUGIN=true test": "jest --config ./jest-config.js",
-    "DISABLE_ESLINT_PLUGIN=true start": "nodemon index.js",
+    "test": "jest --config ./jest-config.js",
+    "start": "nodemon index.js",
     "lint": "eslint --ext .js,.jsx ./src"
   },
   "keywords": [],
