@@ -6,7 +6,7 @@ const { spawnSync } = require("child_process");
 const generateSummary = async (req, res) => {
   try {
     const { url } = req.body;
-    if (!url) throw new Error("URL is required");
+    if (!url) return res.status(400).send("URL is required");
 
     console.log(url);
 
@@ -30,13 +30,13 @@ const generateSummary = async (req, res) => {
 const fetchAllSummaries = async (req, res) => {
   try {
     const { userId } = req.body;
-    if (!userId) throw new Error("User ID is required");
+    if (!userId) return res.status(400).send("User ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      throw new Error("User not found");
+      return res.status(400).send("User not found");
     }
 
     // Extract summary IDs from the user document
@@ -57,14 +57,13 @@ const fetchAllSummaries = async (req, res) => {
 const fetchOneSummary = async (req, res) => {
   try {
     const { userId, summaryId } = req.body;
-    if (!userId) throw new Error("User ID is required");
-    if (!summaryId) throw new Error("Summary ID is required");
+    if (!userId) return res.status(400).send("User ID is required");
+    if (!summaryId) return res.status(400).send("Summary ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      // throw new Error('User not found');
       return res.status(400).send("User not found");
     }
 
@@ -89,13 +88,12 @@ const fetchOneSummary = async (req, res) => {
 const fetchFavSummaries = async (req, res) => {
   try {
     const { userId } = req.body;
-    if (!userId) throw new Error("User ID is required");
+    if (!userId) return res.status(400).send("User ID is required");
 
     // Find user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      // throw new Error('User not found');
       return res.status(400).send("User not found");
     }
 
@@ -119,14 +117,13 @@ const fetchFavSummaries = async (req, res) => {
 const modifyFavSummaries = async (req, res) => {
   try {
     const { userId, summaryId } = req.body;
-    if (!userId) throw new Error("User ID is required");
-    if (!summaryId) throw new Error("Summary ID is required");
+    if (!userId) return res.status(400).send("User ID is required");
+    if (!summaryId) return res.status(400).send("Summary ID is required");
 
     // Find the user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      // throw new Error('User not found');
       return res.status(400).send("User not found");
     }
 
@@ -158,14 +155,13 @@ const modifyFavSummaries = async (req, res) => {
 const saveSummary = async (req, res) => {
   try {
     const { userId, videoId, summaryBody } = req.body;
-    if (!userId) throw new Error("User ID is required");
-    if (!videoId) throw new Error("Summary ID is required");
+    if (!userId) return res.status(400).send("User ID is required");
+    if (!videoId) return res.status(400).send("Video ID is required");
 
     // Find the user with the given user ID
     const user = await User.findById(userId);
 
     if (!user) {
-      // throw new Error('User not found');
       return res.status(400).send("User not found");
     }
 
