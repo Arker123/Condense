@@ -13,7 +13,7 @@ import Feedback from './pages/feedback'
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-// call refresh endpoint
+    // call refresh endpoint
     // const { loading } = useLoadingWithRefresh();
 
     return (

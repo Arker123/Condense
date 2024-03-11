@@ -56,19 +56,19 @@ setuptools.setup(
     extras_require={
         "dev": [
             "pyyaml==6.0.1",
-            "pytest==8.1.0",
+            "pytest==8.1.1",
             "pytest-sugar==1.0.0",
             "pytest-instafail==0.5.0",
             "pytest-cov==4.1.0",
             "pycodestyle==2.11.1",
             "black==24.2.0",
             "isort==5.13.2",
-            "mypy==1.8.0",
+            "mypy==1.9.0",
             # type stubs for mypy
             "pytube==15.0.0",
-            "types-PyYAML==6.0.12.12",
+            "types-PyYAML==6.0.12.20240311",
         ],
-        "build": ["pyinstaller==6.4.0", "setuptools==69.1.1", "build==1.1.1"],
+        "build": ["pyinstaller==6.5.0", "setuptools==69.1.1", "build==1.1.1"],
     },
     zip_safe=False,
     keywords="Condense, YouTube, Video, Analysis",
