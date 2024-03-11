@@ -22,8 +22,7 @@ const Dashboard = () => {
   const [open, setOpen] = useState(true);
 
   return (
-   
-      <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
+    <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
       <div
         className={`bg-white rounded-r-lg h-screen ${
           open ? "w-68" : "w-16"
@@ -43,7 +42,6 @@ const Dashboard = () => {
         
         </div>
         <div className={`mt-4 flex flex-col   gap-4 relative `}>
-         
           {menus?.map((menu, i) => (
             <Link
               to={menu?.link}
@@ -58,7 +56,8 @@ const Dashboard = () => {
                   transitionDelay: `${3}00ms`,
                 }}
                 className={`whitespace-pre duration-500 ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden hover:text-blue-600"
+                  !open &&
+                  "opacity-0 translate-x-28 overflow-hidden hover:text-blue-600"
                 }`}
               >
                 {menu?.name}
@@ -74,52 +73,53 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-      
+
       <div>
-      <div className=" flex flex-row items-center justify-center gap-4 mt-5  ml-[1150px]">
-      <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4">
-  
-  <div className=" flex flex-row gap-2"><FiPhoneCall className="mt-1" /> <p>Contact us</p></div>
-  
-</div>
- 
-<div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
-  <IoMdSettings />
-</div>
+        <div className=" flex flex-row items-center justify-center gap-4 mt-5  ml-[1150px]">
+          <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4">
+            <div className=" flex flex-row gap-2">
+              <FiPhoneCall className="mt-1" /> <p>Contact us</p>
+            </div>
+          </div>
 
-<div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
-<IoIosNotifications/>
-</div>
+          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+            <IoMdSettings />
+          </div>
 
-<div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full"><CgProfile/></div>
+          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+            <IoIosNotifications />
+          </div>
 
+          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+            <CgProfile />
+          </div>
+        </div>
 
-     
-
+        <div className="bg-white h-[310px] w-[800px] ml-[400px] flex flex-col mt-[150px] rounded-2xl">
+          <motion.p
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            className="text-extrabold text-[55px] font-serif flex items-center justify-center mt-7"
+          >
+            Absorb Videos Better Now
+          </motion.p>
+          <div className="flex flex-row gap-4">
+            <input
+              type="link"
+              placeholder="   Paste Youtube Video link Here!"
+              className="ml-[50px] mt-[60px] text-black bg-gray-200 text-small h-[65px] w-[490px] rounded-xl overflow-hidden"
+            />
+            <button
+              to="/"
+              className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[68px]"
+            >
+              Start Summarizing
+            </button>
+          </div>
+        </div>
       </div>
-     
-    <div className="bg-white h-[310px] w-[800px] ml-[400px] flex flex-col mt-[150px] rounded-2xl">
-    
-    <motion.p
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-        className="text-extrabold text-[55px] font-serif flex items-center justify-center mt-7"
-      >
-        Absorb Videos Better Now
-      </motion.p>
-    <div className="flex flex-row gap-4">
-    <input type="link" placeholder="   Paste Youtube Video link Here!" className="ml-[50px] mt-[60px] text-black bg-gray-200 text-small h-[65px] w-[490px] rounded-xl overflow-hidden"/>
-    <button to='/' className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[68px]">Start Summarizing</button>
-    </div>
-    </div>
-
-      </div>
-     
-      
     </section>
-    
-     
   );
 };
 
