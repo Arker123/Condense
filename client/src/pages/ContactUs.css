@@ -45,20 +45,24 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 100px;
+    padding: 90px;
   }
   
   .contact-form {
     flex: 1;
     text-align: left;
     color: #ffffff;
-    padding-left: 20px; /* Add left padding */
+    padding-left: 20px; 
   }
   
   .contact-form form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .contact-form h2 {
+    font-size:xx-large;
   }
   
   .contact-form label {
@@ -98,18 +102,17 @@
   }
   
   .contact-details {
-    /* bottom: 10px; Decrease the bottom margin */
     right: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     color: #ffffff;
-    margin-right: 200px;
+    margin-left: 75%;
+    margin-top: 50px;
 }
 
 .contact-icon p {
-    font-size: 1rem; /* Adjust the font size as needed */
-    margin-left: 10px; /* Add some left margin for better spacing */
+    font-size: 1rem; 
+    margin-left: 10px;
 }
   
   .contact-icon {

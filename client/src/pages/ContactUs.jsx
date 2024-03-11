@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ContactUs.css';
 
 function ContactUs() {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', { fullName, email, message });
+    setFullName('');
+    setEmail('');
+    setMessage('');
+    // You can add further logic here, such as sending the form data to a server
+  };
+
   return (
     <div className="App2">
-      <div className='head2'>
+      <div className='contactus-body'>
         <div className="contactus-logo">
           <img src="/images/logo_condense.jpg" alt="Logo" />
           <h1> CONDENSE </h1> 
@@ -13,11 +26,11 @@ function ContactUs() {
         <div className='contact-container'>
           <div className='contact-form'>
             <h2>Contact Us</h2>
-            <form>
-            <input type="text" id="fullName" name="fullName" placeholder="Your Full Name" />
-            <input type="email" id="email" name="email" placeholder="Your Email Address" />
-            <textarea id="message" name="message" placeholder="Your Message"></textarea>
-            <button type="submit">Submit</button>
+            <form onSubmit={handleSubmit}>
+              <input type="text" id="fullName" name="fullName" placeholder="Your Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              <input type="email" id="email" name="email" placeholder="Your Email Address" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <textarea id="message" name="message" placeholder="Your Message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+              <button type="submit">Submit</button>
             </form>
           </div>
           <div className='contact-pic'>
@@ -39,7 +52,7 @@ function ContactUs() {
           <p> &nbsp; &nbsp; &nbsp;Team07@iitrpr.ac.in</p>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
 
