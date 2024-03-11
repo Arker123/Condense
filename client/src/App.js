@@ -9,6 +9,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Dashboard from './pages/Dashboard';
 import SignUp from "./pages/SignUp";
 import SummaryPage from "./pages/SummaryPage";
+import { EnterURL } from "./pages/EnterURL";
 import { store, persistor } from "./redux/store";
 
 /**
@@ -18,12 +19,18 @@ import { store, persistor } from "./redux/store";
 function App() {
     return (
         <div className="">
+            <Provider store={store}>
+                    <PersistGate persistor={persistor} loading={null}>
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route exact path="/landing" element={<LandingPage2 />} />
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/signup" element={<SignUp />} />
+                <Route exact path="/summary" element={<SummaryPage />} />
+                <Route exact path="/enterURL" element={<EnterURL/>} />
             </Routes>
+            </PersistGate>
+            </Provider>
         </div>
     );
 }

@@ -25,6 +25,9 @@ const SignUp = () => {
     theme: "dark",
   };
   let errorMessage = "";
+  const notifySuccess = (message) => {
+    toast.success(message, toastOptions);
+  };
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -155,7 +158,7 @@ const SignUp = () => {
       } else {
         const { user, accessToken, refreshToken } = response.data;
         dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        notifySuccess("Contact Us message sent to your email id");
+        notifySuccess("User logged In Successfully");
       }
 
       setEmail("");

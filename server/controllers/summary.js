@@ -82,7 +82,7 @@ const fetchOneSummary = async (req, res) => {
     return res.status(200).json(summaries);
   } catch (error) {
     console.error("Error occurred while fetching summaries", error);
-    return res.status(400).send(error.message);
+    return res.status(400).send(error.messageh);
   }
 };
 
