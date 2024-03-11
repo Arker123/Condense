@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Register, login } from "../https/index";
+import Register from "../https/index";
 
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { setUserSlice } from "../redux/userSlice";
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -90,6 +87,7 @@ const SignUp = () => {
       //   data
       // );
 
+      console.log("calling api");
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);

@@ -1,20 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
+        "Content-type": "application/json",
+        Accept: "application/json",
     },
 });
 
 // List of all the endpoints
-export const sendOtp = (data) => api.post('/auth/otp', data);
-export const verifyOtp = (data) => api.post('/auth/verifyOTP', data);
-export const registerUser = () => api.post('/auth/register');
-export const login = () => api.post('/auth/login');
-export const logout = () => api.post('/auth/logout');
-
+export const sendOtp = (data) => api.post("/auth/otp", data);
+export const verifyOtp = (data) => api.post("/auth/verifyOTP", data);
+export const registerUser = () => api.post("/auth/register");
+export const login = () => api.post("/auth/login");
+export const logout = () => api.post("/auth/logout");
 
 // Interceptors
 api.interceptors.response.use(
