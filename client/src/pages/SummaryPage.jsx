@@ -1,4 +1,3 @@
-// SummaryPage.js
 import React, { useEffect, useState } from "react";
 import styles from "./SummaryPage.module.css";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
