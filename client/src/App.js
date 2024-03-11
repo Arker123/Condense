@@ -1,11 +1,14 @@
-import React from 'react';
-import {Routes, Route} from 'react-router-dom';
-import Landing from './pages/LandingPage';
-import LandingPage2 from './pages/LandingPage2';
-import ContactUs from './pages/ContactUs';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/LandingPage";
+import LandingPage2 from "./pages/LandingPage2";
+import ContactUs from "./pages/ContactUs";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
+import SignUp from "./pages/SignUp";
+import SummaryPage from "./pages/SummaryPage";
+import Dashboard from "./pages/Dashboard";
 
 /**
  * Renders the main application component.
@@ -20,7 +23,9 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route exact path="/landing" element={<LandingPage2 />} />
             <Route exact path="/contact" element={<ContactUs />} />
-                {/* <Route exact path="/signup" element={<SignUp />} /> */}
+            <Route exact path="/summary" element={<SummaryPage />} />
+            <Route exact path="/signup" element={<SignUp />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
           </Routes>
         </PersistGate>
       </Provider>

@@ -9,7 +9,6 @@ import { IoExtensionPuzzle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import image_logo from './image_logo.jpg';
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Dashboard = () => {
@@ -32,7 +31,7 @@ const Dashboard = () => {
       >
         <div className="flex flex-row ">
         <p className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
-          <img src={image} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
+          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
          <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
