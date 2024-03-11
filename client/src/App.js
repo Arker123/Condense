@@ -6,11 +6,6 @@ import ContactUs from "./pages/ContactUs";
 import SignUp from "./pages/SignUp";
 import SummaryPage from "./pages/SummaryPage";
 import Dashboard from "./pages/Dashboard";
-import { store } from "./redux/store";
-import { persistor } from "./redux/store";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import EnterURL from "./pages/EnterURL";
 
 /**
  * Renders the main application component.
