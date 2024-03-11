@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 
-export const EnterURL = () => {
+const EnterURL = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [URL, setURL] = useState('');
     const navigate = useNavigate();
@@ -92,4 +92,8 @@ export const EnterURL = () => {
         </motion.div>
     </div>
   )
-}
+};
+
+export default EnterURL;
+
+
