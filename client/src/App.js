@@ -21,6 +21,8 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route exact path="/landing" element={<LandingPage2 />} />
                 <Route exact path="/contact" element={<ContactUs />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
+
                 <Route exact path="/signup" element={<SignUp />} />
                 <Route exact path="/summary" element={<SummaryPage />} />
                 <Route exact path="/dashboard" element={<Dashboard />} />

@@ -10,40 +10,38 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/icons-material": "^5.15.11",
-    "@mui/material": "^5.15.11",
+    "@mui/icons-material": "^5.15.12",
+    "@mui/material": "^5.15.12",
+    "@reduxjs/toolkit": "^2.2.1",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^14.5.2",
-    "autoprefixer": "^10.4.18",
+    "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
     "framer-motion": "^11.0.8",
     "jest-canvas-mock": "^2.5.2",
     "lottie-react": "^2.4.0",
     "postcss": "^8.4.35",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-normalize": "^10.0.1",
-    "postcss-preset-env": "^9.4.0",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-redux": "^9.1.0",
-    "react-router-dom": "^6.22.0",
+    "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "react-toastify": "^10.0.4",
+    "redux-persist": "^6.0.0",
     "web-vitals": "^3.5.2"
   },
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "start": "react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
-    "eject": "DISABLE_ESLINT_PLUGIN=true react-scripts eject",
+    "eject": "react-scripts eject",
     "test": "jest",
     "lint": "eslint --ext .js,.jsx ./src",
     "coverage": "yarn test --coverage --watchAll --collectCoverageFrom='src/**'"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": []
   },
   "browserslist": {
     "production": [
@@ -62,7 +60,6 @@
     "@babel/eslint-parser": "^7.23.10",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
-    "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
