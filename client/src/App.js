@@ -1,12 +1,12 @@
-import React from 'react';
-import {Routes, Route} from 'react-router-dom';
-import Landing from './pages/LandingPage';
-import LandingPage2 from './pages/LandingPage2';
-import ContactUs from './pages/ContactUs';
-import SignUp from './pages/SignUp';
-import SummaryPage from './pages/SummaryPage';
-import Dashboard from './pages/Dashboard';
-import Feedback from './pages/feedback'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/LandingPage";
+import LandingPage2 from "./pages/LandingPage2";
+import ContactUs from "./pages/ContactUs";
+import SignUp from "./pages/SignUp";
+import SummaryPage from "./pages/SummaryPage";
+import Dashboard from "./pages/Dashboard";
+import Feedback from "./pages/feedback";
 
 /**
  * Renders the main application component.
@@ -23,9 +23,9 @@ function App() {
                 <Route exact path="/landing" element={<LandingPage2 />} />
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/signup" element={<SignUp />} />
-                <Route exact path='/summary' element={<SummaryPage/>} />
-                <Route exact path='/dashboard' element={<Dashboard/>} />
-                <Route exact path='/feedback' element={<Feedback/>} />
+                <Route exact path="/summary" element={<SummaryPage />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
+                <Route exact path="/feedback" element={<Feedback />} />
             </Routes>
         </div>
     );
