@@ -63,7 +63,7 @@ setuptools.setup(
             "pycodestyle==2.11.1",
             "black==24.2.0",
             "isort==5.13.2",
-            "mypy==1.8.0",
+            "mypy==1.9.0",
             # type stubs for mypy
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.20240311",
