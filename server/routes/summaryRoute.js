@@ -5,17 +5,17 @@ const {
   modifyFavSummaries,
   saveSummary,
   generateSummary,
-} = require('../controllers/summary');
+} = require("../controllers/summary");
 
-const express = require('express');
+const express = require("express");
 const router = new express.Router();
 
-router.post('/modifyFav', modifyFavSummaries);
-router.get('/getAll', fetchAllSummaries);
-router.get('/getFav', fetchFavSummaries);
-router.get('/getOne', fetchOneSummary);
-router.post('/generate', generateSummary);
+router.post("/modifyFav", modifyFavSummaries);
+router.get("/getAll", fetchAllSummaries);
+router.get("/getFav", fetchFavSummaries);
+router.get("/getOne", fetchOneSummary);
+router.post("/generate", generateSummary);
 
-router.post('/save', saveSummary);
+router.post("/save", saveSummary);
 
 module.exports = router;

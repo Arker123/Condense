@@ -21,16 +21,25 @@ module.exports = {
             version: 'detect',
         },
     },
+    parser: "@babel/eslint-parser",
     parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+        ecmaVersion: "latest",
+        sourceType: "module",
     },
-    plugins: ['react'],
+    plugins: ["react", "prettier"],
     rules: {
-        'indent': ['error', 4],
-        'react/jsx-indent': ['error', 4],
-        'react/jsx-indent-props': ['error', 4],
-        'max-len': ['error', 120],
-        'react/prop-types': 'off',
+        indent: ["error", 4],
+        "no-unused-vars": "off",
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "max-len": ["error", 120],
+        "react/prop-types": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                tabWidth: 4,
+            },
+        ],
+        // prettier indent rule conflicts with eslint indent rule
     },
 };

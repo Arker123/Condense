@@ -1,5 +1,5 @@
-const Summary = require('../models/summaryModel');
-const User = require('../models/UserModel');
+const Summary = require("../models/summaryModel");
+const User = require("../models/UserModel");
 
 const {spawnSync} = require('child_process');
 
@@ -32,26 +32,26 @@ const fetchAllSummaries = async (req, res) => {
     const {userId} = req.body;
     if (!userId) return res.status(400).send('User ID is required');
 
-    // Find user with the given user ID
-    const user = await User.findById(userId);
+        // Find user with the given user ID
+        const user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).send('User not found');
     }
 
-    // Extract summary IDs from the user document
-    const summaryIds = user.summaries.map((summary) => summary.summaryId);
+        // Extract summary IDs from the user document
+        const summaryIds = user.summaries.map((summary) => summary.summaryId);
 
-    // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+        // Fetch summaries from the Summary schema based on the summary IDs
+        const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
-    console.log(summaries);
-    return res.status(200).json(summaries);
-  } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
-    return res.status(400).send(error.message);
-  }
+        console.log("Found the following summaries:");
+        console.log(summaries);
+        return res.status(200).json(summaries);
+    } catch (error) {
+        console.error("Error occurred while fetching summaries", error);
+        return res.status(400).send(error.message);
+    }
 };
 
 const fetchOneSummary = async (req, res) => {
@@ -60,29 +60,29 @@ const fetchOneSummary = async (req, res) => {
     if (!userId) return res.status(400).send('User ID is required');
     if (!summaryId) return res.status(400).send('Summary ID is required');
 
-    // Find user with the given user ID
-    const user = await User.findById(userId);
+        // Find user with the given user ID
+        const user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).send('User not found');
     }
 
-    // Extract summary IDs from the user document
-    // matching the specific summary ID
-    const summaryIds = user.summaries
-        .filter((summary) => summary.summaryId === summaryId)
-        .map((summary) => summary.summaryId);
+        // Extract summary IDs from the user document
+        // matching the specific summary ID
+        const summaryIds = user.summaries
+            .filter((summary) => summary.summaryId === summaryId)
+            .map((summary) => summary.summaryId);
 
-    // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+        // Fetch summaries from the Summary schema based on the summary IDs
+        const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
-    console.log(summaries);
-    return res.status(200).json(summaries);
-  } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
-    return res.status(400).send(error.message);
-  }
+        console.log("Found the following summaries:");
+        console.log(summaries);
+        return res.status(200).json(summaries);
+    } catch (error) {
+        console.error("Error occurred while fetching summaries", error);
+        return res.status(400).send(error.message);
+    }
 };
 
 const fetchFavSummaries = async (req, res) => {
@@ -90,28 +90,28 @@ const fetchFavSummaries = async (req, res) => {
     const {userId} = req.body;
     if (!userId) return res.status(400).send('User ID is required');
 
-    // Find user with the given user ID
-    const user = await User.findById(userId);
+        // Find user with the given user ID
+        const user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).send('User not found');
     }
 
-    // Extract summary IDs from the user document where favorite is true
-    const summaryIds = user.summaries
-        .filter((summary) => summary.favorite === true)
-        .map((summary) => summary.summaryId);
+        // Extract summary IDs from the user document where favorite is true
+        const summaryIds = user.summaries
+            .filter((summary) => summary.favorite === true)
+            .map((summary) => summary.summaryId);
 
-    // Fetch summaries from the Summary schema based on the summary IDs
-    const summaries = await Summary.find({_id: {$in: summaryIds}});
+        // Fetch summaries from the Summary schema based on the summary IDs
+        const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
-    console.log('Found the following summaries:');
-    console.log(summaries);
-    return res.status(200).json(summaries);
-  } catch (error) {
-    console.error('Error occurred while fetching summaries', error);
-    return res.status(400).send(error.message);
-  }
+        console.log("Found the following summaries:");
+        console.log(summaries);
+        return res.status(200).json(summaries);
+    } catch (error) {
+        console.error("Error occurred while fetching summaries", error);
+        return res.status(400).send(error.message);
+    }
 };
 
 const modifyFavSummaries = async (req, res) => {
@@ -120,8 +120,8 @@ const modifyFavSummaries = async (req, res) => {
     if (!userId) return res.status(400).send('User ID is required');
     if (!summaryId) return res.status(400).send('Summary ID is required');
 
-    // Find the user with the given user ID
-    const user = await User.findById(userId);
+        // Find the user with the given user ID
+        const user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).send('User not found');
@@ -132,24 +132,27 @@ const modifyFavSummaries = async (req, res) => {
         (summary) => summary.summaryId === summaryId,
     );
 
-    if (summaryIndex === -1) {
-      return res.status(400).send('Summary not found');
-    }
+        if (summaryIndex === -1) {
+            return res.status(400).send("Summary not found");
+        }
 
-    const currentFavVal = user.summaries[summaryIndex].favorite;
+        const currentFavVal = user.summaries[summaryIndex].favorite;
 
-    // Toggle the value of favorite for that summary
-    user.summaries[summaryIndex].favorite = !currentFavVal;
+        // Toggle the value of favorite for that summary
+        user.summaries[summaryIndex].favorite = !currentFavVal;
 
-    // Save the updated user document
-    await user.save();
+        // Save the updated user document
+        await user.save();
 
-    console.log(`Favorite attribute for summary ID ${summaryId} 
+        console.log(`Favorite attribute for summary ID ${summaryId} 
     modified to ${!currentFavVal}`);
-  } catch (error) {
-    console.error('Error occurred while modifying favorite attribute', error);
-    return res.status(400).send(error.message);
-  }
+    } catch (error) {
+        console.error(
+            "Error occurred while modifying favorite attribute",
+            error,
+        );
+        return res.status(400).send(error.message);
+    }
 };
 
 const saveSummary = async (req, res) => {
@@ -158,41 +161,41 @@ const saveSummary = async (req, res) => {
     if (!userId) return res.status(400).send('User ID is required');
     if (!videoId) return res.status(400).send('Video ID is required');
 
-    // Find the user with the given user ID
-    const user = await User.findById(userId);
+        // Find the user with the given user ID
+        const user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).send('User not found');
     }
 
-    // Create a new summary document
-    const NewSummary = new Summary({
-      videoId: videoId,
-      summary: {
-        body: summaryBody,
-      },
-    });
+        // Create a new summary document
+        const NewSummary = new Summary({
+            videoId: videoId,
+            summary: {
+                body: summaryBody,
+            },
+        });
 
-    // Save the new summary document
-    const savedSummary = await NewSummary.save();
+        // Save the new summary document
+        const savedSummary = await NewSummary.save();
 
-    // Create a new summary object with the saved summary's ID
-    const newSummaryObject = {
-      summaryId: savedSummary._id, // Use the ID generated by MongoDB
-      favorite: false, // Default value for favorite
-    };
+        // Create a new summary object with the saved summary's ID
+        const newSummaryObject = {
+            summaryId: savedSummary._id, // Use the ID generated by MongoDB
+            favorite: false, // Default value for favorite
+        };
 
-    // Push the new summary object to the user's summaries array
-    user.summaries.push(newSummaryObject);
+        // Push the new summary object to the user's summaries array
+        user.summaries.push(newSummaryObject);
 
-    // Save the updated user document
-    await user.save();
+        // Save the updated user document
+        await user.save();
 
-    console.log('Summary stored successfully');
-  } catch (error) {
-    console.error('Error occurred while storing summary', error);
-    return res.status(400).send(error.message);
-  }
+        console.log("Summary stored successfully");
+    } catch (error) {
+        console.error("Error occurred while storing summary", error);
+        return res.status(400).send(error.message);
+    }
 };
 
 module.exports = {

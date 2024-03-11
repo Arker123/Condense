@@ -12,7 +12,7 @@ import SummaryPage from './pages/SummaryPage';
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-// call refresh endpoint
+    // call refresh endpoint
     // const { loading } = useLoadingWithRefresh();
 
     return (
@@ -23,8 +23,8 @@ function App() {
                 <Route exact path="/contact" element={<ContactUs />} />
                 <Route exact path="/dashboard" element={<Dashboard />} />
                 <Route exact path="/signup" element={<SignUp />} />
-                <Route exact path='/summary' element={<SummaryPage/>} />
-                <Route exact path='/dashboard' element={<Dashboard/>} />
+                <Route exact path="/summary" element={<SummaryPage />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
             </Routes>
         </div>
     );

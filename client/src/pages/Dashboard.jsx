@@ -29,16 +29,22 @@ const Dashboard = () => {
         } duration-500 text-gray-500 px-4 absolute `}
       >
         <div className="flex flex-row ">
-        <p className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
-          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
-         <div className="py-3 flex justify-end">
-          <HiMenuAlt3
-            size={26}
-            className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
-            onClick={() => setOpen(!open)}
-          />
-        </div>
-        
+          <p
+            className={`${open ? "visible" : "hidden"} flex flex-row gap-2  text-black font-bold `}
+          >
+            <img
+              src={"/images/logo_condense.jpg"}
+              className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"
+            />
+            <div className="mt-2 text-[25px]">Condense</div>
+          </p>
+          <div className="py-3 flex justify-end">
+            <HiMenuAlt3
+              size={26}
+              className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
+              onClick={() => setOpen(!open)}
+            />
+          </div>
         </div>
         <div className={`mt-4 flex flex-col   gap-4 relative `}>
           {menus?.map((menu, i) => (
