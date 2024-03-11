@@ -53,7 +53,6 @@ function ContactUs() {
         </div>
       </div>
     </div>
-    </div>
   );
 }
 
