@@ -30,7 +30,7 @@ api.interceptors.response.use(
             originalRequest.isRetry = true;
             try {
                 await axios.get(
-                    `${process.env.REACT_APP_API_URL}/auth/refresh`
+                    `${process.env.REACT_APP_API_URL}/auth/refresh`,
                 );
 
                 return api.request(originalRequest);

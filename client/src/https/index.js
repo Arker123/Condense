@@ -43,9 +43,7 @@ api.interceptors.response.use(
         ) {
             originalRequest.isRetry = true;
             try {
-                await axios.get(
-                    `${process.env.REACT_APP_API_URL}/api/refresh`,
-                );
+                await axios.get(`${process.env.REACT_APP_API_URL}/api/refresh`);
 
                 return api.request(originalRequest);
             } catch (err) {
