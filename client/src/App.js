@@ -6,6 +6,8 @@ import ContactUs from './pages/ContactUs';
 import SignUp from './pages/SignUp';
 import SummaryPage from './pages/SummaryPage';
 import Dashboard from './pages/Dashboard';
+import { store } from './redux/store';
+import {persistor} from './redux/store';
 
 /**
  * Renders the main application component.
@@ -19,16 +21,16 @@ function App() {
         <div className="">
             <Provider store={store}>
                     <PersistGate persistor={persistor} loading={null}>
-            <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route exact path="/landing" element={<LandingPage2 />} />
-                <Route exact path="/contact" element={<ContactUs />} />
-                <Route exact path="/signup" element={<SignUp />} />
-                <Route exact path='/summary' element={<SummaryPage/>} />
-                <Route exact path='/dashboard' element={<Dashboard/>} />
-                <Route exact path="/enterURL" element={<EnterURL/>} />
-            </Routes>
-            </PersistGate>
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route exact path="/landing" element={<LandingPage2 />} />
+                    <Route exact path="/contact" element={<ContactUs />} />
+                    <Route exact path="/signup" element={<SignUp />} />
+                    <Route exact path='/summary' element={<SummaryPage/>} />
+                    <Route exact path='/dashboard' element={<Dashboard/>} />
+                    <Route exact path="/enterURL" element={<EnterURL/>} />
+                </Routes>
+                </PersistGate>
             </Provider>
         </div>
     );
