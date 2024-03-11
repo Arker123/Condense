@@ -1,10 +1,10 @@
 const {
-  fetchAllSummaries,
-  fetchOneSummary,
-  fetchFavSummaries,
-  modifyFavSummaries,
-  saveSummary,
-  generateSummary,
+    fetchAllSummaries,
+    fetchOneSummary,
+    fetchFavSummaries,
+    modifyFavSummaries,
+    saveSummary,
+    generateSummary,
 } = require("../controllers/summary");
 
 const express = require("express");

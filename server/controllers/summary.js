@@ -1,43 +1,44 @@
 const Summary = require("../models/summaryModel");
 const User = require("../models/UserModel");
 
-const {spawnSync} = require('child_process');
+const { spawnSync } = require("child_process");
 
 const generateSummary = async (req, res) => {
-  try {
-    const {url} = req.body;
-    if (!url) return res.status(400).send('URL is required');
+    try {
+        const { url } = req.body;
+        if (!url) return res.status(400).send("URL is required");
 
         console.log(url);
 
-    const pythonProcess = spawnSync('python', [
-      '../condense/summarizer.py',
-      '--url',
-      url,
-    ]);
+        const pythonProcess = spawnSync("python", [
+            "../condense/summarizer.py",
+            "--url",
+            url,
+        ]);
 
-    const dataToSend = await pythonProcess.stdout.toString();
-    // res.send(dataToSend);
-    // res.end();
-    res
-        .status(200)
-        .json({summary: dataToSend, message: 'Summary generated successfully'});
-  } catch (error) {
-    res.status(400).send({message: error.message});
-  }
+        const dataToSend = await pythonProcess.stdout.toString();
+        // res.send(dataToSend);
+        // res.end();
+        res.status(200).json({
+            summary: dataToSend,
+            message: "Summary generated successfully",
+        });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 };
 
 const fetchAllSummaries = async (req, res) => {
-  try {
-    const {userId} = req.body;
-    if (!userId) return res.status(400).send('User ID is required');
+    try {
+        const { userId } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
 
         // Find user with the given user ID
         const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).send('User not found');
-    }
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
 
         // Extract summary IDs from the user document
         const summaryIds = user.summaries.map((summary) => summary.summaryId);
@@ -55,17 +56,17 @@ const fetchAllSummaries = async (req, res) => {
 };
 
 const fetchOneSummary = async (req, res) => {
-  try {
-    const {userId, summaryId} = req.body;
-    if (!userId) return res.status(400).send('User ID is required');
-    if (!summaryId) return res.status(400).send('Summary ID is required');
+    try {
+        const { userId, summaryId } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
+        if (!summaryId) return res.status(400).send("Summary ID is required");
 
         // Find user with the given user ID
         const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).send('User not found');
-    }
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
 
         // Extract summary IDs from the user document
         // matching the specific summary ID
@@ -86,16 +87,16 @@ const fetchOneSummary = async (req, res) => {
 };
 
 const fetchFavSummaries = async (req, res) => {
-  try {
-    const {userId} = req.body;
-    if (!userId) return res.status(400).send('User ID is required');
+    try {
+        const { userId } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
 
         // Find user with the given user ID
         const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).send('User not found');
-    }
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
 
         // Extract summary IDs from the user document where favorite is true
         const summaryIds = user.summaries
@@ -115,22 +116,22 @@ const fetchFavSummaries = async (req, res) => {
 };
 
 const modifyFavSummaries = async (req, res) => {
-  try {
-    const {userId, summaryId} = req.body;
-    if (!userId) return res.status(400).send('User ID is required');
-    if (!summaryId) return res.status(400).send('Summary ID is required');
+    try {
+        const { userId, summaryId } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
+        if (!summaryId) return res.status(400).send("Summary ID is required");
 
         // Find the user with the given user ID
         const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).send('User not found');
-    }
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
 
-    // Find the index of the summary with the given summary ID
-    const summaryIndex = user.summaries.findIndex(
-        (summary) => summary.summaryId === summaryId,
-    );
+        // Find the index of the summary with the given summary ID
+        const summaryIndex = user.summaries.findIndex(
+            (summary) => summary.summaryId === summaryId,
+        );
 
         if (summaryIndex === -1) {
             return res.status(400).send("Summary not found");
@@ -156,17 +157,17 @@ const modifyFavSummaries = async (req, res) => {
 };
 
 const saveSummary = async (req, res) => {
-  try {
-    const {userId, videoId, summaryBody} = req.body;
-    if (!userId) return res.status(400).send('User ID is required');
-    if (!videoId) return res.status(400).send('Video ID is required');
+    try {
+        const { userId, videoId, summaryBody } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
+        if (!videoId) return res.status(400).send("Video ID is required");
 
         // Find the user with the given user ID
         const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(400).send('User not found');
-    }
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
 
         // Create a new summary document
         const NewSummary = new Summary({
@@ -199,10 +200,10 @@ const saveSummary = async (req, res) => {
 };
 
 module.exports = {
-  fetchAllSummaries,
-  fetchOneSummary,
-  fetchFavSummaries,
-  modifyFavSummaries,
-  saveSummary,
-  generateSummary,
+    fetchAllSummaries,
+    fetchOneSummary,
+    fetchFavSummaries,
+    modifyFavSummaries,
+    saveSummary,
+    generateSummary,
 };
