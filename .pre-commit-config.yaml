@@ -1,0 +1,55 @@
+repos:
+-   repo: local
+    hooks:
+    -   id: isort
+        name: isort
+        stages: [commit, push]
+        language: system
+        entry: isort
+        args: 
+        -   "--length-sort"
+        -   "--profile"
+        -   "black"
+        -   "--line-length=120"
+        -   "."
+        always_run: true
+        pass_filenames: false
+
+-   repo: local
+    hooks:
+    -   id: black
+        name: black
+        stages: [commit, push]
+        language: system
+        entry: black
+        args: 
+        -   "--line-length=120"
+        -   "."
+        always_run: true
+        pass_filenames: false
+
+-   repo: local
+    hooks:
+    -   id: client
+        name: client
+        stages: [commit, push]
+        language: system
+        entry: npx
+        args: 
+        -   "eslint"
+        -   "./client"
+        always_run: true
+        pass_filenames: false
+
+-   repo: local
+    hooks:
+    -   id: server
+        name: server
+        stages: [commit, push]
+        language: system
+        entry: npx
+        args: 
+        -   "eslint"
+        -   "./server"
+        always_run: true
+        pass_filenames: false
