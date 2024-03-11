@@ -12,23 +12,23 @@ import Dashboard from "./pages/Dashboard";
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-  // call refresh endpoint
-  // const { loading } = useLoadingWithRefresh();
+    // call refresh endpoint
+    // const { loading } = useLoadingWithRefresh();
 
-  return (
-    <div className="">
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route exact path="/landing" element={<LandingPage2 />} />
-        <Route exact path="/contact" element={<ContactUs />} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
+    return (
+        <div className="">
+            <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route exact path="/landing" element={<LandingPage2 />} />
+                <Route exact path="/contact" element={<ContactUs />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
 
-        <Route exact path="/signup" element={<SignUp />} />
-        <Route exact path="/summary" element={<SummaryPage />} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </div>
-  );
+                <Route exact path="/signup" element={<SignUp />} />
+                <Route exact path="/summary" element={<SummaryPage />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default App;

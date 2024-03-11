@@ -4,21 +4,21 @@ module.exports = {
         es2021: true,
         node: true,
     },
-    extends: ['google', 'plugin:react/recommended'],
+    extends: ["google", "plugin:prettier/recommended"],
     overrides: [
         {
             env: {
                 node: true,
             },
-            files: ['.eslintrc.{js,cjs}'],
+            files: [".eslintrc.{js,cjs}"],
             parserOptions: {
-                sourceType: 'script',
+                sourceType: "script",
             },
         },
     ],
     settings: {
         react: {
-            version: 'detect',
+            version: "detect",
         },
     },
     parser: "@babel/eslint-parser",
@@ -40,6 +40,5 @@ module.exports = {
                 tabWidth: 4,
             },
         ],
-        // prettier indent rule conflicts with eslint indent rule
     },
 };
