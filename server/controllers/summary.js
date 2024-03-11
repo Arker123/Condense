@@ -8,7 +8,7 @@ const generateSummary = async (req, res) => {
     const {url} = req.body;
     if (!url) return res.status(400).send('URL is required');
 
-    console.log(url);
+        console.log(url);
 
     const pythonProcess = spawnSync('python', [
       '../condense/summarizer.py',

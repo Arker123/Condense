@@ -22,6 +22,9 @@ const SignUp = () => {
     theme: "dark",
   };
   let errorMessage = "";
+  const notifySuccess = (message) => {
+    toast.success(message, toastOptions);
+  };
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -79,6 +82,12 @@ const SignUp = () => {
       };
 
       console.log("calling api");
+      // const response = await axios.post(
+      //   "http://localhost:5000/auth/register",
+      //   data
+      // );
+
+      console.log("calling api");
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);
@@ -88,6 +97,8 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
+        const { user, accessToken, refreshToken } = response.data;
+        dispatch(setUserSlice({ user, accessToken, refreshToken }));
         notifySuccess("Contact Us message sent to your email id");
       }
 
@@ -100,9 +111,9 @@ const SignUp = () => {
     setIsLoading(false);
 
     // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -134,7 +145,7 @@ const SignUp = () => {
       };
 
       console.log("calling api");
-      const response = await Register(data);
+      const response = await login(data);
       console.log(response);
       // setUserRes(response.data);
 
@@ -143,7 +154,9 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        notifySuccess("Contact Us message sent to your email id");
+        const { user, accessToken, refreshToken } = response.data;
+        dispatch(setUserSlice({ user, accessToken, refreshToken }));
+        notifySuccess("User logged In Successfully");
       }
 
       setEmail("");
@@ -155,9 +168,9 @@ const SignUp = () => {
     setIsLoading(false);
 
     // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
