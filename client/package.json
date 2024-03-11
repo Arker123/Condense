@@ -68,7 +68,6 @@
     "eslint-plugin-react": "^7.33.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "r3f-pack": "^2.7.0",
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.4.1"
   }
