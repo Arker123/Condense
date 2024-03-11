@@ -4,27 +4,28 @@ const User = require("../models/UserModel");
 const { spawnSync } = require("child_process");
 
 const generateSummary = async (req, res) => {
-  try {
-    const { url } = req.body;
-    if (!url) throw new Error("URL is required");
+    try {
+        const { url } = req.body;
+        if (!url) throw new Error("URL is required");
 
-    console.log(url);
+        console.log(url);
 
-    const pythonProcess = spawnSync("python", [
-      "../condense/summarizer.py",
-      "--url",
-      url,
-    ]);
+        const pythonProcess = spawnSync("python", [
+            "../condense/summarizer.py",
+            "--url",
+            url,
+        ]);
 
-    const dataToSend = await pythonProcess.stdout.toString();
-    // res.send(dataToSend);
-    // res.end();
-    res
-      .status(200)
-      .json({ summary: dataToSend, message: "Summary generated successfully" });
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+        const dataToSend = await pythonProcess.stdout.toString();
+        // res.send(dataToSend);
+        // res.end();
+        res.status(200).json({
+            summary: dataToSend,
+            message: "Summary generated successfully",
+        });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 };
 
 const fetchAllSummaries = async (req, res) => {
@@ -203,10 +204,10 @@ const saveSummary = async (req, res) => {
 };
 
 module.exports = {
-  fetchAllSummaries,
-  fetchOneSummary,
-  fetchFavSummaries,
-  modifyFavSummaries,
-  saveSummary,
-  generateSummary,
+    fetchAllSummaries,
+    fetchOneSummary,
+    fetchFavSummaries,
+    modifyFavSummaries,
+    saveSummary,
+    generateSummary,
 };
