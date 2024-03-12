@@ -14,7 +14,7 @@ router.post("/modifyFav", modifyFavSummaries);
 router.get("/getAll", fetchAllSummaries);
 router.get("/getFav", fetchFavSummaries);
 router.get("/getOne", fetchOneSummary);
-router.get("/generate", generateSummary);
+router.post("/generate", generateSummary);
 
 router.post("/save", saveSummary);
 

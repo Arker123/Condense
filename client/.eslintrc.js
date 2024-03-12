@@ -40,6 +40,5 @@ module.exports = {
                 tabWidth: 4,
             },
         ],
-        // prettier indent rule conflicts with eslint indent rule
     },
 };

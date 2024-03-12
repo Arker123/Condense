@@ -1,3 +1,0 @@
-[console_scripts]
-condense = condense.main:main
-
