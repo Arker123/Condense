@@ -1,20 +1,100 @@
 {
   "questions": [
     {
+      "question": "Hi",
+      "answer": "Hi there, how can I help?"
+    },
+    {
+      "question": "hi",
+      "answer": "Hi there, how can I help?"
+    },
+    {
+      "question": "How are you?",
+      "answer": "Hi there, how can I help?"
+    },
+    {
+      "question": "Is anyone there?",
+      "answer": "Hello!"
+    },
+    {
       "question": "Hello",
-      "answer": "Hello there"
+      "answer": "Hi there, how can I help?"
     },
     {
-      "question": "How are you",
-      "answer": "I am fine. What about you?"
+      "question": "Good day",
+      "answer": "Hi there, how can I help?"
     },
     {
-      "question": "Hey",
-      "answer": "Hello"
+      "question": "What's up",
+      "answer": "Hello!"
     },
     {
-      "question": "I am having a problem.",
-      "answer": "How can I help you?"
+      "question": "heyy",
+      "answer": "Hello!"
+    },
+    {
+      "question": "See you later",
+      "answer": "Sad to see you go :("
+    },
+    {
+      "question": "Bye",
+      "answer": "Goodbye!"
+    },
+    {
+      "question": "Goodbye",
+      "answer": "Goodbye!"
+    },
+    {
+      "question": "who created you",
+      "answer": "College students"
+    },
+    {
+      "question": "who are your developers",
+      "answer": "College students"
+    },
+    {
+      "question": "who made you",
+      "answer": "College students"
+    },
+    {
+      "question": "what is your name",
+      "answer": "I'm Mind Reader"
+    },
+    {
+      "question": "name",
+      "answer": "I'm Mind Reader"
+    },
+    {
+      "question": "what are you",
+      "answer": "I'm Mind Reader"
+    },
+    {
+      "question": "contact info",
+      "answer": "You can contact at: NUMBER"
+    },
+    {
+      "question": "more info",
+      "answer": "You can contact at: NUMBER"
+    },
+    {
+      "question": "Contact number?",
+      "answer": "You can contact at: NUMBER"
+    },
+    {
+      "question": "phone no",
+      "answer": "You can contact at: NUMBER"
+    },
+    {
+      "question": "Can you give contact number",
+      "answer": "Yes, you can contact at: NUMBER"
+    },
+    {
+      "question": "what can you do",
+      "answer": "I can answer to questions regarding our service"
+    },
+    {
+      "question": "how u can help me",
+      "answer": "I can answer to questions regarding our service"
     }
   ]
 }
