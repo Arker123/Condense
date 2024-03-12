@@ -29,6 +29,7 @@ const Dashboard = () => {
         } duration-500 text-gray-500 px-4 absolute `}
       >
         <div className="flex flex-row ">
+        
         <div className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
           <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5" data-testid = "condense-logo"/><div className="mt-2 text-[25px]">Condense</div></div>
          <div className="py-3 flex justify-end">
@@ -39,7 +40,7 @@ const Dashboard = () => {
             data-testid = "SidebarButton"
           />
         </div>
-        
+       
         </div>
         <div className={`mt-4 flex flex-col   gap-4 relative `}>
           {menus?.map((menu, i) => (

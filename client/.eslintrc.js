@@ -1,23 +1,18 @@
 module.exports = {
-    'env': {
-        'browser': true,
-        'es2021': true,
-        'node': true,
+    env: {
+        browser: true,
+        es2021: true,
+        node: true,
     },
-    'extends': [
-        'google',
-        'plugin:react/recommended',
-    ],
-    'overrides': [
+    extends: ["google", "plugin:prettier/recommended"],
+    overrides: [
         {
-            'env': {
-                'node': true,
+            env: {
+                node: true,
             },
-            'files': [
-                '.eslintrc.{js,cjs}',
-            ],
-            'parserOptions': {
-                'sourceType': 'script',
+            files: [".eslintrc.{js,cjs}"],
+            parserOptions: {
+                sourceType: "script",
             },
         },
     ],
