@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ContactUs.css';
+import { faUser, faHome } from '@fortawesome/free-solid-svg-icons';
 
 function ContactUs() {
   const [fullName, setFullName] = useState('');
@@ -19,10 +20,19 @@ function ContactUs() {
   return (
     <div className="App2">
       <div className='contactus-body'>
-        <div className="contactus-logo">
-          <img src="/images/logo_condense.jpg" alt="Logo" />
-          <h1> CONDENSE </h1>
+        <div className='contactus-header'>
+          <div className="contactus-logo">
+            <img src="/images/logo_condense.jpg" alt="Logo" />
+            <h1> CONDENSE </h1>
+          </div>
+          <div className="profile-icon">
+              <FontAwesomeIcon icon={faUser} />
+          </div>
+          <div className="home-icon">
+              <FontAwesomeIcon icon={faHome} />
+          </div>
         </div>
+        
         <div className="contact-container">
           <div className="contact-form">
             <h2>Contact Us</h2>
@@ -41,7 +51,7 @@ function ContactUs() {
       <div className="contact-details">
         <div className="contact-icon">
           <FontAwesomeIcon icon={["fas", "map-marker-alt"]} />
-          <p> &nbsp; &nbsp; &nbsp;IIT ROPAR, Punjab</p>
+          <p>&nbsp; &nbsp; &nbsp;IIT ROPAR, Punjab</p>
         </div>
         <div className="contact-icon">
           <FontAwesomeIcon icon={["fas", "phone"]} />
@@ -49,7 +59,7 @@ function ContactUs() {
         </div>
         <div className="contact-icon">
           <FontAwesomeIcon icon={["far", "envelope"]} />
-          <p> &nbsp; &nbsp; &nbsp;Team07@iitrpr.ac.in</p>
+          <p>&nbsp; &nbsp; &nbsp;Team07@iitrpr.ac.in</p>
         </div>
       </div>
     </div>

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './feedback.css';
-// import StarRatings from './react-star-ratings';
+import { faUser, faHome } from '@fortawesome/free-solid-svg-icons';
+import StarRatings from 'react-star-ratings';
 
 function Feedback() {
     const [ageGroup, setAgeGroup] = useState('');
     const [occupation, setOccupation] = useState('');
     const [hope, setHope] = useState('');
     const [features, setFeatures] = useState('');
+    const [rating, setRating] = useState(0);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,9 +18,17 @@ function Feedback() {
 
     return (
         <div className='feedback_body'>
-            <div className="feedback-logo">
-                <img src="/images/logo_condense.jpg" alt="Logo" />
-                <h1> CONDENSE </h1> 
+            <div className="feedback-header">
+                <div className="feedback-logo">
+                    <img src="/images/logo_condense.jpg" alt="Logo" />
+                    <h1> CONDENSE </h1> 
+                </div>
+                <div className="profile-icon">
+                    <FontAwesomeIcon icon={faUser} />
+                </div>
+                <div className="home-icon">
+                    <FontAwesomeIcon icon={faHome} />
+                </div>
             </div>
             <div className="feedback-form">
                 <h1>Feedback Form</h1>
@@ -62,7 +72,16 @@ function Feedback() {
                         <option value="AI Chat feature">AI Chat feature</option>
                     </select>
                     <textarea id="message" name="message" rows="3" placeholder='Add your Comment'/>
-
+                    <div className="star-ratings">
+                        <label>Rate us:</label>
+                        <StarRatings
+                            rating={rating}
+                            starRatedColor="gold"
+                            changeRating={setRating}
+                            numberOfStars={5}
+                            name='rating'
+                        />
+                    </div>
                     <button type="submit">Submit</button>
                 </form>
             </div>
