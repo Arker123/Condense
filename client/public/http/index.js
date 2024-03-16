@@ -31,7 +31,6 @@ api.interceptors.response.use(
             try {
                 await axios.get(
                     `${process.env.REACT_APP_API_URL}/auth/refresh`,
-                   
                 );
 
                 return api.request(originalRequest);

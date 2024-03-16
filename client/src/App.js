@@ -15,23 +15,35 @@ import { store, persistor } from "./redux/store";
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-  return (
-    <div className="">
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route exact path="/landing" element={<LandingPage2 />} />
-            <Route exact path="/contact" element={<ContactUs />} />
-            <Route exact path="/signup" element={<SignUp />} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/summary" element={<SummaryPage />} />
-            
-          </Routes>
-        </PersistGate>
-      </Provider>
-    </div>
-  );
+    return (
+        <div className="">
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <Routes>
+                        <Route path="/" element={<Landing />} />
+                        <Route
+                            exact
+                            path="/landing"
+                            element={<LandingPage2 />}
+                        />
+                        <Route exact path="/contact" element={<ContactUs />} />
+                        <Route exact path="/signup" element={<SignUp />} />
+                        <Route
+                            exact
+                            path="/dashboard"
+                            element={<Dashboard />}
+                        />
+                        <Route
+                            exact
+                            path="/summary"
+                            element={<SummaryPage />}
+                        />
+                        />
+                    </Routes>
+                </PersistGate>
+            </Provider>
+        </div>
+    );
 }
 
 export default App;

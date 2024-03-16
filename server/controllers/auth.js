@@ -99,7 +99,7 @@ const registerUser = async (req, res) => {
             httpOnly: true,
         });
 
-        const {password, ...user} = newUser._doc;
+        const { password, ...user } = newUser._doc;
 
         res.status(200).json({
             success: true,
@@ -187,7 +187,8 @@ const loginUser = async (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, async (err, result) => {
                 if (result) {
-                    const {password,...resUser} = user._doc;
+                    // eslint-disable-next-line no-unused-vars
+                    const { password, ...resUser } = user._doc;
                     res.status(200).json({
                         success: true,
                         user: resUser,
