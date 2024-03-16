@@ -2,7 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: `${process.env.REACT_APP_API_URL}`,
-    withCredentials: true,
     headers: {
         "Content-type": "application/json",
         Accept: "application/json",
@@ -44,12 +43,7 @@ api.interceptors.response.use(
         ) {
             originalRequest.isRetry = true;
             try {
-                await axios.get(
-                    `${process.env.REACT_APP_API_URL}/api/refresh`,
-                    {
-                        withCredentials: true,
-                    },
-                );
+                await axios.get(`${process.env.REACT_APP_API_URL}/api/refresh`);
 
                 return api.request(originalRequest);
             } catch (err) {
