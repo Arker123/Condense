@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoIosNotifications } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsChatFill } from "react-icons/bs";
 import { FaNoteSticky } from "react-icons/fa6";
 import { MdSummarize } from "react-icons/md";
@@ -12,6 +12,9 @@ import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+  const [url,setUrl] = useState("")
   const menus = [
     { name: "dashboard", link: "/", icon: IoMdHome },
     { name: "Chat with AI", link: "/", icon: BsChatFill },
@@ -29,16 +32,22 @@ const Dashboard = () => {
         } duration-500 text-gray-500 px-4 absolute `}
       >
         <div className="flex flex-row ">
-        <p className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
-          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"/><div className="mt-2 text-[25px]">Condense</div></p>
-         <div className="py-3 flex justify-end">
-          <HiMenuAlt3
-            size={26}
-            className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
-            onClick={() => setOpen(!open)}
-          />
-        </div>
-        
+          <p
+            className={`${open ? "visible" : "hidden"} flex flex-row gap-2  text-black font-bold `}
+          >
+            <img
+              src={"/images/logo_condense.jpg"}
+              className="w-[25px] h-[25px] rounded-full object-cover mt-3.5"
+            />
+            <div className="mt-2 text-[25px]">Condense</div>
+          </p>
+          <div className="py-3 flex justify-end">
+            <HiMenuAlt3
+              size={26}
+              className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
+              onClick={() => setOpen(!open)}
+            />
+          </div>
         </div>
         <div className={`mt-4 flex flex-col   gap-4 relative `}>
           {menus?.map((menu, i) => (
@@ -106,11 +115,13 @@ const Dashboard = () => {
           <div className="flex flex-row gap-4">
             <input
               type="link"
-              placeholder="   Paste Youtube Video link Here!"
-              className="ml-[50px] mt-[60px] text-black bg-gray-200 text-small h-[65px] w-[490px] rounded-xl overflow-hidden"
+              onChange={(e)=>setUrl(e.target.value)}
+              value={url}
+              placeholder="Paste Youtube Video link Here!"
+              className="ml-[50px] pl-2 mt-[60px] text-black bg-gray-200 text-small h-[65px] w-[490px] rounded-xl overflow-hidden"
             />
             <button
-              to="/"
+              onClick={()=>{navigate('/summary',{state:url})}}
               className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[68px]"
             >
               Start Summarizing

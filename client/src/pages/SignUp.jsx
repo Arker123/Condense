@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Register, login } from "../https/index";
+import { login, Register } from "../https/index";
 
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setUserSlice } from "../redux/userSlice";
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -16,6 +15,8 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toastOptions = {
     position: "bottom-right",
@@ -82,11 +83,6 @@ const SignUp = () => {
       };
 
       console.log("calling api");
-      // const response = await axios.post(
-      //   "http://localhost:5000/auth/register",
-      //   data
-      // );
-
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);
@@ -96,8 +92,7 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        const { user, accessToken, refreshToken } = response.data;
-        dispatch(setUserSlice({ user, accessToken, refreshToken }));
+        dispatch(setUserSlice());
         notifySuccess("Contact Us message sent to your email id");
       }
 
@@ -105,14 +100,16 @@ const SignUp = () => {
       setName("");
     } catch (error) {
       // errorMessage = "Failed to create an account.";
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -161,15 +158,15 @@ const SignUp = () => {
       setEmail("");
       setName("");
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      toast.error(error, toastOptions);
+      errorMessage = "Error while logging in";
+      toast.error(errorMessage, toastOptions);
     }
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");

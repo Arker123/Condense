@@ -5,7 +5,6 @@ import LandingPage2 from "./pages/LandingPage2";
 import ContactUs from "./pages/ContactUs";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
 import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/SignUp";
 import SummaryPage from "./pages/SummaryPage";
@@ -26,6 +25,8 @@ function App() {
             <Route exact path="/contact" element={<ContactUs />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/summary" element={<SummaryPage />} />
+            
           </Routes>
         </PersistGate>
       </Provider>
