@@ -1,11 +1,11 @@
 import os
 import re
 import sys
+import logging
+import argparse
 from string import punctuation
 from collections import Counter
 
-import logging
-import argparse
 import nltk
 import emoji
 import numpy as np
@@ -18,7 +18,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
-path = "saved_models/model2.pth"
+
 # Step 1: Data Preprocessing
 def preprocess_data(comment):
     comment = emoji.demojize(comment)
@@ -119,10 +119,7 @@ def save_model(model, word_to_index):
         filename = f"model{counter}.pth"
         model_save_path = os.path.join(model_save_dir, filename)
 
-    torch.save({
-        'model': model,
-        'word_to_index': word_to_index
-    }, path)
+    torch.save({"model": model, "word_to_index": word_to_index}, model_save_path)
     print(f"Model saved at: {model_save_dir}")
 
 
@@ -149,7 +146,7 @@ def set_model(data):
     vocab_size = len(word_to_index) + 1
     embedding_dim = 100
     hidden_dim = 256
-    output_dim = 3 
+    output_dim = 3
     num_layers = 5
     dropout = 0.3
     model = SentimentLSTM(vocab_size, embedding_dim, hidden_dim, output_dim, num_layers, dropout)
