@@ -38,7 +38,6 @@ function App() {
                             path="/summary"
                             element={<SummaryPage />}
                         />
-                        />
                     </Routes>
                 </PersistGate>
             </Provider>

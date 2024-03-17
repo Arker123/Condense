@@ -16,14 +16,14 @@ module.exports = {
             },
         },
     ],
-    'settings': {
-        'react': {
-            'version': 'detect',
+    settings: {
+        react: {
+            version: "detect",
         },
     },
-    'parserOptions': {
-        'ecmaVersion': 'latest',
-        'sourceType': 'module',
+    parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
     },
     plugins: ["react", "prettier"],
     rules: {

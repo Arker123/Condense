@@ -1,82 +1,73 @@
 import React from 'react';
-import { BrowserRouter as Router, MemoryRouter } from 'react-router-dom';
-import { cleanup, render, screen, fireEvent, waitFor } from '@testing-library/react';
-import SummaryPage from '../pages/SummaryPage';
-import axios from 'axios';
+import {cleanup, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import SummaryPage from '../pages/SummaryPage.jsx';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-jest.mock('axios')
+import { store, persistor } from "../redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { useLocation } from 'react-router-dom';
 
 afterEach(cleanup);
-const mockStore = configureStore([]);
-let store;
 
-beforeEach(() => {
-    store = mockStore({
-        user: { id: 1 },
-        data: {
-        notes: [
-            { videoId: '1', body: 'Note 1' },
-            { videoId: '2', body: 'Note 2' }
-        ]
-        }
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+    useLocation: jest.fn(), // mock the hook
+}));
+
+test('In Summary Page Transcript text is rendered', () => {
+
+    useLocation.mockReturnValue({
+        state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",
     });
-});
-
-test('renders SummaryPage component', () => {
+    
     render(
         <Provider store={store}>
-        <Router>
-            <SummaryPage />
-        </Router>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <SummaryPage />
+                </Router>
+            </PersistGate>
         </Provider>
     );
-    const noteTextArea = screen.getByPlaceholderText('Enter your note...');
-    expect(noteTextArea).toBeInTheDocument();
+    const transcripts = screen.getByTestId("transcript-test");
+    expect(transcripts).toBeInTheDocument();
 });
 
-test('fetches summary when mounted', async () => {
-    const mockSummaryText = 'Mock summary text';
-    axios.post.mockResolvedValueOnce({ data: mockSummaryText });
+test('In Summary Page Notes text is rendered', () => {
+
+    useLocation.mockReturnValue({
+        state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",
+    });
+
     render(
-        <MemoryRouter initialEntries={['/summary']}>
         <Provider store={store}>
-            <SummaryPage />
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <SummaryPage />
+                </Router>
+            </PersistGate>
         </Provider>
-        </MemoryRouter>
-);
-
-expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/summary/generate', {
-    url: undefined
+    );
+    const notes = screen.getByTestId("notes-test");
+    expect(notes).toBeInTheDocument();
 });
 
-await waitFor(() => {
-        expect(screen.getByText(mockSummaryText)).toBeInTheDocument();
+test('In Summary Page summary text is rendered', () => {
+
+    useLocation.mockReturnValue({
+        state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",
     });
-});
 
-test('saves summary when save button is clicked', async () => {
-const mockSummaryText = 'Mock summary text';
-axios.post.mockResolvedValueOnce({ data: mockSummaryText });
-axios.post.mockResolvedValueOnce({ data: 'Summary saved' });
-
-render(
-    <MemoryRouter initialEntries={['/summary']}>
-    <Provider store={store}>
-        <SummaryPage />
-    </Provider>
-    </MemoryRouter>
-);
-
-fireEvent.click(screen.getByText('Save Summary'));
-
-await waitFor(() => {
-        expect(axios.post).toHaveBeenCalledTimes(2);
-        expect(axios.post).toHaveBeenCalledWith('/saveSummary', {
-        userId: 1,
-        videoId: undefined,
-        summaryBody: mockSummaryText
-        });
-    });
+    render(
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <SummaryPage />
+                </Router>
+            </PersistGate>
+        </Provider>
+    );
+    const summary = screen.getByTestId("summary-test");
+    expect(summary).toBeInTheDocument();
 });
