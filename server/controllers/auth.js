@@ -99,9 +99,11 @@ const registerUser = async (req, res) => {
             httpOnly: true,
         });
 
+        const { password, ...user } = newUser._doc;
+
         res.status(200).json({
             success: true,
-            user: newUser.email,
+            user,
             message: "User added successfully",
             accessToken,
             // refreshToken
@@ -185,9 +187,11 @@ const loginUser = async (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, async (err, result) => {
                 if (result) {
+                    // eslint-disable-next-line no-unused-vars
+                    const { password, ...resUser } = user._doc;
                     res.status(200).json({
                         success: true,
-                        user: user.email,
+                        user: resUser,
                         message: "User logged in successfully",
                     });
                 } else {
