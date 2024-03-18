@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  background: linear-gradient(to bottom, #a52a2a, rgb(45, 4, 4));
+  background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
   min-height: 250vh;
 }
 
@@ -34,9 +34,9 @@
   border-top-right-radius: 50px;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
-  position: fixed;
-  top: 40px;
+  top: 48px;
   height: 40px;
+  margin-top: 45px;
 }
 
 .navbar ul li:last-child {
@@ -89,8 +89,11 @@
 }
 
 .hero {
-  margin-top: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  margin-top: 10vh;
 }
 
 .hero h1 {
@@ -127,6 +130,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }
 
 .item2 {
@@ -138,6 +144,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }
 
 .item3 {
@@ -149,6 +158,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }
 
 .item4 {
@@ -160,6 +172,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }
 
 .item5 {
@@ -171,6 +186,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }
 
 .item6 {
@@ -182,4 +200,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
+  flex-direction: column;
+  font-size: larger;
+  font-family:'Times New Roman', Times, serif
 }

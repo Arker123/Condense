@@ -41,6 +41,8 @@ function LandingPage2() {
       <div className="container">
         <div className="item1">
           <h3> Youtube Summarizer </h3>
+          <br/>
+          <img src="/images/youtube_summary.png" alt="image" />
         </div>
         <div className="item2">
           <h3> Chrome Extension With Youtube Integration </h3>
