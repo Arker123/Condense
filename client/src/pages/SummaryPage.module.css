@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css?family=League+Gothic");
+
+.summarybackground {
+  background: rgb(252, 252, 252);
+  background: linear-gradient(
+    180deg,
+    rgba(252, 252, 252, 1) 0%,
+    rgba(222, 239, 252, 1) 0%,
+    rgba(135, 40, 52, 1) 0%,
+    rgba(1, 0, 0, 1) 100%,
+    rgba(137, 41, 53, 1) 100%
+  );
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: auto auto; /* Change to auto auto to allow for both rows to adjust their heights based on content */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video {
+  grid-row: 1;
+  grid-column: 1;
+  border-radius: 5px; /* Adjust the radius as needed */
+}
+
+.topRow {
+  grid-column: 1 / span 2; /* Adjust the span to cover both columns */
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px; /* Moved here for better organization */
+}
+
+.bottomRow {
+  grid-column: 1 / span 2; /* Adjust the span to cover both columns */
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px; /* Moved here for better organization */
+}
+
+.summary {
+  grid-row: 1 / 2; /* Adjusted grid-row value to place it in the first row */
+  grid-column: 2;
+  height: 310px;
+  width: 600px;
+  background-color: #ffffff; /* White background */
+  border-radius: 5px; /* Adjust the radius as needed */
+}
+
+.summaryContent,
+.notesContent,
+.transcriptContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.transcript {
+  grid-row: 2; /* Placed in the second row */
+  grid-column: 1;
+  height: 310px;
+  width: 565px;
+  background-color: #ffffff; /* White background */
+  border-radius: 5px; /* Adjust the radius as needed */
+}
+
+.notes {
+  grid-row: 2; /* Placed in the second row */
+  grid-column: 2;
+  height: 310px;
+  width: 600px;
+  background-color: #ffffff; /* White background */
+  border-radius: 5px; /* Adjust the radius as needed */
+}
+
+.scrollable {
+  overflow-y: auto;
+  max-height: calc(100vh - 100px); /* Adjust as needed */
+}
+
+/* Optional: Style for summary header */
+.summaryHeader,
+.transcriptHeader,
+.notesHeader {
+  text-align: left;
+  font-size: 48px;
+  position: sticky; /* Make headers sticky */
+  top: 0; /* Stick to the top of the container */
+  background-color: #ffffff; /* White background */
+  padding: 10px; /* Add padding for spacing */
+  color: #a52a2a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "League Gothic", serif;
+}
+
+.headerIcon {
+  cursor: pointer;
+}
+
+/* Additional styling for headers */
+.summaryHeader,
+.transcriptHeader,
+.notesHeader {
+  font-weight: bold; /* Make text bold */
+}
+
+.summaryTextContainer {
+  padding: 20px; /* Add padding to create space around the text */
+  margin: 25px; /* Add margin to create space between the container and surrounding elements */
+  background-color: #f8f8f8;
+  border-radius: 5px; /* Adjust the radius as needed */
+}
