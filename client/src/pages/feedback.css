@@ -22,7 +22,7 @@
 .profile-icon, .home-icon {
     cursor: pointer;
     background-color: white;
-    border-radius: 40%; /* Makes the background circular */
+    border-radius: 100%; /* Makes the background circular */
     padding: 5px;
     font-size: 1.5rem;
 }
@@ -30,11 +30,13 @@
 .profile-icon{
     margin-left: 65vh;
     margin-top: 3vh;
+    padding: 5px 15px;
 }
 
 .home-icon{
     margin-left: 5vh;
     margin-top: 3vh;
+    padding: 5px 15px;
 }
 
 .feedback-logo {

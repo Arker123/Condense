@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  background: linear-gradient(to bottom, #a52a2a, rgb(45, 4, 4));
+  background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
   min-height: 250vh;
 }
 
@@ -34,9 +34,9 @@
   border-top-right-radius: 50px;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
-  position: fixed;
-  top: 40px;
+  top: 48px;
   height: 40px;
+  margin-top: 45px;
 }
 
 .navbar ul li:last-child {
@@ -89,8 +89,11 @@
 }
 
 .hero {
-  margin-top: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  margin-top: 10vh;
 }
 
 .hero h1 {
@@ -116,7 +119,6 @@
   grid-template-rows: 120px 120px 120px 120px 120px 120px; /* Equal height rows */
   gap: 10px; /* Spacing between items */
   justify-content: center;
-  margin-left: 120px;
 }
 
 .item1 {

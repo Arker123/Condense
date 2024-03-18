@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Register from "../https/index";
+import { login, Register } from "../https/index";
 
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setUserSlice } from "../redux/userSlice";
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
   const [open, setOpen] = useState(false);
@@ -13,6 +15,8 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toastOptions = {
     position: "bottom-right",
@@ -88,6 +92,7 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
+        dispatch(setUserSlice());
         notifySuccess("Contact Us message sent to your email id");
       }
 
@@ -95,6 +100,8 @@ const SignUp = () => {
       setName("");
     } catch (error) {
       // errorMessage = "Failed to create an account.";
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
@@ -134,7 +141,7 @@ const SignUp = () => {
       };
 
       console.log("calling api");
-      const response = await Register(data);
+      const response = await login(data);
       console.log(response);
       // setUserRes(response.data);
 
@@ -143,14 +150,16 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
+        const { user, accessToken, refreshToken } = response.data;
+        dispatch(setUserSlice({ user, accessToken, refreshToken }));
         notifySuccess("Contact Us message sent to your email id");
       }
 
       setEmail("");
       setName("");
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      toast.error(error, toastOptions);
+      errorMessage = "Error while logging in";
+      toast.error(errorMessage, toastOptions);
     }
     setIsLoading(false);
 
