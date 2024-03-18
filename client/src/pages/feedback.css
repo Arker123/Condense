@@ -1,0 +1,132 @@
+.feedback_body {
+    text-align: center;
+    background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+    min-height: 100vh;
+    border: 2px solid white;
+}
+
+.feedback-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.icons {
+    display: flex;
+    gap: 10px;
+    background-color: #ccc;
+    background: #ffffff;
+}
+
+.profile-icon, .home-icon {
+    cursor: pointer;
+    background-color: white;
+    border-radius: 100%; /* Makes the background circular */
+    padding: 5px;
+    font-size: 1.5rem;
+}
+
+.profile-icon{
+    margin-left: 65vh;
+    margin-top: 3vh;
+    padding: 5px 15px;
+}
+
+.home-icon{
+    margin-left: 5vh;
+    margin-top: 3vh;
+    padding: 5px 15px;
+}
+
+.feedback-logo {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.feedback-logo img {
+    width: 60px;
+    height: auto;
+    margin-top: 30px;
+    margin-right: 20px; /* Adjust the margin as needed */
+    border-radius: 50%;
+    margin-left: 77vh;
+}
+
+.feedback-logo h1 {
+    font-size: 2.5rem;
+    margin-top: 30px;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.feedback-form {
+    background-color: rgba(255, 255, 255, 0.7); 
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 70px;
+    width: 80%;
+    max-width: 600px; /* Adjust the max-width as needed */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.feedback-form h2 {
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.feedback-form h1 {
+    /* margin-bottom: 10px; */
+    color: #333;
+    font-weight: 800;
+    font-size: larger;
+}
+
+.feedback-form form {
+    display: grid;
+    gap: 10px;
+
+}
+
+.feedback-form label {
+    font-weight: bold;
+    text-align:left;
+    font-size: small;
+}
+
+.feedback-form input,
+.feedback-form textarea,
+.feedback-form select
+ {
+    background-color: rgba(236, 235, 235, 0.7); 
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+
+.feedback-form select {
+    padding: 10px;
+    text-align: center;
+}
+
+
+.feedback-form button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color:  #872834;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.feedback-form button:hover {
+    background-color:  #f7344e;
+}
