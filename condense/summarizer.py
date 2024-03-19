@@ -36,7 +36,7 @@ def make_parser() -> argparse.ArgumentParser:
 def clean_data(data: list[str]) -> str:
     if data:
         sentences = []
-        # Removing special characters and extra whitespaces
+        # Removing extra whitespaces
         for sentence in data:
             sentence = re.sub("[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]) # Add special symbols to preserve inside the square brackets with numbers and characters
             sentence = re.sub("\\s+", " ", sentence)
