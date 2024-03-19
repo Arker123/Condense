@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, Register } from "../https/index";
@@ -26,10 +27,12 @@ const SignUp = () => {
     theme: "dark",
   };
   let errorMessage = "";
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    
 
     // Validate email format using a regular expression
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -98,18 +101,19 @@ const SignUp = () => {
 
       setEmail("");
       setName("");
+      navigate("/dashboard")
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      const { user, accessToken, refreshToken } = response.data;
-      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      errorMessage = "Failed to create an account.";
+      // const { user, accessToken, refreshToken } = response.data;
+      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
 
     // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -150,23 +154,26 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        const { user, accessToken, refreshToken } = response.data;
-        dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        notifySuccess("Contact Us message sent to your email id");
+        console.log("kkkkk")
+        // const { user, accessToken, refreshToken } = response.data;
+        // dispatch(setUserSlice({ user, accessToken, refreshToken }));
+        toast.success("User logged in successfully!");
+        navigate("/dashboard")
       }
 
       setEmail("");
       setName("");
     } catch (error) {
+      console.log(error)
       errorMessage = "Error while logging in";
       toast.error(errorMessage, toastOptions);
     }
     setIsLoading(false);
 
     // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");

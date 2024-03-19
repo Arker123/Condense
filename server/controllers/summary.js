@@ -159,6 +159,7 @@ const modifyFavSummaries = async (req, res) => {
 const saveSummary = async (req, res) => {
     try {
         const { userId, videoId, summaryBody } = req.body;
+        console.log(userId)
         if (!userId) return res.status(400).send("User ID is required");
         if (!videoId) return res.status(400).send("Video ID is required");
 
@@ -193,6 +194,7 @@ const saveSummary = async (req, res) => {
         await user.save();
 
         console.log("Summary stored successfully");
+        return res.status(400).send("Summary stored successfully");
     } catch (error) {
         console.error("Error occurred while storing summary", error);
         return res.status(400).send(error.message);
