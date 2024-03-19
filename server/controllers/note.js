@@ -121,7 +121,7 @@ const createNote = async (req, res) => {
         }
 
         user.notes.push(newNote);
-        
+
         await user.save();
 
         res.status(200).json({
