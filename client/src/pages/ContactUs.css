@@ -39,6 +39,40 @@
   margin-top: 3vh;
 }
 
+.contactus-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  background-color: #ccc;
+  background: #ffffff;
+}
+
+.profile-icon, .home-icon {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 40%; /* Makes the background circular */
+  padding: 25px;
+  font-size: 1.5rem;
+}
+
+.profile-icon{
+  margin-left: 65vh;
+  margin-top: 3vh;
+  padding:20px 5px;
+}
+
+.home-icon{
+  margin-left: 5vh;
+  margin-top: 3vh;
+}
+
+
 .contactus-logo {
   justify-content: center;
   display: flex;
