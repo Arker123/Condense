@@ -159,7 +159,7 @@ const modifyFavSummaries = async (req, res) => {
 const saveSummary = async (req, res) => {
     try {
         const { userId, videoId, summaryBody } = req.body;
-        console.log(userId)
+        console.log(userId);
         if (!userId) return res.status(400).send("User ID is required");
         if (!videoId) return res.status(400).send("Video ID is required");
 

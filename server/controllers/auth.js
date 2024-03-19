@@ -99,6 +99,7 @@ const registerUser = async (req, res) => {
             httpOnly: true,
         });
 
+        // eslint-disable-next-line no-unused-vars
         const { _password, ...user } = newUser._doc;
 
         res.status(200).json({
