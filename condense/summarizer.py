@@ -36,12 +36,12 @@ def make_parser() -> argparse.ArgumentParser:
 def clean_data(data: list[str]) -> str:
     if data:
         sentences = []
-        # Removing special characters and extra whitespaces
+        # Removing extra whitespaces
         for sentence in data:
-            sentence = re.sub("[^a-zA-Z]", " ", sentence["text"])
+            sentence = re.sub("[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]) # Add special symbols to preserve inside the square brackets with numbers and characters
             sentence = re.sub("\\s+", " ", sentence)
             sentences.append(sentence.strip())
-        display = ". ".join(sentences)
+        display = " ".join(sentences)
         return display
     else:
         raise ValueError("No data found")
@@ -52,7 +52,6 @@ def summerize_text(video_url: str) -> str:
     data = get_transcript(video_url)
     data_clean = clean_data(data)
     sentences = nltk.tokenize.sent_tokenize(data_clean)
-
     data = " ".join(sentences)
 
     summarizer = pipeline("summarization")
@@ -60,7 +59,7 @@ def summerize_text(video_url: str) -> str:
     chunks = [data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)]
     summary = []
     for chunk in chunks:
-        summary_text = summarizer(chunk, max_length=100, min_length=20, do_sample=False)[0]["summary_text"]
+        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[0]["summary_text"]
         summary.append(summary_text)
     return " ".join(summary)
 
