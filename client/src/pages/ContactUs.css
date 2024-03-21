@@ -3,8 +3,40 @@
 .App2 {
   text-align: center;
   background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
-  min-height: 100vh;
-  border: 2px solid white;
+}
+
+.contactus-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  background-color: #ccc;
+  background: #ffffff;
+}
+
+.profile-icon,
+.home-icon {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 40%; /* Makes the background circular */
+  padding: 25px;
+  font-size: 1.5rem;
+}
+
+.profile-icon {
+  margin-left: 65vh;
+  margin-top: 3vh;
+  padding: 20px 5px;
+}
+
+.home-icon {
+  margin-left: 5vh;
+  margin-top: 3vh;
 }
 
 .contactus-header {
@@ -77,79 +109,77 @@
 }
 
 .contact-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 90px;
-  }
-  
-  .contact-form {
-    flex: 1;
-    text-align: left;
-    color: #ffffff;
-    padding-left: 20px; 
-    
-  }
-  
-  .contact-form form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 90px;
+}
 
-  .contact-form h2 {
-    font-size:xx-large;
-  }
-  
-  .contact-form label {
-    margin-bottom: 8px;
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 300px;
-    height: auto;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff; /* Set text color to white */
-  }
-  
-  .contact-form input::placeholder,
-  .contact-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.6); /* Set placeholder text color to white */
-  }
-  
-  .contact-form button {
-    background-color: #d49904;
-    color: #872834;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: background-color 0.3s; /* Add transition for smooth hover effect */
-  }
-  
-  .contact-form button:hover {
-    background-color: #ffc400; /* Change color on hover */
-  }
-  
-  .contact-details {
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    color: #ffffff;
-    margin-left: 75%;
-    margin-top: 50px;
+.contact-form {
+  flex: 1;
+  text-align: left;
+  color: #ffffff;
+  padding-left: 20px;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-form h2 {
+  font-size: xx-large;
+}
+
+.contact-form label {
+  margin-bottom: 8px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 300px;
+  height: auto;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff; /* Set text color to white */
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Set placeholder text color to white */
+}
+
+.contact-form button {
+  background-color: #d49904;
+  color: #872834;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+}
+
+.contact-form button:hover {
+  background-color: #ffc400; /* Change color on hover */
+}
+
+.contact-details {
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-left: 75%;
+  margin-top: 50px;
 }
 
 .contact-icon p {
-    font-size: 1rem; 
-    margin-left: 10px;
+  font-size: 1rem;
+  margin-left: 10px;
 }
 
 .contact-icon {
