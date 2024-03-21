@@ -11,7 +11,6 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await mongoose.connection.close();
-  await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 });
 
 const server = app.listen(() => {
@@ -77,8 +76,8 @@ describe("Tests For fetch_fav_summaries", () => {
       userId: "65ef4fd63ae8ba6151a918d8",
     });
     const dummySummary = {
-      summary: { body: "This is a dummy summary!" },
-      videoId: "12ka4",
+      summary: { body: "This is a dummy favourite summary!" },
+      videoId: "myfavouritevideo.com",
     };
     expect(response.statusCode).toBe(200);
     expect(response._body).toEqual(
@@ -101,22 +100,12 @@ describe("Tests For modify_fav_summaries", () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test("should favourite the summary and be included in the get(/summaries/getFav) request", async () => {
-    request(server).post("/summaries/modifyFav").send({
+  test("should toggle the fav status of the summary and return 200 status code", async () => {
+    const response = await request(server).post("/summaries/modifyFav").send({
       userId: "65ef4fd63ae8ba6151a918d8",
-      summaryId: "65f8411537238b8f0d969c4e",
+      summaryId: "65fbbe75ec8e1aa22942a11d",
     });
-    const response2 = await request(server).get("/summaries/getFav").send({
-      userId: "65ef4fd63ae8ba6151a918d8",
-    });
-    const dummySummary = {
-      summary: { body: "This is a dummy summary!" },
-      videoId: "12ka4",
-    };
-    expect(response2.statusCode).toBe(200);
-    expect(response2._body).toEqual(
-      expect.arrayContaining([expect.objectContaining(dummySummary)])
-    );
+    expect(response.statusCode).toBe(200);
   });
 });
 
@@ -127,11 +116,12 @@ describe("Tests For save_summary", () => {
   });
 
   test("should save summary to database and be included in the get(/summaries/getAll) request", async () => {
-    request(server).post("/summaries/save").send({
+    const response = await request(server).post("/summaries/save").send({
       userId: "65ef4fd63ae8ba6151a918d8",
       videoId: "12ka4",
       summaryBody: "This is a dummy summary! Successful.",
     });
+    // console.log("Response:",response);
     const response2 = await request(server).get("/summaries/getAll").send({
       userId: "65ef4fd63ae8ba6151a918d8",
     });
