@@ -4,3 +4,4 @@ condense/__pycache__
 condense.egg-info/
 client/coverage
 server/coverage
+.vscode
