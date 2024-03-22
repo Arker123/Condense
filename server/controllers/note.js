@@ -124,6 +124,7 @@ const createNote = async (req, res) => {
 
         console.log("adding into database")
         user.notes.push(newNote);
+
         await user.save();
 
         console.log("final step")
