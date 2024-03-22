@@ -1,4 +1,3 @@
-# Libraries
 import re
 import sys
 import logging
@@ -19,11 +18,15 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+# Configure logger
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 nltk.download("wordnet")
 nltk.download("stopwords")
+nltk.download("vader_lexicon")
+nltk.download("omw-1.4")
+
 stop_words = stopwords.words("english")
 porter_stemmer = PorterStemmer()
 lancaster_stemmer = LancasterStemmer()
@@ -73,11 +76,10 @@ def model(processed_data):
     y_pred = classifier.predict(X_test)
     cm = confusion_matrix(y_test, y_pred)
     nb_score = accuracy_score(y_test, y_pred)
-    logger.info("accuracy", nb_score)
+    logger.info("accuracy : %s", nb_score)
 
 
 def sentiment(data):
-    nltk.download("vader_lexicon")
     sentiments = SentimentIntensityAnalyzer()
     data["Positive"] = [sentiments.polarity_scores(i)["pos"] for i in data["comment"]]
     data["Negative"] = [sentiments.polarity_scores(i)["neg"] for i in data["comment"]]
@@ -102,7 +104,6 @@ def main():
     data1 = sentiment(data1)
     data2 = data1.drop(["Positive", "Negative", "Neutral", "Compound"], axis=1)
 
-    nltk.download("omw-1.4")
     data_copy = data2.copy()
     data_copy.comment = data_copy.comment.apply(lambda text: text_processing(text))
 
