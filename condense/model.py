@@ -1,18 +1,14 @@
 # Libraries
-import numpy as np
-import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-
-import os
 import re
 import sys
+import logging
 from string import punctuation
 
 import nltk
 import emoji
+import pandas as pd
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
-from nltk.corpus import wordnet, stopwords
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.utils import resample
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -22,6 +18,9 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 nltk.download("wordnet")
 nltk.download("stopwords")
@@ -74,7 +73,7 @@ def model(processed_data):
     y_pred = classifier.predict(X_test)
     cm = confusion_matrix(y_test, y_pred)
     nb_score = accuracy_score(y_test, y_pred)
-    print("accuracy", nb_score)
+    logger.info("accuracy", nb_score)
 
 
 def sentiment(data):
