@@ -17,10 +17,7 @@ import {
   saveSummary,
 } from "../https/index";
 import { useSelector } from "react-redux";
-import { LuDownload } from "react-icons/lu";
 import JSON5 from "json5";
-import { FaRegShareFromSquare } from "react-icons/fa6";
-import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const SummaryPage = () => {
   // const [url, setUrl] = useState("");
@@ -57,7 +54,10 @@ const SummaryPage = () => {
     const res = await axios.post("http://localhost:5000/transcript/", {
       url,
     });
-    
+    // console.log(res.data);
+    // const transcripts = await JSON5.parse(
+    //   "[{'start': 0.0, 'end': 3.94, 'text': 'In a single minute your body produces 120 to 180 million red blood cells,'}, {'start': 3.94, 'end': 5.8, 'text': 'people ask Google 2.4 million questions,'}, {'start': 5.8, 'end': 7.88, 'text': 'and 25 million Coca-Cola products are consumed.'}, {'start': 7.88, 'end': 9.44, 'text': 'Many of those bottles will end up in a landfill,'}, {'start': 9.44, 'end': 12.2, 'text': 'where the World Bank estimates we produce 5 million pounds of garbage.'}, {'start': 12.2, 'end': 16.02, 'text': '108 human lives will be lost in this minute and an adult male will lose 96 million cells.'}, {'start': 16.02, 'end': 18.7, 'text': 'Fortunately, 96 million cells divide, replacing those lost.'}, {'start': 18.76, 'end': 23.660000000000004, 'text': 'Speaking of divisions, in the USA, 1.5 people will get divorced, while world-wide, 116 people will get married,'}, {'start': 23.66, 'end': 27.16, 'text': '83,300 people have sex, but only 258 babies will be born'}, {'start': 27.16, 'end': 30.5, 'text': 'and a fetus is developing neurons at a rate of 250,000 per minute,'}, {'start': 30.5, 'end': 34.48, 'text': \"so it's no wonder that a computer simulation takes 60 quadrillion bytes to simulate a minute.\"}, {'start': 34.48, 'end': 39.3, 'text': 'An average of 1.38 micrometers of rain fall around the world, which is 4.7 billion bathtubs of water every minute'}, {'start': 39.3, 'end': 43.12, 'text': 'and with the storms comes approximately 6,000 bolts of cloud-to-ground lightning hitting the Earth.'}, {'start': 43.12, 'end': 46.72, 'text': 'A 150 pound person expends 1.1 calories of energy per minute while sleeping,'}, {'start': 46.72, 'end': 49.78, 'text': 'while the sun provides us with 83.33 terrawatts of energy.'}, {'start': 49.78, 'end': 54.660000000000004, 'text': 'The earth will 1800 kilometers of its 940 million around the sun, moving 1,034 times faster than a cheetah,'}, {'start': 54.66, 'end': 57.279999999999994, 'text': '70,000 hours of Netfilx are watched, 300 hours are uploaded to YouTube,'}, {'start': 57.28, 'end': 59.76, 'text': 'and you can watch this video and subscribe.'}]\r\n"
+    // );
     const transcripts = await JSON5.parse(res.data.transcript);
     console.log(transcripts);
     setTranscripts(transcripts);
@@ -115,70 +115,22 @@ const SummaryPage = () => {
     fetchSummary();
   }, [url]);
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  let timeoutId;
-
-  const toggleDropdown = (open) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      setIsOpen(open);
-    }, 200); // Delay of 200ms
-  };
-
   return (
     <div className="">
       <motion.div
-        className="  bg-gradient-to-b from-red-500 via-red-900 to-black"
+        className=" flex flex-col justify-center items-center bg-gradient-to-b from-red-500 via-red-900 to-black"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-
-        <div className="flex flex-row items-end justify-end gap-[20px] mr-10 ">
-          <div className="w-[90px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><LuDownload />PDF</div>
-          {/* <div className="w-[90px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><FaRegShareFromSquare />Share</div> */}
-          <div className="relative">
-            <div
-              className="w-[90px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"
-              onMouseEnter={() => toggleDropdown(true)}
-        onMouseLeave={() => toggleDropdown(false)}
-            >
-              <FaRegShareFromSquare /> Share
-            </div>
-            <div
-              className={`absolute top-10 right-0 bg-white shadow-md rounded-md p-2 transition-opacity w-[150px] mt-4  ${
-                isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-              style={{ transition: "opacity 0.3s ease-in-out" }}
-              onMouseEnter={() => toggleDropdown(true)}
-              onMouseLeave={() => toggleDropdown(false)}
-            >
-            
-                <a href="#" className=" py-1 flex items-center justify-center font-medium rounded-lg hover:text-red-900 hover:bg-red-200">share to Facebook</a>
-                <a href="#" className="py-1 flex items-start justify-center font-medium rounded-lg hover:text-red-900 hover:bg-red-200">share to Reddit</a>
-                <a href="#" className="py-1 flex items-center justify-center font-medium rounded-lg hover:text-red-900 hover:bg-red-200">share to Linkedln</a>
-                <a href="#" className="flex items-center justify-center rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200">share to Twitter</a>
-                </div>
-          </div>
-          <div className="w-[120px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><FaWandMagicSparkles />Summarize</div>
-        </div>
-
-        <div className="flex flex-row w-full h-screen bg-gradient-to-b from-red-500 via-red-900 to-black mt-5 ">
-          
-
-            <div className="flex flex-col w-[700px]  h-screen items-center justify-center gap-4 ">
-            
-
-
-              <div className="w-[600px] h-[320px] rounded-xl flex items-center justify-center hover:shadow-xl">
-               
-                  
+        <div className="w-full h-[1400px] bg-gradient-to-b from-red-500 via-red-900 to-black mb-4">
+          <div className="flex flex-col w-full h-[1200px] bg-none p-12">
+            <div className="flex flex-row w-full bg-none">
+              <div className="w-3/5 h-[600px] bg-white rounded-lg mr-4">
+                <div className="p-4 items-center justify-center bg-none">
+                  <div className="relative" style={{ paddingTop: "56.25%" }}>
                     <iframe
-                      className="w-[600px] h-[320px] rounded-xl"
+                      className="absolute top-0 left-0 w-full h-full"
                       src={handleVideoUrl(url)}
                       title="YouTube video player"
                       frameBorder="0"
@@ -186,22 +138,42 @@ const SummaryPage = () => {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
-                
-                
+                  </div>
+                </div>
               </div>
-
               <div
-                className="w-[600px]  bg-white rounded-xl  overflow-y-scroll mb-5"
+                className="w-2/5 bg-white rounded-lg ml-4 pl-4 pr-4"
                 style={{ height: "600px" }}
               >
-                <div className="flex justify-between items-center w-[200px] h-[50px] ml-5 text-[33px] font-bold text-red-800">
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.0 }}
-                >
-                  TRANSCRIPT
-                </motion.div>
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className={styles.transcriptHeader}>NOTES</h2>
+                  <div>
+                    <button className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700">
+                      <FontAwesomeIcon icon={faSave} />
+                    </button>
+                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                      <FontAwesomeIcon icon={faStar} />
+                    </button>
+                  </div>
+                </div>
+                <textarea
+                  id="note"
+                  type="text"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder=""
+                  className="bg-none w-full h-[480px] outline-none overflow-auto"
+                  // style={{ paddingTop: '20px' }}
+                />
+              </div>
+            </div>
+            <div className="flex flex-row w-full bg-none h-[800px] mt-12">
+              <div
+                className="w-1/2  bg-white rounded-lg mr-4 pl-4 pr-4 overflow-y-scroll"
+                style={{ height: "600px" }}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className={styles.transcriptHeader}>TRANSCRIPT</h2>
                 </div>
                 <div className="w-full flex flex-col gap-5 pb-5">
                   {transcripts.map((transcript) => (
@@ -212,76 +184,31 @@ const SummaryPage = () => {
                   ))}
                 </div>
               </div>
-              
-            </div>
-
-            <div className="flex flex-col w-[900px]  h-screen items-center justify-center gap-6">
-            <div
-                className="w-[800px] h-[500px] bg-white rounded-lg flex flex-col items-center justify-center overflow-y-scroll"
-                
-              >
-                <div className="h-[50px] w-[730px] flex flex-row  items-center justify-between  text-red-800 font-bold text-[33px] ">
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.0}}
-                >
-                  NOTES
-                </motion.div>
-                  
-                  <div className="flex flex-row gap-4">
-                   
-                      <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
-                    
-                    
-                      <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
-                  
-                  </div>
-                </div>
-                <textarea
-                  id="note"
-                  type="text"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder=""
-                  className="w-[730px] h-[500px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl"
-                  // style={{ paddingTop: '20px' }}
-                />
-              </div>
-
               <div
-                className="w-[800px] h-[700px] bg-white rounded-lg flex flex-col items-center justify-center overflow-y-scroll mb-5"
-                
+                className="w-1/2 bg-white rounded-lg ml-4 pl-4 pr-4 overflow-y-scroll"
+                style={{ height: "600px" }}
               >
-                <div className="h-[50px] w-[730px] flex flex-row  items-center justify-between  text-red-800 font-bold text-[33px] ">
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.0 }}
-                >
-                  SUMMARY
-                </motion.div>
-                  
-                  <div className="flex flex-row gap-4">
-                   
-                      <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
-                    
-                    
-                      <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
-                  
+                <div className="flex justify-between items-center mb-4 ">
+                  <h2 className={styles.transcriptHeader}>SUMMARY</h2>
+                  <div>
+                    <button className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700">
+                      <FontAwesomeIcon icon={faSave} />
+                    </button>
+                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                      <FontAwesomeIcon icon={faStar} />
+                    </button>
                   </div>
                 </div>
-                <div className="w-[730px] h-[500px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
+                <div>{summaryText}</div>
               </div>
             </div>
-
-          
+          </div>
         </div>
       </motion.div>
-
-    
     </div>
   );
 };
 
 export default SummaryPage;
+
+
