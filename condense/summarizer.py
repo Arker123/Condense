@@ -38,7 +38,9 @@ def clean_data(data: list[str]) -> str:
         sentences = []
         # Removing extra whitespaces
         for sentence in data:
-            sentence = re.sub("[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]) # Add special symbols to preserve inside the square brackets with numbers and characters
+            sentence = re.sub(
+                "[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]
+            )  # Add special symbols to preserve inside the square brackets with numbers and characters
             sentence = re.sub("\\s+", " ", sentence)
             sentences.append(sentence.strip())
         display = " ".join(sentences)
