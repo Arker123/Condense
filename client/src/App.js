@@ -5,10 +5,11 @@ import LandingPage2 from "./pages/LandingPage2";
 import ContactUs from "./pages/ContactUs";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/SignUp";
 import SummaryPage from "./pages/SummaryPage";
 import { store, persistor } from "./redux/store";
+import Dashboard from "./pages/Dashboard";
+import Feedback from "./pages/feedback";
 
 /**
  * Renders the main application component.
@@ -16,7 +17,7 @@ import { store, persistor } from "./redux/store";
  */
 function App() {
     return (
-        <div className="">
+        <div >
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <Routes>
@@ -28,6 +29,7 @@ function App() {
                         />
                         <Route exact path="/contact" element={<ContactUs />} />
                         <Route exact path="/signup" element={<SignUp />} />
+                        <Route exact path="/feedback" element={<Feedback />} />
                         <Route
                             exact
                             path="/dashboard"
@@ -37,7 +39,6 @@ function App() {
                             exact
                             path="/summary"
                             element={<SummaryPage />}
-                        />
                         />
                     </Routes>
                 </PersistGate>

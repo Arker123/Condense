@@ -1,7 +1,7 @@
 module.exports = {
     env: {
-        browser: true,
-        es2021: true,
+        browser: false,
+        es2021: false,
         node: true,
     },
     extends: ["google", "plugin:prettier/recommended"],
@@ -32,7 +32,7 @@ module.exports = {
         "no-unused-vars": "off",
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
-        "max-len": ["error", 120],
+        "max-len": ["error", 150],
         "react/prop-types": "off",
         "prettier/prettier": [
             "error",

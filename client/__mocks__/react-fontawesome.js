@@ -1,6 +1,11 @@
 const FontAwesomeIcon = ({ icon }) => {
-    // You can customize this mock behavior as per your requirements
-    return <span data-testid="font-awesome-icon">{icon}</span>;
+    // Mocked Font Awesome icon rendering
+    return (
+        <span
+            className={`fa fa-${icon}`}
+            data-testid="font-awesome-icon"
+        ></span>
+    );
 };
 
 export { FontAwesomeIcon };
