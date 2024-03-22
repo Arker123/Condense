@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 
-matplotlib.use("module://ipykernel.pylab.backend_inline")
 import os
 import re
 import sys
