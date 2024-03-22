@@ -23,7 +23,9 @@ function App() {
     // const { loading } = useLoadingWithRefresh();
 
     return (
+
         <div className="">
+
 
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>

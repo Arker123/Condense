@@ -48,7 +48,7 @@ function ContactUs() {
           </div>
         </div>
       </div>
-      <div className="contact-details">
+      <div className="contact-details pt-[-5px]">
         <div className="contact-icon">
           <FontAwesomeIcon icon={["fas", "map-marker-alt"]} />
           <p>&nbsp; &nbsp; &nbsp;IIT ROPAR, Punjab</p>
