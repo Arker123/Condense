@@ -96,7 +96,7 @@ def sentiment(data):
     score = data["Compound"].values
     sentiment = []
     for i in score:
-        if i >= 0.02:
+        if i >= 0.05:
             sentiment.append("Positive")
         elif i <= -0.05:
             sentiment.append("Negative")
