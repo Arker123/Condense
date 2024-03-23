@@ -100,8 +100,8 @@ const SignUp = () => {
       setName("");
     } catch (error) {
       // errorMessage = "Failed to create an account.";
-      const { user, accessToken, refreshToken } = response.data;
-      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      // const { user, accessToken, refreshToken } = response.data;
+      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
@@ -216,6 +216,7 @@ const SignUp = () => {
                   toggle ? "border-gray-200" : "border-black"
                 } cursor-pointer`}
                 onClick={() => setToggle(false)}
+                data-testid = "Login-header-test"
               >
                 Login
               </div>
@@ -224,6 +225,7 @@ const SignUp = () => {
                   toggle ? "border-black" : "border-gray-200"
                 } cursor-pointer`}
                 onClick={() => setToggle(true)}
+                data-testid = "Register-header-test"
               >
                 Register
               </div>
@@ -245,6 +247,7 @@ const SignUp = () => {
                     value={email}
                     onChange={handleEmailChange}
                     placeholder=""
+                    data-testid = "email-test"
                     required
                   />
                 </div>
@@ -262,6 +265,7 @@ const SignUp = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder=""
+                    data-testid = "username-test"
                     required
                   />
                 </div>
@@ -279,6 +283,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
+                    data-testid = "password-test"
                     required
                   />
                 </div>
@@ -296,6 +301,7 @@ const SignUp = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder=""
+                    data-testid = "confirmpassword-test"
                     required
                   />
                 </div>
@@ -326,6 +332,7 @@ const SignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder=""
+                    data-testid = "email-test2"
                     required
                   />
                 </div>
@@ -343,6 +350,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
+                    data-testid = "password-test2"
                     required
                   />
                 </div>
