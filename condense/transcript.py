@@ -75,7 +75,7 @@ def main(argv: list[str] = None) -> int:
 
     transcript = get_transcript(argv.video_url)
     print(transcript)
-    # save_to_file(transcript, argv)
+    save_to_file(transcript, argv)
 
 
 if __name__ == "__main__":
