@@ -18,6 +18,7 @@ requirements = [
     "nltk==3.8.1",
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
+    "torch==2.2.0",
 ]
 
 # this sets __version__
