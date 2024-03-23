@@ -5,3 +5,5 @@ condense.egg-info/
 client/coverage
 server/coverage
 .vscode
+extensions/.DS_Store
+extensions/css/.DS_Store

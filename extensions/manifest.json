@@ -4,12 +4,12 @@
     "version": "1.0",
     "description": "A youtube summarizer extension!",
     "icons": {
-        "128": "icon128.png",
-        "48": "icon48.png",
-        "16": "icon16.png"   
+        "128": "/icons/icon128.png",
+        "48": "/icons/icon48.png",
+        "16": "/icons/icon16.png"   
     },
     "action":{
-        "default_icon": "icon16.png",
+        "default_icon": "/icons/icon16.png",
         "default_popup": "index.html"
     }
 }
