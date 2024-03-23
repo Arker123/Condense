@@ -4,155 +4,202 @@
   text-align: center;
   background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
   min-height: 100vh;
-  border: 2px solid white;
 }
 
-.contactus-header {
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  border-radius: 50%;
+  top: 50px;
+  left: 80px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  justify-content: center;
+  background-color: #e1e1df;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  top: 48px;
+  height: 48px;
+  margin-top: 45px;
+}
+
+.navbar ul li:last-child {
+  margin-right: 20px;
+}
+
+.navbar li {
+  float: left;
+  margin-left: 10px;
+  list-style-type: none;
+}
+.lis {
+  border: 2px solid blue;
+}
+
+.navbar a {
+  display: block;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  justify-content: start;
+  padding: 0px 16px;
+  font-size: 1rem;
+  font: "Gothic A1";
+  font-weight: 400;
+}
+
+.navbar a:hover {
+  background-color: E1E1DF;
+  color: red;
+}
+
+.user-actions {
+  position: absolute;
+  top: 48px;
+  right: 30px;
+}
+
+.login-signup-button {
+  color: #e1e1df;
+  background-color: #230b0e82;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-size: 1rem;
+  font: "Gothic A1";
+  height: 40px;
+}
+
+.login-signup-button:hover {
+  background-color: #e1e1df;
+  color: #000000;
+}
+
+.contactus-parent {
+  margin-top: 6%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px 20px;
 }
 
-.icons {
-  display: flex;
-  gap: 10px;
-  background-color: #ccc;
-  background: #ffffff;
+.contactus-child1 {
+  width: 100%;
+}
+.contactus-child2 {
+  padding-top: 2%;
+  width: 80%;
 }
 
-.profile-icon, .home-icon {
-  cursor: pointer;
-  background-color: white;
-  border-radius: 40%; /* Makes the background circular */
-  padding: 25px;
-  font-size: 1.5rem;
+.contactus-child1 h1 {
+  color: #f6f6f6;
+  font-family: "League Gothic", serif;
+  text-align: left;
+  font-size: 5vw;
+  padding-left: 12%;
 }
 
-.profile-icon{
-  margin-left: 65vh;
-  margin-top: 3vh;
-  padding:20px 5px;
+.contactus-child1 p {
+  margin-top: 2%;
+  color: #f6f6f6;
+  font: "Gothic A1";
+  text-align: left;
+  font-size: 1.5vw;
+  padding-left: 12%;
 }
 
-.home-icon{
-  margin-left: 5vh;
-  margin-top: 3vh;
+.contactus-child1 table {
+  margin-top: 4%;
+  color: #f6f6f6;
+  font: "Gothic A1";
+  text-align: left;
+  font-size: 1.1vw;
+  padding-left: 12%;
 }
 
-
-.contactus-logo {
-  justify-content: center;
-  display: flex;
-  align-items: center;
-}
-
-.contactus-logo img {
-  width: 60px;
-  height: auto;
-  margin-top: 30px;
-  margin-right: 20px; /* Adjust the margin as needed */
-  border-radius: 50%;
-  margin-left: 77vh;
-}
-
-.contactus-logo h1 {
-  font-size: 2.5rem;
-  margin-top: 30px;
-  color: #ffffff;
-  font-weight: 800;
-}
-
-.contact-pic {
-  position: absolute;
-  top: 180px;
-  right: 100px;
-}
-
-.contact-pic img {
-  left: 30px;
-  width: 600px; /* Adjust the size as needed */
-  height: auto;
-  margin-right: 20px; /* Adjust the margin as needed */
+.child1-table {
+  padding-left: 12%;
 }
 
 .contact-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 90px;
-  }
-  
-  .contact-form {
-    flex: 1;
-    text-align: left;
-    color: #ffffff;
-    padding-left: 20px; 
-    
-  }
-  
-  .contact-form form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    
-  }
-
-  .contact-form h2 {
-    font-size:xx-large;
-  }
-  
-  .contact-form label {
-    margin-bottom: 8px;
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 300px;
-    height: auto;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff; /* Set text color to white */
-  }
-  
-  .contact-form input::placeholder,
-  .contact-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.6); /* Set placeholder text color to white */
-  }
-  
-  .contact-form button {
-    background-color: #d49904;
-    color: #872834;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: background-color 0.3s; /* Add transition for smooth hover effect */
-  }
-  
-  .contact-form button:hover {
-    background-color: #ffc400; /* Change color on hover */
-  }
-  
-  .contact-details {
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    color: #ffffff;
-    margin-left: 75%;
-    margin-top: 50px;
-}
-
-.contact-icon p {
-    font-size: 1rem; 
-    margin-left: 10px;
-}
-
-.contact-icon {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-left: 50px;
 }
+
+.contact-form {
+  text-align: left;
+  color: #000000;
+  background-color: #f6f6f6;
+  border-radius: 7%;
+  box-shadow: 2px;
+  padding: 7%;
+  width: 80%;
+}
+
+.contact-form form {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-form h2 {
+  font-size: xx-large;
+}
+
+.contact-form label {
+  margin-bottom: 1%;
+  font-size: small;
+  color: #872834;
+}
+
+.contact-form input,
+.contact-form textarea {
+  margin-bottom: 2%;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: rgb(0, 0, 0); /* Set text color to white */
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(142, 139, 139, 0.774); /* Set placeholder text color to white */
+}
+
+.contact-form button {
+  background-color: #387cb8;
+  color: #f6f6f6;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  border-radius: 25px;
+  align-self: center;
+  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+}
+
+.contact-form button:hover {
+  background-color: #0f2c45; /* Change color on hover */
+}
+

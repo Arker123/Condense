@@ -3,22 +3,16 @@ import re
 import sys
 import logging
 import argparse
-from string import punctuation
 from datetime import datetime
-from collections import Counter
 
 import nltk
 import emoji
-import numpy as np
 import torch
 import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.utils.rnn as rnn_utils
-from transformers import AutoTokenizer, DataCollatorWithPadding
+
 from torch.utils.data import DataLoader
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -81,7 +75,6 @@ def save_model(model, tokenizer):
         counter += 1
         filename = f"model{counter}.pth"
         model_save_path = os.path.join(model_save_dir, filename)
-
     torch.save({"model": model, "tokenizer": tokenizer}, model_save_path)
     print(f"Model saved at: {model_save_dir}")
 
