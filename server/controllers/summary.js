@@ -43,8 +43,6 @@ const fetchAllSummaries = async (req, res) => {
             return res.status(400).send("User not found");
         }
 
-        console.log("k2");
-
         // Extract summary IDs from the user document
         const summaryIds = user.summaries.map((summary) => summary.summaryId);
 
