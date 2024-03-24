@@ -90,28 +90,18 @@ const SignUp = () => {
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);
-      dispatch(setUserSlice());
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.success("User signed up successfully!", toastOptions);
-
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-      }
 
       setEmail("");
       setName("");
       navigate("/dashboard");
     } catch (error) {
+      console.log(error);
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
-
-    // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -147,28 +137,18 @@ const SignUp = () => {
       console.log(response);
       // setUserRes(response.data);
 
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-        toast.success("User logged in successfully!", toastOptions);
-        navigate("/dashboard");
-      }
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+
+      toast.success("User logged in successfully!", toastOptions);
+      navigate("/dashboard");
 
       setEmail("");
       setName("");
     } catch (error) {
-      console.log(error);
-      errorMessage = "Error while logging in";
-      toast.error(errorMessage, toastOptions);
+      toast.error(error.response?.data?.message, toastOptions);
     }
     setIsLoading(false);
-
-    // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -374,10 +354,13 @@ const SignUp = () => {
                     width={"100%"}
                     onSuccess={async (res) => {
                       const credential = res.credential;
-                      console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
                       try {
                         const res = await login({ credential });
-                        console.log(res.data);
+                        const { user, accessToken, refreshToken } = res.data;
+                        dispatch(
+                          setUserSlice({ user, accessToken, refreshToken })
+                        );
+                        navigate("/dashboard");
                       } catch (error) {
                         console.log(error);
                         // toast.error(error.response.data.message);
@@ -385,7 +368,6 @@ const SignUp = () => {
                     }}
                     onError={() => {
                       console.log("Failed");
-                      console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
                       toast.error("Login failed");
                     }}
                   />
