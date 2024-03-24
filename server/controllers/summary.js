@@ -50,7 +50,6 @@ const fetchAllSummaries = async (req, res) => {
         const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
         console.log("Found the following summaries:");
-        // console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
         console.log("in err block");
