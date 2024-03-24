@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const request = require("supertest");
 const app = require("../index");
 const port = process.env.PORT || 5000;
+const { registerUser } = require("../controllers/auth.js");
+const User = require("../models/UserModel.js");
+const bcrypt = require("bcrypt");
+jest.mock("../models/UserModel.js");
+jest.mock("bcrypt");
 
 require("dotenv").config();
 
@@ -25,6 +30,33 @@ describe("If User tries to Register ", () => {
             password: "123456",
         });
         expect(response.statusCode).toBe(400);
+    });
+    test("Valid new user, should respond with 200 status code and create user", async () => {
+        const request = {
+            body: {
+                name: "Tester Man",
+                email: "tests@gmail.com",
+                password: "123456",
+            },
+        };
+        const response = {
+            status: jest.fn(() => response), // mock .json also
+            cookie: jest.fn((x) => x),
+            json: jest.fn((x) => x),
+        };
+        User.findOne.mockImplementation(() => undefined); // or  mockImplementationOnce(() => undefined)
+        User.create.mockImplementationOnce(() => ({
+            _id: "randomID",
+            _doc: {
+                name: "Tester Man",
+                email: "tests@gmail.com",
+                password: "123456",
+            },
+        }));
+        bcrypt.hash.mockReturnValueOnce("Hash");
+        await registerUser(request, response);
+        expect(User.create).toHaveBeenCalledTimes(1);
+        expect(response.status).toHaveBeenCalledWith(200);
     });
 });
 
