@@ -7,18 +7,18 @@ require("dotenv").config();
 
 beforeEach(async () => {
     await mongoose.connect(process.env.MONGO_URL);
-},10000);
+}, 10000);
 
 afterEach(async () => {
     await mongoose.connection.close();
-},10000);
+}, 10000);
 
 const server = app.listen(() => {
     console.log(`Server is running on ${port} `);
 });
 
-describe("If User is on Register But User Already Exist", () => {
-    test("should respond with 400 status code", async () => {
+describe("If User tries to Register ", () => {
+    test("User already exists, should respond with 400 status code", async () => {
         const response = await request(server).post("/auth/register").send({
             name: "name",
             email: "Test_User_1@gmail.com",
