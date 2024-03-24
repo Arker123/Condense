@@ -40,7 +40,6 @@ const Profile = () => {
         }
         try {
             console.log("data", data);
-            // const response = await fetchAllSummaries(data);
             const response = await axios.get("http://localhost:5000/summaries/getAll", {
                 data
             });
