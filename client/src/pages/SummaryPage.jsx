@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./SummaryPage.module.css";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -28,6 +30,14 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
+
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
   const getVideoId = (url) => {
     const regExp =
@@ -60,31 +70,73 @@ const SummaryPage = () => {
   };
 
   const handleSaveSummary = async () => {
+    console.log("in handlesavesummary")
     const data = {
       userId: user.id,
       videoId: url,
       summaryBody: summaryText,
     };
 
-    const response = await saveSummary(data);
-    console.log(response);
+    try{
+      const response = await saveSummary(data);
+      console.log(response);
+      toast.success("Summary saved successfully")
+    }catch(error) {
+      console.log(error)
+      let errorMessage = "Error while saving";
+      toast.error(errorMessage, toastOptions);
+    }
+    
   };
 
-  const addSummaryToFav = () => {};
+  const addSummaryToFav = async () => {
+    console.log("in addsummarytofav")
+    const data = {
+      userId: user.id,
+      summaryId: url,
+    };
+
+    try{
+      const response = await modifyFavSummaries(data);
+      console.log(response);
+      toast.success("Summary fav flipped successfully")
+    }catch(error) {
+      console.log(error)
+      let errorMessage = "Error while updating fv";
+      toast.error(errorMessage, toastOptions);
+    }
+  };
 
   const handleSaveNote = async () => {
     const data = {
-      note: { body: note, videoId: url },
       userId: user.id,
       videoId: url,
+      note: { title: "Untitled Note", body: note },
     };
-
+    console.log("notess: ", notes)
     const filteredArray = notes.filter((item) => item[videoId] === url);
+    console.log("filteredarray:  ", filteredArray)
 
-    if (filteredArray.length > 0) {
-      const response = await createNote(data);
+    if (filteredArray.length === 0) {
+      try {
+        const response = await createNote(data);
+        console.log(response);
+        toast.success("Note saved successfully")
+      } catch(error) {
+        console.log(error)
+        let errorMessage = "Error while saving";
+        toast.error(errorMessage, toastOptions);
+      }
     } else {
-      const response = await modifyNote(data);
+      try {
+        const response = await modifyNote(data);
+        console.log(response);
+        toast.success("Note saved successfully")
+      } catch(error) {
+        console.log(error)
+        let errorMessage = "Error while saving";
+        toast.error(errorMessage, toastOptions);
+      }
     }
   };
 
@@ -144,10 +196,16 @@ const SummaryPage = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h2 className={styles.transcriptHeader}>NOTES</h2>
                   <div>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700">
+                    <button 
+                      className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
+                      onClick={()=> handleSaveNote()}
+                    >
                       <FontAwesomeIcon icon={faSave} />
                     </button>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                    <button 
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                      
+                    >
                       <FontAwesomeIcon icon={faStar} />
                     </button>
                   </div>
@@ -188,10 +246,16 @@ const SummaryPage = () => {
                 <div className="flex justify-between items-center mb-4 ">
                   <h2 className={styles.transcriptHeader}>SUMMARY</h2>
                   <div>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700">
+                    <button 
+                      className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
+                      onClick={() => handleSaveSummary()}
+                    >
                       <FontAwesomeIcon icon={faSave} />
                     </button>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                    <button 
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                      onClick={() => addSummaryToFav()}
+                    >
                       <FontAwesomeIcon icon={faStar} />
                     </button>
                   </div>
@@ -202,6 +266,7 @@ const SummaryPage = () => {
           </div>
         </div>
       </motion.div>
+      <ToastContainer />
     </div>
   );
 };

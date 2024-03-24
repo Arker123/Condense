@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, Register } from "../https/index";
@@ -26,10 +27,12 @@ const SignUp = () => {
     theme: "dark",
   };
   let errorMessage = "";
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    
 
     // Validate email format using a regular expression
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -93,15 +96,13 @@ const SignUp = () => {
         return;
       } else {
         dispatch(setUserSlice());
-        notifySuccess("Contact Us message sent to your email id");
+        toast.success("User signed up successfully!", toastOptions);
       }
 
       setEmail("");
       setName("");
+      navigate("/dashboard")
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      // const { user, accessToken, refreshToken } = response.data;
-      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
@@ -150,14 +151,14 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        const { user, accessToken, refreshToken } = response.data;
-        dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        notifySuccess("Contact Us message sent to your email id");
+        toast.success("User logged in successfully!", toastOptions);
+        navigate("/dashboard")
       }
 
       setEmail("");
       setName("");
     } catch (error) {
+      console.log(error)
       errorMessage = "Error while logging in";
       toast.error(errorMessage, toastOptions);
     }
@@ -208,7 +209,7 @@ const SignUp = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px] shadow-lg"
+            className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px]"
           >
             <div className="flex flex-row mb-5 justify-center items-center text-black text-semibold text-[23px] font-serif font-medium">
               <div
