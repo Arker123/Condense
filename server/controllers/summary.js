@@ -30,8 +30,13 @@ const generateSummary = async (req, res) => {
 
 const fetchAllSummaries = async (req, res) => {
     try {
-        const { userId } = req.body;
+        console.log("in fetcallsumm backend");
+        console.log("req.body: ", req.body)
+        const { userId } = req.body.data;
+        console.log("userid from api: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
+
+        console.log("k1");
 
         // Find user with the given user ID
         const user = await User.findById(userId);
@@ -40,6 +45,8 @@ const fetchAllSummaries = async (req, res) => {
             return res.status(400).send("User not found");
         }
 
+        console.log("k2");
+
         // Extract summary IDs from the user document
         const summaryIds = user.summaries.map((summary) => summary.summaryId);
 
@@ -47,9 +54,10 @@ const fetchAllSummaries = async (req, res) => {
         const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
         console.log("Found the following summaries:");
-        console.log(summaries);
+        // console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
+        console.log("in err block");
         console.error("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
@@ -147,6 +155,8 @@ const modifyFavSummaries = async (req, res) => {
 
         console.log(`Favorite attribute for summary ID ${summaryId} 
     modified to ${!currentFavVal}`);
+
+        return res.status(200).json({ message: "Successfully modified" });
     } catch (error) {
         console.error(
             "Error occurred while modifying favorite attribute",

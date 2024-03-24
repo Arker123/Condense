@@ -96,7 +96,7 @@ const SignUp = () => {
         return;
       } else {
         dispatch(setUserSlice());
-        notifySuccess("Contact Us message sent to your email id");
+        toast.success("OTP sent to your email id");
       }
 
       setEmail("");
@@ -111,9 +111,9 @@ const SignUp = () => {
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -171,9 +171,9 @@ const SignUp = () => {
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
