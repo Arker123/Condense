@@ -81,9 +81,6 @@ test("Renders login form and submits it", async () => {
 
     login.mockResolvedValue({ status: 200 });
 
-    console.log("reg.mock", login.mock); // Check if login is mocked
-    console.log("reg.mockResolvedValueOnce", login.mockResolvedValueOnce); // Check if mockResolvedValueOnce is properly set up
-
     // Fill out the form fields
     fireEvent.change(screen.getByTestId("email-test2"), {
         target: { value: "test@example.com" },

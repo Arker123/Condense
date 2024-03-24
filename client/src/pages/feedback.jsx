@@ -30,19 +30,19 @@ function Feedback() {
                     <FontAwesomeIcon icon={faHome} />
                 </div>
             </div>
-            <div className="feedback-form">
+            <div className="feedback-form" data-testid = "feedback-form">
                 <h1>Feedback Form</h1>
                 <h2>Your feedback matters in making Condense a better tool.</h2>
                 <form onSubmit={handleSubmit}>
                     
                     <label htmlFor="name">Name:</label>
-                    <input type="text" id="name" name="name" />
+                    <input type="text" id="name" name="name" data-testid="name-input" />
 
                     <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" />
+                    <input type="email" id="email" name="email" data-testid="email-input" />
 
                     <label htmlFor="ageGroup">What is your age group?</label>
-                    <select id="ageGroup" name="ageGroup" value={ageGroup} onChange={(e) => setAgeGroup(e.target.value)} required>
+                    <select id="ageGroup" name="ageGroup" value={ageGroup} onChange={(e) => setAgeGroup(e.target.value)} required data-testid="ageGroup-select">
                         <option value="">Choose</option>
                         <option value="Under 18">Under 18</option>
                         <option value="18 - 24">18 - 24</option>
@@ -51,7 +51,7 @@ function Feedback() {
                     </select>
 
                     <label htmlFor="hope">What do you hope Condense can help you with?</label>
-                    <select id="hope" name="hope" value={hope} onChange={(e) => setHope(e.target.value)} required>
+                    <select id="hope" name="hope" value={hope} onChange={(e) => setHope(e.target.value)} required data-testid="hope-select">
                         <option value="">Choose</option>
                         <option value="Summarize YouTube videos via ChatGPT">Summarize YouTube videos via ChatGPT</option>
                         <option value="Organize and search notes via AI">Organize and search notes via AI</option>
@@ -62,7 +62,7 @@ function Feedback() {
                     </select>
 
                     <label htmlFor="features">What new features would you like us to prioritize adding in future updates of the page?</label>
-                    <select id="features" name="features" value={features} onChange={(e) => setFeatures(e.target.value)} required>
+                    <select id="features" name="features" value={features} onChange={(e) => setFeatures(e.target.value)} required data-testid="features-select">
                         <option value="">Choose</option>
                         <option value="AI auto-generate video notes">AI auto-generate video notes</option>
                         <option value="One-click sharing for Transcript & Summary pages">One-click sharing for Transcript & Summary pages</option>
@@ -71,8 +71,8 @@ function Feedback() {
                         <option value="Share notes as images for mobile experience">Share notes as images for mobile experience</option>
                         <option value="AI Chat feature">AI Chat feature</option>
                     </select>
-                    <textarea id="message" name="message" rows="3" placeholder='Add your Comment'/>
-                    <div className="star-ratings">
+                    <textarea id="message" name="message" rows="3" placeholder='Add your Comment' data-testid="message-textarea"/>
+                    <div className="star-ratings" data-testid="rating-input">
                         <label>Rate us:</label>
                         <StarRatings
                             rating={rating}
@@ -80,9 +80,10 @@ function Feedback() {
                             changeRating={setRating}
                             numberOfStars={5}
                             name='rating'
+                            data-testid="star-ratings"
                         />
                     </div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" data-testid="submit-button">Submit</button>
                 </form>
             </div>
         </div>

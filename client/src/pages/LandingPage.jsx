@@ -8,7 +8,7 @@ function Landing() {
   const navigate = useNavigate();
   const animationRef = useRef();
   return (
-    <div className="App overflow-hidden">
+    <div className="LandingApp">
       <div className="animation">
         <Lottie
           lottieRef={animationRef}

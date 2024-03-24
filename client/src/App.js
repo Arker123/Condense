@@ -18,7 +18,7 @@ import Profile from "./pages/Profile";
  */
 function App() {
     return (
-        <div className="">
+        <div >
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <Routes>

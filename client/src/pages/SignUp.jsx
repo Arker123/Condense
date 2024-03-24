@@ -96,16 +96,13 @@ const SignUp = () => {
         return;
       } else {
         dispatch(setUserSlice());
-        toast.success("OTP sent to your email id");
+        toast.success("User signed up successfully!", toastOptions);
       }
 
       setEmail("");
       setName("");
       navigate("/dashboard")
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      // const { user, accessToken, refreshToken } = response.data;
-      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
@@ -154,10 +151,7 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        console.log("kkkkk")
-        // const { user, accessToken, refreshToken } = response.data;
-        // dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        toast.success("User logged in successfully!");
+        toast.success("User logged in successfully!", toastOptions);
         navigate("/dashboard")
       }
 
