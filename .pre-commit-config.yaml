@@ -28,16 +28,43 @@ repos:
         always_run: true
         pass_filenames: false
 
+# TODO: Add eslint to the pre-commit hooks
+# -   repo: local
+#     hooks:
+#     -   id: client
+#         name: client
+#         stages: [commit, push]
+#         language: system
+#         entry: npx
+#         args: 
+#         -   "eslint"
+#         -   "./client"
+#         always_run: true
+#         pass_filenames: false
+
+# -   repo: local
+#     hooks:
+#     -   id: server
+#         name: server
+#         stages: [commit, push]
+#         language: system
+#         entry: npx
+#         args: 
+#         -   "eslint"
+#         -   "./server"
+#         always_run: true
+#         pass_filenames: false
+
 -   repo: local
     hooks:
     -   id: client
         name: client
         stages: [commit, push]
         language: system
-        entry: npx
+        entry: bash
         args: 
-        -   "eslint"
-        -   "./client"
+        -   "-c"
+        -   "cd ./client && npm run test"
         always_run: true
         pass_filenames: false
 
@@ -47,9 +74,9 @@ repos:
         name: server
         stages: [commit, push]
         language: system
-        entry: npx
+        entry: bash
         args: 
-        -   "eslint"
-        -   "./server"
+        -   "-c"
+        -   "cd ./server && npm run test"
         always_run: true
         pass_filenames: false

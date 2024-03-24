@@ -147,6 +147,7 @@ const modifyFavSummaries = async (req, res) => {
 
         console.log(`Favorite attribute for summary ID ${summaryId} 
     modified to ${!currentFavVal}`);
+        return res.status(200).send("Modified summary successfully.");
     } catch (error) {
         console.error(
             "Error occurred while modifying favorite attribute",
@@ -194,7 +195,7 @@ const saveSummary = async (req, res) => {
         await user.save();
 
         console.log("Summary stored successfully");
-        return res.status(400).send("Summary stored successfully");
+        return res.status(200).send("Summary saved.");
     } catch (error) {
         console.error("Error occurred while storing summary", error);
         return res.status(400).send(error.message);
