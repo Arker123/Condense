@@ -36,8 +36,6 @@ const fetchAllSummaries = async (req, res) => {
         console.log("userid from api: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
 
-        console.log("k1");
-
         // Find user with the given user ID
         const user = await User.findById(userId);
 
