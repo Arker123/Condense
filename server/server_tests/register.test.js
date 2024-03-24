@@ -24,6 +24,11 @@ const server = app.listen(() => {
 
 describe("If User tries to Register ", () => {
     test("User already exists, should respond with 400 status code", async () => {
+        User.findOne.mockImplementation(() => ({
+            name: "name",
+            email: "Test_User_1@gmail.com",
+            password: "123456",
+        }));
         const response = await request(server).post("/auth/register").send({
             name: "name",
             email: "Test_User_1@gmail.com",
@@ -40,11 +45,11 @@ describe("If User tries to Register ", () => {
             },
         };
         const response = {
-            status: jest.fn(() => response), // mock .json also
+            status: jest.fn(() => response),
             cookie: jest.fn((x) => x),
             json: jest.fn((x) => x),
         };
-        User.findOne.mockImplementation(() => undefined); // or  mockImplementationOnce(() => undefined)
+        User.findOne.mockImplementation(() => undefined); // or mockResolvedValueOnce(undefined)
         User.create.mockImplementationOnce(() => ({
             _id: "randomID",
             _doc: {
