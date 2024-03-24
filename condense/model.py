@@ -2,16 +2,16 @@ import os
 import re
 import sys
 import logging
-import argparse
+from typing import Tuple
 from datetime import datetime
 
 import nltk
 import emoji
+import numpy as np
 import torch
 import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
-
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -20,8 +20,21 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from condense.sentiment_lstm import SentimentLSTM
 
 
-# Step 1: Data Preprocessing
-def preprocess_data(comment):
+def preprocess_data(comment: str) -> str:
+    """
+    This function preprocesses the input comment by:
+    - Converting emojis to text representations
+    - Removing special characters except for selected punctuation
+    - Normalizing whitespace
+    - Converting text to lowercase
+    - Replacing specific emoji-related words with standardized tokens ('like' for 'heart', 'smile' for 'smile')
+
+    Parameters:
+        comment (str): The input comment to preprocess.
+
+    Returns:
+        str: The preprocessed comment.
+    """
     comment = emoji.demojize(comment)
     comment = re.sub("[^a-zA-Z0-9.,;:()'*`\"\\s]", "", comment)
     comment = re.sub("\\s+", " ", comment)
@@ -33,8 +46,19 @@ def preprocess_data(comment):
     return comment
 
 
-# Step 4: Training the Model
-def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
+def train_model(
+    model: torch.nn.Module, criterion, optimizer, train_loader: torch.utils.data.DataLoader, num_epochs: int = 20
+) -> None:
+    """
+    This function trains the specified model using the provided criterion and optimizer on the training data.
+
+    Parameters:
+        model (torch.nn.Module): The PyTorch model to train.
+        criterion: The loss criterion used for optimization.
+        optimizer: The optimizer used to update the model parameters.
+        train_loader (torch.utils.data.DataLoader): DataLoader for the training dataset.
+        num_epochs (int): Number of training epochs (default is 20).
+    """
     for epoch in range(num_epochs):
         model.train()
         t0 = datetime.now()
@@ -48,8 +72,14 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Duration:{dt}")
 
 
-# evaluate model
-def evaluate_model(model, test_loader):
+def evaluate_model(model: torch.nn.Module, test_loader: torch.utils.data.DataLoader) -> None:
+    """
+    This function evaluates the performance of the trained model on the test dataset and prints the accuracy.
+
+    Parameters:
+        model (torch.nn.Module): The trained PyTorch model to evaluate.
+        test_loader (torch.utils.data.DataLoader): DataLoader for the test dataset.
+    """
     model.eval()
     correct = 0
     total = 0
@@ -63,7 +93,14 @@ def evaluate_model(model, test_loader):
     print(f"Accuracy: {accuracy:.4f}")
 
 
-def save_model(model, tokenizer):
+def save_model(model: torch.nn.Module, tokenizer: Tokenizer) -> None:
+    """
+    This function saves the trained model and tokenizer to a file.
+
+    Parameters:
+        model (torch.nn.Module): The trained PyTorch model to save.
+        tokenizer: The tokenizer used to preprocess the text data.
+    """
     model_save_dir = "saved_models"
     filename = "model1.pth"
     if not os.path.exists(model_save_dir):
@@ -79,7 +116,17 @@ def save_model(model, tokenizer):
     print(f"Model saved at: {model_save_dir}")
 
 
-def set_model(data, padded_sequences, vocab_size, tokenizer):
+def set_model(data: pd.DataFrame, padded_sequences: np.ndarray, vocab_size: int, tokenizer: Tokenizer) -> None:
+    """
+    This function sets up the model architecture, loss criterion, optimizer, and data loaders,
+    then trains and evaluates the model.
+
+    Parameters:
+        data (pd.DataFrame): The preprocessed DataFrame containing text comments and sentiments.
+        padded_sequences (np.ndarray): The padded sequence data for the text comments.
+        vocab_size (int): The size of the vocabulary.
+        tokenizer: The tokenizer used to preprocess the text data.
+    """
     labels = pd.get_dummies(data["sentiment"]).values
     X_train, X_test, y_train, y_test = train_test_split(padded_sequences, labels, test_size=0.1)
     embedding_dim = 128
@@ -108,7 +155,18 @@ def set_model(data, padded_sequences, vocab_size, tokenizer):
     save_model(model, tokenizer)
 
 
-def tokenized_text(data):
+def tokenized_text(data: pd.DataFrame) -> Tuple[np.ndarray, int, Tokenizer]:
+    """
+    This function tokenizes the text comments using Keras Tokenizer and pads sequences to ensure uniform length.
+
+    Parameters:
+        data (pd.DataFrame): The DataFrame containing text comments.
+
+    Returns:
+        np.ndarray: Padded sequences of tokenized text comments.
+        int: Vocabulary size.
+        tokenizer: The tokenizer used for tokenization.
+    """
     tokenizer = Tokenizer()
     tokenizer.fit_on_texts(data["comment"])
     sequences = tokenizer.texts_to_sequences(data["comment"])

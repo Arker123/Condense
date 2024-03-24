@@ -1,6 +1,5 @@
 import re
 import sys
-from string import punctuation
 
 import nltk
 import emoji
@@ -27,11 +26,9 @@ def preprocess_data(comment):
 # Step 2: Predict Sentiment
 def predict_sentiment(model, tokenizer, comment):
     comment = preprocess_data(comment)
-    print("Preprocessed comment:", comment)
     sequence = tokenizer.texts_to_sequences([comment])
-    print("Tokenized sequence:", sequence)
     tensor = torch.LongTensor(sequence)
-    print("Tensor representation:", tensor)
+
     # Pass the tensor through the model to get the predicted sentiment
     with torch.no_grad():
         output = model(tensor)
@@ -43,6 +40,7 @@ def predict_sentiment(model, tokenizer, comment):
 
 
 def main():
+    nltk.download("punkt")
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
