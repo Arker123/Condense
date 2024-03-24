@@ -96,24 +96,21 @@ const SignUp = () => {
         return;
       } else {
         dispatch(setUserSlice());
-        notifySuccess("Contact Us message sent to your email id");
+        toast.success("User signed up successfully!", toastOptions);
       }
 
       setEmail("");
       setName("");
       navigate("/dashboard")
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      // const { user, accessToken, refreshToken } = response.data;
-      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -154,10 +151,7 @@ const SignUp = () => {
         toast.error(errorMessage, toastOptions);
         return;
       } else {
-        console.log("kkkkk")
-        // const { user, accessToken, refreshToken } = response.data;
-        // dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        toast.success("User logged in successfully!");
+        toast.success("User logged in successfully!", toastOptions);
         navigate("/dashboard")
       }
 
@@ -171,9 +165,9 @@ const SignUp = () => {
     setIsLoading(false);
 
     // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
