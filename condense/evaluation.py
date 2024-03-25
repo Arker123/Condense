@@ -1,5 +1,7 @@
 import re
 import sys
+import logging
+import argparse
 
 import nltk
 import emoji
@@ -7,7 +9,30 @@ import torch
 
 from condense.sentiment_lstm import SentimentLSTM
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 path = "saved_models/model2.pth"
+
+
+def make_parser() -> argparse.ArgumentParser:
+    """
+    Create the argument parser.
+    """
+    parser = argparse.ArgumentParser(
+        description="Get the sentiment of comment",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-c",
+        "--comment",
+        dest="comment",
+        type=str,
+        required=True,
+        help="comment to get the sentiment Info",
+    )
+
+    return parser
 
 
 # Step 1: Data Preprocessing
@@ -33,19 +58,24 @@ def predict_sentiment(model, tokenizer, comment):
     with torch.no_grad():
         output = model(tensor)
         _, predicted = torch.max(output, 1)
-        print(predicted)
         sentiment_label = {1: "negative", 0: "neutral", 2: "positive"}
         predicted_sentiment = sentiment_label[predicted.item()]
-        print("Predicted sentiment:", predicted_sentiment)
+        if predict_sentiment:
+            logger.info("Predicted sentiment: %s", predicted_sentiment)
+        else:
+            logger.info("Sentiment could not be predicted.")
 
 
-def main():
+def main(argv: list[str] = None) -> None:
+    logging.basicConfig(level=logging.DEBUG)
+    parser = make_parser()
+    argv = parser.parse_args(argv)
+
     nltk.download("punkt")
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
-    comment = input("Enter a comment: ")
-    predict_sentiment(model, tokenizer, comment)
+    predict_sentiment(model, tokenizer, argv.comment)
 
 
 if __name__ == "__main__":

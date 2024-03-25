@@ -5,3 +5,4 @@ condense.egg-info/
 client/coverage
 server/coverage
 .vscode
+condense/train.csv
