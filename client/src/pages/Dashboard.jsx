@@ -24,6 +24,14 @@ const Dashboard = () => {
   ];
   const [open, setOpen] = useState(true);
 
+  const handleRedirect = () => {
+    navigate('/contact');
+  };
+
+  const handleProfileRedirect = () => {
+    navigate('/profile');
+  };
+
   return (
     <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
       <div
@@ -80,9 +88,10 @@ const Dashboard = () => {
 
       <div>
         <div className=" flex flex-row items-center justify-center gap-4 mt-5  ml-[1150px]">
-          <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4">
-            <div className=" flex flex-row gap-2">
-              <FiPhoneCall className="mt-1" /> <p>Contact us</p>
+          <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4 hover:bg-gray-200">
+            <div className="flex flex-row gap-2" onClick={handleRedirect}>
+              <FiPhoneCall className="mt-1" />
+              <p className="cursor-pointer">Contact us</p>
             </div>
           </div>
 
@@ -94,7 +103,7 @@ const Dashboard = () => {
             <IoIosNotifications />
           </div>
 
-          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full  cursor-pointer" onClick={handleProfileRedirect}>
             <CgProfile />
           </div>
         </div>
