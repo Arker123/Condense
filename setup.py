@@ -64,6 +64,7 @@ setuptools.setup(
             "black==24.3.0",
             "isort==5.13.2",
             "mypy==1.9.0",
+            "emoji==2.10.1",
             # type stubs for mypy
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.20240311",

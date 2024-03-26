@@ -7,12 +7,10 @@ import nltk
 import emoji
 import torch
 
-from condense.sentiment_lstm import SentimentLSTM
-
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-path = "saved_models/model2.pth"
+path = "saved_models/SentimentModel.pth"
 
 
 def make_parser() -> argparse.ArgumentParser:
