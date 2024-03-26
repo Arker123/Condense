@@ -89,7 +89,7 @@ def evaluate_model(model: torch.nn.Module, test_loader: torch.utils.data.DataLoa
             total += labels.size(0)
             correct += (predicted == labels.argmax(dim=1)).sum().item()
     accuracy = correct / total
-    print(f"Accuracy: {accuracy:.4f}")
+    logger.info(f"Accuracy: {accuracy:.4f}")
 
 
 def save_model(model: torch.nn.Module, tokenizer: Tokenizer) -> None:
