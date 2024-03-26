@@ -69,7 +69,7 @@ def train_model(
             loss.backward()
             optimizer.step()
         dt = datetime.now() - t0
-        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Duration:{dt}")
+        logger.info(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Duration:{dt}")
 
 
 def evaluate_model(model: torch.nn.Module, test_loader: torch.utils.data.DataLoader) -> None:
