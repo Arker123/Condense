@@ -7,6 +7,8 @@ import { login, Register } from "../https/index";
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setUserSlice } from "../redux/userSlice";
+import { GoogleLogin } from "@react-oauth/google";
+
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
   const [open, setOpen] = useState(false);
@@ -89,23 +91,16 @@ const SignUp = () => {
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);
-
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-        dispatch(setUserSlice());
-        notifySuccess("Contact Us message sent to your email id");
-      }
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      toast.success("User signed up successfully!", toastOptions);
 
       setEmail("");
       setName("");
       navigate("/dashboard")
+
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      // const { user, accessToken, refreshToken } = response.data;
-      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      console.log(error);
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
@@ -149,21 +144,26 @@ const SignUp = () => {
       console.log(response);
       // setUserRes(response.data);
 
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-        console.log("kkkkk")
-        // const { user, accessToken, refreshToken } = response.data;
-        // dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        toast.success("User logged in successfully!");
-        navigate("/dashboard")
-      }
+//       if (response.status !== 200) {
+//         errorMessage = response.data.message || "Server Error";
+//         toast.error(errorMessage, toastOptions);
+//         return;
+//       } else {
+//         // const { user, accessToken, refreshToken } = response.data;
+//         // dispatch(setUserSlice({ user, accessToken, refreshToken }));
+//         toast.success("User logged in successfully!");
+//         navigate("/dashboard")
+//       }
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+
+      toast.success("User logged in successfully!", toastOptions);
+      navigate("/dashboard");
 
       setEmail("");
       setName("");
     } catch (error) {
+
       console.log(error)
       errorMessage = "Error while logging in";
       toast.error(errorMessage, toastOptions);
@@ -174,7 +174,7 @@ const SignUp = () => {
     // setTimeout(() => {
     //   window.location.reload();
     // }, 5000); // Reload after 3 seconds
-
+    
     // Handle form submission
     console.log("Form submitted!");
   };
@@ -223,7 +223,7 @@ const SignUp = () => {
                   toggle ? "border-gray-200" : "border-black"
                 } cursor-pointer`}
                 onClick={() => setToggle(false)}
-                data-testid = "Login-header-test"
+                data-testid="Login-header-test"
               >
                 Login
               </div>
@@ -232,7 +232,7 @@ const SignUp = () => {
                   toggle ? "border-black" : "border-gray-200"
                 } cursor-pointer`}
                 onClick={() => setToggle(true)}
-                data-testid = "Register-header-test"
+                data-testid="Register-header-test"
               >
                 Register
               </div>
@@ -254,7 +254,7 @@ const SignUp = () => {
                     value={email}
                     onChange={handleEmailChange}
                     placeholder=""
-                    data-testid = "email-test"
+                    data-testid="email-test"
                     required
                   />
                 </div>
@@ -272,7 +272,7 @@ const SignUp = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder=""
-                    data-testid = "username-test"
+                    data-testid="username-test"
                     required
                   />
                 </div>
@@ -290,7 +290,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "password-test"
+                    data-testid="password-test"
                     required
                   />
                 </div>
@@ -308,7 +308,7 @@ const SignUp = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "confirmpassword-test"
+                    data-testid="confirmpassword-test"
                     required
                   />
                 </div>
@@ -339,7 +339,7 @@ const SignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder=""
-                    data-testid = "email-test2"
+                    data-testid="email-test2"
                     required
                   />
                 </div>
@@ -357,7 +357,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "password-test2"
+                    data-testid="password-test2"
                     required
                   />
                 </div>
@@ -369,6 +369,33 @@ const SignUp = () => {
                   >
                     Login
                   </button>
+                </div>
+                <div className="text-center py-4 font-semibold font-['Dosis']">
+                  OR
+                </div>
+                <div className="w-full flex justify-center">
+                  <GoogleLogin
+                    className="w-full"
+                    width={"100%"}
+                    onSuccess={async (res) => {
+                      const credential = res.credential;
+                      try {
+                        const res = await login({ credential });
+                        const { user, accessToken, refreshToken } = res.data;
+                        dispatch(
+                          setUserSlice({ user, accessToken, refreshToken })
+                        );
+                        navigate("/dashboard");
+                      } catch (error) {
+                        console.log(error);
+                        // toast.error(error.response.data.message);
+                      }
+                    }}
+                    onError={() => {
+                      console.log("Failed");
+                      toast.error("Login failed");
+                    }}
+                  />
                 </div>
               </div>
             )}
