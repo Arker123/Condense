@@ -124,7 +124,7 @@ def hello_world():
 def summarize():
     data = request.args.get("summarize")
     api_key = request.args.get("api_key")
-    if data is None or api_key != "arnav1234":
+    if data is None or api_key != "xxx":
         return jsonify(code=403, message="bad request")
     summarizer = pipeline("summarization", model=model_path, tokenizer=model_path)
     max_chunk_length = 400  # Define the maximum length for each chunk
@@ -140,7 +140,7 @@ def summarize():
 def get_transcript():
     video_url = request.args.get("video_url")
     api_key = request.args.get("api_key")
-    if video_url is None or api_key != "arnav1234":
+    if video_url is None or api_key != "xxx":
         return jsonify(code=403, message="bad request")
     if "youtube.com/watch?v=" in video_url:
         video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
@@ -179,7 +179,7 @@ def get_transcript():
 def summerize_text() -> str:
     video_url = request.args.get("video_url")
     api_key = request.args.get("api_key")
-    if video_url is None or api_key != "arnav1234":
+    if video_url is None or api_key != "xxx":
         return jsonify(code=403, message="bad request")
     nltk.download("punkt")
     data = get_transcript_copy(video_url)
