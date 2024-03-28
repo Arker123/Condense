@@ -1,0 +1,114 @@
+body {
+font-family: Arial, sans-serif;
+/* margin: 2000; */
+/* padding: 2000; */
+background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto; /* increased and centered margin */
+    padding: 15px;
+    background-color: #fff; /* white background for the container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* subtle shadow for depth */
+    border-radius: 8px; /* rounded corners for container */
+    display: block;
+    box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+/* Media query example if needed */
+@media (max-width: 768px) {
+    .container {
+        margin: 50px 10px; /* smaller margin for smaller screens */
+    }
+}
+
+header {
+text-align: center;
+border-bottom: 2px solid #eee; /* subtle border color */
+padding-bottom: 20px;
+margin-bottom: 20px;
+
+}
+
+header img {
+width: 20px; /* adjust as necessary to fit the logo size */
+}
+
+header h1{
+margin: 10px 0;
+color: #333; /* dark grey color for the text */
+}
+
+header p {
+color: #666; /* lighter grey for the subtitle text */
+font-size: 16px;
+}
+
+nav {
+display: flex;
+justify-content: space-around;
+margin-bottom: 20px;
+}
+
+.nav-button {
+background-color: black; /* primary blue color */
+color: #ffffff;
+border: none;
+padding: 15px 30px; /* larger padding for a bigger button */
+cursor: pointer;
+font-size: 16px;
+border-radius: 8px; /* rounded corners for buttons */
+transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+    /* darker blue on hover for the button */
+}
+
+footer {
+text-align: center;
+padding: 20px;
+border-top: 2px solid #eee; /* subtle border color */
+}
+
+.google-login {
+background-color: #db4437; /* Google red color */
+color: white;
+border: none;
+padding: 15px 30px; /* consistent padding with other buttons */
+cursor: pointer;
+font-size: 16px;
+border-radius: 8px; /* rounded corners for buttons */
+transition: background-color 0.3s ease;
+}
+
+.google-login:hover {
+background-color: #b03024; /* darker red on hover for Google button */
+}
+
+
+.card {
+    display: block; /* make the div act like a block */
+    padding: 15px;
+    margin: 10px;
+    background-color: #fff; /* card background color */
+    color: #333; /* text color */
+    text-align: center;
+    border-radius: 8px; /* card border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* card shadow */
+    cursor: pointer; /* change mouse cursor on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* smooth transition for hover effects */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* subtle lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* increased shadow on hover */
+}
+
+.card h2 {
+    margin: 0; /* remove default margin */
+    font-size: 18px; /* card title size */
+}
