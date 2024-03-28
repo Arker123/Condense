@@ -21,10 +21,10 @@ test("renders contact form with input fields", () => {
             <ContactUs />
         </Router>,
     );
-
-    const fullNameInput = screen.getByPlaceholderText("Your Full Name");
-    const emailInput = screen.getByPlaceholderText("Your Email Address");
-    const messageInput = screen.getByPlaceholderText("Your Message");
+    
+    const fullNameInput = screen.getByLabelText("Full Name");
+    const emailInput = screen.getByLabelText("Your Email Address");
+    const messageInput = screen.getByLabelText("Your Message");
     const submitButton = screen.getByRole("button", { name: "Submit" });
 
     expect(fullNameInput).toBeInTheDocument();
