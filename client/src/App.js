@@ -11,8 +11,11 @@ import SummaryPage from "./pages/SummaryPage";
 import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
+
 import MyNotes from './pages/MyNotes';
 
+
+import Profile from "./pages/Profile";
 
 /**
  * Renders the main application component.
@@ -37,6 +40,7 @@ function App() {
                             element={<LandingPage2 />}
                         />
                         <Route exact path="/contact" element={<ContactUs />} />
+                        <Route exact path="/profile" element={<Profile />} />
                         <Route exact path="/signup" element={<SignUp />} />
                         <Route exact path="/feedback" element={<Feedback />} />
                         <Route

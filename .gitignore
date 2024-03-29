@@ -4,3 +4,8 @@ condense/__pycache__
 condense.egg-info/
 client/coverage
 server/coverage
+.vscode
+# Mac specific files ignored.
+extensions/.DS_Store
+extensions/css/.DS_Store
+.DS_Store

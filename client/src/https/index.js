@@ -18,8 +18,8 @@ export const logout = (data) => api.get("/auth/logout", data);
 
 export const getAllNotes = (data) => api.get("/note/all", data);
 export const getNote = (data) => api.get("/note/one", data);
-export const modifyNote = (data) => api.post(`/note/modify`, data);
-export const createNote = (data) => api.post(`/note/create`, data);
+export const modifyNote = (data) => api.post("/note/modify", data);
+export const createNote = (data) => api.post("/note/create", data);
 export const deleteNote = (data) => api.delete(`/note/delete`, data);
 
 export const modifyFavSummaries = (data) =>
