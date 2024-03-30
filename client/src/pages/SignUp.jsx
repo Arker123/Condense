@@ -96,7 +96,7 @@ const SignUp = () => {
 
       setEmail("");
       setName("");
-      navigate("/dashboard");
+      navigate(-1);
     } catch (error) {
       console.log(error);
       toast.error(error, toastOptions);
@@ -141,7 +141,7 @@ const SignUp = () => {
       dispatch(setUserSlice({ user, accessToken, refreshToken }));
 
       toast.success("User logged in successfully!", toastOptions);
-      navigate("/dashboard");
+      navigate(-1);
 
       setEmail("");
       setName("");
@@ -360,10 +360,10 @@ const SignUp = () => {
                         dispatch(
                           setUserSlice({ user, accessToken, refreshToken })
                         );
-                        navigate("/dashboard");
+                        navigate(-1);
                       } catch (error) {
                         console.log(error);
-                        // toast.error(error.response.data.message);
+                        toast.error(error.response.data.message);
                       }
                     }}
                     onError={() => {

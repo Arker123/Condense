@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/userSlice";
 
 const data = [
   {
@@ -68,7 +70,10 @@ function Card({ item }) {
 // }
 
 function LandingPage2() {
+  const user = useSelector((state) => state.user);
   AOS.init();
+
+  const dispatch= useDispatch()
 
   return (
     <div className="App bg-gradient-to-b p-8">
@@ -90,12 +95,18 @@ function LandingPage2() {
             <Link to="/contact">Contact</Link>
           </div>
           <div>
-            <Link
-              to="/signup"
-              className="p-2 border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
-            >
-              Login/SignUp
-            </Link>
+            {user.email ? (
+              <button onClick={()=> dispatch(logout())} className="p-2 px-3 bottom-2 relative border rounded-lg hover:bg-[rgba(255,255,255,0.2)]">
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signup"
+                className="p-2 border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
+                Login/SignUp
+              </Link>
+            )}
           </div>
         </nav>
       </header>
