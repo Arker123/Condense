@@ -73,12 +73,12 @@ function LandingPage2() {
   const user = useSelector((state) => state.user);
   AOS.init();
 
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <div className="App bg-gradient-to-b p-8">
       <header className="App-header">
-        <div className="logo">
+        <div className="logo2">
           <img src="/images/logo_condense.jpg" alt="Logo" />
         </div>
 
@@ -96,7 +96,10 @@ function LandingPage2() {
           </div>
           <div>
             {user.email ? (
-              <button onClick={()=> dispatch(logout())} className="p-2 px-3 bottom-2 relative border rounded-lg hover:bg-[rgba(255,255,255,0.2)]">
+              <button
+                onClick={() => dispatch(logout())}
+                className="p-2 px-3 bottom-2 relative border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
                 Logout
               </button>
             ) : (

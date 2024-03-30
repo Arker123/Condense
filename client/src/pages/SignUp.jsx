@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, Register } from "../https/index";
+import { Navigate } from "react-router-dom";
 
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserSlice } from "../redux/userSlice";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -20,6 +21,12 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  if (user.email) {
+    return <Navigate to="/landing" />;
+  }
 
   const toastOptions = {
     position: "bottom-right",
@@ -29,7 +36,6 @@ const SignUp = () => {
     theme: "dark",
   };
   let errorMessage = "";
-  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
