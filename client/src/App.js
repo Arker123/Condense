@@ -22,9 +22,6 @@ import Profile from "./pages/Profile";
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
-// call refresh endpoint
-    // const { loading } = useLoadingWithRefresh();
-
     return (
 
         <div className="">
