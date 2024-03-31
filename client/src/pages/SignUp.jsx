@@ -144,16 +144,6 @@ const SignUp = () => {
       console.log(response);
       // setUserRes(response.data);
 
-//       if (response.status !== 200) {
-//         errorMessage = response.data.message || "Server Error";
-//         toast.error(errorMessage, toastOptions);
-//         return;
-//       } else {
-//         // const { user, accessToken, refreshToken } = response.data;
-//         // dispatch(setUserSlice({ user, accessToken, refreshToken }));
-//         toast.success("User logged in successfully!");
-//         navigate("/dashboard")
-//       }
       const { user, accessToken, refreshToken } = response.data;
       dispatch(setUserSlice({ user, accessToken, refreshToken }));
 
