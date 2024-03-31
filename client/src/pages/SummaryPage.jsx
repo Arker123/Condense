@@ -160,7 +160,7 @@ const SummaryPage = () => {
 
   useEffect(() => {
     fetchTranscript();
-    // fetchSummary();
+    fetchSummary();
   }, [url]);
 
   return (
