@@ -1,3 +1,4 @@
+# TODO: After Condense is made public, reuse the functions
 import os
 import re
 import random
