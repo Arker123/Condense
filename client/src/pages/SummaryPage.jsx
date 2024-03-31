@@ -49,7 +49,7 @@ const SummaryPage = () => {
 
   const videoId = getVideoId(url);
 
-  const [summaryText, setSummaryText] = useState("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  const [summaryText, setSummaryText] = useState("");
   const [transcripts, setTranscripts] = useState([]);
   // const [transcripts]
 
