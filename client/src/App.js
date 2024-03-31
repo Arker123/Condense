@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/LandingPage";
@@ -10,6 +11,10 @@ import SummaryPage from "./pages/SummaryPage";
 import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
+
+import MyNotes from './pages/MyNotes';
+
+
 import Profile from "./pages/Profile";
 
 /**
@@ -18,7 +23,10 @@ import Profile from "./pages/Profile";
  */
 function App() {
     return (
-        <div >
+
+        <div className="">
+
+
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <Routes>
@@ -42,9 +50,11 @@ function App() {
                             path="/summary"
                             element={<SummaryPage />}
                         />
+                        <Route exact path="/mynotes" element={<MyNotes/>} />
                     </Routes>
                 </PersistGate>
             </Provider>
+
         </div>
     );
 }
