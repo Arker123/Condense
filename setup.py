@@ -18,6 +18,7 @@ requirements = [
     "nltk==3.8.1",
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
+    "torch==2.2.0",
 ]
 
 # this sets __version__
@@ -59,7 +60,7 @@ setuptools.setup(
             "pytest==8.1.1",
             "pytest-sugar==1.0.0",
             "pytest-instafail==0.5.0",
-            "pytest-cov==4.1.0",
+            "pytest-cov==5.0.0",
             "pycodestyle==2.11.1",
             "black==24.3.0",
             "isort==5.13.2",
@@ -69,7 +70,7 @@ setuptools.setup(
             "pytube==15.0.0",
             "types-PyYAML==6.0.12.20240311",
         ],
-        "build": ["pyinstaller==6.5.0", "setuptools==69.1.1", "build==1.1.1"],
+        "build": ["pyinstaller==6.5.0", "setuptools==69.2.0", "build==1.1.1"],
     },
     zip_safe=False,
     keywords="Condense, YouTube, Video, Analysis",
