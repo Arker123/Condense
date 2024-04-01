@@ -111,23 +111,6 @@ async function main() {
 
   const t_body = add_element("div", "id", "t-body", "");
 
-  // const data = await fetch("http://localhost:5000/transcript/", {
-  //   method: "POST",
-  //   mode: "cors", // this cannot be 'no-cors'
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     url: "https://www.youtube.com/watch?v=6kgqd5nySLE",
-  //   }),
-  // });
-
-  // const json = await data.json();
-
-  // console.log(json);
-
-  // let transcripts = json.transcript;
 
   let transcripts = [
     {
