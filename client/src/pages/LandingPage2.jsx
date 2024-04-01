@@ -5,35 +5,37 @@ import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/userSlice";
 
 const data = [
   {
-    img: "/images/img1.jpg",
+    img: "/images/feature_img1.webp",
     title: "Summarize videos",
     body: "Summarize Videos and revolutionize your video-watching experience. Say goodbye to lengthy videos that eat up your time. With this powerful tool, we transform lengthy video content into concise summaries, capturing the essence of the video in just a fraction of the time.",
   },
   {
-    img: "/images/img2.png",
+    img: "/images/feature_img2.webp",
     title: "Chrome Extension With Youtube Integration",
     body: "Automatically generates a concise summary of the currently playing YouTube video, providing users with key insights and information.Enables users to ask questions or provide prompts related to the video content, receiving AI-generated responses for further clarification or information.",
   },
   {
-    img: "/images/img3.jpg",
+    img: "/images/feature_img3.webp",
     title: "Ask AI From Videos",
     body: "This feature has unique functionality integrated into our Chrome extension that allows users to extract information and gain insights from videos using AI-powered algorithms. This feature enables users to ask questions about the video content and receive relevant answers in real-time, enhancing their understanding and engagement with the video material.",
   },
   {
-    img: "/images/img4.jpg",
+    img: "/images/feature_img4.webp",
     title: "Audio to Summary Converter",
     body: "Allows users to convert audio content, such as podcasts, lectures, or interviews, into concise and easy-to-read summaries. Utilizes advanced speech recognition algorithms to accurately transcribe the audio content and generate a summary that captures the key points and highlights of the audio material.",
   },
   {
-    img: "/images/img5.jpg",
+    img: "/images/feature_img5.webp",
     title: "Youtube Videos Sentiment Analysis By Comments",
     body: "Utilizes algorithms to analyze the sentiment of comments on YouTube videos, categorizing them as positive, negative, or neutral. Provides users with visualizations and trends of comments over time, allowing them to track the sentiment of the audience towards the video content.",
   },
   {
-    img: "/images/img6.jpg",
+    img: "/images/feature_img6.webp",
     title: "Make Notes of Videos and Save for later View",
     body: "Allows users to take notes in real time while watching videos, providing a dedicated space to capture key information and thoughts. Automatically timestamps notes to indicate the exact moment in the video when the note was taken, making it easy to reference specific parts of the video later.",
   },
@@ -68,12 +70,15 @@ function Card({ item }) {
 // }
 
 function LandingPage2() {
+  const user = useSelector((state) => state.user);
   AOS.init();
+
+  const dispatch = useDispatch();
 
   return (
     <div className="App bg-gradient-to-b p-8">
       <header className="App-header">
-        <div className="logo">
+        <div className="logo2">
           <img src="/images/logo_condense.jpg" alt="Logo" />
         </div>
 
@@ -90,12 +95,21 @@ function LandingPage2() {
             <Link to="/contact">Contact</Link>
           </div>
           <div>
-            <Link
-              to="/signup"
-              className="p-2 border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
-            >
-              Login/SignUp
-            </Link>
+            {user.email ? (
+              <button
+                onClick={() => dispatch(logout())}
+                className="p-2 px-3 bottom-2 relative border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signup"
+                className="p-2 border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
+                Login/SignUp
+              </Link>
+            )}
           </div>
         </nav>
       </header>

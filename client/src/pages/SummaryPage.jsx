@@ -5,7 +5,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
@@ -25,6 +25,22 @@ const SummaryPage = () => {
   // const [url, setUrl] = useState("");
   const location = useLocation();
   const url = location.state;
+
+  useEffect(()=>{
+    if(!url){
+      const timeout = setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  },[url])
+  if(!url) {
+    return <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <div>Invalid URL</div>
+      <div>Redirecting...</div>
+
+    </div>
+  }
   const [note, setNote] = useState("");
   console.log(`in url page, url: ${url}`);
   const user = useSelector((state) => state.user);
@@ -272,3 +288,5 @@ const SummaryPage = () => {
 };
 
 export default SummaryPage;
+
+
