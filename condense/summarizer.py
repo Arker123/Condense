@@ -1,4 +1,3 @@
-import os
 import re
 import sys
 import logging
@@ -33,44 +32,66 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: list[str]) -> str:
+def clean_data(data: list[str]) -> list[str]:
+    final_data = []
     if data:
         sentences = []
+        start, end, cnt = 0.00, 0, 0
         # Removing extra whitespaces
         for sentence in data:
+            end = sentence["end"]
+            cnt += 1
             sentence = re.sub(
                 "[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]
             )  # Add special symbols to preserve inside the square brackets with numbers and characters
             sentence = re.sub("\\s+", " ", sentence)
             sentences.append(sentence.strip())
-        display = " ".join(sentences)
-        return display
+            if cnt == 12:
+                text = " ".join(sentences)
+                final_data.append({"start": start, "end": end, "text": text})
+                start, cnt = end, 0
+                sentences = []
+
+        return final_data
     else:
         raise ValueError("No data found")
 
 
-def summerize_text(video_url: str) -> str:
+def get_summary(data: list[str]) -> list[str]:
+    summarizer = pipeline("summarization")
+    summary = []
+    for chunk in data:
+        summary_text = summarizer(chunk["text"], max_length=50, min_length=1, do_sample=False)[0]["summary_text"]
+        summary.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
+
+    time_stamp = []
+    for chunk in summary:
+        summary_text = summarizer(chunk["summary_text"], max_length=13, min_length=1, do_sample=False)[0][
+            "summary_text"
+        ]
+        time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
+
+    return summary, time_stamp
+
+
+def summerize_text(video_url: str) -> list[dict]:
     nltk.download("punkt")
     data = get_transcript(video_url)
-    data_clean = clean_data(data)
-    sentences = nltk.tokenize.sent_tokenize(data_clean)
-    data = " ".join(sentences)
+    data = clean_data(data)
+    for sentence in data:
+        sentences = nltk.tokenize.sent_tokenize(sentence["text"])
+        sentence["text"] = " ".join(sentences)
 
-    summarizer = pipeline("summarization")
-    max_chunk_length = 400  # Define the maximum length for each chunk
-    chunks = [data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)]
-    summary = []
-    for chunk in chunks:
-        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[0]["summary_text"]
-        summary.append(summary_text)
-    return " ".join(summary)
+    summary, time_stamp = get_summary(data)
+    return summary, time_stamp
 
 
 def main(argv: list[str] = None) -> None:
     parser = make_parser()
     argv = parser.parse_args(argv)
-    summary = summerize_text(argv.video_url)
+    summary, time_stamp = summerize_text(argv.video_url)
     print(summary)
+    print(time_stamp)
 
 
 if __name__ == "__main__":
