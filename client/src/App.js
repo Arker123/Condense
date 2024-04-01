@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/LandingPage";
@@ -10,6 +11,10 @@ import SummaryPage from "./pages/SummaryPage";
 import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
+
+import MyNotes from './pages/MyNotes';
+
+
 import Profile from "./pages/Profile";
 import Auth from "./utils/Auth";
 import NotFound from "./pages/NotFound";
@@ -34,6 +39,7 @@ function App() {
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/summary" element={<SummaryPage />} />
               <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/mynotes" element={<MyNotes/>} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
