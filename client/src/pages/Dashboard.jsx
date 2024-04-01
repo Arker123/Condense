@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoIosNotifications } from "react-icons/io";
+
 import { Link, useNavigate } from "react-router-dom";
+
 import { BsChatFill } from "react-icons/bs";
 import { FaNoteSticky } from "react-icons/fa6";
 import { MdSummarize } from "react-icons/md";
@@ -12,6 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 const Dashboard = () => {
+
 
   const navigate = useNavigate();
   const [url,setUrl] = useState("")
@@ -24,28 +27,42 @@ const Dashboard = () => {
   ];
   const [open, setOpen] = useState(true);
 
+  const handleRedirect = () => {
+    navigate('/contact');
+  };
+
+  const handleProfileRedirect = () => {
+    navigate('/profile');
+  };
+
   return (
+
     <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
+
       <div
         className={`bg-white rounded-r-lg h-screen ${
           open ? "w-68" : "w-16"
         } duration-500 text-gray-500 px-4 absolute `}
       >
         <div className="flex flex-row ">
+
         
         <div className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-bold `} >
           <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5" data-testid = "condense-logo"/><div className="mt-2 text-[25px]">Condense</div></div>
+
          <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
             className={`cursor-pointer ${open ? "ml-[70px]" : "ml-[0px]"}`}
             onClick={() => setOpen(!open)}
+
             data-testid = "SidebarButton"
           />
         </div>
        
         </div>
         <div className={`mt-4 flex flex-col   gap-4 relative `}>
+
           {menus?.map((menu, i) => (
             <Link
               to={menu?.link}
@@ -60,8 +77,10 @@ const Dashboard = () => {
                   transitionDelay: `${3}00ms`,
                 }}
                 className={`whitespace-pre duration-500 ${
+
                   !open &&
                   "opacity-0 translate-x-28 overflow-hidden hover:text-blue-600"
+
                 }`}
               >
                 {menu?.name}
@@ -78,11 +97,13 @@ const Dashboard = () => {
         </div>
       </div>
 
+
       <div>
         <div className=" flex flex-row items-center justify-center gap-4 mt-5  ml-[1150px]">
-          <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4">
-            <div className=" flex flex-row gap-2">
-              <FiPhoneCall className="mt-1" /> <p>Contact us</p>
+          <div className="w-30 h-10  rounded-3xl bg-white flex items-center px-4 hover:bg-gray-200">
+            <div className="flex flex-row gap-2" onClick={handleRedirect}>
+              <FiPhoneCall className="mt-1" />
+              <p className="cursor-pointer">Contact us</p>
             </div>
           </div>
 
@@ -94,7 +115,7 @@ const Dashboard = () => {
             <IoIosNotifications />
           </div>
 
-          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+          <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full  cursor-pointer" onClick={handleProfileRedirect}>
             <CgProfile />
           </div>
         </div>
@@ -126,6 +147,7 @@ const Dashboard = () => {
         </div>
       </div>
     </section>
+
   );
 };
 

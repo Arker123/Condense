@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, Register } from "../https/index";
+import { Navigate } from "react-router-dom";
 
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserSlice } from "../redux/userSlice";
+import { GoogleLogin } from "@react-oauth/google";
+
 const SignUp = () => {
   const [toggle, setToggle] = useState(false);
   const [open, setOpen] = useState(false);
@@ -17,6 +21,12 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  if (user.email) {
+    return <Navigate to="/landing" />;
+  }
 
   const toastOptions = {
     position: "bottom-right",
@@ -86,30 +96,18 @@ const SignUp = () => {
       const response = await Register(data);
       console.log(response);
       // setUserRes(response.data);
-
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-        dispatch(setUserSlice());
-        notifySuccess("Contact Us message sent to your email id");
-      }
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      toast.success("User signed up successfully!", toastOptions);
 
       setEmail("");
       setName("");
+      navigate(-1);
     } catch (error) {
-      // errorMessage = "Failed to create an account.";
-      // const { user, accessToken, refreshToken } = response.data;
-      // dispatch(setUserSlice({ user, accessToken, refreshToken }));
+      console.log(error);
       toast.error(error, toastOptions);
     }
     setIsLoading(false);
-
-    // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -145,28 +143,18 @@ const SignUp = () => {
       console.log(response);
       // setUserRes(response.data);
 
-      if (response.status !== 200) {
-        errorMessage = response.data.message || "Server Error";
-        toast.error(errorMessage, toastOptions);
-        return;
-      } else {
-        const { user, accessToken, refreshToken } = response.data;
-        dispatch(setUserSlice({ user, accessToken, refreshToken }));
-        notifySuccess("Contact Us message sent to your email id");
-      }
+      const { user, accessToken, refreshToken } = response.data;
+      dispatch(setUserSlice({ user, accessToken, refreshToken }));
+
+      toast.success("User logged in successfully!", toastOptions);
+      navigate(-1);
 
       setEmail("");
       setName("");
     } catch (error) {
-      errorMessage = "Error while logging in";
-      toast.error(errorMessage, toastOptions);
+      toast.error(error.response?.data?.message, toastOptions);
     }
     setIsLoading(false);
-
-    // Reload the page
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000); // Reload after 3 seconds
 
     // Handle form submission
     console.log("Form submitted!");
@@ -208,7 +196,7 @@ const SignUp = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px] shadow-lg"
+            className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px]"
           >
             <div className="flex flex-row mb-5 justify-center items-center text-black text-semibold text-[23px] font-serif font-medium">
               <div
@@ -216,7 +204,7 @@ const SignUp = () => {
                   toggle ? "border-gray-200" : "border-black"
                 } cursor-pointer`}
                 onClick={() => setToggle(false)}
-                data-testid = "Login-header-test"
+                data-testid="Login-header-test"
               >
                 Login
               </div>
@@ -225,7 +213,7 @@ const SignUp = () => {
                   toggle ? "border-black" : "border-gray-200"
                 } cursor-pointer`}
                 onClick={() => setToggle(true)}
-                data-testid = "Register-header-test"
+                data-testid="Register-header-test"
               >
                 Register
               </div>
@@ -247,7 +235,7 @@ const SignUp = () => {
                     value={email}
                     onChange={handleEmailChange}
                     placeholder=""
-                    data-testid = "email-test"
+                    data-testid="email-test"
                     required
                   />
                 </div>
@@ -265,7 +253,7 @@ const SignUp = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder=""
-                    data-testid = "username-test"
+                    data-testid="username-test"
                     required
                   />
                 </div>
@@ -283,7 +271,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "password-test"
+                    data-testid="password-test"
                     required
                   />
                 </div>
@@ -301,7 +289,7 @@ const SignUp = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "confirmpassword-test"
+                    data-testid="confirmpassword-test"
                     required
                   />
                 </div>
@@ -332,7 +320,7 @@ const SignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder=""
-                    data-testid = "email-test2"
+                    data-testid="email-test2"
                     required
                   />
                 </div>
@@ -350,7 +338,7 @@ const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder=""
-                    data-testid = "password-test2"
+                    data-testid="password-test2"
                     required
                   />
                 </div>
@@ -362,6 +350,33 @@ const SignUp = () => {
                   >
                     Login
                   </button>
+                </div>
+                <div className="text-center py-4 font-semibold font-['Dosis']">
+                  OR
+                </div>
+                <div className="w-full flex justify-center">
+                  <GoogleLogin
+                    className="w-full"
+                    width={"100%"}
+                    onSuccess={async (res) => {
+                      const credential = res.credential;
+                      try {
+                        const res = await login({ credential });
+                        const { user, accessToken, refreshToken } = res.data;
+                        dispatch(
+                          setUserSlice({ user, accessToken, refreshToken })
+                        );
+                        navigate(-1);
+                      } catch (error) {
+                        console.log(error);
+                        toast.error(error.response.data.message);
+                      }
+                    }}
+                    onError={() => {
+                      console.log("Failed");
+                      toast.error("Login failed");
+                    }}
+                  />
                 </div>
               </div>
             )}

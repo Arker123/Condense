@@ -1,51 +1,48 @@
 import re
-import csv
 import sys
-from collections import Counter
 
 import nltk
 import emoji
+import pandas as pd
 
 
-def preprocess_data(filename):
-    comments = []
-    with open(filename, "r", encoding="utf-8") as file:
-        reader = csv.reader(file)
-        next(reader)
-        for row in reader:
-            comment = row[0]
-            comments.append(comment.strip().lower())
+def preprocess_data(comment: str) -> str:
+    """
+    This function preprocesses the input comment by:
+    - Converting emojis to text representations
+    - Removing special characters except for selected punctuation
+    - Normalizing whitespace
+    - Converting text to lowercase
+    - Replacing specific emoji-related words with standardized tokens ('like' for 'heart', 'smile' for 'smile')
 
-    # Clean and tokenize the comments
-    cleaned_comments = []
-    for comment in comments:
-        comment = emoji.demojize(comment)
-        comment = re.sub(r"[^\w\s\:\d]", "", comment)
-        sentences = nltk.tokenize.sent_tokenize(comment)
-        tokenized_comment = sentences[0].split()
-        cleaned_comments.append(tokenized_comment)
+    Parameters:
+        comment (str): The input comment to preprocess.
 
-    return cleaned_comments
-
-
-# Step 2: Prepare the Data
-def prepare_data(tokenized_comments):
-    all_words = [word for comment in tokenized_comments for word in comment]
-    word_counts = Counter(all_words)
-    sorted_vocab = sorted(word_counts, key=word_counts.get, reverse=True)
-    word_to_index = {word: i + 1 for i, word in enumerate(sorted_vocab)}
-    numerical_comments = [[word_to_index[word] for word in comment] for comment in tokenized_comments]
-    return numerical_comments, word_to_index
+    Returns:
+        str: The preprocessed comment.
+    """
+    comment = emoji.demojize(comment)
+    comment = re.sub("[^a-zA-Z0-9.,;:()'*`\"\\s]", "", comment)
+    comment = re.sub("\\s+", " ", comment)
+    comment = comment.strip().lower()
+    words = nltk.tokenize.word_tokenize(comment)
+    words = ["like" if "heart" in word else word for word in words]
+    words = ["smile" if "smile" in word else word for word in words]
+    comment = " ".join(words)
+    return comment
 
 
 def main():
     nltk.download("punkt")
-    tokenized_comments = preprocess_data("comments.csv")
-    numerical_comments, word_to_index = prepare_data(tokenized_comments)
-    print("numerical_comments....................")
-    print(numerical_comments)
-    print("word_to_index .............")
-    print(word_to_index)
+    # https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset?select=train.csv
+    data = pd.read_csv("train.csv")
+    data.dropna(inplace=True)
+    data = data.drop(
+        ["Density", "Land Area", "Population -2020", "Country", "Age of User", "Time of Tweet", "textID", "text"],
+        axis=1,
+    )
+    data.rename(columns={"selected_text": "comment"}, inplace=True)
+    data["comment"] = data["comment"].apply(preprocess_data)
 
 
 if __name__ == "__main__":

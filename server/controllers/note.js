@@ -79,7 +79,9 @@ const modifyNote = async (req, res) => {
         );
 
         if (noteIndex === -1) {
-            res.status(400).json({ success: false, message: "Note not found" });
+            return res
+                .status(400)
+                .json({ success: false, message: "Note not found" });
         }
 
         for (const [key, value] of Object.entries(note)) {
@@ -103,6 +105,7 @@ const modifyNote = async (req, res) => {
 
 const createNote = async (req, res) => {
     try {
+        console.log("in create note");
         const { userId, videoId, note } = req.body;
         if (!userId || !note || !note.body) {
             return res.status(400).json({
@@ -110,9 +113,10 @@ const createNote = async (req, res) => {
                 message: "User Id, video Id and note body cannot be empty",
             });
         }
-
+        console.log("creating new note ob");
         const newNote = { ...note, videoId };
 
+        console.log("finding user");
         const user = await User.findById(userId);
         if (!user) {
             return res
@@ -120,10 +124,12 @@ const createNote = async (req, res) => {
                 .json({ success: false, message: "User not found" });
         }
 
+        console.log("adding into database");
         user.notes.push(newNote);
 
         await user.save();
 
+        console.log("final step");
         res.status(200).json({
             success: true,
             message: "Note created successfully",

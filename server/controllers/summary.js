@@ -30,7 +30,10 @@ const generateSummary = async (req, res) => {
 
 const fetchAllSummaries = async (req, res) => {
     try {
-        const { userId } = req.body;
+        console.log("in fetcallsumm backend");
+        console.log("req.body: ", req.body)
+        const { userId } = req.body.data;
+        console.log("userid from api: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
 
         // Find user with the given user ID
@@ -47,9 +50,9 @@ const fetchAllSummaries = async (req, res) => {
         const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
         console.log("Found the following summaries:");
-        console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
+        console.log("in err block");
         console.error("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
@@ -147,7 +150,8 @@ const modifyFavSummaries = async (req, res) => {
 
         console.log(`Favorite attribute for summary ID ${summaryId} 
     modified to ${!currentFavVal}`);
-        return res.status(200).send("Modified summary successfully.");
+
+        return res.status(200).json({ message: "Successfully modified" });
     } catch (error) {
         console.error(
             "Error occurred while modifying favorite attribute",
@@ -160,6 +164,7 @@ const modifyFavSummaries = async (req, res) => {
 const saveSummary = async (req, res) => {
     try {
         const { userId, videoId, summaryBody } = req.body;
+        console.log(userId);
         if (!userId) return res.status(400).send("User ID is required");
         if (!videoId) return res.status(400).send("Video ID is required");
 
@@ -194,7 +199,9 @@ const saveSummary = async (req, res) => {
         await user.save();
 
         console.log("Summary stored successfully");
+
         return res.status(200).send("Summary saved.");
+
     } catch (error) {
         console.error("Error occurred while storing summary", error);
         return res.status(400).send(error.message);
