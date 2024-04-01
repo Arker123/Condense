@@ -1,0 +1,22 @@
+#extension-notification {
+  /* position: fixed; */
+  /* top: 50px;
+  left: 50px; */
+  /* right: 0; */
+  /* width: 120px; */
+  /* z-index: 99999; */
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #f5c6cb;
+}
+
+.testing-extension {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #f5c6cb;
+  font-size: 25px;
+}
