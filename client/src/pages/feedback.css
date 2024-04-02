@@ -1,6 +1,6 @@
 .feedback_body {
     text-align: center;
-    background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+    background: linear-gradient(to bottom,   rgb(45, 4, 4),#6f0000);
     min-height: 100vh;
     border: 2px solid white;
 }

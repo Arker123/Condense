@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./ContactUs.css";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-
+import Footer from "../components/shared/Footer"
 function ContactUs() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ function ContactUs() {
   };
 
   return (
+    <>
     <div className="App2">
       <header className="App-header">
         <div className="logo">
@@ -140,6 +141,8 @@ function ContactUs() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

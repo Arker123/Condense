@@ -9,6 +9,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
+import Footer from '../components/shared/Footer'
 import {
   getNote,
   modifyNote,
@@ -180,14 +181,15 @@ const SummaryPage = () => {
   }, [url]);
 
   return (
+    <>
     <div className="">
       <motion.div
-        className=" flex flex-col justify-center items-center bg-gradient-to-b from-red-500 via-red-900 to-black"
+        className=" flex flex-col justify-center items-center bg-gradient-to-b from-black  to-[#6f0000]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-full h-[1400px] bg-gradient-to-b from-red-500 via-red-900 to-black mb-4">
+        <div className="w-full h-[1400px] bg-gradient-to-b from-black  to-[#6f0000] mb-4">
           <div className="flex flex-col w-full h-[1200px] bg-none p-12">
             <div className="flex flex-row w-full bg-none">
               <div className="w-3/5 h-[600px] bg-white rounded-lg mr-4">
@@ -284,6 +286,8 @@ const SummaryPage = () => {
       </motion.div>
       <ToastContainer />
     </div>
+    <Footer/>
+    </>
   );
 };
 

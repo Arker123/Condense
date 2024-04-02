@@ -2,14 +2,7 @@
 
 .summarybackground {
   background: rgb(252, 252, 252);
-  background: linear-gradient(
-    180deg,
-    rgba(252, 252, 252, 1) 0%,
-    rgba(222, 239, 252, 1) 0%,
-    rgba(135, 40, 52, 1) 0%,
-    rgba(1, 0, 0, 1) 100%,
-    rgba(137, 41, 53, 1) 100%
-  );
+  background: linear-gradient(to bottom,   rgb(45, 4, 4),#6f0000);;
   height: 100vh;
   overflow: hidden;
 }
