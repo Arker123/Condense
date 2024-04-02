@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaInstagramSquare, FaLinkedin } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
-
+import {Link} from "react-router-dom"
 const Footer = () => {
   return (
    
@@ -29,18 +29,18 @@ const Footer = () => {
         <div className='flex flex-col mt-[50px] ml-[170px]'>
             <p className='text-[20px] text-white'>Useful Links</p>
             <div className='ml-[10px] mt-3 cursor-pointer'>
-            <p className='text-[15px] text-gray-300 hover:text-white'>Dashboard</p>
-            <p className='text-[15px] text-gray-300 hover:text-white'>Chat with AI</p>
-            <p className='text-[15px] text-gray-300 hover:text-white'>My Notes</p>
-            <p className='text-[15px] text-gray-300 hover:text-white'>Chrome Extension</p>
-            <p className='text-[15px] text-gray-300 hover:text-white'>Youtube Summaries</p>
+            <p className='text-[15px] text-gray-300 hover:text-white'> <Link to='/dashboard'>Dashboard</Link></p>
+            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/'>Chat with AI</Link></p>
+            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/feedback'>Feedback</Link></p>
+            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/'>Chrome Extension</Link></p>
+            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/summary'>Youtube Summaries</Link></p>
             </div>
         </div>
  
         <div className='flex flex-col mt-[50px] ml-[170px]'>
             <p className='text-[20px] text-white'>About</p>
             <div className='ml-[0px] mt-3 cursor-pointer'>
-            <p className='text-[15px] text-gray-300 hover:text-white'>Contact Us</p>
+            <p className='text-[15px] text-gray-300 hover:text-white'> <Link to='/contact'>Contact Us</Link></p>
             <p className='text-[15px] text-gray-300 hover:text-white'>Privacy</p>
             <p className='text-[15px] text-gray-300 hover:text-white'>Terms</p>
             <p className='text-[15px] text-gray-300 hover:text-white'>Extension Privacy</p>
