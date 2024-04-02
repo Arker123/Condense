@@ -1,12 +1,8 @@
-import sys
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from condense.youtube_audio_extractor import main, generate, make_parser, get_transcript_from_video
-
-print(sys.path)
-
 
 def test_argument_parser():
     """
