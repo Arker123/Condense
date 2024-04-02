@@ -13,7 +13,7 @@ import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
-
+import Footer from '../components/shared/Footer'
 const MyNotes = () => {
     const menus = [
         { name: "dashboard", link: "/", icon: IoMdHome },
@@ -27,7 +27,7 @@ const MyNotes = () => {
   return (
    
       <>
-        <div className="bg-gradient-to-b from-red-500 via-red-900 to-black h-screen overflow: auto flex ">
+        <div className="bg-gradient-to-b from-black  to-[#6f0000] h-screen overflow: auto flex ">
           
           <div
           className={`bg-white rounded-r-lg h-screen ${
@@ -113,6 +113,7 @@ const MyNotes = () => {
             </div>
         </div>
           </div>
+          <Footer/>
       </>
     
      
