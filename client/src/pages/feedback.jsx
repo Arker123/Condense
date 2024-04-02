@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './feedback.css';
 import { faUser, faHome } from '@fortawesome/free-solid-svg-icons';
 import StarRatings from 'react-star-ratings';
-
+import Footer from '../components/shared/Footer';
 function Feedback() {
     const [ageGroup, setAgeGroup] = useState('');
     const [occupation, setOccupation] = useState('');
@@ -17,6 +17,7 @@ function Feedback() {
     };
 
     return (
+        <>
         <div className='feedback_body'>
             <div className="feedback-header">
                 <div className="feedback-logo">
@@ -86,7 +87,10 @@ function Feedback() {
                     <button type="submit" data-testid="submit-button">Submit</button>
                 </form>
             </div>
+            <Footer/>
         </div>
+        
+        </>
     );
 }
 

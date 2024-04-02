@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import Footer from "../components/shared/Footer";
 const data = [
   {
     img: "/images/img1.jpg",
@@ -71,6 +71,7 @@ function LandingPage2() {
   AOS.init();
 
   return (
+    <>
     <div className="App bg-gradient-to-b p-8">
       <header className="App-header">
         <div className="logo">
@@ -189,8 +190,13 @@ function LandingPage2() {
             </div>
           </div>
         </div>
+
+       
       </div>
+      
     </div>
+    <Footer/>
+    </>
   );
 }
 
