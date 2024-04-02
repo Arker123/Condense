@@ -20,9 +20,10 @@ logger.setLevel(logging.DEBUG)
 
 app = Flask(__name__)
 
-model_path = "saved_models/SentimentModel.pth"
-checkpoint = torch.load(model_path)
-model = checkpoint["model"]
+model_path = "./model"
+model_path_sentiment = "saved_models/SentimentModel.pth"
+checkpoint = torch.load(model_path_sentiment)
+model_sentiment = checkpoint["model"]
 tokenizer = checkpoint["tokenizer"]
 
 
@@ -135,7 +136,7 @@ def predict_sentiment(comment):
     tensor = torch.LongTensor(sequence)
 
     with torch.no_grad():
-        output = model(tensor)
+        output = model_sentiment(tensor)
         _, predicted = torch.max(output, 1)
         sentiment_label = {1: "negative", 0: "neutral", 2: "positive"}
         return sentiment_label.get(predicted.item(), "unknown")
