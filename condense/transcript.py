@@ -68,14 +68,16 @@ def get_transcript(video_url) -> list[dict[str, str]]:
         return captions
 
 
-def main(argv: list[str] = None) -> int:
+def main(argv=None) -> int:
     parser = make_parser()
-    argv = parser.parse_args(argv)
+    args = parser.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG)
 
-    transcript = get_transcript(argv.video_url)
+    transcript = get_transcript(args.video_url)
     print(transcript)
-    save_to_file(transcript, argv)
+    save_to_file(transcript, args)
+
+    return 0
 
 
 if __name__ == "__main__":

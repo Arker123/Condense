@@ -33,16 +33,16 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: list[str]) -> str:
+def clean_data(data: list[dict]) -> str:
     if data:
         sentences = []
         # Removing extra whitespaces
         for sentence in data:
-            sentence = re.sub(
+            sentence_text = re.sub(
                 "[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]
             )  # Add special symbols to preserve inside the square brackets with numbers and characters
-            sentence = re.sub("\\s+", " ", sentence)
-            sentences.append(sentence.strip())
+            sentence_sym = re.sub("\\s+", " ", sentence_text)
+            sentences.append(sentence_sym.strip())
         display = " ".join(sentences)
         return display
     else:
@@ -51,8 +51,8 @@ def clean_data(data: list[str]) -> str:
 
 def summerize_text(video_url: str) -> str:
     nltk.download("punkt")
-    data = get_transcript(video_url)
-    data_clean = clean_data(data)
+    transcript_data = get_transcript(video_url)
+    data_clean = clean_data(transcript_data)
     sentences = nltk.tokenize.sent_tokenize(data_clean)
     data = " ".join(sentences)
 
@@ -66,11 +66,13 @@ def summerize_text(video_url: str) -> str:
     return " ".join(summary)
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv=None) -> int:
     parser = make_parser()
-    argv = parser.parse_args(argv)
-    summary = summerize_text(argv.video_url)
+    args = parser.parse_args(argv)
+    summary = summerize_text(args.video_url)
     print(summary)
+
+    return 0
 
 
 if __name__ == "__main__":

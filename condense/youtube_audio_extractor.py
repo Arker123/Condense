@@ -84,14 +84,16 @@ def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str
     return text, lang
 
 
-def main(argv: list[str] = None) -> int:
+def main(argv=None) -> int:
     logging.basicConfig(level=logging.DEBUG)
     parser = make_parser()
-    argv = parser.parse_args(argv)
+    args = parser.parse_args(argv)
 
-    text, lang = get_transcript_from_video(argv.video_url)
-    save_to_file(text, argv)
+    text, lang = get_transcript_from_video(args.video_url)
+    save_to_file(text, args)
     print(text)
+
+    return 0
 
 
 if __name__ == "__main__":
