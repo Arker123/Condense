@@ -8,6 +8,7 @@ import "aos/dist/aos.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
 
+import Footer from "../components/shared/Footer";
 const data = [
   {
     img: "/images/feature_img1.webp",
@@ -76,6 +77,7 @@ function LandingPage2() {
   const dispatch = useDispatch();
 
   return (
+    <>
     <div className="App bg-gradient-to-b p-8">
       <header className="App-header">
         <div className="logo2">
@@ -203,8 +205,13 @@ function LandingPage2() {
             </div>
           </div>
         </div>
+
+       
       </div>
+      
     </div>
+    <Footer/>
+    </>
   );
 }
 
