@@ -11,6 +11,7 @@ import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
+import Footer from '../components/shared/Footer'
 const Dashboard = () => {
 
   const navigate = useNavigate();
@@ -129,7 +130,9 @@ const Dashboard = () => {
   };
 
   return (
-    <section className="flex gap-6  bg-gradient-to-b from-red-400 via-red-900 to-gray-950 h-screen">
+<>
+    <section className="flex gap-6  bg-gradient-to-b from-black  to-[#6f0000] h-screen">
+
       <div
         className={`bg-white rounded-r-lg h-screen ${
           open ? "w-68" : "w-16"
@@ -233,7 +236,10 @@ const Dashboard = () => {
           {renderContent()}
         </div>
       </div>
+
     </section>
+      <Footer/>
+      </>
   );
 };
 
