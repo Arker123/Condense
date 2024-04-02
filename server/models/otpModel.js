@@ -38,7 +38,7 @@ async function sendVerificationEmail(email, otp) {
                 It will expire in 5 minutes.
             </p>`, // plain text body
         });
-        console.log("Message sent", info.messageId);
+        console.log("Message sent");
     } catch (error) {
         console.log("Error occurred while sending email: ", error);
         throw error;
