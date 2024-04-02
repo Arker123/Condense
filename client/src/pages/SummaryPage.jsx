@@ -73,13 +73,13 @@ const SummaryPage = () => {
 
   const fetchSummary = async () => {
     // const summary = summaries.find((item) => item.videoId === videoId);
-    const res = await axios.post("http://localhost:5000/summaries/generate", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/summaries/generate`, {
       url,
     });
     setSummaryText(res.data.summary);
   };
   const fetchTranscript = async () => {
-    const res = await axios.post("http://localhost:5000/transcript/", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/transcript/`, {
       url,
     });
     const transcripts = await JSON5.parse(res.data.transcript);
