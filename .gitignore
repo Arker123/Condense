@@ -1,11 +1,11 @@
 node_modules
 .env
 condense/__pycache__
+tests/__pycache__
 condense.egg-info/
 client/coverage
 server/coverage
 .vscode
-condense/tests/__pycache__
 # Mac specific files ignored.
 extensions/.DS_Store
 extensions/css/.DS_Store
