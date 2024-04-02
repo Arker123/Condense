@@ -1,0 +1,16 @@
+#extension-notification {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #f5c6cb;
+}
+
+.testing-extension {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #f5c6cb;
+  font-size: 25px;
+}

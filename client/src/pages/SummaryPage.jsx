@@ -5,10 +5,11 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
+import Footer from '../components/shared/Footer'
 import {
   getNote,
   modifyNote,
@@ -25,6 +26,22 @@ const SummaryPage = () => {
   // const [url, setUrl] = useState("");
   const location = useLocation();
   const url = location.state;
+
+  useEffect(()=>{
+    if(!url){
+      const timeout = setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  },[url])
+  if(!url) {
+    return <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <div>Invalid URL</div>
+      <div>Redirecting...</div>
+
+    </div>
+  }
   const [note, setNote] = useState("");
   console.log(`in url page, url: ${url}`);
   const user = useSelector((state) => state.user);
@@ -164,14 +181,15 @@ const SummaryPage = () => {
   }, [url]);
 
   return (
+    <>
     <div className="">
       <motion.div
-        className=" flex flex-col justify-center items-center bg-gradient-to-b from-red-500 via-red-900 to-black"
+        className=" flex flex-col justify-center items-center bg-gradient-to-b from-black  to-[#6f0000]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-full h-[1400px] bg-gradient-to-b from-red-500 via-red-900 to-black mb-4">
+        <div className="w-full h-[1400px] bg-gradient-to-b from-black  to-[#6f0000] mb-4">
           <div className="flex flex-col w-full h-[1200px] bg-none p-12">
             <div className="flex flex-row w-full bg-none">
               <div className="w-3/5 h-[600px] bg-white rounded-lg mr-4">
@@ -268,7 +286,11 @@ const SummaryPage = () => {
       </motion.div>
       <ToastContainer />
     </div>
+    <Footer/>
+    </>
   );
 };
 
 export default SummaryPage;
+
+
