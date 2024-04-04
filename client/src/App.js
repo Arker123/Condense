@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
  * @return {JSX.Element} The rendered App component.
  */
 function App() {
+
   return (
     <div>
       <Provider store={store}>
@@ -47,6 +48,7 @@ function App() {
       </Provider>
     </div>
   );
+
 }
 
 export default App;
