@@ -33,12 +33,14 @@ async function main() {
     background-color: #edf4fb;
   }
 
-  #transcript, #notes{
+  #transcript{
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
   }
   #notes{
+    display: flex;
+    flex-direction: column;
     display:none;
   }
 
@@ -61,14 +63,15 @@ async function main() {
   }
 
   .notes-time-card{
-    font-size: 10px;
+    font-size: 14px;
     color: blue;
     padding: 5px;
-    padding-left: 20px;
+    padding: 10px;
     height: 15px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: space-between;
+    margin-bottom: 8px;
   }
   
   .text-card{
@@ -120,11 +123,12 @@ async function main() {
     box-sizing: border-box;
   }
   #notes-entry{
-    margin-top: auto;
+    margin-top:auto;
   }
   #notes-card-area{
     widht:100%;
-    height:350px;
+    height:370px;
+    overflow-y: scroll;
   }
 
   #notes-entry-button {
@@ -136,6 +140,24 @@ async function main() {
     color: white;
     cursor: pointer;
     border-radius: 5px;
+
+    .my-component-right[data-v-12aa23d4] {
+      display: flex;
+      align-items: center;
+      color: #828282;
+      position: relative;
+    }
+
+    .icon-copy, .icon-edit, .icon-delete {
+        font-size: 20px;
+        margin-left: 12px;
+        cursor: pointer;
+    }
+
+    .edit-text-area {
+      width :100%;
+      border-radius:5px;
+    }
     
   }
   
@@ -164,6 +186,7 @@ async function main() {
   navbar.appendChild(t_button);
   const notes_button = add_element("button", "id", "notes-button", "");
   notes_button.appendChild(notes_icon);
+  const notes_card_area  = add_element("div", "id", "notes-card-area", ``);
   notes_button.innerHTML += "Notes";
   navbar.appendChild(notes_button);
   container.appendChild(navbar);
@@ -172,7 +195,6 @@ async function main() {
   const transcript = add_element("div", "id", "transcript", "");
   const notes = add_element("div", "id", "notes", "");
   const t_navbar = add_element("div", "id", "t-navbar", ``);
-  const notes_card_area  = add_element("div", "id", "notes-card-area", ``);
   const notes_entry = add_element("div", "id", "notes-entry", `
     <textarea id="notes-entry-box" placeholder="Enter your notes here..."></textarea>
   `);
@@ -207,27 +229,90 @@ async function main() {
     if (notesText) {
       var htmlVideoPlayer = document.getElementsByTagName("video")[0];
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
-      notesDict[timestramp] = notesText;
-      const notesCard = add_element(
-        "div",
-        "class",
-        "notes-card",
-        `<div class="notes-time-card">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
-            <g id="surface1">
-            <path style=" stroke:none;fill-rule:evenodd;fill:blue;fill-opacity:1;" d="M 6 0 C 9.3125 0 12 2.6875 12 6 C 12 9.3125 9.3125 12 6 12 C 2.6875 12 0 9.3125 0 6 C 0 2.6875 2.6875 0 6 0 Z M 6 0.5 C 9.035156 0.5 11.5 2.964844 11.5 6 C 11.5 9.035156 9.035156 11.5 6 11.5 C 2.964844 11.5 0.5 9.035156 0.5 6 C 0.5 2.964844 2.964844 0.5 6 0.5 Z M 6 6 L 9 6 L 9 6.5 L 5.5 6.5 L 5.5 2 L 6 2 Z M 6 6 "/>
-            </g>
-          </svg>
-          
-          ${timestramp}
-         </div>
-        <div class="notes-text-card">${notesText}</div>
-        `
-      );
-      document.getElementById("notes-card-area").appendChild(notesCard);
+      notesDict[timestramp]=  notesText;
+      getNotes();
       document.getElementById("notes-entry-box").value = "";
     }
   });
+  
+
+
+  function getNotes (){
+    notes_card_area.innerHTML="";
+    for(const [key,value] of Object.entries(notesDict)){
+      const notes_time_card = add_element("div","class","notes-time-card", `
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
+          <g id="surface1">
+          <path style=" stroke:none;fill-rule:evenodd;fill:blue;fill-opacity:1;" d="M 6 0 C 9.3125 0 12 2.6875 12 6 C 12 9.3125 9.3125 12 6 12 C 2.6875 12 0 9.3125 0 6 C 0 2.6875 2.6875 0 6 0 Z M 6 0.5 C 9.035156 0.5 11.5 2.964844 11.5 6 C 11.5 9.035156 9.035156 11.5 6 11.5 C 2.964844 11.5 0.5 9.035156 0.5 6 C 0.5 2.964844 2.964844 0.5 6 0.5 Z M 6 6 L 9 6 L 9 6.5 L 5.5 6.5 L 5.5 2 L 6 2 Z M 6 6 "/>
+          </g>
+        </svg>
+        ${key}
+      </div>
+      `)
+      const notes_text_card = add_element("div","class","notes-text-card",value);
+      const my_component_right = add_element("div","class", "my-component-right","");
+      const copy_icon = add_element("i","class","el-icon-copy-document icon-copy","");
+      const edit_icon = add_element("i","class","el-icon-edit icon-edit","");
+      const delete_icon = add_element("i","class","el-icon-delete icon-delete","");
+      my_component_right.appendChild(copy_icon);
+      my_component_right.appendChild(edit_icon);
+      my_component_right.appendChild(delete_icon);
+      notes_time_card.appendChild(my_component_right);
+      const notesCard = add_element("div","class","notes-card","" );
+      notesCard.appendChild(notes_time_card);
+      notesCard.appendChild(notes_text_card);
+      notes_card_area.appendChild(notesCard);
+      copy_icon.setAttribute('data-item-index', key);
+      delete_icon.setAttribute('data-item-index',key);
+      edit_icon.setAttribute('data-item-index',key);
+      notesCard.setAttribute('data-item-index',key);
+      notes_text_card.setAttribute('data-item-index',key);
+
+      copy_icon.onclick = function () {
+        var timestramp = this.getAttribute('data-item-index');
+        var notesText = notesDict[timestramp];
+        console.log(notesText)
+        navigator.clipboard.writeText(notesText).then(() => {
+          alert("Copied to clipboard");
+        });
+      }
+
+      delete_icon.onclick = function() {
+        var timestamp = this.getAttribute('data-item-index');
+        delete notesDict[timestamp];
+        getNotes();
+      }
+
+      edit_icon.onclick = function() {
+          var timestamp = this.getAttribute('data-item-index');
+          console.log(timestamp);
+          const notes_text_card = notes_card_area.querySelector(`.notes-text-card[data-item-index="${timestamp}"]`);
+          console.log(notes_text_card);
+          const textarea = add_element("textarea","class","edit-text-area","");
+          
+          textarea.value = notesDict[timestamp];
+          textarea.classList.add('notes-text-area');
+          notes_text_card.replaceWith(textarea);
+      
+          textarea.focus();
+      
+          textarea.addEventListener('keydown', function(event) {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  notesDict[timestamp] = textarea.value.trim();
+                  getNotes();
+              }
+          });
+      
+          textarea.addEventListener('blur', function() {
+              notesDict[timestamp] = textarea.value.trim();
+              getNotes();
+          });
+      };
+    
+    }
+  }
 
 
   let transcripts = [
