@@ -32,7 +32,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: list[str]) -> list[str]:
+def clean_data(data: list[dict]) -> list[str]:
     final_data = []
     if data:
         sentences = []
