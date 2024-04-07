@@ -27,17 +27,17 @@ describe("Tests For fetch_All_summaries", () => {
 
     // TODO: Fix this test
     // test("should respond with 200 status code and give all summaries when correct userId given", async () => {
-        // const response2 = await request(server).get("/summaries/getAll").send({
-        //     userId: "65ef4fd63ae8ba6151a918d8",
-        // });
-        // const dummySummary = {
-        //     summary: { body: "This is a dummy summary!" },
-        //     videoId: "12ka4",
-        // };
-        // expect(response2.statusCode).toBe(200);
-        // expect(response2._body).toEqual(
-        //     expect.arrayContaining([expect.objectContaining(dummySummary)]),
-        // );
+    // const response2 = await request(server).get("/summaries/getAll").send({
+    //     userId: "65ef4fd63ae8ba6151a918d8",
+    // });
+    // const dummySummary = {
+    //     summary: { body: "This is a dummy summary!" },
+    //     videoId: "12ka4",
+    // };
+    // expect(response2.statusCode).toBe(200);
+    // expect(response2._body).toEqual(
+    //     expect.arrayContaining([expect.objectContaining(dummySummary)]),
+    // );
     // });
 });
 
