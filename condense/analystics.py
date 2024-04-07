@@ -1,9 +1,10 @@
+import sys
 import logging
 import argparse
-import sys
-from wordcloud import WordCloud, STOPWORDS
-import matplotlib.pyplot as plt
+
 import pandas as pd
+import matplotlib.pyplot as plt
+from wordcloud import STOPWORDS, WordCloud
 
 from condense.comments import get_comments
 

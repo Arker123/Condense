@@ -5,9 +5,10 @@ import random
 import shutil
 import string
 import logging
-import torch
-import emoji
+
 import nltk
+import emoji
+import torch
 import whisper
 import youtube_transcript_api
 from flask import Flask, jsonify, request

@@ -1,6 +1,8 @@
-import argparse
-from gtts import gTTS
 import os
+import argparse
+
+from gtts import gTTS
+
 
 def text_to_speech(text, output_file = 'output.mp3', language = 'en'):
     myobj = gTTS(text=text, lang=language, slow=False)
