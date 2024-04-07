@@ -2,6 +2,7 @@ import re
 import sys
 import logging
 import argparse
+from typing import List
 
 import nltk
 from transformers import pipeline
@@ -86,13 +87,15 @@ def summerize_text(video_url: str) -> list[dict]:
     return summary, time_stamp
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv=None) -> int:
     parser = make_parser()
     argv = parser.parse_args(argv)
     summary, time_stamp = summerize_text(argv.video_url)
     summary = " ".join([f"{chunk['summary_text']} " for chunk in summary])
     summary_dict = {"summary": summary, "time_stamp": time_stamp}
     print(summary_dict)
+
+    return 0
 
 
 if __name__ == "__main__":

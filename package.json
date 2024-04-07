@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "tippy.js": "^6.3.7"
+  }
+}
