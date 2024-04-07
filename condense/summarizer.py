@@ -47,6 +47,7 @@ def clean_data(data: List[Dict]) -> List[Dict]:
             )  # Add special symbols to preserve inside the square brackets with numbers and characters
             sentence_sym = re.sub("\\s+", " ", sentence_text)
             sentences.append(sentence_sym.strip())
+            # The model maximum tokens is 500, and each sentence is approximately 10 words, so to be on the safe side, we have considered cnt = 12, so maximum 10 sentences will be used
             if cnt == 12:
                 text = " ".join(sentences)
                 final_data.append({"start": start, "end": end, "text": text})
