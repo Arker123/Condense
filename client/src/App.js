@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/LandingPage";
@@ -13,7 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
 
 import MyNotes from './pages/MyNotes';
-
+import MyNotesAndSummaries from "./pages/MyNotesAndSummaries";
+import SummaryAndNotes from "./pages/SummaryAndNotes";
 
 import Profile from "./pages/Profile";
 import Auth from "./utils/Auth";
@@ -41,6 +41,8 @@ function App() {
               <Route exact path="/summary" element={<SummaryPage />} />
               <Route exact path="/profile" element={<Profile />} />
               <Route exact path="/mynotes" element={<MyNotes/>} />
+              <Route exact path="/mynotesandsummaries" element={<MyNotesAndSummaries/>} />
+              <Route exact path="/summaryAndNote" element={<SummaryAndNotes/>} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
