@@ -11,6 +11,7 @@ from condense.comments import get_comments
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
+
 def make_parser() -> argparse.ArgumentParser:
     """
     Create the argument parser.
@@ -33,9 +34,9 @@ def make_parser() -> argparse.ArgumentParser:
 
 def word_cloud(video_url: str) -> None:
     get_comments(video_url)
-    df = pd.read_csv(r"comments.csv", encoding ="latin-1")
+    df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
-    comment_words = ''
+    comment_words = ""
     stopwords = set(STOPWORDS)
 
     for val in df.CONTENT:
@@ -44,16 +45,15 @@ def word_cloud(video_url: str) -> None:
         for i in range(len(tokens)):
             tokens[i] = tokens[i].lower()
 
-        comment_words += " ".join(tokens)+" "
-    wordcloud = WordCloud(width = 800, height = 800,
-                    background_color ='white',
-                    stopwords = stopwords,
-                    min_font_size = 10).generate(comment_words)
+        comment_words += " ".join(tokens) + " "
+    wordcloud = WordCloud(
+        width=800, height=800, background_color="white", stopwords=stopwords, min_font_size=10
+    ).generate(comment_words)
 
-    plt.figure(figsize = (8, 8), facecolor = None)
+    plt.figure(figsize=(8, 8), facecolor=None)
     plt.imshow(wordcloud)
     plt.axis("off")
-    plt.tight_layout(pad = 0)
+    plt.tight_layout(pad=0)
 
     plt.show()
 
