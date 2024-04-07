@@ -2,7 +2,7 @@ import re
 import sys
 import logging
 import argparse
-from typing import List
+from typing import List, Dict, Tuple
 
 import nltk
 from transformers import pipeline
@@ -33,7 +33,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: list[dict]) -> list[str]:
+def clean_data(data: List[Dict]) -> List[str]:
     final_data = []
     if data:
         sentences = []
@@ -58,7 +58,7 @@ def clean_data(data: list[dict]) -> list[str]:
         raise ValueError("No data found")
 
 
-def get_summary(data: list[str]) -> list[str]:
+def get_summary(data: List[Dict[str, str]]) -> Tuple[str, str]:
     summarizer = pipeline("summarization")
     summary = []
     for chunk in data:
@@ -72,10 +72,10 @@ def get_summary(data: list[str]) -> list[str]:
         ]
         time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
 
-    return summary, time_stamp
+    return summary, time_stamp  
 
 
-def summerize_text(video_url: str) -> list[dict]:
+def summerize_text(video_url: str) -> List[Dict]:
     nltk.download("punkt")
     data = get_transcript(video_url)
     data = clean_data(data)
