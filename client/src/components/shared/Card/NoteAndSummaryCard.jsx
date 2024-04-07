@@ -22,7 +22,7 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
   };
 
   const deleteCard = () => {
-    // Add your delete card logic here
+    // TODO: Add your delete card logic here
   };
 
   // Function to extract video ID from YouTube URL
