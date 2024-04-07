@@ -1,6 +1,7 @@
 import sys
 import logging
 import argparse
+from typing import List
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -34,7 +35,7 @@ def make_parser() -> argparse.ArgumentParser:
 
 def word_cloud(video_url: str) -> None:
     get_comments(video_url)
-    df = pd.read_csv(r"comments.csv", encoding="latin-1")
+    df = pd.read_csv("comments.csv", encoding="latin-1")
 
     comment_words = ""
     stopwords = set(STOPWORDS)
@@ -58,11 +59,10 @@ def word_cloud(video_url: str) -> None:
     plt.show()
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv: List[str] = None) -> None:
     parser = make_parser()
-    argv = parser.parse_args(argv)
-    summary = word_cloud(argv.video_url)
-    print(summary)
+    args = parser.parse_args(argv)
+    word_cloud(args.video_url)
 
 
 if __name__ == "__main__":
