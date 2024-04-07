@@ -33,7 +33,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: List[Dict]) -> List[str]:
+def clean_data(data: List[Dict]) -> List[Dict]:
     final_data = []
     if data:
         sentences = []
@@ -42,11 +42,11 @@ def clean_data(data: List[Dict]) -> List[str]:
         for sentence in data:
             end = sentence["end"]
             cnt += 1
-            sentence = re.sub(
+            sentence_text = re.sub(
                 "[^a-zA-Z0-9.,;:()'\"\\s]", "", sentence["text"]
             )  # Add special symbols to preserve inside the square brackets with numbers and characters
-            sentence = re.sub("\\s+", " ", sentence)
-            sentences.append(sentence.strip())
+            sentence_sym = re.sub("\\s+", " ", sentence_text)
+            sentences.append(sentence_sym.strip())
             if cnt == 12:
                 text = " ".join(sentences)
                 final_data.append({"start": start, "end": end, "text": text})
@@ -58,7 +58,7 @@ def clean_data(data: List[Dict]) -> List[str]:
         raise ValueError("No data found")
 
 
-def get_summary(data: List[Dict[str, str]]) -> Tuple[str, str]:
+def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
     summarizer = pipeline("summarization")
     summary = []
     for chunk in data:
@@ -72,10 +72,10 @@ def get_summary(data: List[Dict[str, str]]) -> Tuple[str, str]:
         ]
         time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
 
-    return summary, time_stamp
+    return (summary, time_stamp)
 
 
-def summerize_text(video_url: str) -> List[Dict]:
+def summerize_text(video_url: str) -> Tuple[List[Dict], List[Dict]]:
     nltk.download("punkt")
     data = get_transcript(video_url)
     data = clean_data(data)
@@ -84,15 +84,15 @@ def summerize_text(video_url: str) -> List[Dict]:
         sentence["text"] = " ".join(sentences)
 
     summary, time_stamp = get_summary(data)
-    return summary, time_stamp
+    return (summary, time_stamp)
 
 
 def main(argv=None) -> int:
     parser = make_parser()
     argv = parser.parse_args(argv)
     summary, time_stamp = summerize_text(argv.video_url)
-    summary = " ".join([f"{chunk['summary_text']} " for chunk in summary])
-    summary_dict = {"summary": summary, "time_stamp": time_stamp}
+    summary_text = " ".join([f"{chunk['summary_text']}" for chunk in summary])
+    summary_dict = {"summary": summary_text, "time_stamp": time_stamp}
     print(summary_dict)
 
     return 0
