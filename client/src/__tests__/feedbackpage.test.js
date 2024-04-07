@@ -5,12 +5,15 @@ import { Provider } from "react-redux";
 import { store, persistor } from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import "@testing-library/jest-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 test('renders feedback form In Feedback Page', () => {
     const { getByTestId } =  render(
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <Feedback />
+                <Router>
+                    <Feedback />
+                </Router>
             </PersistGate>
         </Provider>,
     );
@@ -28,7 +31,9 @@ test('updates state on input change In Feedback Page', () => {
     const { getByTestId } = render(
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <Feedback />
+                <Router>
+                    <Feedback />
+                </Router>
             </PersistGate>
         </Provider>,
     );

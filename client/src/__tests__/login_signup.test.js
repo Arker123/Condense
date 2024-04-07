@@ -12,6 +12,8 @@ import { login, Register } from "../https/index"; // Import login and Register f
 import { Provider } from "react-redux";
 import { store, persistor } from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 afterEach(cleanup);
 
@@ -38,7 +40,11 @@ test("Renders sign up form and submits it", async () => {
     render(
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <SignUp />
+                <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                    <Router>
+                        <SignUp />
+                    </Router>
+                </GoogleOAuthProvider>
             </PersistGate>
         </Provider>,
     );
@@ -74,7 +80,11 @@ test("Renders login form and submits it", async () => {
     render(
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <SignUp />
+                <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                    <Router>
+                        <SignUp />
+                    </Router>
+                </GoogleOAuthProvider>
             </PersistGate>
         </Provider>,
     );

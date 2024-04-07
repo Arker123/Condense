@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileCard from '../components/shared/Card/ProfileCard';
 import axios from "axios";
+import Sidebar from '../components/shared/Sidebar';
 import Footer from "../components/shared/Footer";
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('Saved Summaries');
@@ -99,6 +100,7 @@ const Profile = () => {
   return (
     <>
     <section className="flex flex-col gap-6 bg-gradient-to-b from-black  to-[#6f0000] h-screen p-8">
+        <Sidebar />
         {/* Profile Info */}
         <div className="flex flex-col gap-2 text-white border border-white p-4 rounded-md shadow-lg h-1/4">
             <h2 className="text-4xl font-bold mb-2">Profile</h2>
