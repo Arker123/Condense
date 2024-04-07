@@ -90,8 +90,11 @@ def main(argv: list[str] = None) -> None:
     parser = make_parser()
     argv = parser.parse_args(argv)
     summary, time_stamp = summerize_text(argv.video_url)
-    print(summary)
-    print(time_stamp)
+    summary_dict = {
+        "summary": summary,
+        "time_stamp": time_stamp
+    }
+    print(summary_dict)
 
 
 if __name__ == "__main__":
