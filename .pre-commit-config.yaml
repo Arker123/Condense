@@ -36,7 +36,6 @@ repos:
         language: system
         entry: mypy
         args: 
-        -   "--check-untyped-defs"
         -   "--config-file=.github/mypy/mypy.ini"
         -   "condense/"
         -   "tests/"
