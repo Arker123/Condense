@@ -6,6 +6,7 @@ const authRoute = require("./routes/authRoute");
 const summaryRoute = require("./routes/summaryRoute");
 const noteRoute = require("./routes/noteRoute");
 const transcriptRoute = require("./routes/transcriptRoute");
+const userRoute = require("./routes/userRoute");
 
 const app = express();
 dotenv.config();
@@ -17,6 +18,7 @@ const port = process.env.PORT || 5000;
 
 app.use("/auth", authRoute);
 app.use("/note", noteRoute);
+app.use("/user", userRoute);
 app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
 
