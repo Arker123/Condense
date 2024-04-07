@@ -178,72 +178,77 @@ const refresh = async (req, res) => {
 const loginUser = async (req, res) => {
     const { credential } = req.body;
 
-  if (credential) {
-    try {
-      const cred = jwtDecode(credential);
-      console.log(cred);
-      const email = cred?.email;
-      const name = cred?.name;
-      if (email) {
-        const user = await User.findOne({ email });
-        if (user) {
-          const refreshToken = jwt.sign(
-            { email },
-            process.env.JWT_REFRESH_TOKEN_SECRET,
-            {
-              expiresIn: "180d",
+    if (credential) {
+        try {
+            const cred = jwtDecode(credential);
+            console.log(cred);
+            const email = cred?.email;
+
+            // eslint-disable-next-line no-unused-vars
+            const name = cred?.name;
+            if (email) {
+                const user = await User.findOne({ email });
+                if (user) {
+                    const refreshToken = jwt.sign(
+                        { email },
+                        process.env.JWT_REFRESH_TOKEN_SECRET,
+                        {
+                            expiresIn: "180d",
+                        },
+                    );
+                    const accessToken = jwt.sign(
+                        { email },
+                        process.env.JWT_ACCESS_TOKEN_SECRET,
+                        {
+                            expiresIn: "5m",
+                        },
+                    );
+                    res.status(200).json({
+                        success: true,
+                        user: user,
+                        message: "User logged in successfully",
+                        accessToken,
+                        refreshToken,
+                    });
+                } else {
+                    const user = await User.create({
+                        email: cred?.email,
+                        name: cred?.name,
+                    });
+                    const refreshToken = jwt.sign(
+                        { email },
+                        process.env.JWT_REFRESH_TOKEN_SECRET,
+                        {
+                            expiresIn: "180d",
+                        },
+                    );
+                    const accessToken = jwt.sign(
+                        { email },
+                        process.env.JWT_ACCESS_TOKEN_SECRET,
+                        {
+                            expiresIn: "5m",
+                        },
+                    );
+                    res.status(200).json({
+                        success: true,
+                        user,
+                        accessToken,
+                        refreshToken,
+                        message: "User added successfully",
+                    });
+                }
+            } else {
+                res.status(400).json({
+                    success: false,
+                    error: "Invalid credentials",
+                });
             }
-          );
-          const accessToken = jwt.sign(
-            { email },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {
-              expiresIn: "5m",
-            }
-          );
-          res.status(200).json({
-            success: true,
-            user: user,
-            message: "User logged in successfully",
-            accessToken,
-            refreshToken,
-          });
-        } else {
-          const user = await User.create({
-            email: cred?.email,
-            name: cred?.name,
-          });
-          const refreshToken = jwt.sign(
-            { email },
-            process.env.JWT_REFRESH_TOKEN_SECRET,
-            {
-              expiresIn: "180d",
-            }
-          );
-          const accessToken = jwt.sign(
-            { email },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {
-              expiresIn: "5m",
-            }
-          );
-          res.status(200).json({
-            success: true,
-            user,
-            accessToken,
-            refreshToken,
-            message: "User added successfully",
-          });
+        } catch (err) {
+            console.log(err.message);
+            res.status(400).json({ success: false, error: err.message });
         }
-      } else {
-        res.status(400).json({ success: false, error: "Invalid credentials" });
-      }
-    } catch (err) {
-      console.log(err.message);
-      res.status(400).json({ success: false, error: err.message });
+        return;
     }
-    return;
-  }
 
     try {
         const { email, password } = req?.body;
