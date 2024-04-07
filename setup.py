@@ -19,7 +19,7 @@ requirements = [
     "tensorflow==2.13.1",
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
-    "torch==2.2.0",
+    "torch==2.0",
 ]
 
 # this sets __version__
