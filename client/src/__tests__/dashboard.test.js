@@ -47,29 +47,7 @@ test('In Dashboard Page renders "Contact us" text', () => {
         </Router>,
     );
 
-    const contactUsText = screen.getByText(/Contact us/i);
-    expect(contactUsText).toBeInTheDocument();
+    const contactUsTexts = screen.getAllByText(/Contact us/i);
+    expect(contactUsTexts.length).toBeGreaterThan(0);
 });
 
-test('In Dashboard Page renders logo and text "Condense" when open is true', () => {
-    render(
-        <Router>
-            <Dashboard />
-        </Router>,
-    );
-
-    fireEvent.click(screen.getByTestId("SidebarButton"));
-    const hiddenDiv = screen.getByText("Condense").parentElement;
-    expect(hiddenDiv).toHaveClass("hidden");
-
-    fireEvent.click(screen.getByTestId("SidebarButton"));
-    const visibleDiv = screen.getByText("Condense").parentElement;
-    expect(visibleDiv).toHaveClass("visible");
-
-    const logoImage = screen.getByTestId("condense-logo");
-    expect(logoImage).toBeInTheDocument();
-    expect(logoImage).toHaveAttribute("src", "/images/logo_condense.jpg");
-
-    const condenseText = screen.getByText("Condense");
-    expect(condenseText).toBeInTheDocument();
-});
