@@ -2,6 +2,7 @@
 const { spawnSync } = require("child_process");
 
 const getTranscript = async (req, res) => {
+    console.log(req.body);
     try {
         const { url } = req.body;
         // console.log(url + 'transcript');
