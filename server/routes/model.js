@@ -16,11 +16,7 @@ app.post('/predict_sentiment', async (req, res) => {
     const comment = req.body.comment;
     try {
         const api_key = getApiKey();
-        const response = await axios.post('https://condense-4eevndrdnq-em.a.run.app/analyze_sentiment', { comment }, {
-            headers: {
-                'x-api-key': api_key // Pass the api_key as a header
-            }
-        });        
+        const response = await axios.post('https://condense-4eevndrdnq-em.a.run.app/analyze_sentiment', {api_key, comment });        
         const prediction = response.data.prediction;
         res.json({ prediction });
     } catch (error) {
