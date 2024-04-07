@@ -105,11 +105,6 @@ const SignUp = () => {
     }
     setIsLoading(false);
 
-    // Reload the page
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 5000); // Reload after 3 seconds
-
     // Handle form submission
     console.log("Form submitted!");
   };
