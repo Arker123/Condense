@@ -120,11 +120,13 @@ def interact_with_chatbot(summary: str, question: str) -> str:
     return final_answer
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv=None) -> int:
     parser = make_parser()
-    argv = parser.parse_args(argv)
-    answer = interact_with_chatbot(argv.summary, argv.question)
+    args = parser.parse_args(argv)
+    answer = interact_with_chatbot(args.summary, args.question)
     print(answer)
+
+    return 0
 
 
 if __name__ == "__main__":
