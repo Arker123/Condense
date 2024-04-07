@@ -3,6 +3,7 @@ import re
 import sys
 import logging
 import argparse
+from typing import Dict, List
 
 import youtube_transcript_api
 
@@ -38,7 +39,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def get_transcript(video_url) -> list[dict[str, str]]:
+def get_transcript(video_url) -> List[Dict[str, str]]:
     if "youtube.com/watch?v=" in video_url:
         video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
     elif "youtu.be" in video_url:

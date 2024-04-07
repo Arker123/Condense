@@ -3,6 +3,7 @@ import re
 import sys
 import logging
 import argparse
+from typing import List
 
 import nltk
 from transformers import pipeline
@@ -33,7 +34,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def clean_data(data: list[dict]) -> str:
+def clean_data(data: List[dict]) -> str:
     if data:
         sentences = []
         # Removing extra whitespaces
