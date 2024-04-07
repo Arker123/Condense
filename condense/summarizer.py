@@ -2,7 +2,7 @@ import re
 import sys
 import logging
 import argparse
-from typing import List, Dict, Tuple
+from typing import Dict, List, Tuple
 
 import nltk
 from transformers import pipeline
@@ -72,7 +72,7 @@ def get_summary(data: List[Dict[str, str]]) -> Tuple[str, str]:
         ]
         time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
 
-    return summary, time_stamp  
+    return summary, time_stamp
 
 
 def summerize_text(video_url: str) -> List[Dict]:
