@@ -9,6 +9,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "../components/shared/Sidebar";
 import Footer from '../components/shared/Footer'
 import {
   getNote,
@@ -72,13 +73,13 @@ const SummaryPage = () => {
 
   const fetchSummary = async () => {
     // const summary = summaries.find((item) => item.videoId === videoId);
-    const res = await axios.post("http://localhost:5000/summaries/generate", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/summaries/generate`, {
       url,
     });
     setSummaryText(res.data.summary);
   };
   const fetchTranscript = async () => {
-    const res = await axios.post("http://localhost:5000/transcript/", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/transcript/`, {
       url,
     });
     const transcripts = await JSON5.parse(res.data.transcript);
@@ -182,7 +183,8 @@ const SummaryPage = () => {
 
   return (
     <>
-    <div className="">
+    <div className="flex flex-row">
+      <Sidebar />
       <motion.div
         className=" flex flex-col justify-center items-center bg-gradient-to-b from-black  to-[#6f0000]"
         initial={{ opacity: 0 }}
@@ -284,8 +286,8 @@ const SummaryPage = () => {
           </div>
         </div>
       </motion.div>
-      <ToastContainer />
     </div>
+    <ToastContainer />
     <Footer/>
     </>
   );
