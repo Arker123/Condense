@@ -28,7 +28,7 @@ const Sidebar = () => {
 
 
         <div className={`${open?'visible':'hidden'} flex flex-row gap-2  text-black font-extrabold font-weight-200`} >
-          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5" data-testid = "condense-logo"/><div className="mt-2 text-[25px]">Condense.</div></div>
+          <img src={'/images/logo_condense.jpg'} className="w-[25px] h-[25px] rounded-full object-cover mt-3.5" data-testid = "condense-logo"/><div className="mt-2 text-[25px]">Condense</div></div>
 
          <div className="py-3 flex justify-end">
           <HiMenuAlt3
