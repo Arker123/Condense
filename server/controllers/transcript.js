@@ -2,6 +2,7 @@
 const { spawnSync } = require("child_process");
 
 const getTranscript = async (req, res) => {
+
   // console.log(req.body);
   try {
     const { url } = req.body;
@@ -10,25 +11,25 @@ const getTranscript = async (req, res) => {
       return res.status(400).json({ message: "URL is required" });
     }
 
-    const pythonProcess = spawnSync("python", [
-      "../condense/transcript.py",
-      "--url",
-      url,
-      "-t",
-    ]);
+        const pythonProcess = spawnSync("python", [
+            "../condense/transcript.py",
+            "--url",
+            url,
+            "-t",
+        ]);
 
-    const dataToSend = await pythonProcess.stdout.toString();
-    if (dataToSend) {
-      res.status(200).json({
-        transcript: dataToSend,
-        message: "Transcript generated successfully",
-      });
-    } else {
-      res.status(400).send({ message: "Error in getting transcript" });
+        const dataToSend = await pythonProcess.stdout.toString();
+        if (dataToSend) {
+            res.status(200).json({
+                transcript: dataToSend,
+                message: "Transcript generated successfully",
+            });
+        } else {
+            res.status(400).send({ message: "Error in getting transcript" });
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
     }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
 };
 
 module.exports = { getTranscript };
