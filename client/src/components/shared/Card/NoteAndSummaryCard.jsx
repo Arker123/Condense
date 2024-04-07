@@ -53,7 +53,6 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
           
         </div>
       </div>
-      {/* <summaryAndNotes note= {note} summary= {summary} youtubeUrl={youtubeUrl}/> */}
       
   </div>
   );
