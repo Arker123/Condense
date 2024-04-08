@@ -1,19 +1,16 @@
 import time
+import shutil
 from threading import Thread
 
+import whisper
 import soundcard as sc
 import soundfile as sf
-from transformers import pipeline
 
-model = pipeline("automatic-speech-recognition", model="openai/whisper-medium")
+from condense.youtube_audio_extractor import get_transcript
+
+model = whisper.load_model("base")
 samplerate = 48000
 record_sec = 15
-
-
-def transcription(filename):
-    print("Transcribing...")
-    transcribed_text = model(filename)
-    print("Transcript:", transcribed_text["text"])
 
 
 def record():
@@ -24,7 +21,9 @@ def record():
         filename = f"output_{time.time()}.wav"
         data = mic.record(numframes=samplerate * record_sec)
         sf.write(file=filename, data=data[:, 0], samplerate=samplerate)
-        transcription(filename)
+        transcribed_text = get_transcript(model, ".", filename)
+        print(transcribed_text)
+        shutil.rmtree(filename)
 
 
 def main():
