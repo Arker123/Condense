@@ -7,6 +7,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Sidebar from "../components/shared/Sidebar";
 import Footer from "../components/shared/Footer";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [url, setUrl] = useState("");

@@ -29,7 +29,7 @@ const otpSchema = new Schema({
  */
 async function sendVerificationEmail(email, otp) {
     try {
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
             from: "DEP24.P01@outlook.com",
             to: email, // list of receivers
             subject: "OTP Verification", // Subject line
@@ -38,7 +38,7 @@ async function sendVerificationEmail(email, otp) {
                 It will expire in 5 minutes.
             </p>`, // plain text body
         });
-        console.log("Message sent", info.messageId);
+        console.log("Message sent");
     } catch (error) {
         console.log("Error occurred while sending email: ", error);
         throw error;
@@ -48,8 +48,8 @@ async function sendVerificationEmail(email, otp) {
 otpSchema.pre("save", async function (next) {
     console.log("New otp saved to database");
     // Only send an email when a new document is created
-  if (this.isNew) {                                       // eslint-disable-line
-    await sendVerificationEmail(this.email, this.otp);    // eslint-disable-line
+  if (this.isNew) { // eslint-disable-line
+    await sendVerificationEmail(this.email, this.otp); // eslint-disable-line
     }
     next();
 });

@@ -6,6 +6,7 @@ import shutil
 import string
 import logging
 import argparse
+from typing import Dict, List, Tuple
 
 import whisper
 from pytube import YouTube
@@ -42,7 +43,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
+def generate(audio_stream: YouTube, output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
     """
@@ -64,7 +65,7 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> tuple[li
     return segments, language
 
 
-def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str]:
+def get_transcript_from_video(video_url: str) -> Tuple[List[Dict[str, str]], str]:
     """
     Get the transcript for the video.
     """
@@ -84,14 +85,16 @@ def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str
     return text, lang
 
 
-def main(argv: list[str] = None) -> int:
+def main(argv=None) -> int:
     logging.basicConfig(level=logging.DEBUG)
     parser = make_parser()
-    argv = parser.parse_args(argv)
+    args = parser.parse_args(argv)
 
-    text, lang = get_transcript_from_video(argv.video_url)
-    save_to_file(text, argv)
+    text, lang = get_transcript_from_video(args.video_url)
+    save_to_file(text, args)
     print(text)
+
+    return 0
 
 
 if __name__ == "__main__":

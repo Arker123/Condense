@@ -2,10 +2,12 @@ import re
 import sys
 import logging
 import argparse
+from typing import Any
 
 import nltk
 import emoji
 import torch
+from transformers import PreTrainedModel, PreTrainedTokenizer
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -34,7 +36,7 @@ def make_parser() -> argparse.ArgumentParser:
 
 
 # Step 1: Data Preprocessing
-def preprocess_data(comment):
+def preprocess_data(comment: str) -> str:
     comment = emoji.demojize(comment)
     comment = re.sub("[^a-zA-Z0-9.,;:()'`*\"\\s]", "", comment)
     comment = re.sub("\\s+", " ", comment)
@@ -47,9 +49,9 @@ def preprocess_data(comment):
 
 
 # Step 2: Predict Sentiment
-def predict_sentiment(model, tokenizer, comment):
-    comment = preprocess_data(comment)
-    sequence = tokenizer.texts_to_sequences([comment])
+def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, comment: str) -> str:
+    refined_comment = preprocess_data(comment)
+    sequence = tokenizer.texts_to_sequences([refined_comment])
     tensor = torch.LongTensor(sequence)
 
     # Pass the tensor through the model to get the predicted sentiment
@@ -57,23 +59,24 @@ def predict_sentiment(model, tokenizer, comment):
         output = model(tensor)
         _, predicted = torch.max(output, 1)
         sentiment_label = {1: "negative", 0: "neutral", 2: "positive"}
-        predicted_sentiment = sentiment_label[predicted.item()]
-        if predict_sentiment:
-            logger.info("Predicted sentiment: %s", predicted_sentiment)
-        else:
-            logger.info("Sentiment could not be predicted.")
+        predicted_sentiment = sentiment_label[int(predicted.item())]
+
+        return predicted_sentiment
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv=None) -> int:
     logging.basicConfig(level=logging.DEBUG)
     parser = make_parser()
-    argv = parser.parse_args(argv)
+    args = parser.parse_args(argv)
 
     nltk.download("punkt")
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
-    predict_sentiment(model, tokenizer, argv.comment)
+    sentiment = predict_sentiment(model, tokenizer, args.comment)
+    print(sentiment)
+
+    return 0
 
 
 if __name__ == "__main__":
