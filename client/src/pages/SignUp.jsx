@@ -187,7 +187,7 @@ const SignUp = () => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            <motion.div className="mt-[275px] ml-2 font-sans ">CONDENSE</motion.div>
+            <motion.div className="mt-[275px] ml-2 font-sans font-extrabold ">CONDENSE</motion.div>
           </motion.h1>
         </div>
 
@@ -236,7 +236,7 @@ const SignUp = () => {
                     type="text"
                     value={email}
                     onChange={handleEmailChange}
-                    placeholder=""
+                    placeholder="Enter your email ID"
                     data-testid="email-test"
                     required
                   />
@@ -254,7 +254,7 @@ const SignUp = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your username"
                     data-testid="username-test"
                     required
                   />
@@ -272,7 +272,7 @@ const SignUp = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password"
                     data-testid="password-test"
                     required
                   />
@@ -290,7 +290,7 @@ const SignUp = () => {
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password again"
                     data-testid="confirmpassword-test"
                     required
                   />
@@ -321,7 +321,7 @@ const SignUp = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your email ID"
                     data-testid="email-test2"
                     required
                   />
@@ -339,7 +339,7 @@ const SignUp = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password"
                     data-testid="password-test2"
                     required
                   />
