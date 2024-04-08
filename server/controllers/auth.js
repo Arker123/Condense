@@ -183,9 +183,7 @@ const loginUser = async (req, res) => {
             const cred = jwtDecode(credential);
             console.log(cred);
             const email = cred?.email;
-
-            // eslint-disable-next-line no-unused-vars
-            const name = cred?.name;
+            
             if (email) {
                 const user = await User.findOne({ email });
                 if (user) {
