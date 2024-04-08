@@ -1,0 +1,88 @@
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  border-radius: 50%;
+  top: 50px;
+  left: 80px;
+}
+
+.navbar {
+  align-items: center;
+  overflow: hidden;
+  justify-content: center;
+  background-color: #efefefd7;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  height: 48px;
+  margin-top: 45px;
+  position: fixed;
+  padding-top: 10px;
+  top: 0;
+  backdrop-filter: blur(6px);
+  z-index:1;
+
+}
+
+.navbar ul li:last-child {
+  margin-right: 20px;
+}
+
+.navbar li {
+  float: left;
+  margin-left: 10px;
+  list-style-type: none;
+}
+
+.navbar a {
+  display: block;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  text-decoration: none;
+  justify-content: start;
+  padding: 0px 16px;
+  font-size: 1rem;
+  font: "Gothic A1";
+  font-weight: 400;
+}
+
+.navbar a:hover {
+  background-color: E1E1DF;
+  color: red;
+}
+
+.user-actions {
+  position: absolute;
+  top: 4vw;
+  right: 2vw;
+}
+
+.login-signup-button {
+  color: #000000;
+  background-color: #e1e1df;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-size: 1rem;
+  font: "Gothic A1";
+  height: 2rem;
+  align-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: 0.3s;
+}
+
+.login-signup-button:hover {
+  background-color: #387cb8;
+  color: #f6f6f6;
+}
