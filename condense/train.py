@@ -21,7 +21,11 @@ logger.setLevel(logging.DEBUG)
 
 
 def train_model(
-    model: torch.nn.Module, criterion, optimizer, train_loader: torch.utils.data.DataLoader, num_epochs: int = 20
+    model: torch.nn.Module,
+    criterion,
+    optimizer,
+    train_loader: torch.utils.data.DataLoader,
+    num_epochs: int = 20,
 ) -> None:
     """
     This function trains the specified model using the provided criterion and optimizer on the training data.
@@ -43,10 +47,14 @@ def train_model(
             loss.backward()
             optimizer.step()
         dt = datetime.now() - t0
-        logger.info(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Duration:{dt}")
+        logger.info(
+            f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Duration:{dt}"
+        )
 
 
-def evaluate_model(model: torch.nn.Module, test_loader: torch.utils.data.DataLoader) -> None:
+def evaluate_model(
+    model: torch.nn.Module, test_loader: torch.utils.data.DataLoader
+) -> None:
     """
     This function evaluates the performance of the trained model on the test dataset and prints the accuracy.
 
@@ -90,7 +98,12 @@ def save_model(model: torch.nn.Module, tokenizer: Tokenizer) -> None:
     logger.info(f"Model saved at: {model_save_dir}")
 
 
-def set_model(data: pd.DataFrame, padded_sequences: np.ndarray, vocab_size: int, tokenizer: Tokenizer) -> None:
+def set_model(
+    data: pd.DataFrame,
+    padded_sequences: np.ndarray,
+    vocab_size: int,
+    tokenizer: Tokenizer,
+) -> None:
     """
     This function sets up the model architecture, loss criterion, optimizer, and data loaders,
     then trains and evaluates the model.
@@ -102,13 +115,17 @@ def set_model(data: pd.DataFrame, padded_sequences: np.ndarray, vocab_size: int,
         tokenizer: The tokenizer used to preprocess the text data.
     """
     labels = pd.get_dummies(data["sentiment"]).values
-    X_train, X_test, y_train, y_test = train_test_split(padded_sequences, labels, test_size=0.1)
+    X_train, X_test, y_train, y_test = train_test_split(
+        padded_sequences, labels, test_size=0.1
+    )
     embedding_dim = 128
     hidden_dim = 256
     output_dim = 3
     num_layers = 5
     dropout = 0.3
-    model = SentimentLSTM(vocab_size, embedding_dim, hidden_dim, output_dim, num_layers, dropout)
+    model = SentimentLSTM(
+        vocab_size, embedding_dim, hidden_dim, output_dim, num_layers, dropout
+    )
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -119,10 +136,14 @@ def set_model(data: pd.DataFrame, padded_sequences: np.ndarray, vocab_size: int,
     y_test_tensor = torch.tensor(y_test, dtype=torch.float)
 
     train_dataset = torch.utils.data.TensorDataset(X_train_tensor, y_train_tensor)
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset, batch_size=32, shuffle=True
+    )
 
     test_dataset = torch.utils.data.TensorDataset(X_test_tensor, y_test_tensor)
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=False)
+    test_loader = torch.utils.data.DataLoader(
+        test_dataset, batch_size=32, shuffle=False
+    )
 
     train_model(model, criterion, optimizer, train_loader)
     evaluate_model(model, test_loader)
@@ -156,7 +177,16 @@ def main():
     data = pd.read_csv("train.csv")
     data.dropna(inplace=True)
     data = data.drop(
-        ["Density", "Land Area", "Population -2020", "Country", "Age of User", "Time of Tweet", "textID", "text"],
+        [
+            "Density",
+            "Land Area",
+            "Population -2020",
+            "Country",
+            "Age of User",
+            "Time of Tweet",
+            "textID",
+            "text",
+        ],
         axis=1,
     )
     data.rename(columns={"selected_text": "comment"}, inplace=True)

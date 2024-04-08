@@ -65,7 +65,12 @@ def split_into_paragraphs(sentences: List[str], max_words: int = 350) -> List[st
     return paragraphs
 
 
-def answer_question(paragraph: str, question: str, model: BertForQuestionAnswering, tokenizer: BertTokenizer) -> str:
+def answer_question(
+    paragraph: str,
+    question: str,
+    model: BertForQuestionAnswering,
+    tokenizer: BertTokenizer,
+) -> str:
     """
     Answer a question based on the given paragraph.
     :param paragraph: The paragraph to answer the question from
@@ -106,7 +111,9 @@ def interact_with_chatbot(summary: str, question: str) -> str:
         answers.append(answer)
 
     filtered_answers = [
-        answer for answer in answers if "[CLS]" not in answer and "[SEP]" not in answer and answer != ""
+        answer
+        for answer in answers
+        if "[CLS]" not in answer and "[SEP]" not in answer and answer != ""
     ]
 
     try:
