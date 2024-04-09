@@ -5,10 +5,12 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "../components/shared/Sidebar";
+import Footer from '../components/shared/Footer'
 import {
   getNote,
   modifyNote,
@@ -17,17 +19,54 @@ import {
   modifyFavSummaries,
   fetchOneSummary,
   saveSummary,
+  getUser,
 } from "../https/index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
+import { setUserSlice } from "../redux/userSlice";
 
 const SummaryPage = () => {
   // const [url, setUrl] = useState("");
   const location = useLocation();
   const url = location.state;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const fetchUser = async () => {
+    try {
+      console.log(user.id);
+      console.log({
+        id: user.id,
+      });
+      const response = await getUser({ id: user.id });
+      console.log(response);
+      dispatch(setUserSlice({ user: response.data.user }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!url) {
+      const timeout = setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [url]);
+  if (!url) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <div>Invalid URL</div>
+        <div>Redirecting...</div>
+      </div>
+    );
+  }
   const [note, setNote] = useState("");
   console.log(`in url page, url: ${url}`);
-  const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
 
@@ -55,13 +94,13 @@ const SummaryPage = () => {
 
   const fetchSummary = async () => {
     // const summary = summaries.find((item) => item.videoId === videoId);
-    const res = await axios.post("http://localhost:5000/summaries/generate", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/summaries/generate`, {
       url,
     });
     setSummaryText(res.data.summary);
   };
   const fetchTranscript = async () => {
-    const res = await axios.post("http://localhost:5000/transcript/", {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/transcript/`, {
       url,
     });
     const transcripts = await JSON5.parse(res.data.transcript);
@@ -70,38 +109,37 @@ const SummaryPage = () => {
   };
 
   const handleSaveSummary = async () => {
-    console.log("in handlesavesummary")
+    console.log("in handlesavesummary");
     const data = {
       userId: user.id,
       videoId: url,
       summaryBody: summaryText,
     };
 
-    try{
+    try {
       const response = await saveSummary(data);
       console.log(response);
-      toast.success("Summary saved successfully")
-    }catch(error) {
-      console.log(error)
+      toast.success("Summary saved successfully");
+    } catch (error) {
+      console.log(error);
       let errorMessage = "Error while saving";
       toast.error(errorMessage, toastOptions);
     }
-    
   };
 
   const addSummaryToFav = async () => {
-    console.log("in addsummarytofav")
+    console.log("in addsummarytofav");
     const data = {
       userId: user.id,
       summaryId: url,
     };
 
-    try{
+    try {
       const response = await modifyFavSummaries(data);
       console.log(response);
-      toast.success("Summary fav flipped successfully")
-    }catch(error) {
-      console.log(error)
+      toast.success("Summary fav flipped successfully");
+    } catch (error) {
+      console.log(error);
       let errorMessage = "Error while updating fv";
       toast.error(errorMessage, toastOptions);
     }
@@ -113,17 +151,17 @@ const SummaryPage = () => {
       videoId: url,
       note: { title: "Untitled Note", body: note },
     };
-    console.log("notess: ", notes)
+    console.log("notess: ", notes);
     const filteredArray = notes.filter((item) => item[videoId] === url);
-    console.log("filteredarray:  ", filteredArray)
+    console.log("filteredarray:  ", filteredArray);
 
     if (filteredArray.length === 0) {
       try {
         const response = await createNote(data);
         console.log(response);
-        toast.success("Note saved successfully")
-      } catch(error) {
-        console.log(error)
+        toast.success("Note saved successfully");
+      } catch (error) {
+        console.log(error);
         let errorMessage = "Error while saving";
         toast.error(errorMessage, toastOptions);
       }
@@ -131,9 +169,9 @@ const SummaryPage = () => {
       try {
         const response = await modifyNote(data);
         console.log(response);
-        toast.success("Note saved successfully")
-      } catch(error) {
-        console.log(error)
+        toast.success("Note saved successfully");
+      } catch (error) {
+        console.log(error);
         let errorMessage = "Error while saving";
         toast.error(errorMessage, toastOptions);
       }
@@ -164,14 +202,16 @@ const SummaryPage = () => {
   }, [url]);
 
   return (
-    <div className="">
+    <>
+    <div className="flex flex-row">
+      <Sidebar />
       <motion.div
-        className=" flex flex-col justify-center items-center bg-gradient-to-b from-red-500 via-red-900 to-black"
+        className=" flex flex-col justify-center items-center bg-gradient-to-b from-black  to-[#6f0000]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-full h-[1400px] bg-gradient-to-b from-red-500 via-red-900 to-black mb-4">
+        <div className="w-full h-[1400px] bg-gradient-to-b from-black  to-[#6f0000] mb-4">
           <div className="flex flex-col w-full h-[1200px] bg-none p-12">
             <div className="flex flex-row w-full bg-none">
               <div className="w-3/5 h-[600px] bg-white rounded-lg mr-4">
@@ -196,16 +236,13 @@ const SummaryPage = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h2 className={styles.transcriptHeader}>NOTES</h2>
                   <div>
-                    <button 
+                    <button
                       className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
-                      onClick={()=> handleSaveNote()}
+                      onClick={() => handleSaveNote()}
                     >
                       <FontAwesomeIcon icon={faSave} />
                     </button>
-                    <button 
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                      
-                    >
+                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
                       <FontAwesomeIcon icon={faStar} />
                     </button>
                   </div>
@@ -230,10 +267,15 @@ const SummaryPage = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h2 className={styles.transcriptHeader}>TRANSCRIPT</h2>
                 </div>
-                <div data-testid = 'transcript-test' className="w-full flex flex-col gap-5 pb-5">
+                <div
+                  data-testid="transcript-test"
+                  className="w-full flex flex-col gap-5 pb-5"
+                >
                   {transcripts.map((transcript) => (
                     <div className="flex">
-                      <div className="text-[rgb(116,173,252)] w-10 mr-2">{transcript.start}</div>
+                      <div className="text-[rgb(116,173,252)] w-10 mr-2">
+                        {transcript.start}
+                      </div>
                       <div className="px-2 w-full">{transcript.text}</div>
                     </div>
                   ))}
@@ -246,13 +288,13 @@ const SummaryPage = () => {
                 <div className="flex justify-between items-center mb-4 ">
                   <h2 className={styles.transcriptHeader}>SUMMARY</h2>
                   <div>
-                    <button 
+                    <button
                       className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
                       onClick={() => handleSaveSummary()}
                     >
                       <FontAwesomeIcon icon={faSave} />
                     </button>
-                    <button 
+                    <button
                       className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
                       onClick={() => addSummaryToFav()}
                     >
@@ -266,8 +308,10 @@ const SummaryPage = () => {
           </div>
         </div>
       </motion.div>
-      <ToastContainer />
     </div>
+    <ToastContainer />
+    <Footer/>
+    </>
   );
 };
 
