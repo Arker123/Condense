@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, Register } from "../https/index";
@@ -40,6 +40,7 @@ const SignUp = () => {
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    
 
     // Validate email format using a regular expression
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -152,7 +153,10 @@ const SignUp = () => {
       setEmail("");
       setName("");
     } catch (error) {
-      toast.error(error.response?.data?.message, toastOptions);
+
+      console.log(error)
+      errorMessage = "Error while logging in";
+      toast.error(errorMessage, toastOptions);
     }
     setIsLoading(false);
 
