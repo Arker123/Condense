@@ -38,7 +38,16 @@ def main():
     data = pd.read_csv("train.csv")
     data.dropna(inplace=True)
     data = data.drop(
-        ["Density", "Land Area", "Population -2020", "Country", "Age of User", "Time of Tweet", "textID", "text"],
+        [
+            "Density",
+            "Land Area",
+            "Population -2020",
+            "Country",
+            "Age of User",
+            "Time of Tweet",
+            "textID",
+            "text",
+        ],
         axis=1,
     )
     data.rename(columns={"selected_text": "comment"}, inplace=True)
