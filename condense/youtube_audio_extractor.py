@@ -56,7 +56,7 @@ def get_transcript(model: whisper.model, output_path: str, filename: str) -> Tup
     return (segments, language)
 
 
-def load_model(output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
+def start_translate(output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
     model = whisper.load_model("base")
     segments, language = get_transcript(model, output_path, filename)
 
