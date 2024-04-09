@@ -183,8 +183,6 @@ const loginUser = async (req, res) => {
             const cred = jwtDecode(credential);
             console.log(cred);
             const email = cred?.email;
-
-            // eslint-disable-next-line no-unused-vars
             const name = cred?.name;
             if (email) {
                 const user = await User.findOne({ email });
@@ -194,14 +192,14 @@ const loginUser = async (req, res) => {
                         process.env.JWT_REFRESH_TOKEN_SECRET,
                         {
                             expiresIn: "180d",
-                        },
+                        }
                     );
                     const accessToken = jwt.sign(
                         { email },
                         process.env.JWT_ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: "5m",
-                        },
+                        }
                     );
                     res.status(200).json({
                         success: true,
@@ -220,14 +218,14 @@ const loginUser = async (req, res) => {
                         process.env.JWT_REFRESH_TOKEN_SECRET,
                         {
                             expiresIn: "180d",
-                        },
+                        }
                     );
                     const accessToken = jwt.sign(
                         { email },
                         process.env.JWT_ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: "5m",
-                        },
+                        }
                     );
                     res.status(200).json({
                         success: true,
@@ -238,10 +236,7 @@ const loginUser = async (req, res) => {
                     });
                 }
             } else {
-                res.status(400).json({
-                    success: false,
-                    error: "Invalid credentials",
-                });
+                res.status(400).json({ success: false, error: "Invalid credentials" });
             }
         } catch (err) {
             console.log(err.message);
@@ -260,36 +255,43 @@ const loginUser = async (req, res) => {
             });
         }
 
-    const user = await User.findOne({ email: email });
-    console.log("User logged in successfully");
-    if (user) {
-      bcrypt.compare(password, user.password, async (err, result) => {
-        if (result) {
-          // eslint-disable-next-line no-unused-vars
-          const { _password, ...resUser } = user._doc;
-          
-          const refreshToken = jwt.sign(
-            { email },
-            process.env.JWT_REFRESH_TOKEN_SECRET,
-            {
-              expiresIn: "180d",
-            }
-          );
-          const accessToken = jwt.sign(
-            { email },
-            process.env.JWT_ACCESS_TOKEN_SECRET,
-            {
-              expiresIn: "5m",
-            }
-          );
-          
-          res.status(200).json({
-            success: true,
-            user: resUser,
-            message: "User logged in successfully",
-            accessToken,
-            refreshToken,
-          });
+        const user = await User.findOne({ email: email });
+        console.log("User logged in successfully");
+        if (user) {
+            bcrypt.compare(password, user.password, async (err, result) => {
+                if (result) {
+                    // eslint-disable-next-line no-unused-vars
+                    const { _password, ...resUser } = user._doc;
+
+                    const refreshToken = jwt.sign(
+                        { email },
+                        process.env.JWT_REFRESH_TOKEN_SECRET,
+                        {
+                            expiresIn: "180d",
+                        }
+                    );
+                    const accessToken = jwt.sign(
+                        { email },
+                        process.env.JWT_ACCESS_TOKEN_SECRET,
+                        {
+                            expiresIn: "5m",
+                        }
+                    );
+
+                    res.status(200).json({
+                        success: true,
+                        user: resUser,
+                        message: "User logged in successfully",
+                        accessToken,
+                        refreshToken,
+                    });
+                } else {
+                    res.status(400).json({
+                        success: false,
+                        message: "Invalid credentials",
+                    });
+                }
+            });
         } else {
             res.status(400).json({
                 success: false,
