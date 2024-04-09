@@ -23,8 +23,6 @@ import JSON5 from "json5";
 import { setUserSlice } from "../redux/userSlice";
 
 const SummaryPage = () => {
-  // const [url, setUrl] = useState("");
-
   const [summaryText, setSummaryText] = useState("Loading...");
   const [transcripts, setTranscripts] = useState([]);
   const [note, setNote] = useState("Loading...");
@@ -60,7 +58,6 @@ const SummaryPage = () => {
         await fetchSummary();
       };
       fetchData();
-
     } else {
       const timeout = setTimeout(() => {
         window.location.href = "/dashboard";
@@ -96,10 +93,7 @@ const SummaryPage = () => {
     theme: "dark",
   };
 
-  // const [transcripts]
-
   const fetchSummary = () => {
-    // const summary = summaries.find((item) => item.videoId === videoId);
 
     const res = axios.post(
       `${process.env.REACT_APP_API_URL}/summaries/generate`,
@@ -112,6 +106,8 @@ const SummaryPage = () => {
         setSummaryText(res.data.summary);
       })
       .catch((err) => {
+        toast.error("Error while fetching summary", toastOptions);
+
         console.log(err);
       });
   };
@@ -274,7 +270,6 @@ const SummaryPage = () => {
                     placeholder=""
                     data-testid="notes-test"
                     className="bg-none w-full h-[480px] outline-none overflow-auto"
-                    // style={{ paddingTop: '20px' }}
                   />
                 </div>
               </div>
