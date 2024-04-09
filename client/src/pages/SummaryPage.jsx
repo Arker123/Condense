@@ -1,23 +1,20 @@
 // SummaryPage.js
 import React, { useEffect, useState } from "react";
 import styles from "./SummaryPage.module.css";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../components/shared/Sidebar";
-import Footer from '../components/shared/Footer'
+import Footer from "../components/shared/Footer";
 import {
-  getNote,
   modifyNote,
   createNote,
   deleteNote,
   modifyFavSummaries,
-  fetchOneSummary,
   saveSummary,
   getUser,
 } from "../https/index";
@@ -28,11 +25,16 @@ import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const SummaryPage = () => {
-  // const [url, setUrl] = useState("");
+  const [summaryText, setSummaryText] = useState("Loading...");
+  const [transcripts, setTranscripts] = useState([]);
+  const [note, setNote] = useState("Loading...");
+
   const location = useLocation();
   const url = location.state;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const notes = user.notes;
+  const summaries = user.summaries;
 
   const fetchUser = async () => {
     try {
@@ -43,16 +45,22 @@ const SummaryPage = () => {
       const response = await getUser({ id: user.id });
       console.log(response);
       dispatch(setUserSlice({ user: response.data.user }));
+      const notes = response.data.user.notes;
+      setNote(notes.find((item) => item.videoId === videoId)?.body || "");
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   useEffect(() => {
-    if (!url) {
+    if (url) {
+      const fetchData = async () => {
+        await fetchUser();
+        await fetchTranscript();
+        await fetchSummary();
+      };
+      fetchData();
+    } else {
       const timeout = setTimeout(() => {
         window.location.href = "/dashboard";
       }, 3000);
@@ -67,18 +75,7 @@ const SummaryPage = () => {
       </div>
     );
   }
-  const [note, setNote] = useState("");
   console.log(`in url page, url: ${url}`);
-  const notes = user.notes;
-  const summaries = user.summaries;
-
-  const toastOptions = {
-    position: "bottom-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
 
   const getVideoId = (url) => {
     const regExp =
@@ -90,24 +87,46 @@ const SummaryPage = () => {
 
   const videoId = getVideoId(url);
 
-  const [summaryText, setSummaryText] = useState("");
-  const [transcripts, setTranscripts] = useState([]);
-  // const [transcripts]
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
-  const fetchSummary = async () => {
-    // const summary = summaries.find((item) => item.videoId === videoId);
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/summaries/generate`, {
-      url,
-    });
-    setSummaryText(res.data.summary);
+  const fetchSummary = () => {
+
+    const res = axios.post(
+      `${process.env.REACT_APP_API_URL}/summaries/generate`,
+      {
+        url,
+      }
+    );
+    res
+      .then((res) => {
+        setSummaryText(res.data.summary);
+      })
+      .catch((err) => {
+        toast.error("Error while fetching summary", toastOptions);
+
+        console.log(err);
+      });
   };
   const fetchTranscript = async () => {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/transcript/`, {
-      url,
-    });
-    const transcripts = await JSON5.parse(res.data.transcript);
-    console.log(transcripts);
-    setTranscripts(transcripts);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/transcript/`,
+        {
+          url,
+        }
+      );
+      const transcripts = await JSON5.parse(res.data.transcript);
+      console.log(transcripts);
+      setTranscripts(transcripts);
+    } catch (error) {
+      toast.error("Error while fetching transcripts", toastOptions);
+    }
   };
 
   const handleSaveSummary = async () => {
@@ -150,18 +169,18 @@ const SummaryPage = () => {
   const handleSaveNote = async () => {
     const data = {
       userId: user.id,
-      videoId: url,
+      videoId: videoId,
       note: { title: "Untitled Note", body: note },
     };
-    console.log("notess: ", notes);
-    const filteredArray = notes.filter((item) => item[videoId] === url);
-    console.log("filteredarray:  ", filteredArray);
 
-    if (filteredArray.length === 0) {
+    const reqNote = notes.find((item) => item.videoId === videoId);
+
+    if (!reqNote) {
       try {
         const response = await createNote(data);
         console.log(response);
         toast.success("Note saved successfully");
+        window.location.reload();
       } catch (error) {
         console.log(error);
         let errorMessage = "Error while saving";
@@ -172,6 +191,7 @@ const SummaryPage = () => {
         const response = await modifyNote(data);
         console.log(response);
         toast.success("Note saved successfully");
+        window.location.reload();
       } catch (error) {
         console.log(error);
         let errorMessage = "Error while saving";
