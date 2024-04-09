@@ -1,6 +1,7 @@
 import sys
 import logging
 import argparse
+from condense.youtube_audio_extractor import start_translate
 
 from moviepy.editor import VideoFileClip
 
@@ -16,19 +17,20 @@ def make_parser() -> argparse.Namespace:
     - args (Namespace): Parsed command line arguments.
     """
     parser = argparse.ArgumentParser(description="Extract audio from a video file.")
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
         "-v",
         "--video",
         dest="video_file",
-        required=True,
-        help="Path to the input video file.",
+        action="store_true",
+        help="Extract audio from a video file.",
     )
-    parser.add_argument(
+    group.add_argument(
         "-a",
         "--audio",
         dest="audio_file",
-        required=True,
-        help="Path to save the output audio file.",
+        action="store_true",
+        help="Save the output audio file.",
     )
     args = parser.parse_args()
     return args
@@ -56,9 +58,16 @@ def main(argv=None) -> int:
     parser = make_parser()
     args = parser.parse_args(argv)
 
-    audio_path = extract_audio(args.video_file, args.audio_file)
-    print(f"Audio extracted and saved to {audio_path}")
-
+    if args.audio_file is None:
+        # video_file is provided
+        tmp_audio_file = "tmp_audio.mp3"
+        audio_path = extract_audio(args.video_file, tmp_audio_file)
+        print(f"Audio extracted and saved to {audio_path}")
+        
+    audio_path = args.audio_file if args.audio_file else tmp_audio_file
+    transcript = start_translate('./', audio_path)
+    
+    print(transcript)
     return 0
 
 
