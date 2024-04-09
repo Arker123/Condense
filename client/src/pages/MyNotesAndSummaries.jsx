@@ -41,6 +41,23 @@ const MyNotesAndSummaries = () => {
     }
   };
 
+  const fetchSummaries = async () => {
+    try {
+      const summariesData = await Promise.all(
+        user.notes.map(async (note) => {
+          const response = await fetchOneSummary({
+            userId: user.id,
+            videoId: note.videoId,
+          });
+          return response.data.summary.body;
+        })
+      );
+      setSummaries(summariesData);
+    } catch (error) {
+      console.error("Error fetching summaries:", error);
+    }
+  };
+
   const handleRedirect = () => {
     navigate("/contact");
   };
