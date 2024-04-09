@@ -60,7 +60,6 @@ const SummaryPage = () => {
         await fetchSummary();
       };
       fetchData();
-
     } else {
       const timeout = setTimeout(() => {
         window.location.href = "/dashboard";
@@ -104,12 +103,13 @@ const SummaryPage = () => {
     const res = axios.post(
       `${process.env.REACT_APP_API_URL}/summaries/generate`,
       {
-        url,
+        videoId,
       }
     );
     res
-      .then((res) => {
-        setSummaryText(res.data.summary);
+      .then((res) => JSON5.parse(res.data.summary))
+      .then((data)=> {
+        setSummaryText(data.summary);
       })
       .catch((err) => {
         console.log(err);
@@ -323,7 +323,7 @@ const SummaryPage = () => {
                       </button>
                     </div>
                   </div>
-                  <div data-testid="summary-test">{summaryText}</div>
+                  <div data-testid="summary-test" className="pb-2">{summaryText}</div>
                 </div>
               </div>
             </div>
