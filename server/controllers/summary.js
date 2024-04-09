@@ -85,7 +85,7 @@ const fetchOneSummary = async (req, res) => {
 
         console.log("Found the following summaries:");
         console.log(summaries);
-        return res.status(200).json(summaries[0]);
+        return res.status(200).json(summaries);
     } catch (error) {
         console.error("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
@@ -116,7 +116,7 @@ const fetchFavSummaries = async (req, res) => {
         console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
-        console.error("Error occurred while fetching summaries", error);
+        console.log("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
 };

@@ -128,7 +128,7 @@ const SummaryPage = () => {
       const res = axios.get(apiUrl);
       res
         .then((res) => {
-          setSummaryText(res.data.summary.body);
+          setSummaryText(res.data[0].summary.body);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
