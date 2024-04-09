@@ -1,4 +1,6 @@
+import os
 import sys
+import random
 import logging
 import argparse
 
@@ -61,12 +63,18 @@ def main(argv=None) -> int:
 
     if args.audio_file is None:
         # video_file is provided
-        tmp_audio_file = "tmp_audio.mp3"
-        audio_path = extract_audio(args.video_file, tmp_audio_file)
+        tmp_audio_dir = "tmp_audio"
+        tmp_audio_file = f"tmp_audio_{random.randint(0, 100000)}.mp3"
+        audio_path = f"{tmp_audio_dir}/{tmp_audio_file}"
+        audio_path = extract_audio(args.video_file, audio_path)
         print(f"Audio extracted and saved to {audio_path}")
 
     audio_path = args.audio_file if args.audio_file else tmp_audio_file
     transcript = start_translate("./", audio_path)
+
+    # remove the temporary audio file
+    if args.audio_file is None:
+        os.remove(audio_path)
 
     print(transcript)
     return 0
