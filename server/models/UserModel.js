@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
             },
             videoId: {
                 type: String,
-                required: true
+                required: true,
             },
             favorite: {
                 type: Boolean,

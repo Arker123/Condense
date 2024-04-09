@@ -61,7 +61,7 @@ const fetchAllSummaries = async (req, res) => {
 const fetchOneSummary = async (req, res) => {
     try {
         const { userId, videoId } = req.query;
-        
+
         console.log("video id: ", videoId);
         console.log("user id: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
@@ -178,7 +178,7 @@ const saveSummary = async (req, res) => {
             return res.status(400).send("User not found");
         }
 
-        console.log(videoId)
+        console.log(videoId);
 
         // Create a new summary document
         const NewSummary = new Summary({
