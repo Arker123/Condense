@@ -15,12 +15,24 @@ samplerate = 48000
 record_sec = 15
 
 
-def load_model():
+def load_model() -> whisper.model:
+    """
+    Load the pre-trained model for speech recognition.
+
+    Returns:
+        whisper.model: The loaded pre-trained model.
+    """
     model = whisper.load_model("base")
     return model
 
 
-def record(model):
+def record(model: whisper.model):
+    """
+    Record audio from the default microphone and transcribe it using the provided model.
+
+    Args:
+        model (whisper.model): The pre-trained model for speech recognition.
+    """
     print("Recording...")
     filename = f"output_{time.time()}.wav"
     try:
@@ -39,6 +51,9 @@ def record(model):
 
 
 def main():
+    """
+    Main function to control the recording process.
+    """
     model = load_model()
     while True:
         try:
