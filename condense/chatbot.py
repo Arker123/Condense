@@ -65,7 +65,12 @@ def split_into_paragraphs(sentences: List[str], max_words: int = 350) -> List[st
     return paragraphs
 
 
-def answer_question(paragraph: str, question: str, model: BertForQuestionAnswering, tokenizer: BertTokenizer) -> str:
+def answer_question(
+    paragraph: str,
+    question: str,
+    model: BertForQuestionAnswering,
+    tokenizer: BertTokenizer,
+) -> str:
     """
     Answer a question based on the given paragraph.
     :param paragraph: The paragraph to answer the question from

@@ -1,0 +1,75 @@
+.App3 {
+    background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+}
+
+.groupside{
+    float: right;
+    align-self: center;
+}
+
+.sidebuttons{
+    background-color: #230b0e82;
+    color: #e1e1df;
+}
+.sidebuttons:hover {
+    background-color: #e1e1df;
+    color: #000000;
+  }
+
+.header{
+    color: #f6f6f6;
+    font-family: "League Gothic", serif;
+    text-align: left;
+    font-size: 3vw;
+}
+
+.profilesection{
+    color: #070707;
+    background-color: #f6f6f6;
+    height: fit-content;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.profileimage{
+    width: 10rem;
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+}
+.profileimage img{
+    width: 5rem;
+    margin: auto;
+}
+
+.summarysection{
+    color: #070707;
+    height: 65%;
+    width: 100%;
+    margin-top: 3%;
+}
+
+.navtabs{
+    cursor: pointer;
+}
+
+.navtabsActive{
+    border-bottom: 2px solid #64B5F6;
+    color: #64B5F6;
+    cursor: pointer;
+
+}
+
+.content{
+    overflow: scroll;
+    height: 92%;
+    width: 100%;
+    background-color: #e1e1df;
+    border-radius: 0.5rem;
+    padding: 2%;
+}
+
+.empty{
+    font-size: large;
+    color: black;
+
+}
