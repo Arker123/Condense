@@ -24,18 +24,18 @@ app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
 
 mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("Connected to Database"))
-  .then(() => {
-    if (process.env.NODE_ENV != "test") {
-      app.listen(port, () => {
-        console.log(`Server is running on ${port} `);
-      });
-    }
-  })
-  .then(() => {
-    redisClient.connect();
-  })
-  .catch((err) => console.log(err));
+    .connect(process.env.MONGO_URL)
+    .then(() => console.log("Connected to Database"))
+    .then(() => {
+        if (process.env.NODE_ENV != "test") {
+            app.listen(port, () => {
+                console.log(`Server is running on ${port} `);
+            });
+        }
+    })
+    .then(() => {
+        redisClient.connect();
+    })
+    .catch((err) => console.log(err));
 
 module.exports = app;
