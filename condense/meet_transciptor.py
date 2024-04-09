@@ -5,9 +5,11 @@ from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
-import whisper
 
 from condense.youtube_audio_extractor import get_transcript
+
+import whisper  # isort: skip
+
 
 warnings.filterwarnings("ignore", category=sc.SoundcardRuntimeWarning)
 
