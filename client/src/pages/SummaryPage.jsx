@@ -17,6 +17,7 @@ import {
   modifyFavSummaries,
   saveSummary,
   getUser,
+  modifyFavNotes,
 } from "../https/index";
 import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
@@ -33,15 +34,16 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
+  console.log("summaa:  ", summaries);
 
   const fetchUser = async () => {
     try {
-      console.log(user.id);
+      console.log("user id: ", user.id);
       console.log({
         id: user.id,
       });
       const response = await getUser({ id: user.id });
-      console.log(response);
+      console.log("in fetch user: ", response);
       dispatch(setUserSlice({ user: response.data.user }));
       const notes = response.data.user.notes;
       setNote(notes.find((item) => item.videoId === videoId)?.body || "");
@@ -94,22 +96,46 @@ const SummaryPage = () => {
   };
 
   const fetchSummary = () => {
+    const reqSummary = summaries.find((summary) => summary.videoId == url);
+    console.log("req summ:  ", reqSummary);
 
-    const res = axios.post(
-      `${process.env.REACT_APP_API_URL}/summaries/generate`,
-      {
-        url,
-      }
-    );
-    res
-      .then((res) => {
-        setSummaryText(res.data.summary);
-      })
-      .catch((err) => {
-        toast.error("Error while fetching summary", toastOptions);
+    if (!reqSummary) {
+      console.log("hii: ");
+      const res = axios.post(
+        `${process.env.REACT_APP_API_URL}/summaries/generate`,
+        {
+          url,
+        }
+      );
+      res
+        .then((res) => {
+          setSummaryText(res.data.summary);
+        })
+        .catch((err) => {
+          toast.error("Error while fetching summary", toastOptions);
 
-        console.log(err);
-      });
+          console.log(err);
+        });
+    } else {
+      console.log("in fetch one summary");
+      const userId = user.id;
+      console.log(userId);
+      console.log(url);
+
+      // Construct the URL with query parameters
+      const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
+
+      const res = axios.get(apiUrl);
+      res
+        .then((res) => {
+          setSummaryText(res.data.summary.body);
+        })
+        .catch((err) => {
+          toast.error("Error while fetching summary", toastOptions);
+
+          console.log(err);
+        });
+    }
   };
   const fetchTranscript = async () => {
     try {
@@ -150,7 +176,7 @@ const SummaryPage = () => {
     console.log("in addsummarytofav");
     const data = {
       userId: user.id,
-      summaryId: url,
+      videoId: url,
     };
 
     try {
@@ -208,8 +234,22 @@ const SummaryPage = () => {
     console.log(response);
   };
 
-  const addNoteToFav = () => {
+  const addNoteToFav = async () => {
+    console.log(" in fav note");
+    const data = {
+      userId: user.id,
+      videoId: videoId,
+    };
 
+    try {
+      const res = await modifyFavNotes(data);
+      toast.success("Summary fav flipped successfully")
+
+    } catch(error) {
+      console.log(error);
+      let errorMessage = "Error while updating fv";
+      toast.error(errorMessage, toastOptions);
+    }
   };
 
   const handleVideoUrl = (url) => {
@@ -259,7 +299,10 @@ const SummaryPage = () => {
                       >
                         <FontAwesomeIcon icon={faSave} />
                       </button>
-                      <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                      <button 
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                        onClick={() => addNoteToFav()}
+                      >
                         <FontAwesomeIcon icon={faStar} />
                       </button>
                     </div>

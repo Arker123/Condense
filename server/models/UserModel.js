@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
                 type: String,
                 required: true,
             },
+            videoId: {
+                type: String,
+                required: true
+            },
             favorite: {
                 type: Boolean,
                 required: true,
