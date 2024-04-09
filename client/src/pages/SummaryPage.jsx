@@ -104,7 +104,7 @@ const SummaryPage = () => {
       url,
     });
     const transcripts = await JSON5.parse(res.data.transcript);
-    console.log(transcripts);
+    // console.log(transcripts);
     setTranscripts(transcripts);
   };
 
@@ -121,7 +121,7 @@ const SummaryPage = () => {
       console.log(response);
       toast.success("Summary saved successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       let errorMessage = "Error while saving";
       toast.error(errorMessage, toastOptions);
     }
@@ -188,7 +188,9 @@ const SummaryPage = () => {
     console.log(response);
   };
 
-  const addNoteToFav = () => {};
+  const addNoteToFav = () => {
+
+  };
 
   const handleVideoUrl = (url) => {
     const videoId = getVideoId(url);
