@@ -70,7 +70,7 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> Tuple[Li
     audio_stream.download(output_path=output_path, filename=filename)
     logger.info(f"Audio downloaded to {output_path}/{filename}")
 
-    segments, language = load_model(output_path, filename)
+    segments, language = start_translate(output_path, filename)
     return (segments, language)
 
 
