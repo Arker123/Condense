@@ -1,9 +1,10 @@
 import sys
 import logging
 import argparse
-from condense.youtube_audio_extractor import start_translate
 
 from moviepy.editor import VideoFileClip
+
+from condense.youtube_audio_extractor import start_translate
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -63,10 +64,10 @@ def main(argv=None) -> int:
         tmp_audio_file = "tmp_audio.mp3"
         audio_path = extract_audio(args.video_file, tmp_audio_file)
         print(f"Audio extracted and saved to {audio_path}")
-        
+
     audio_path = args.audio_file if args.audio_file else tmp_audio_file
-    transcript = start_translate('./', audio_path)
-    
+    transcript = start_translate("./", audio_path)
+
     print(transcript)
     return 0
 
