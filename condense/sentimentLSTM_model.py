@@ -4,13 +4,7 @@ import torch.nn as nn
 
 class SentimentLSTM(nn.Module):
     def __init__(
-        self,
-        vocab_size: int,
-        embedding_dim: int,
-        hidden_dim: int,
-        output_dim: int,
-        num_layers: int,
-        dropout: float,
+        self, vocab_size: int, embedding_dim: int, hidden_dim: int, output_dim: int, num_layers: int, dropout: float
     ):
         """
         Initializes the SentimentLSTM model.

@@ -19,7 +19,7 @@ const Sidebar = () => {
 
     return (
       <div
-        className={`bg-slate-50 rounded-r-lg h-screen ${
+        className={`bg-white rounded-r-lg h-screen ${
           open ? "w-68" : "w-16"
         } duration-500 text-gray-500 px-4 absolute `}
         style={{position: 'inherit'}}

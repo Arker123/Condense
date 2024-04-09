@@ -111,19 +111,14 @@ class Ycom(object):
                 if self.write_to_file:
                     self.write_to_csv()
         else:
-            raise ValueError(
-                "Comments are disabled for the video:",
-                self.video_id_to_extract_comments,
-            )
+            raise ValueError("Comments are disabled for the video:", self.video_id_to_extract_comments)
 
     def request_comments(self):
         try:
             nextPageToken = None
             while True:
                 request = self.youtube.commentThreads().list(
-                    part="snippet,replies",
-                    videoId=self.video_id_to_extract_comments,
-                    pageToken=nextPageToken,
+                    part="snippet,replies", videoId=self.video_id_to_extract_comments, pageToken=nextPageToken
                 )
                 res = request.execute()
                 self.response = res
