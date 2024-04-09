@@ -183,7 +183,7 @@ const loginUser = async (req, res) => {
             const cred = jwtDecode(credential);
             console.log(cred);
             const email = cred?.email;
-            const name = cred?.name;
+            // const name = cred?.name;
             if (email) {
                 const user = await User.findOne({ email });
                 if (user) {
@@ -192,14 +192,14 @@ const loginUser = async (req, res) => {
                         process.env.JWT_REFRESH_TOKEN_SECRET,
                         {
                             expiresIn: "180d",
-                        }
+                        },
                     );
                     const accessToken = jwt.sign(
                         { email },
                         process.env.JWT_ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: "5m",
-                        }
+                        },
                     );
                     res.status(200).json({
                         success: true,
@@ -218,14 +218,14 @@ const loginUser = async (req, res) => {
                         process.env.JWT_REFRESH_TOKEN_SECRET,
                         {
                             expiresIn: "180d",
-                        }
+                        },
                     );
                     const accessToken = jwt.sign(
                         { email },
                         process.env.JWT_ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: "5m",
-                        }
+                        },
                     );
                     res.status(200).json({
                         success: true,
@@ -236,7 +236,10 @@ const loginUser = async (req, res) => {
                     });
                 }
             } else {
-                res.status(400).json({ success: false, error: "Invalid credentials" });
+                res.status(400).json({
+                    success: false,
+                    error: "Invalid credentials",
+                });
             }
         } catch (err) {
             console.log(err.message);
@@ -268,14 +271,14 @@ const loginUser = async (req, res) => {
                         process.env.JWT_REFRESH_TOKEN_SECRET,
                         {
                             expiresIn: "180d",
-                        }
+                        },
                     );
                     const accessToken = jwt.sign(
                         { email },
                         process.env.JWT_ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: "5m",
-                        }
+                        },
                     );
 
                     res.status(200).json({
