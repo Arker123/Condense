@@ -32,28 +32,18 @@ def make_parser() -> argparse.ArgumentParser:
     )
 
     output_group = parser.add_argument_group("rendering arguments")
-    output_group.add_argument(
-        "-j", "--json", action="store_true", help="emit JSON instead of text"
-    )
-    output_group.add_argument(
-        "-t", "--text", action="store_true", help="emit text instead of JSON"
-    )
-    output_group.add_argument(
-        "-c", "--csv", action="store_true", help="emit CSV instead of JSON"
-    )
+    output_group.add_argument("-j", "--json", action="store_true", help="emit JSON instead of text")
+    output_group.add_argument("-t", "--text", action="store_true", help="emit text instead of JSON")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
 
 
 def get_transcript(video_url) -> List[Dict[str, str]]:
     if "youtube.com/watch?v=" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
     elif "youtu.be" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url)
 
     if video_id_match:
         video_id = video_id_match.group("url")
@@ -62,13 +52,9 @@ def get_transcript(video_url) -> List[Dict[str, str]]:
 
     transcript = None
     try:
-        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(
-            video_id
-        )
+        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(video_id)
     except youtube_transcript_api._errors.TranscriptsDisabled:
-        logger.info(
-            "Transcripts are disabled for this video, using audio to text instead."
-        )
+        logger.info("Transcripts are disabled for this video, using audio to text instead.")
 
     if transcript:
         captions = []

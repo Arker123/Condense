@@ -36,22 +36,14 @@ def make_parser() -> argparse.ArgumentParser:
     )
 
     output_group = parser.add_argument_group("rendering arguments")
-    output_group.add_argument(
-        "-j", "--json", action="store_true", help="emit JSON instead of text"
-    )
-    output_group.add_argument(
-        "-t", "--text", action="store_true", help="emit text instead of JSON"
-    )
-    output_group.add_argument(
-        "-c", "--csv", action="store_true", help="emit CSV instead of JSON"
-    )
+    output_group.add_argument("-j", "--json", action="store_true", help="emit JSON instead of text")
+    output_group.add_argument("-t", "--text", action="store_true", help="emit text instead of JSON")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
 
 
-def generate(
-    audio_stream: YouTube, output_path: str, filename: str
-) -> Tuple[List[Dict[str, str]], str]:
+def generate(audio_stream: YouTube, output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
     """
@@ -85,9 +77,7 @@ def get_transcript_from_video(video_url: str) -> Tuple[List[Dict[str, str]], str
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    filename = (
-        "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
-    )
+    filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
     text, lang = generate(audio_stream, output_path, filename)
 
     shutil.rmtree(output_path)

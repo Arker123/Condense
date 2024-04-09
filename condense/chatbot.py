@@ -111,9 +111,7 @@ def interact_with_chatbot(summary: str, question: str) -> str:
         answers.append(answer)
 
     filtered_answers = [
-        answer
-        for answer in answers
-        if "[CLS]" not in answer and "[SEP]" not in answer and answer != ""
+        answer for answer in answers if "[CLS]" not in answer and "[SEP]" not in answer and answer != ""
     ]
 
     try:

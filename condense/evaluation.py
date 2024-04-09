@@ -49,9 +49,7 @@ def preprocess_data(comment: str) -> str:
 
 
 # Step 2: Predict Sentiment
-def predict_sentiment(
-    model: PreTrainedModel, tokenizer: PreTrainedTokenizer, comment: str
-) -> str:
+def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, comment: str) -> str:
     refined_comment = preprocess_data(comment)
     sequence = tokenizer.texts_to_sequences([refined_comment])
     tensor = torch.LongTensor(sequence)

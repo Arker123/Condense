@@ -44,9 +44,7 @@ def clean_data(data: list[str]) -> str:
         raise ValueError("No data found")
 
 
-def generate(
-    audio_stream, output_path: str, filename: str
-) -> tuple[list[dict[str, str]], str]:
+def generate(audio_stream, output_path: str, filename: str) -> tuple[list[dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
     """
@@ -69,13 +67,9 @@ def generate(
 
 def get_transcript_copy(video_url):
     if "youtube.com/watch?v=" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
     elif "youtu.be" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url)
 
     if video_id_match:
         video_id = video_id_match.group("url")
@@ -84,13 +78,9 @@ def get_transcript_copy(video_url):
 
     transcript = None
     try:
-        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(
-            video_id
-        )
+        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(video_id)
     except youtube_transcript_api._errors.TranscriptsDisabled:
-        logger.info(
-            "Transcripts are disabled for this video, using audio to text instead."
-        )
+        logger.info("Transcripts are disabled for this video, using audio to text instead.")
 
     if transcript:
         captions = []
@@ -122,9 +112,7 @@ def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    filename = (
-        "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
-    )
+    filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".mp3"
     text, lang = generate(audio_stream, output_path, filename)
 
     shutil.rmtree(output_path)
@@ -171,14 +159,10 @@ def summarize():
         return jsonify(code=403, message="bad request")
     summarizer = pipeline("summarization", model=model_path, tokenizer=model_path)
     max_chunk_length = 400  # Define the maximum length for each chunk
-    chunks = [
-        data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)
-    ]
+    chunks = [data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)]
     summary = []
     for chunk in chunks:
-        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[
-            0
-        ]["summary_text"]
+        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[0]["summary_text"]
         summary.append(summary_text)
     return " ".join(summary)
 
@@ -190,13 +174,9 @@ def get_transcript():
     if video_url is None or api_key != "xxx":
         return jsonify(code=403, message="bad request")
     if "youtube.com/watch?v=" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=(?P<url>[^&]+)", video_url)
     elif "youtu.be" in video_url:
-        video_id_match = re.search(
-            r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url
-        )
+        video_id_match = re.search(r"(?:https?://)?(?:www\.)?youtu\.be/(?P<url>[^&]+)", video_url)
 
     if video_id_match:
         video_id = video_id_match.group("url")
@@ -205,13 +185,9 @@ def get_transcript():
 
     transcript = None
     try:
-        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(
-            video_id
-        )
+        transcript = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(video_id)
     except youtube_transcript_api._errors.TranscriptsDisabled:
-        logger.info(
-            "Transcripts are disabled for this video, using audio to text instead."
-        )
+        logger.info("Transcripts are disabled for this video, using audio to text instead.")
 
     transcript = None
 
@@ -244,14 +220,10 @@ def summerize_text() -> str:
 
     summarizer = pipeline("summarization", model=model_path, tokenizer=model_path)
     max_chunk_length = 400  # Define the maximum length for each chunk
-    chunks = [
-        data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)
-    ]
+    chunks = [data[i : i + max_chunk_length] for i in range(0, len(data), max_chunk_length)]
     summary = []
     for chunk in chunks:
-        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[
-            0
-        ]["summary_text"]
+        summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[0]["summary_text"]
         summary.append(summary_text)
     return " ".join(summary)
 

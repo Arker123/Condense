@@ -30,9 +30,7 @@ def make_parser() -> argparse.ArgumentParser:
     )
 
     output_group = parser.add_argument_group("rendering arguments")
-    output_group.add_argument(
-        "-c", "--csv", action="store_true", help="emit CSV instead of JSON"
-    )
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
 
@@ -94,9 +92,7 @@ class Ycom(object):
                 writer.writerow(
                     {
                         "comment": self.rpcom.encode("utf-8").decode("utf-8"),
-                        "author_display_name": self.rpauth.encode("utf-8").decode(
-                            "utf-8"
-                        ),
+                        "author_display_name": self.rpauth.encode("utf-8").decode("utf-8"),
                         "comment_like_count": self.rplike,
                     }
                 )
@@ -108,15 +104,9 @@ class Ycom(object):
         if "items" in self.response and self.response["items"]:
             ncoms = self.response["pageInfo"]["totalResults"]
             for i in range(0, ncoms):
-                self.rpcom = self.response["items"][i]["snippet"]["topLevelComment"][
-                    "snippet"
-                ]["textOriginal"]
-                self.rpauth = self.response["items"][i]["snippet"]["topLevelComment"][
-                    "snippet"
-                ]["authorDisplayName"]
-                self.rplike = self.response["items"][i]["snippet"]["topLevelComment"][
-                    "snippet"
-                ]["likeCount"]
+                self.rpcom = self.response["items"][i]["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
+                self.rpauth = self.response["items"][i]["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"]
+                self.rplike = self.response["items"][i]["snippet"]["topLevelComment"]["snippet"]["likeCount"]
                 self.comments.append([self.rpcom, self.rpauth, self.rplike])
                 if self.write_to_file:
                     self.write_to_csv()
