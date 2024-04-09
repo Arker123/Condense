@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-    getAllNotes,
-    modifyNote,
-    createNote,
-    getNote,
-    deleteNote,
-    modifyFavNotes,
+  getAllNotes,
+  modifyNote,
+  createNote,
+  getNote,
+  deleteNote,
+  modifyFavNotes,
 } = require("../controllers/note");
 
 const router = new express.Router();

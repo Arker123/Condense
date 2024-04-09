@@ -243,9 +243,8 @@ const SummaryPage = () => {
 
     try {
       const res = await modifyFavNotes(data);
-      toast.success("Summary fav flipped successfully")
-
-    } catch(error) {
+      toast.success("Summary fav flipped successfully");
+    } catch (error) {
       console.log(error);
       let errorMessage = "Error while updating fv";
       toast.error(errorMessage, toastOptions);
@@ -299,7 +298,7 @@ const SummaryPage = () => {
                       >
                         <FontAwesomeIcon icon={faSave} />
                       </button>
-                      <button 
+                      <button
                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
                         onClick={() => addNoteToFav()}
                       >
