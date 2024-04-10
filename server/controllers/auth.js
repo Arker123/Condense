@@ -183,7 +183,6 @@ const loginUser = async (req, res) => {
             const cred = jwtDecode(credential);
             console.log(cred);
             const email = cred?.email;
-            // const name = cred?.name;
             if (email) {
                 const user = await User.findOne({ email });
                 if (user) {
