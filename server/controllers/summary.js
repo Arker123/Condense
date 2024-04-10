@@ -8,7 +8,6 @@ const generateSummary = async (req, res) => {
     try {
         const { videoId } = req.body;
         if (!videoId) return res.status(400).send("URL is required");
-        // console.log(redisClient);
         const url = "https://www.youtube.com/watch?v=" + videoId;
         console.log(url);
         const summary = await redisClient.get(videoId);
