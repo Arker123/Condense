@@ -93,7 +93,7 @@ function LandingPage2() {
             </Link>
 
             <Link to="">Chrome Extension</Link>
-            <Link to="/dashboard">Youtube Summaries</Link>
+            <Link to="/ytsummaries">Youtube Summaries</Link>
             <Link to="/contact">Contact</Link>
           </div>
           <div>
