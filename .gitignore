@@ -11,3 +11,4 @@ extensions/css/.DS_Store
 .DS_Store
 .mypy_cache
 server/transcripts
+myenv

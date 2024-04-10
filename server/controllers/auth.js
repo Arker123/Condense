@@ -183,7 +183,6 @@ const loginUser = async (req, res) => {
             const cred = jwtDecode(credential);
             console.log(cred);
             const email = cred?.email;
-
             if (email) {
                 const user = await User.findOne({ email });
                 if (user) {
@@ -265,10 +264,28 @@ const loginUser = async (req, res) => {
                 if (result) {
                     // eslint-disable-next-line no-unused-vars
                     const { _password, ...resUser } = user._doc;
+
+                    const refreshToken = jwt.sign(
+                        { email },
+                        process.env.JWT_REFRESH_TOKEN_SECRET,
+                        {
+                            expiresIn: "180d",
+                        },
+                    );
+                    const accessToken = jwt.sign(
+                        { email },
+                        process.env.JWT_ACCESS_TOKEN_SECRET,
+                        {
+                            expiresIn: "5m",
+                        },
+                    );
+
                     res.status(200).json({
                         success: true,
                         user: resUser,
                         message: "User logged in successfully",
+                        accessToken,
+                        refreshToken,
                     });
                 } else {
                     res.status(400).json({
