@@ -21,6 +21,7 @@ requirements = [
     "python-dotenv==1.0.1",
     "torch==2.0",
     "wordcloud==1.9.3",
+    "moviepy==1.0.3",
 ]
 
 # this sets __version__
