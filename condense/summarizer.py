@@ -79,6 +79,10 @@ def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
 def summerize_text(video_url: str) -> Tuple[List[Dict], List[Dict]]:
     nltk.download("punkt")
     data = get_transcript(video_url)
+    return get_summary_from_transcript(data)
+
+
+def get_summary_from_transcript(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
     data = clean_data(data)
     for sentence in data:
         sentences = nltk.tokenize.sent_tokenize(sentence["text"])
