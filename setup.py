@@ -20,7 +20,7 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
-    "wordcloud==1.9.3"
+    "wordcloud==1.9.3",
 ]
 
 # this sets __version__
