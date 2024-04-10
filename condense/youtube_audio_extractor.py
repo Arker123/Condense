@@ -43,6 +43,17 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def load_model():
+    """
+    Load the pre-trained model for speech recognition.
+
+    Returns:
+        whisper.model: The loaded pre-trained model.
+    """
+    model = whisper.load_model("base")
+    return model
+
+
 def get_transcript(model: whisper.model, output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
     absolute_audio_path = os.path.join(output_path, filename)
 
@@ -57,7 +68,7 @@ def get_transcript(model: whisper.model, output_path: str, filename: str) -> Tup
 
 
 def start_translate(output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
-    model = whisper.load_model("base")
+    model = load_model()
     segments, language = get_transcript(model, output_path, filename)
 
     return (segments, language)
