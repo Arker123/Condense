@@ -1,6 +1,8 @@
 import sys
 import logging
 import argparse
+import os
+from dotenv import load_dotenv 
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,7 +19,7 @@ def make_parser() -> argparse.ArgumentParser:
     Create the argument parser.
     """
     parser = argparse.ArgumentParser(
-        description="Get the summary for a video",
+        description="Get the analytics for a video",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
@@ -32,8 +34,8 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str) -> None:
-    get_comments(video_url)
+def word_cloud(video_url: str, api_key: str) -> None:
+    get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
     comment_words = ""
@@ -58,11 +60,15 @@ def word_cloud(video_url: str) -> None:
     plt.show()
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv: list[str] = None):
+    load_dotenv()  
+    api_key = os.getenv("API_KEY")
+    if api_key is None:
+        raise ValueError("API_KEY environment variable is not set.")
+
     parser = make_parser()
-    argv = parser.parse_args(argv)
-    summary = word_cloud(argv.video_url)
-    print(summary)
+    args = parser.parse_args(argv)
+    word_cloud(args.video_url, api_key)
 
 
 if __name__ == "__main__":
