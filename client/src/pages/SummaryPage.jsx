@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../components/shared/Sidebar";
 import Footer from "../components/shared/Footer";
+import { LuDownload } from "react-icons/lu";
 import {
   modifyNote,
   createNote,
@@ -242,7 +243,7 @@ const SummaryPage = () => {
     <div className="flex flex-row">
       <Sidebar />
       <motion.div
-        className="  bg-gradient-to-b from-black  to-[#6f0000]"
+        className="  bg-gradient-to-b from-black  to-[#6f0000] w-[1450px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
