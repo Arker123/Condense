@@ -26,17 +26,19 @@ describe("Tests For fetch_All_summaries", () => {
     });
 
     test("should respond with 200 status code and give all summaries when correct userId given", async () => {
-    const response2 = await request(server).get("/summaries/getAll").send({
-        userId: "66165ce6fba86a331f027edb",
-    });
-    const dummySummary = {
-        summary: { body: "This is a dummy summary for an amazing youtube video!" },
-        videoId: "youtube.com/abcdef",
-    };
-    expect(response2.statusCode).toBe(200);
-    expect(response2._body).toEqual(
-        expect.arrayContaining([expect.objectContaining(dummySummary)]),
-    );
+        const response2 = await request(server).get("/summaries/getAll").send({
+            userId: "66165ce6fba86a331f027edb",
+        });
+        const dummySummary = {
+            summary: {
+                body: "This is a dummy summary for an amazing youtube video!",
+            },
+            videoId: "youtube.com/abcdef",
+        };
+        expect(response2.statusCode).toBe(200);
+        expect(response2._body).toEqual(
+            expect.arrayContaining([expect.objectContaining(dummySummary)]),
+        );
     });
 });
 
@@ -48,16 +50,22 @@ describe("Tests For fetch_One_summary", () => {
 
     test("should respond with 400 status code if videoId is missing", async () => {
         const userId = "66165ce6fba86a331f027edb";
-        const response = await request(server).get(`/summaries/getOne?userId=${userId}`);
+        const response = await request(server).get(
+            `/summaries/getOne?userId=${userId}`,
+        );
         expect(response.statusCode).toBe(400);
     });
 
     test("should respond with 200 status code and give correct summary when userId given", async () => {
         const userId = "66165ce6fba86a331f027edb";
         const videoId = "youtube.com/abcdef";
-        const response = await request(server).get(`/summaries/getOne?userId=${userId}&videoId=${videoId}`);
+        const response = await request(server).get(
+            `/summaries/getOne?userId=${userId}&videoId=${videoId}`,
+        );
         const dummySummary = {
-            summary: { body: "This is a dummy summary for an amazing youtube video!" },
+            summary: {
+                body: "This is a dummy summary for an amazing youtube video!",
+            },
             videoId: "youtube.com/abcdef",
         };
         expect(response.statusCode).toBe(200);
@@ -124,19 +132,23 @@ describe("Tests For save_summary", () => {
         const response = await request(server).post("/summaries/save").send({
             userId: "66165ce6fba86a331f027edb",
             videoId: "youtube.com/abcdef",
-            summaryBody: "This is a dummy summary for an amazing youtube video!",
+            summaryBody:
+                "This is a dummy summary for an amazing youtube video!",
         });
         expect(response.statusCode).toBe(200);
         const response2 = await request(server).get("/summaries/getAll").send({
             userId: "66165ce6fba86a331f027edb",
         });
         const dummySummary = {
-            summary: { body: "This is a dummy summary for an amazing youtube video!" },
+            summary: {
+                body: "This is a dummy summary for an amazing youtube video!",
+            },
             videoId: "youtube.com/abcdef",
         };
         expect(response2.statusCode).toBe(200);
         expect(response2._body).toEqual(
-            expect.arrayContaining([expect.objectContaining(dummySummary)]));
+            expect.arrayContaining([expect.objectContaining(dummySummary)]),
+        );
     });
 });
 
