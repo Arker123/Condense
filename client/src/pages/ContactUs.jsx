@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./ContactUs.css";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/shared/Footer"
+import Navbar from "../components/shared/Navbar/Navbar";
 function ContactUs() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,35 +20,7 @@ function ContactUs() {
   return (
     <>
     <div className="App2">
-      <header className="App-header">
-        <div className="logo">
-          <img src="/images/white-logo.svg" alt="Logo" />
-        </div>
-        <nav className="navbar">
-          <ul>
-            <li>
-              <a href="/landing">
-                <FontAwesomeIcon icon={faHome} />
-              </a>
-            </li>
-            <li>
-              <a href="#extension">Chrome Extension</a>
-            </li>
-            <li>
-              <a href="#summaries">Youtube Summaries</a>
-            </li>
-            <li>
-              <a href="/contact">Contact</a>
-            </li>
-          </ul>
-        </nav>
-        <div className="user-actions">
-          <a href="/signup" className="login-signup-button">
-            Login / Sign Up
-          </a>
-        </div>
-      </header>
-
+      <Navbar />
       <div className="contactus-parent">
         <div className="contactus-child1">
           <div>

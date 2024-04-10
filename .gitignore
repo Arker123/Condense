@@ -10,3 +10,5 @@ server/coverage
 extensions/.DS_Store
 extensions/css/.DS_Store
 .DS_Store
+.mypy_cache
+myenv
