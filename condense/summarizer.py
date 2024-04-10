@@ -33,6 +33,11 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def load_summarize_model():
+    model = pipeline("summarization")
+    return model
+
+
 def clean_data(data: List[Dict]) -> List[Dict]:
     final_data = []
     if data:
@@ -60,7 +65,7 @@ def clean_data(data: List[Dict]) -> List[Dict]:
 
 
 def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
-    summarizer = pipeline("summarization")
+    summarizer = load_summarize_model()
     summary = []
     for chunk in data:
         summary_text = summarizer(chunk["text"], max_length=50, min_length=1, do_sample=False)[0]["summary_text"]
