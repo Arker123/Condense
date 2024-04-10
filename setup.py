@@ -21,6 +21,7 @@ requirements = [
     "python-dotenv==1.0.1",
     "torch==2.0",
     "wordcloud==1.9.3",
+    "moviepy==1.0.3",
 ]
 
 # this sets __version__
@@ -89,5 +90,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
 )
