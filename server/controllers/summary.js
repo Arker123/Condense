@@ -29,8 +29,6 @@ const generateSummary = async (req, res) => {
         ]);
 
         const dataToSend = await pythonProcess.stdout.toString();
-        // res.send(dataToSend);
-        // res.end();
         await redisClient.set(videoId, JSON.stringify(dataToSend));
         res.status(200).json({
             summary: dataToSend,
