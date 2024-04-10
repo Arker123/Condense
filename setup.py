@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (C) 2017 Mandiant, Inc. All Rights Reserved.
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 
 from pathlib import Path
 
@@ -20,6 +20,7 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
+    "wordcloud==1.9.3"
 ]
 
 # this sets __version__
