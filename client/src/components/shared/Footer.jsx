@@ -10,7 +10,7 @@ const Footer = () => {
       
       <div className='w-[1270px] h-[1px] bg-white mr-[20px]'></div>
 
-      <div className='  w-[1500px] h-[250px]  rounded-xl flex flex-row  '>
+      <div className='  w-full h-[250px]  rounded-xl flex flex-row  '>
 
         <div className='ml-[170px] mt-[50px]'>
             <div className='flex flex-row gap-2'>
