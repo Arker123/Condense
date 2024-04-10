@@ -1,11 +1,13 @@
 import os
 import sys
+import json
 import random
 import logging
 import argparse
 
 from moviepy.editor import VideoFileClip
 
+from condense.summarizer import get_summary_from_transcript
 from condense.youtube_audio_extractor import start_translate
 
 logger = logging.getLogger()
@@ -70,13 +72,17 @@ def main(argv=None) -> int:
         print(f"Audio extracted and saved to {audio_path}")
 
     audio_path = args.audio_file if args.audio_file else tmp_audio_file
-    transcript = start_translate("./", audio_path)
+    transcript, _ = start_translate("./", audio_path)
 
     # remove the temporary audio file
     if args.audio_file is None:
         os.remove(audio_path)
 
-    print(transcript)
+    # get the summary
+    summary, _ = get_summary_from_transcript(transcript)
+    print(json.dumps(summary))
+    print(json.dumps(transcript))
+
     return 0
 
 
