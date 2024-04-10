@@ -8,7 +8,7 @@ from threading import Thread
 import soundcard as sc
 import soundfile as sf
 
-from condense.youtube_audio_extractor import get_transcript, load_model
+from condense.youtube_audio_extractor import load_model, get_transcript
 
 import whisper  # isort: skip
 
