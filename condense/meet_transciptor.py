@@ -8,7 +8,7 @@ from threading import Thread
 import soundcard as sc
 import soundfile as sf
 
-from condense.youtube_audio_extractor import get_transcript
+from condense.youtube_audio_extractor import get_transcript, load_model
 
 import whisper  # isort: skip
 
@@ -19,17 +19,6 @@ warnings.filterwarnings("ignore", category=sc.SoundcardRuntimeWarning)
 
 SAMPLE_RATE = 48000
 RECORD_SEC = 15
-
-
-def load_model() -> whisper.model:
-    """
-    Load the pre-trained model for speech recognition.
-
-    Returns:
-        whisper.model: The loaded pre-trained model.
-    """
-    model = whisper.load_model("base")
-    return model
 
 
 def record(model: whisper.model):
