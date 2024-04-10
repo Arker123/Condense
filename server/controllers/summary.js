@@ -32,7 +32,7 @@ const fetchAllSummaries = async (req, res) => {
   try {
     console.log("in fetcallsumm backend");
     console.log("req.body: ", req.body);
-    const { userId } = req.body.data;
+    const userId = req.body.userId;
     console.log("userid from api: ", userId);
     if (!userId) return res.status(400).send("User ID is required");
 
