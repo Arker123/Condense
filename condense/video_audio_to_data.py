@@ -72,7 +72,7 @@ def main(argv=None) -> int:
         print(f"Audio extracted and saved to {audio_path}")
 
     audio_path = args.audio_file if args.audio_file else tmp_audio_file
-    transcript, _ = start_translate("./", audio_path)
+    transcript, timestamps = start_translate("./", audio_path)
 
     # remove the temporary audio file
     if args.audio_file is None:
@@ -82,6 +82,7 @@ def main(argv=None) -> int:
     summary, _ = get_summary_from_transcript(transcript)
     print(json.dumps(summary))
     print(json.dumps(transcript))
+    print(json.dumps(timestamps))
 
     return 0
 
