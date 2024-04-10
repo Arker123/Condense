@@ -10,7 +10,7 @@ const Footer = () => {
       
       <div className='w-[1270px] h-[1px] bg-white mr-[20px]'></div>
 
-      <div className='  w-[1500px] h-[250px]  rounded-xl flex flex-row  '>
+      <div className='  w-full h-[250px]  rounded-xl flex flex-row  '>
 
         <div className='ml-[170px] mt-[50px]'>
             <div className='flex flex-row gap-2'>
@@ -29,11 +29,21 @@ const Footer = () => {
         <div className='flex flex-col mt-[50px] ml-[170px]'>
             <p className='text-[20px] text-white'>Useful Links</p>
             <div className='ml-[10px] mt-3 cursor-pointer'>
-            <p className='text-[15px] text-gray-300 hover:text-white'> <Link to='/dashboard'>Dashboard</Link></p>
-            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/'>Chat with AI</Link></p>
-            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/feedback'>Feedback</Link></p>
-            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/'>Chrome Extension</Link></p>
-            <p className='text-[15px] text-gray-300 hover:text-white'><Link to='/summary'>Youtube Summaries</Link></p>
+            <p className='text-[15px] text-gray-300 hover:text-white'> 
+              <Link to='/dashboard'>Dashboard</Link>
+            </p>
+            <p className='text-[15px] text-gray-300 hover:text-white'>
+              <Link to='/'>Chat with AI</Link>
+            </p>
+            <p className='text-[15px] text-gray-300 hover:text-white'>
+              <Link to='/feedback'>Feedback</Link>
+            </p>
+            <p className='text-[15px] text-gray-300 hover:text-white'>
+              <Link to='/'>Chrome Extension</Link>
+            </p>
+            <p className='text-[15px] text-gray-300 hover:text-white'>
+              <Link to='/summary'>Youtube Summaries</Link>
+            </p>
             </div>
         </div>
  
