@@ -45,7 +45,7 @@ def record(model: whisper.model, summarizer):
             sf.write(file=filename, data=data[:, 0], samplerate=SAMPLE_RATE)
             transcribed_text = get_transcript(model, ".", filename)
             text_list = transcribed_text[0]
-            text = " ".join(item['text'] for item in text_list)
+            text = " ".join(item["text"] for item in text_list)
             print(text)
             summary_text = summarize_text(text, summarizer)
             print("summary text : ", summary_text)
@@ -65,7 +65,13 @@ def main():
     summarizer = load_summarize_model()
     while True:
         try:
-            thread = Thread(target=record, args=(model,summarizer,))
+            thread = Thread(
+                target=record,
+                args=(
+                    model,
+                    summarizer,
+                ),
+            )
             thread.start()
             time.sleep(RECORD_SEC)
         except KeyboardInterrupt:
