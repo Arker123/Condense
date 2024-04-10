@@ -1,20 +1,23 @@
 import os
+import sys
 import time
 import warnings
 from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
-
+import logging
 from condense.youtube_audio_extractor import get_transcript
 
 import whisper  # isort: skip
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 warnings.filterwarnings("ignore", category=sc.SoundcardRuntimeWarning)
 
-samplerate = 48000
-record_sec = 15
+SAMPLE_RATE = 48000
+RECORD_SEC = 15
 
 
 def load_model() -> whisper.model:
@@ -35,18 +38,18 @@ def record(model: whisper.model):
     Args:
         model (whisper.model): The pre-trained model for speech recognition.
     """
-    print("Recording...")
+    logger.info(f"Recording.....")
     filename = f"output_{time.time()}.wav"
     try:
         with sc.get_microphone(id=str(sc.default_speaker().name), include_loopback=True).recorder(
-            samplerate=samplerate
+            samplerate=SAMPLE_RATE
         ) as mic:
-            data = mic.record(numframes=samplerate * record_sec)
-            sf.write(file=filename, data=data[:, 0], samplerate=samplerate)
+            data = mic.record(numframes=SAMPLE_RATE * RECORD_SEC)
+            sf.write(file=filename, data=data[:, 0], samplerate=SAMPLE_RATE)
             transcribed_text = get_transcript(model, ".", filename)
             print(transcribed_text)
     except Exception as e:
-        print(f"Error occurred: {e}")
+        logger.info("Error occurred while recording the audio: {e}")
     finally:
         if os.path.exists(filename):
             os.remove(filename)
@@ -56,15 +59,16 @@ def main():
     """
     Main function to control the recording process.
     """
+    logging.basicConfig(level=logging.DEBUG)
     model = load_model()
     while True:
         try:
             thread = Thread(target=record, args=(model,))
             thread.start()
-            time.sleep(record_sec)
+            time.sleep(RECORD_SEC)
         except KeyboardInterrupt:
             break
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
