@@ -1,12 +1,13 @@
 import os
 import sys
 import time
+import logging
 import warnings
 from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
-import logging
+
 from condense.youtube_audio_extractor import get_transcript
 
 import whisper  # isort: skip
