@@ -11,6 +11,8 @@ repos:
         -   "--profile"
         -   "black"
         -   "--line-length=120"
+        -   "--skip"
+        -   "whisper"
         -   "."
         always_run: true
         pass_filenames: false
