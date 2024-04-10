@@ -9,7 +9,7 @@ Finally, if you'd like to contribute patches or features to Condense,
  you'll need to work with a local copy of the source code.
 
  
-:warning: **Condense requires Python >= 3.8.**
+:warning: **Condense requires Python >= 3.9.**
 
 
 ## Method 1: Inspecting the Condense source code
