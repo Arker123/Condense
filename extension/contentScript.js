@@ -17,6 +17,7 @@ function add_element(tag, attr_tag, attr_name, value) {
   const element = document.createElement(tag);
   element.setAttribute(attr_tag, attr_name);
   element.innerHTML = value;
+  
   return element;
 }
 
