@@ -17,8 +17,6 @@ border-radius: 8px;
 .container {
     width: 95%;
     max-width: 1200px;
-    /* margin: 50px auto; increased and centered margin */
-    /* width: 80%; */
     height: 80%;
     padding: 15px;
     background-color: #fff; /* white background for the container */
