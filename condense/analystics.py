@@ -1,11 +1,11 @@
+import os
 import sys
 import logging
 import argparse
-import os
-from dotenv import load_dotenv 
 
 import pandas as pd
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
 
 from condense.comments import get_comments
