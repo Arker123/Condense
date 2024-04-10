@@ -20,6 +20,7 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
+    "moviepy==1.0.3",
 ]
 
 # this sets __version__
