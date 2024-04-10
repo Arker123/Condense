@@ -50,7 +50,7 @@ def record(model: whisper.model):
             transcribed_text = get_transcript(model, ".", filename)
             print(transcribed_text)
     except Exception as e:
-        logger.info("Error occurred while recording the audio: {e}")
+        raise ValueError("Error occurred while recording the audio: {e}")
     finally:
         if os.path.exists(filename):
             os.remove(filename)
