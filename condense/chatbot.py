@@ -65,7 +65,12 @@ def split_into_paragraphs(sentences: List[str], max_words: int = 350) -> List[st
     return paragraphs
 
 
-def answer_question(paragraph: str, question: str, model: BertForQuestionAnswering, tokenizer: BertTokenizer) -> str:
+def answer_question(
+    paragraph: str,
+    question: str,
+    model: BertForQuestionAnswering,
+    tokenizer: BertTokenizer,
+) -> str:
     """
     Answer a question based on the given paragraph.
     :param paragraph: The paragraph to answer the question from
@@ -120,11 +125,13 @@ def interact_with_chatbot(summary: str, question: str) -> str:
     return final_answer
 
 
-def main(argv: list[str] = None) -> None:
+def main(argv=None) -> int:
     parser = make_parser()
-    argv = parser.parse_args(argv)
-    answer = interact_with_chatbot(argv.summary, argv.question)
+    args = parser.parse_args(argv)
+    answer = interact_with_chatbot(args.summary, args.question)
     print(answer)
+
+    return 0
 
 
 if __name__ == "__main__":

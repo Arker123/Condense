@@ -1,14 +1,23 @@
-body {
-font-family: Arial, sans-serif;
-/* margin: 2000; */
-/* padding: 2000; */
-background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+*{
+    margin: 0;
+    padding: 0;
 }
 
+
+body { 
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+border-radius: 8px;
+
+ }
+
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
-    margin: 50px auto; /* increased and centered margin */
+    height: 80%;
     padding: 15px;
     background-color: #fff; /* white background for the container */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* subtle shadow for depth */
@@ -87,6 +96,7 @@ transition: background-color 0.3s ease;
 
 .google-login:hover {
 background-color: #b03024; /* darker red on hover for Google button */
+color: white;
 }
 
 
@@ -101,11 +111,15 @@ background-color: #b03024; /* darker red on hover for Google button */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* card shadow */
     cursor: pointer; /* change mouse cursor on hover */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* smooth transition for hover effects */
+    border: 2px solid transparent; /* Transparent border */
+
 }
 
 .card:hover {
     transform: translateY(-5px); /* subtle lift effect on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* increased shadow on hover */
+    border-color: #b03024;
+
 }
 
 .card h2 {

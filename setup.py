@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (C) 2017 Mandiant, Inc. All Rights Reserved.
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 
 from pathlib import Path
 
@@ -14,11 +14,13 @@ requirements = [
     "langdetect==1.0.9",
     "openai-whisper==20231117",
     "pyshorteners==1.0.1",
-    "google-api-python-client==2.120.0",
+    "google-api-python-client==2.122.0",
     "nltk==3.8.1",
+    "tensorflow==2.13.1",
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
-    "torch==2.2.0",
+    "torch==2.0",
+    "moviepy==1.0.3",
 ]
 
 # this sets __version__
@@ -56,6 +58,7 @@ setuptools.setup(
     install_requires=requirements,
     extras_require={
         "dev": [
+            "pydantic==1.10.9",
             "pyyaml==6.0.1",
             "pytest==8.1.1",
             "pytest-sugar==1.0.0",
@@ -67,8 +70,9 @@ setuptools.setup(
             "mypy==1.9.0",
             "emoji==2.10.1",
             # type stubs for mypy
-            "pytube==15.0.0",
             "types-PyYAML==6.0.12.20240311",
+            "types-tensorflow==2.15.0.20240314",
+            "google-api-python-client-stubs==1.25.0",
         ],
         "build": ["pyinstaller==6.5.0", "setuptools==69.2.0", "build==1.1.1"],
     },
@@ -85,5 +89,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
 )

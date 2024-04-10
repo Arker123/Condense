@@ -7,6 +7,8 @@ import string
 import logging
 
 import nltk
+import emoji
+import torch
 import whisper
 import youtube_transcript_api
 from flask import Flask, jsonify, request
@@ -20,6 +22,10 @@ logger.setLevel(logging.DEBUG)
 app = Flask(__name__)
 
 model_path = "./model"
+model_path_sentiment = "saved_models/SentimentModel.pth"
+checkpoint = torch.load(model_path_sentiment)
+model_sentiment = checkpoint["model"]
+tokenizer = checkpoint["tokenizer"]
 
 
 def clean_data(data: list[str]) -> str:
@@ -114,6 +120,30 @@ def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str
     return text, lang
 
 
+def preprocess_data(comment):
+    comment = emoji.demojize(comment)
+    comment = re.sub("[^a-zA-Z0-9.,;:()'`*\"\\s]", "", comment)
+    comment = re.sub("\\s+", " ", comment)
+    comment = comment.strip().lower()
+    words = nltk.tokenize.word_tokenize(comment)
+    words = ["like" if "heart" in word else word for word in words]
+    words = ["smile" if "smile" in word else word for word in words]
+    comment = " ".join(words)
+    return comment
+
+
+def predict_sentiment(comment):
+    comment = preprocess_data(comment)
+    sequence = tokenizer.texts_to_sequences([comment])
+    tensor = torch.LongTensor(sequence)
+
+    with torch.no_grad():
+        output = model_sentiment(tensor)
+        _, predicted = torch.max(output, 1)
+        sentiment_label = {1: "negative", 0: "neutral", 2: "positive"}
+        return sentiment_label.get(predicted.item(), "unknown")
+
+
 @app.route("/")
 def hello_world():
     """Example Hello World route."""
@@ -196,6 +226,18 @@ def summerize_text() -> str:
         summary_text = summarizer(chunk, max_length=50, min_length=10, do_sample=False)[0]["summary_text"]
         summary.append(summary_text)
     return " ".join(summary)
+
+
+@app.route("/analyze_sentiment", methods=["POST"])
+def analyze_sentiment():
+    data = request.get_json()
+    comment = data.get("comment")
+
+    if not comment:
+        return jsonify({"error": "Comment not provided"}), 400
+
+    sentiment = predict_sentiment(comment)
+    return jsonify({"sentiment": sentiment})
 
 
 @app.route("/test")

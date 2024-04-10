@@ -28,6 +28,20 @@ repos:
         always_run: true
         pass_filenames: false
 
+-   repo: local
+    hooks:
+    -   id: mypy
+        name: mypy
+        stages: [commit, push]
+        language: system
+        entry: mypy
+        args: 
+        -   "--config-file=.github/mypy/mypy.ini"
+        -   "condense/"
+        -   "tests/"
+        always_run: true
+        pass_filenames: false
+
 # TODO: Add eslint to the pre-commit hooks
 # -   repo: local
 #     hooks:

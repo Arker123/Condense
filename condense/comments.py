@@ -5,6 +5,7 @@ import csv
 import sys
 import logging
 import argparse
+from typing import Dict, List
 
 import googleapiclient.discovery
 from dotenv import load_dotenv
@@ -57,7 +58,7 @@ class Ycom(object):
             self.api_service_name, self.api_version, developerKey=self.developer_key
         )
 
-    def get_video_id(self, video_link):
+    def get_video_id(self, video_link: str) -> str:
         # Extract video ID from YouTube video link
         if "youtube.com/watch?v=" in video_link:
             video_id = video_link.split("youtube.com/watch?v=")[1].split("&")[0]
@@ -67,7 +68,7 @@ class Ycom(object):
             raise ValueError("Invalid YouTube video link")
         return video_id
 
-    def set_video_id(self, video_link):
+    def set_video_id(self, video_link: str) -> None:
         self.video_id_to_extract_comments = self.get_video_id(video_link)
 
     def write_to_csv(self):
@@ -110,14 +111,19 @@ class Ycom(object):
                 if self.write_to_file:
                     self.write_to_csv()
         else:
-            raise ValueError("Comments are disabled for the video:", self.video_id_to_extract_comments)
+            raise ValueError(
+                "Comments are disabled for the video:",
+                self.video_id_to_extract_comments,
+            )
 
     def request_comments(self):
         try:
             nextPageToken = None
             while True:
                 request = self.youtube.commentThreads().list(
-                    part="snippet,replies", videoId=self.video_id_to_extract_comments, pageToken=nextPageToken
+                    part="snippet,replies",
+                    videoId=self.video_id_to_extract_comments,
+                    pageToken=nextPageToken,
                 )
                 res = request.execute()
                 self.response = res
@@ -136,7 +142,7 @@ class Ycom(object):
         return self.comments
 
 
-def get_comments(apikey, file, video_url):
+def get_comments(apikey: str, file: bool, video_url: str) -> List[List[str]]:
     Y = Ycom(apikey, file)
     Y.make_youtube()
     Y.set_video_id(video_url)
@@ -144,15 +150,17 @@ def get_comments(apikey, file, video_url):
     return Y.show_comments()
 
 
-def main(argv: list[str] = None) -> int:
+def main(argv=None) -> int:
     load_dotenv()
     apikey = os.getenv("API_KEY")
 
     parser = make_parser()
-    argv = parser.parse_args(argv)
+    args = parser.parse_args(argv)
 
-    comments = get_comments(apikey, argv.csv, argv.video_url)
+    comments = get_comments(str(apikey), args.csv, args.video_url)
     print(comments)
+
+    return 0
 
 
 if __name__ == "__main__":

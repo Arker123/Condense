@@ -31,7 +31,7 @@ const generateSummary = async (req, res) => {
 const fetchAllSummaries = async (req, res) => {
     try {
         console.log("in fetcallsumm backend");
-        console.log("req.body: ", req.body)
+        console.log("req.body: ", req.body);
         const { userId } = req.body.data;
         console.log("userid from api: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
@@ -201,7 +201,6 @@ const saveSummary = async (req, res) => {
         console.log("Summary stored successfully");
 
         return res.status(200).send("Summary saved.");
-
     } catch (error) {
         console.error("Error occurred while storing summary", error);
         return res.status(400).send(error.message);
