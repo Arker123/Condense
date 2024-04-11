@@ -103,6 +103,46 @@ const modifyNote = async (req, res) => {
     }
 };
 
+const modifyFavNotes = async (req, res) => {
+    try {
+        const { userId, videoId } = req.body;
+        if (!userId) return res.status(400).send("User ID is required");
+        if (!videoId) return res.status(400).send("Video ID is required");
+
+        // Find the user with the given user ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
+
+        const noteIndex = user.notes.findIndex((n) => n.videoId == videoId);
+
+        if (noteIndex === -1) {
+            return res.status(400).send("Note not found");
+        }
+
+        const currentFavVal = user.notes[noteIndex].favorite;
+
+        // Toggle the value of favorite for that note
+        user.notes[noteIndex].favorite = !currentFavVal;
+
+        // Save the updated user document
+        await user.save();
+
+        console.log(`Favorite attribute for video ID ${videoId} 
+        modified to ${!currentFavVal}`);
+
+        return res.status(200).json({ message: "Successfully modified" });
+    } catch (error) {
+        console.error(
+            "Error occurred while modifying favorite attribute",
+            error,
+        );
+        return res.status(400).send(error.message);
+    }
+};
+
 const createNote = async (req, res) => {
     try {
         console.log("in create note");
@@ -176,4 +216,11 @@ const deleteNote = async (req, res) => {
     }
 };
 
-module.exports = { getAllNotes, getNote, modifyNote, createNote, deleteNote };
+module.exports = {
+    getAllNotes,
+    getNote,
+    modifyNote,
+    createNote,
+    deleteNote,
+    modifyFavNotes,
+};
