@@ -7,9 +7,8 @@ from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
-from transformers import pipeline
 
-from condense.summarizer import load_summarize_model
+from condense.summarizer import load_summarize_model, get_summary_from_transcript
 from condense.youtube_audio_extractor import load_model, get_transcript
 
 import whisper  # isort: skip
@@ -23,9 +22,9 @@ SAMPLE_RATE = 48000
 RECORD_SEC = 25
 
 
-def summarize_text(text, summarizer):
-    summary_text = summarizer(text, max_length=15, min_length=1, do_sample=False)[0]["summary_text"]
-    return summary_text
+# def summarize_text(text, summarizer):
+#     summary_text = summarizer(text, max_length=15, min_length=1, do_sample=False)[0]["summary_text"]
+#     return summary_text
 
 
 def record(model: whisper.model, summarizer):
@@ -47,8 +46,9 @@ def record(model: whisper.model, summarizer):
             text_list = transcribed_text[0]
             text = " ".join(item["text"] for item in text_list)
             print(text)
-            summary_text = summarize_text(text, summarizer)
+            summary_text, time_stamps = get_summary_from_transcript(text_list, summarizer, 1)
             print("summary text : ", summary_text)
+            print("timestamps : ", time_stamps)
     except Exception as e:
         raise ValueError("Error occurred while recording the audio: {e}")
     finally:

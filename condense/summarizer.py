@@ -38,7 +38,7 @@ def load_summarize_model():
     return model
 
 
-def clean_data(data: List[Dict]) -> List[Dict]:
+def clean_data(data: List[Dict], check_meet: int) -> List[Dict]:
     final_data = []
     if data:
         sentences = []
@@ -59,21 +59,24 @@ def clean_data(data: List[Dict]) -> List[Dict]:
                 start, cnt = end, 0
                 sentences = []
 
+        if check_meet:
+            text = " ".join(sentences)
+            final_data.append({"start": start, "end": end, "text": text})
+
         return final_data
     else:
         raise ValueError("No data found")
 
 
-def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
-    summarizer = load_summarize_model()
+def get_summary(data: List[Dict[str, str]], summarizer, check_meet: int) -> Tuple[List[Dict], List[Dict]]:
     summary = []
     for chunk in data:
-        summary_text = summarizer(chunk["text"], max_length=50, min_length=1, do_sample=False)[0]["summary_text"]
+        summary_text = summarizer(chunk["text"], max_length= 13 if check_meet else 50, min_length=1, do_sample=False)[0]["summary_text"]
         summary.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
 
     time_stamp = []
     for chunk in summary:
-        summary_text = summarizer(chunk["summary_text"], max_length=13, min_length=1, do_sample=False)[0][
+        summary_text = summarizer(chunk["summary_text"], max_length=5 if check_meet else 13, min_length=1, do_sample=False)[0][
             "summary_text"
         ]
         time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
@@ -84,16 +87,17 @@ def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
 def summerize_text(video_url: str) -> Tuple[List[Dict], List[Dict]]:
     nltk.download("punkt")
     data = get_transcript(video_url)
-    return get_summary_from_transcript(data)
+    summarizer = load_summarize_model()
+    return get_summary_from_transcript(data, summarizer, 0)
 
 
-def get_summary_from_transcript(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
-    data = clean_data(data)
+def get_summary_from_transcript(data: List[Dict[str, str]], summarizer, check_meet: int) -> Tuple[List[Dict], List[Dict]]:
+    data = clean_data(data, check_meet)
     for sentence in data:
         sentences = nltk.tokenize.sent_tokenize(sentence["text"])
         sentence["text"] = " ".join(sentences)
 
-    summary, time_stamp = get_summary(data)
+    summary, time_stamp = get_summary(data, summarizer, check_meet)
     return (summary, time_stamp)
 
 
