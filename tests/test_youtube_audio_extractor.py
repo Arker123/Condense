@@ -40,7 +40,7 @@ def test_generate(mock_youtube, mock_start_translate, mock_whisper):
         "text": "test transcript",
     }
     mock_whisper.return_value.transcribe.return_value = mock_transcribe_return
-    mock_start_translate.return_value = (mock_transcribe_return["segments"], 'en')
+    mock_start_translate.return_value = (mock_transcribe_return["segments"], "en")
 
     # Prepare the mock for the audio stream download
     mock_audio_stream = MagicMock()
@@ -53,12 +53,12 @@ def test_generate(mock_youtube, mock_start_translate, mock_whisper):
 
     # Assert that the download method was called correctly
     mock_audio_stream.download.assert_called_once_with(output_path=output_path, filename=filename)
-    
+
     # Assert that start_translate was called correctly
     mock_start_translate.assert_called_once_with(output_path, filename)
-    
+
     assert segments == mock_transcribe_return["segments"]
-    assert language == 'en'
+    assert language == "en"
 
 
 # For test_get_transcript_from_video, match the actual call
