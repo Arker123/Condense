@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (C) 2017 Mandiant, Inc. All Rights Reserved.
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 
 from pathlib import Path
 
@@ -20,6 +20,8 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
+    "soundcard==0.4.3",
+    "soundfile==0.12.1",
     "moviepy==1.0.3",
 ]
 
@@ -89,5 +91,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
 )

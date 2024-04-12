@@ -22,8 +22,8 @@ const server = app.listen(() => {
 describe("Already existing tries to login", () => {
     test("should respond with 200 status code when valid email and password", async () => {
         const response = await request(server).post("/auth/login").send({
-            email: "Test_User_1@gmail.com",
-            password: "123456",
+            email: "testing@gmail.com",
+            password: "testing",
         });
         expect(response.statusCode).toBe(200);
     });
