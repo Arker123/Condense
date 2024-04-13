@@ -14,3 +14,4 @@ myenv
 condense/audio
 condense/transcripts
 server/audio
+server/transcripts
