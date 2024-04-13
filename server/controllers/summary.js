@@ -8,18 +8,17 @@ const generateSummary = async (req, res) => {
     try {
         const { videoId } = req.body;
         if (!videoId) return res.status(400).send("URL is required");
-        // console.log(redisClient);
         const url = "https://www.youtube.com/watch?v=" + videoId;
         console.log(url);
         const summary = await redisClient.get(videoId);
 
-        if (summary) {
-            console.log("Cache hit");
-            return res.status(200).json({
-                summary: JSON.parse(summary),
-                message: "Summary generated successfully",
-            });
-        }
+        // if (summary) {
+        //     console.log("Cache hit");
+        //     return res.status(200).json({
+        //         summary: JSON.parse(summary),
+        //         message: "Summary generated successfully",
+        //     });
+        // }
 
         console.log("Cache miss, generating summary...");
         const pythonProcess = spawnSync("python", [
@@ -29,6 +28,7 @@ const generateSummary = async (req, res) => {
         ]);
 
         const dataToSend = await pythonProcess.stdout.toString();
+        console.log(dataToSend)
         // res.send(dataToSend);
         // res.end();
         await redisClient.set(videoId, JSON.stringify(dataToSend));

@@ -64,14 +64,14 @@ def get_summary(data: List[Dict[str, str]]) -> Tuple[List[Dict], List[Dict]]:
     summary = []
     for chunk in data:
         summary_text = summarizer(chunk["text"], max_length=50, min_length=1, do_sample=False)[0]["summary_text"]
-        summary.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
+        summary.append({"start": chunk["start"], "end": chunk["end"], "summary_text": str(summary_text)})
 
     time_stamp = []
     for chunk in summary:
         summary_text = summarizer(chunk["summary_text"], max_length=13, min_length=1, do_sample=False)[0][
             "summary_text"
         ]
-        time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
+        time_stamp.append({"start": chunk["start"], "end": chunk["end"], "summary_text": str(summary_text)})
 
     return (summary, time_stamp)
 

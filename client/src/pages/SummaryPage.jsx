@@ -93,24 +93,25 @@ const SummaryPage = () => {
     theme: "dark",
   };
 
-  const fetchSummary = () => {
+  const fetchSummary = async() => {
 
-    const res = axios.post(
-      `${process.env.REACT_APP_API_URL}/summaries/generate`,
-      {
-        videoId,
-      }
-    );
-    res
-      .then((res) => JSON5.parse(res.data.summary))
-      .then((data)=> {
-        setSummaryText(data.summary);
-      })
-      .catch((err) => {
-        toast.error("Error while fetching summary", toastOptions);
 
-        console.log(err);
-      });
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/summaries/generate`,
+        {
+          videoId,
+        }
+      );
+      // const data = await JSON5.parse(res.data.summary);
+      console.log(res.data)
+      // console.log(data);
+      // setSummaryText(data.summary);
+    }
+    catch (error) {
+      toast.error("Error while fetching summary", toastOptions);
+    }
+
   };
   const fetchTranscript = async () => {
     try {
