@@ -12,13 +12,13 @@ const generateSummary = async (req, res) => {
         console.log(url);
         const summary = await redisClient.get(videoId);
 
-        // if (summary) {
-        //     console.log("Cache hit");
-        //     return res.status(200).json({
-        //         summary: JSON.parse(summary),
-        //         message: "Summary generated successfully",
-        //     });
-        // }
+        if (summary) {
+            console.log("Cache hit");
+            return res.status(200).json({
+                summary: JSON.parse(summary),
+                message: "Summary generated successfully",
+            });
+        }
 
         console.log("Cache miss, generating summary...");
         const pythonProcess = spawnSync("python", [
@@ -28,9 +28,6 @@ const generateSummary = async (req, res) => {
         ]);
 
         const dataToSend = await pythonProcess.stdout.toString();
-        console.log(dataToSend)
-        // res.send(dataToSend);
-        // res.end();
         await redisClient.set(videoId, JSON.stringify(dataToSend));
         res.status(200).json({
             summary: dataToSend,
@@ -45,7 +42,7 @@ const fetchAllSummaries = async (req, res) => {
     try {
         console.log("in fetcallsumm backend");
         console.log("req.body: ", req.body);
-        const { userId } = req.body.data;
+        const userId = req.body.userId;
         console.log("userid from api: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
 
@@ -66,16 +63,19 @@ const fetchAllSummaries = async (req, res) => {
         return res.status(200).json(summaries);
     } catch (error) {
         console.log("in err block");
-        console.error("Error occurred while fetching summaries", error);
+        console.log("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
 };
 
 const fetchOneSummary = async (req, res) => {
     try {
-        const { userId, summaryId } = req.body;
+        const { userId, videoId } = req.query;
+
+        console.log("video id: ", videoId);
+        console.log("user id: ", userId);
         if (!userId) return res.status(400).send("User ID is required");
-        if (!summaryId) return res.status(400).send("Summary ID is required");
+        if (!videoId) return res.status(400).send("Summary ID is required");
 
         // Find user with the given user ID
         const user = await User.findById(userId);
@@ -87,7 +87,7 @@ const fetchOneSummary = async (req, res) => {
         // Extract summary IDs from the user document
         // matching the specific summary ID
         const summaryIds = user.summaries
-            .filter((summary) => summary.summaryId === summaryId)
+            .filter((summary) => summary.videoId === videoId)
             .map((summary) => summary.summaryId);
 
         // Fetch summaries from the Summary schema based on the summary IDs
@@ -97,7 +97,7 @@ const fetchOneSummary = async (req, res) => {
         console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
-        console.error("Error occurred while fetching summaries", error);
+        console.log("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
 };
@@ -126,16 +126,16 @@ const fetchFavSummaries = async (req, res) => {
         console.log(summaries);
         return res.status(200).json(summaries);
     } catch (error) {
-        console.error("Error occurred while fetching summaries", error);
+        console.log("Error occurred while fetching summaries", error);
         return res.status(400).send(error.message);
     }
 };
 
 const modifyFavSummaries = async (req, res) => {
     try {
-        const { userId, summaryId } = req.body;
+        const { userId, videoId } = req.body;
         if (!userId) return res.status(400).send("User ID is required");
-        if (!summaryId) return res.status(400).send("Summary ID is required");
+        if (!videoId) return res.status(400).send("Video ID is required");
 
         // Find the user with the given user ID
         const user = await User.findById(userId);
@@ -146,7 +146,7 @@ const modifyFavSummaries = async (req, res) => {
 
         // Find the index of the summary with the given summary ID
         const summaryIndex = user.summaries.findIndex(
-            (summary) => summary.summaryId === summaryId,
+            (summary) => summary.videoId === videoId,
         );
 
         if (summaryIndex === -1) {
@@ -161,15 +161,12 @@ const modifyFavSummaries = async (req, res) => {
         // Save the updated user document
         await user.save();
 
-        console.log(`Favorite attribute for summary ID ${summaryId} 
+        console.log(`Favorite attribute for video ID ${videoId} 
     modified to ${!currentFavVal}`);
 
         return res.status(200).json({ message: "Successfully modified" });
     } catch (error) {
-        console.error(
-            "Error occurred while modifying favorite attribute",
-            error,
-        );
+        console.log("Error occurred while modifying favorite attribute", error);
         return res.status(400).send(error.message);
     }
 };
@@ -188,6 +185,8 @@ const saveSummary = async (req, res) => {
             return res.status(400).send("User not found");
         }
 
+        console.log(videoId);
+
         // Create a new summary document
         const NewSummary = new Summary({
             videoId: videoId,
@@ -196,14 +195,21 @@ const saveSummary = async (req, res) => {
             },
         });
 
+        console.log("Saving summary:", NewSummary); // Logging for debugging
+
         // Save the new summary document
         const savedSummary = await NewSummary.save();
+
+        console.log("Saved summary:", savedSummary); // Logging for debugging
 
         // Create a new summary object with the saved summary's ID
         const newSummaryObject = {
             summaryId: savedSummary._id, // Use the ID generated by MongoDB
+            videoId: savedSummary.videoId,
             favorite: false, // Default value for favorite
         };
+
+        console.log(newSummaryObject);
 
         // Push the new summary object to the user's summaries array
         user.summaries.push(newSummaryObject);
@@ -215,7 +221,7 @@ const saveSummary = async (req, res) => {
 
         return res.status(200).send("Summary saved.");
     } catch (error) {
-        console.error("Error occurred while storing summary", error);
+        console.log("Error occurred while storing summary", error);
         return res.status(400).send(error.message);
     }
 };
