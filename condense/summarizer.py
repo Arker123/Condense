@@ -1,5 +1,6 @@
 import re
 import sys
+import json
 import logging
 import argparse
 from typing import Dict, List, Tuple
@@ -111,7 +112,8 @@ def main(argv=None) -> int:
     summary, time_stamp = summerize_text(argv.video_url)
     summary_text = " ".join([f"{chunk['summary_text']}" for chunk in summary])
     summary_dict = {"summary": summary_text, "time_stamp": time_stamp}
-    print(summary_dict)
+    json_output = json.dumps(summary_dict)
+    print(json_output)
 
     return 0
 

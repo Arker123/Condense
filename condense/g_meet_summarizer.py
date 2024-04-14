@@ -22,11 +22,6 @@ SAMPLE_RATE = 48000
 RECORD_SEC = 25
 
 
-# def summarize_text(text, summarizer):
-#     summary_text = summarizer(text, max_length=15, min_length=1, do_sample=False)[0]["summary_text"]
-#     return summary_text
-
-
 def record(model: whisper.model, summarizer):
     """
     Record audio from the default microphone and transcribe it using the provided model.

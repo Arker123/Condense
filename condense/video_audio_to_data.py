@@ -79,7 +79,7 @@ def main(argv=None) -> int:
         os.remove(audio_path)
 
     # get the summary
-    summary, timestamps = get_summary_from_transcript(transcript)
+    summary, timestamps = get_summary_from_transcript(transcript, 0)
     print(json.dumps(transcript))
     print(json.dumps(summary))
     print(json.dumps(timestamps))
