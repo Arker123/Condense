@@ -398,42 +398,6 @@ async function main() {
 });
 
 
-  // const fetchSummary = async () => {
-  //   // const reqSummary = summaries.find((summary) => summary.videoId === videoUrl);
-  //   // console.log("req summ: ", reqSummary);
-  //   const reqSummary = null;
-  //   if (!reqSummary) {
-  //     console.log("hii: ");
-  //     try {
-  //       const res = await axios.post(
-  //         `${process.env.REACT_APP_API_URL}/summaries/generate`,
-  //         {
-  //           videoUrl,
-  //         }
-  //       );
-  //       summary_text = res.data.summary;
-  //     } 
-  //     catch (err) {
-  //       // toast.error("Error while fetching summary", toastOptions);
-  //       console.log(err);
-  //     }
-  //   } 
-  //   else {
-  //     console.log("in fetch one summary");
-  //     const userId = "65fbd783e390959bedecdec3";
-  //     console.log(userId);
-  //     console.log(url);
-  //     const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${videoUrl}`;
-  
-  //     try {
-  //       const res = await axios.get(apiUrl);
-  //       summary_text = res.data[0].summary.body;
-  //     } catch (err) {
-  //       // toast.error("Error while fetching summary", toastOptions);
-  //       console.log(err);
-  //     }
-  //   }
-  // };
   
 
  ai_chat_entry_button.addEventListener("click", () => {
