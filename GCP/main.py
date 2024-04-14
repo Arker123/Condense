@@ -5,9 +5,10 @@ import random
 import shutil
 import string
 import logging
-import torch
-import emoji
+
 import nltk
+import emoji
+import torch
 import whisper
 import youtube_transcript_api
 from flask import Flask, jsonify, request
@@ -118,6 +119,7 @@ def get_transcript_from_video(video_url: str) -> tuple[list[dict[str, str]], str
 
     return text, lang
 
+
 def preprocess_data(comment):
     comment = emoji.demojize(comment)
     comment = re.sub("[^a-zA-Z0-9.,;:()'`*\"\\s]", "", comment)
@@ -140,7 +142,7 @@ def predict_sentiment(comment):
         _, predicted = torch.max(output, 1)
         sentiment_label = {1: "negative", 0: "neutral", 2: "positive"}
         return sentiment_label.get(predicted.item(), "unknown")
-    
+
 
 @app.route("/")
 def hello_world():
@@ -225,11 +227,12 @@ def summerize_text() -> str:
         summary.append(summary_text)
     return " ".join(summary)
 
+
 @app.route("/analyze_sentiment", methods=["POST"])
 def analyze_sentiment():
     data = request.get_json()
     comment = data.get("comment")
-    
+
     if not comment:
         return jsonify({"error": "Comment not provided"}), 400
 

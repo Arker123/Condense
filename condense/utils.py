@@ -3,12 +3,13 @@ import csv
 import json
 import logging
 import argparse
+from typing import Dict, List
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
-def save_to_text(data: list[dict[str, str]], text_filename: str) -> True:
+def save_to_text(data: List[Dict[str, str]], text_filename: str) -> None:
     """
     Save the transcript text to a text file.
     """
@@ -21,7 +22,7 @@ def save_to_text(data: list[dict[str, str]], text_filename: str) -> True:
             text_file.write(f"{text}\n")
 
 
-def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> True:
+def save_to_csv(data: List[Dict[str, str]], csv_filename: str) -> None:
     """
     Save the transcript data to a CSV file.
     """
@@ -39,7 +40,7 @@ def save_to_csv(data: list[dict[str, str]], csv_filename: str) -> True:
             )
 
 
-def save_to_file(data: list[dict[str, str]], args: argparse.Namespace) -> True:
+def save_to_file(data: List[Dict[str, str]], args: argparse.Namespace) -> None:
     output_path = "transcripts"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
