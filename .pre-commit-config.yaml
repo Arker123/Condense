@@ -11,6 +11,8 @@ repos:
         -   "--profile"
         -   "black"
         -   "--line-length=120"
+        -   "--skip"
+        -   "whisper"
         -   "."
         always_run: true
         pass_filenames: false
@@ -38,6 +40,18 @@ repos:
         args: 
         -   "--config-file=.github/mypy/mypy.ini"
         -   "condense/"
+        -   "tests/"
+        always_run: true
+        pass_filenames: false
+
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        stages: [commit, push]
+        language: system
+        entry: pytest
+        args: 
         -   "tests/"
         always_run: true
         pass_filenames: false
