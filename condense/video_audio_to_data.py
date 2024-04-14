@@ -7,7 +7,7 @@ import argparse
 
 from moviepy.editor import VideoFileClip
 
-from condense.summarizer import get_summary_from_transcript
+from condense.summarizer import load_summarize_model, get_summary_from_transcript
 from condense.youtube_audio_extractor import start_translate
 
 logger = logging.getLogger()
@@ -79,7 +79,8 @@ def main(argv=None) -> int:
         os.remove(audio_path)
 
     # get the summary
-    summary, timestamps = get_summary_from_transcript(transcript, 0)
+    summarizer = load_summarize_model()
+    summary, timestamps = get_summary_from_transcript(transcript, summarizer, 0)
     print(json.dumps(transcript))
     print(json.dumps(summary))
     print(json.dumps(timestamps))
