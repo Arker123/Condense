@@ -338,6 +338,57 @@ const logoutUser = async (req, res) => {
     }
 };
 
+const updatePassword = async (req, res) => {
+    try {
+        const { email, oldPassword, newPassword } = req.body;
+
+        // Validate incoming data
+        if (!email || !oldPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Email, oldPassword, and newPassword are required",
+            });
+        }
+
+        // Find the user by email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        // Compare old password with the hashed password stored in the database
+        const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+
+        if (!passwordMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password is incorrect",
+            });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update user's password
+        await User.updateOne({ email }, { password: hashedPassword });
+
+        res.status(200).json({
+            success: true,
+            message: "Password updated successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+};
+
 module.exports = {
     sendOtp,
     registerUser,
@@ -345,4 +396,5 @@ module.exports = {
     verifyOtp,
     refresh,
     logoutUser,
+    updatePassword
 };

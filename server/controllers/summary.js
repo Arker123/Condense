@@ -94,7 +94,7 @@ const fetchOneSummary = async (req, res) => {
 
 const fetchFavSummaries = async (req, res) => {
     try {
-        const { userId } = req.body;
+        const { userId } = req.query;
         if (!userId) return res.status(400).send("User ID is required");
 
         // Find user with the given user ID
@@ -104,11 +104,15 @@ const fetchFavSummaries = async (req, res) => {
             return res.status(400).send("User not found");
         }
 
+        // console.log(user.summaries);
+
         // Extract summary IDs from the user document where favorite is true
         const summaryIds = user.summaries
             .filter((summary) => summary.favorite === true)
             .map((summary) => summary.summaryId);
 
+        // console.log(summaryIds);
+        
         // Fetch summaries from the Summary schema based on the summary IDs
         const summaries = await Summary.find({ _id: { $in: summaryIds } });
 

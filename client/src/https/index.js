@@ -15,6 +15,7 @@ export const Refresh = (data) => api.post("/auth/refresh", data);
 export const Register = (data) => api.post("/auth/register", data);
 export const login = (data) => api.post("/auth/login", data);
 export const logout = (data) => api.get("/auth/logout", data);
+export const updatePass = (data) => api.post("/auth/updatePassword", data);
 
 export const getAllNotes = (data) => api.get("/note/all", data);
 export const getNote = (data) => api.get("/note/one", data);
