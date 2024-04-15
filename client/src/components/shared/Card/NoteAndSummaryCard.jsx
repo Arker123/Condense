@@ -32,12 +32,18 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
     const videoIdRegex =
       /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(videoIdRegex);
-    return match ? match[1] : null;
+    const videoId = match ? match[1] : null;
+    console.log("Video ID:", videoId);
+    return videoId;
   };
 
   // Function to get YouTube thumbnail URL from video ID
   const getThumbnailUrl = (videoId) => {
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    const thumbnailUrl = videoId
+      ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+      : "";
+    console.log("Thumbnail URL:", thumbnailUrl);
+    return thumbnailUrl;
   };
 
   const videoId = getVideoId(youtubeUrl);
