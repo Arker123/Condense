@@ -1,6 +1,6 @@
 const Summary = require("../models/summaryModel");
 const User = require("../models/UserModel");
-const redisClient = require("../redis.js");
+const redisClient = require("../redisConfig.js");
 
 const { spawnSync } = require("child_process");
 
