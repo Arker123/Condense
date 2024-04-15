@@ -44,6 +44,18 @@ repos:
         always_run: true
         pass_filenames: false
 
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        stages: [commit, push]
+        language: system
+        entry: pytest
+        args: 
+        -   "tests/"
+        always_run: true
+        pass_filenames: false
+
 # TODO: Add eslint to the pre-commit hooks
 # -   repo: local
 #     hooks:
