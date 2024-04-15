@@ -41,7 +41,7 @@ const getFavNotes = async (req, res) => {
         }
 
         // Filter notes where favorite is true
-        const favoriteNotes = user.notes.filter(note => note.favorite);
+        const favoriteNotes = user.notes.filter((note) => note.favorite);
         console.log("favourite notes: ", favoriteNotes);
 
         res.status(200).json({ success: true, notes: favoriteNotes });

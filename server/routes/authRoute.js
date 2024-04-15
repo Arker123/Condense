@@ -5,7 +5,7 @@ const {
     sendOtp,
     verifyOtp,
     refresh,
-    updatePassword
+    updatePassword,
 } = require("../controllers/auth");
 
 const express = require("express");

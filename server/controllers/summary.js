@@ -112,7 +112,7 @@ const fetchFavSummaries = async (req, res) => {
             .map((summary) => summary.summaryId);
 
         // console.log(summaryIds);
-        
+
         // Fetch summaries from the Summary schema based on the summary IDs
         const summaries = await Summary.find({ _id: { $in: summaryIds } });
 

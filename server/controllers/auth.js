@@ -396,5 +396,5 @@ module.exports = {
     verifyOtp,
     refresh,
     logoutUser,
-    updatePassword
+    updatePassword,
 };

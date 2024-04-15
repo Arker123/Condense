@@ -173,13 +173,13 @@ const Profile = () => {
           <div className="flex items-center gap-6 mt-1">
             <div className="profileimage">
               <img src="/images/robot-profile-icon.svg" />
-              Jason Derulo
+              {user.name}
             </div>
             <div className="flex flex-col items-center gap-2 mt-1">
               <div>
                 <span className="text-medium">Email ID: </span>
                 <span className="text-medium font-semibold">
-                  user@email.com
+                  {email}
                 </span>
               </div>
               <button 
