@@ -31,5 +31,6 @@ jobs:
       run: black -l 120 --check .
     - name: Check types with mypy
       run: mypy --config-file .github/mypy/mypy.ini condense/ tests/
-
+    - name: Run pytest
+      run: pytest tests/
     timeout-minutes: 10
