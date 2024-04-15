@@ -21,6 +21,7 @@ export const getNote = (data) => api.get("/note/one", data);
 export const modifyNote = (data) => api.post("/note/modify", data);
 export const createNote = (data) => api.post("/note/create", data);
 export const deleteNote = (data) => api.delete(`/note/delete`, data);
+export const modifyFavNotes = (data) => api.post(`/note/getFav`, data) ;
 
 export const getUser = (data) => api.post(`/user`, data);
 
