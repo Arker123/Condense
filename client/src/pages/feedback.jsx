@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./feedback.css";
-import Footer from "../components/shared/Footer"
-import Navbar from "../components/shared/Navbar/Navbar";
+import Footer from "../components/Footer"
+import Navbar from "../components/Navbar/Navbar";
 function Feedback() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");

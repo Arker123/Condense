@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NoteAndSummary from "../components/shared/Card/NoteAndSummaryCard";
+import NoteAndSummary from "../components/Card/NoteAndSummaryCard";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserSlice } from "../redux/userSlice";
 import { CgProfile } from "react-icons/cg";

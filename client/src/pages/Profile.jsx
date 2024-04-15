@@ -9,9 +9,9 @@ import {
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProfileCard from "../components/shared/Card/ProfileCard";
+import ProfileCard from "../components/Card/ProfileCard";
 import axios from "axios";
-import Sidebar from "../components/shared/Sidebar";
+import Sidebar from "../components/Sidebar";
 import { IoMdSettings } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../../../redux/userSlice";
+import { logout } from "../../redux/userSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Navbar.css";

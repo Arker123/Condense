@@ -8,8 +8,8 @@ import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
-import Sidebar from "../components/shared/Sidebar";
-import Footer from "../components/shared/Footer";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import {
   modifyNote,
   createNote,

@@ -5,8 +5,8 @@ import { IoMdSettings } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
-import Sidebar from "../components/shared/Sidebar";
-import Footer from "../components/shared/Footer";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import "./Dashboard.css";
 
 const Dashboard = () => {

@@ -2,7 +2,7 @@ import "jest-canvas-mock";
 import { BrowserRouter as Router } from "react-router-dom";
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
-import Sidebar from "../components/shared/Sidebar";
+import Sidebar from "../components/Sidebar";
 import "@testing-library/jest-dom";
 
 afterEach(cleanup);

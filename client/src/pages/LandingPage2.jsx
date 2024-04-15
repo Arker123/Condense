@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Navbar from "../components/shared/Navbar/Navbar";
+import Navbar from "../components/Navbar/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
 
-import Footer from "../components/shared/Footer";
 const data = [
   {
     img: "/images/feature_img1.webp",
@@ -69,12 +72,13 @@ function Card({ item }) {
 
 function LandingPage2() {
   AOS.init();
-
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   return (
     <>
     <div className="App bg-gradient-to-b p-8">
     <Navbar />
-      <header className="App-header">
+      {/* <header className="App-header">
         <div className="logo2">
           <img src="/images/logo_condense.jpg" alt="Logo" />
         </div>
@@ -109,7 +113,7 @@ function LandingPage2() {
             )}
           </div>
         </nav>
-      </header>
+      </header> */}
       <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
         <div className="text-7xl font-bold">
           <p className="">Summarize </p>
