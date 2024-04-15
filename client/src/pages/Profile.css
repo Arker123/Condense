@@ -1,5 +1,5 @@
 .App3 {
-    background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+    background: linear-gradient(to bottom,  rgb(45, 4, 4), #6f0000);
 }
 
 .groupside{
@@ -8,12 +8,12 @@
 }
 
 .sidebuttons{
-    background-color: #230b0e82;
-    color: #e1e1df;
+    background-color:  rgb(248 250 252);
+    color: #000000;
 }
 .sidebuttons:hover {
-    background-color: #e1e1df;
-    color: #000000;
+    background-color: #3182ce;
+    color: #f6f6f6;
   }
 
 .header{
