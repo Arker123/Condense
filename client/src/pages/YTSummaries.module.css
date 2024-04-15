@@ -134,9 +134,3 @@ main {
   height: 150px; /* Fixed height, or 'auto' for a variable height */
   object-fit: cover; /* This will cover the area without stretching the image */
 }
-
-/* .Category span {
-  display: block;
-  margin-bottom: 20px;
-  color: #555;
-} */
