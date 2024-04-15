@@ -14,7 +14,6 @@ from condense.comments import get_comments
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-
 def make_parser() -> argparse.ArgumentParser:
     """
     Create the argument parser.
@@ -62,14 +61,11 @@ def word_cloud(video_url: str, api_key: str) -> None:
 
 
 def get_video_statistics(api_key: str, video_id: str) -> dict:
-    youtube = build('youtube', 'v3', developerKey=api_key)
-    request = youtube.videos().list(
-        part='statistics',
-        id=video_id
-    )
+    youtube = build("youtube", "v3", developerKey=api_key)
+    request = youtube.videos().list(part="statistics", id=video_id)
     response = request.execute()
-    if 'items' in response:
-        return response['items'][0]['statistics']
+    if "items" in response:
+        return response["items"][0]["statistics"]
     else:
         return {}
 
@@ -83,11 +79,11 @@ def display_engagement_metrics(api_key: str, video_url: str) -> None:
     statistics = get_video_statistics(api_key, video_id)
     if statistics:
         print("Engagement Metrics for Video ID:", video_id)
-        print("Views:", statistics.get('viewCount', 0))
-        print("Likes:", statistics.get('likeCount', 0))
-        print("Dislikes:", statistics.get('dislikeCount', 0))
-        print("Comments:", statistics.get('commentCount', 0))
-        print("Shares:", statistics.get('shareCount', 0))
+        print("Views:", statistics.get("viewCount", 0))
+        print("Likes:", statistics.get("likeCount", 0))
+        print("Dislikes:", statistics.get("dislikeCount", 0))
+        print("Comments:", statistics.get("commentCount", 0))
+        print("Shares:", statistics.get("shareCount", 0))
     else:
         print("Video statistics not available.")
 
