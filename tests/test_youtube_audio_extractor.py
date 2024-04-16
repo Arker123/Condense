@@ -5,6 +5,7 @@ import pytest
 
 from condense.youtube_audio_extractor import main, generate, make_parser, start_translate, get_transcript_from_video
 
+
 def test_argument_parser_for_json():
     parser = make_parser()
     args = ["-u", "https://example.com/video", "--json"]
