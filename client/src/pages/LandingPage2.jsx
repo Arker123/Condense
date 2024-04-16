@@ -73,7 +73,43 @@ function LandingPage2() {
   return (
     <>
     <div className="App bg-gradient-to-b p-8">
-      <Navbar />
+    <Navbar />
+      <header className="App-header">
+        <div className="logo2">
+          <img src="/images/logo_condense.jpg" alt="Logo" />
+        </div>
+
+        <nav className="flex justify-between w-full font-['Dosis'] text-xl">
+          <div></div>
+
+          <div className="flex gap-24 ">
+            <Link to="/landing">
+              <FontAwesomeIcon icon={faHome} />
+            </Link>
+
+            <Link to="">Chrome Extension</Link>
+            <Link to="/ytsummaries">Youtube Summaries</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
+          <div>
+            {user.email ? (
+              <button
+                onClick={() => dispatch(logout())}
+                className="p-2 px-3 bottom-2 relative border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signup"
+                className="p-2 border rounded-lg hover:bg-[rgba(255,255,255,0.2)]"
+              >
+                Login/SignUp
+              </Link>
+            )}
+          </div>
+        </nav>
+      </header>
       <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
         <div className="text-7xl font-bold">
           <p className="">Summarize </p>
