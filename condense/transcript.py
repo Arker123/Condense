@@ -1,6 +1,7 @@
 # Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 import re
 import sys
+import json
 import logging
 import argparse
 from typing import Dict, List
@@ -75,7 +76,7 @@ def main(argv=None) -> int:
     logging.basicConfig(level=logging.DEBUG)
 
     transcript = get_transcript(args.video_url)
-    print(transcript)
+    print(json.dumps(transcript))
     save_to_file(transcript, args)
 
     return 0

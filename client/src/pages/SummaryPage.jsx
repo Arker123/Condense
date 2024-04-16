@@ -36,6 +36,18 @@ const SummaryPage = () => {
   const summaries = user.summaries;
   console.log("summaa:  ", summaries);
 
+  const convertTime = (time) => {
+    let seconds = Math.floor(time);
+    // const minutes = "0" + Math.floor(seconds / 60) ;
+    let minutes = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+
+    seconds = seconds % 60;
+    seconds = seconds.toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
   const fetchUser = async () => {
     try {
       console.log("user id: ", user.id);
@@ -104,12 +116,13 @@ const SummaryPage = () => {
       const res = axios.post(
         `${process.env.REACT_APP_API_URL}/summaries/generate`,
         {
-          url,
+          videoId,
         }
       );
       res
         .then((res) => {
-          setSummaryText(res.data.summary);
+          const sum = JSON5.parse(res.data?.summary || "")
+          setSummaryText(sum.summary);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -128,7 +141,7 @@ const SummaryPage = () => {
       const res = axios.get(apiUrl);
       res
         .then((res) => {
-          setSummaryText(res.data[0].summary.body);
+          setSummaryText(res.data[0]?.summary?.body);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -334,7 +347,7 @@ const SummaryPage = () => {
                       : transcripts.map((transcript) => (
                           <div className="flex">
                             <div className="text-[rgb(116,173,252)] w-10 mr-2">
-                              {transcript.start}
+                              {convertTime(transcript.start)}
                             </div>
                             <div className="px-2 w-full">{transcript.text}</div>
                           </div>

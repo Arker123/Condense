@@ -12,3 +12,7 @@ extensions/css/.DS_Store
 .DS_Store
 .mypy_cache
 myenv
+condense/audio
+condense/transcripts
+server/audio
+server/transcripts
