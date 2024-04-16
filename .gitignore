@@ -1,6 +1,7 @@
 node_modules
 .env
 condense/__pycache__
+tests/__pycache__
 condense.egg-info/
 client/coverage
 server/coverage
@@ -10,3 +11,8 @@ extensions/.DS_Store
 extensions/css/.DS_Store
 .DS_Store
 .mypy_cache
+myenv
+condense/audio
+condense/transcripts
+server/audio
+server/transcripts

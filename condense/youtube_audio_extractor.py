@@ -43,6 +43,37 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def load_model():
+    """
+    Load the pre-trained model for speech recognition.
+
+    Returns:
+        whisper.model: The loaded pre-trained model.
+    """
+    model = whisper.load_model("base")
+    return model
+
+
+def get_transcript(model: whisper.model, output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
+    absolute_audio_path = os.path.join(output_path, filename)
+
+    result = model.transcribe(absolute_audio_path)
+    segments = result["segments"]
+
+    transcribed_text = result["text"]
+
+    language = detect(transcribed_text)
+    logger.info(f"Detected language: {language}")
+    return (segments, language)
+
+
+def start_translate(output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
+    model = load_model()
+    segments, language = get_transcript(model, output_path, filename)
+
+    return (segments, language)
+
+
 def generate(audio_stream: YouTube, output_path: str, filename: str) -> Tuple[List[Dict[str, str]], str]:
     """
     Generate the transcript for the audio stream.
@@ -50,19 +81,8 @@ def generate(audio_stream: YouTube, output_path: str, filename: str) -> Tuple[Li
     audio_stream.download(output_path=output_path, filename=filename)
     logger.info(f"Audio downloaded to {output_path}/{filename}")
 
-    model = whisper.load_model("base")
-    absolute_audio_path = os.path.join(output_path, filename)
-
-    result = model.transcribe(absolute_audio_path)
-    print(result)
-    segments = result["segments"]
-
-    transcribed_text = result["text"]
-
-    language = detect(transcribed_text)
-    logger.info(f"Detected language: {language}")
-
-    return segments, language
+    segments, language = start_translate(output_path, filename)
+    return (segments, language)
 
 
 def get_transcript_from_video(video_url: str) -> Tuple[List[Dict[str, str]], str]:
@@ -82,7 +102,7 @@ def get_transcript_from_video(video_url: str) -> Tuple[List[Dict[str, str]], str
 
     shutil.rmtree(output_path)
 
-    return text, lang
+    return (text, lang)
 
 
 def main(argv=None) -> int:
