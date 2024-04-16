@@ -7,6 +7,7 @@ from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
+from transformers import pipeline
 
 from condense.summarizer import load_summarize_model, get_summary_from_transcript
 from condense.youtube_audio_extractor import load_model, get_transcript
@@ -22,7 +23,7 @@ SAMPLE_RATE = 48000
 RECORD_SEC = 25
 
 
-def record(model: whisper.model, summarizer):
+def record(model: whisper.model, summarizer: pipeline):
     """
     Record audio from the default microphone and transcribe it using the provided model.
 

@@ -34,7 +34,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def load_summarize_model():
+def load_summarize_model() -> pipeline:
     model = pipeline("summarization")
     return model
 
