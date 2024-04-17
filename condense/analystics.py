@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
 from googleapiclient.discovery import build
 
-
+from condense.utils import get_video_id
 from condense.comments import get_comments
 
 logger = logging.getLogger()
@@ -62,42 +62,19 @@ def word_cloud(video_url: str, api_key: str) -> None:
     plt.show()
 
 
-def get_video_statistics(api_key: str, video_id: str) -> dict:
+def display_engagement_metrics(api_key: str, video_url: str):
+    video_id = get_video_id(video_url)
+    if not video_id:
+        raise ValueError("Invalid YouTube video URL.")
+
     youtube = build("youtube", "v3", developerKey=api_key)
     request = youtube.videos().list(part="statistics", id=video_id)
     response = request.execute()
-    if "items" in response:
-        return response["items"][0]["statistics"]
-    else:
-        return {}
+    if "items" not in response:
+        raise ValueError("Video statistics not available.")
 
-
-def display_engagement_metrics(api_key: str, video_url: str) -> None:
-    video_id = get_video_id(video_url)
-    if not video_id:
-        print("Invalid YouTube video URL.")
-        return
-
-    statistics = get_video_statistics(api_key, video_id)
-    if statistics:
-        print("Engagement Metrics for Video ID:", video_id)
-        print("Views:", statistics.get("viewCount", 0))
-        print("Likes:", statistics.get("likeCount", 0))
-        print("Dislikes:", statistics.get("dislikeCount", 0))
-        print("Comments:", statistics.get("commentCount", 0))
-        print("Shares:", statistics.get("shareCount", 0))
-    else:
-        print("Video statistics not available.")
-
-
-def get_video_id(video_url: str) -> str:
-    if "youtube.com/watch?v=" in video_url:
-        video_id = video_url.split("youtube.com/watch?v=")[1].split("&")[0]
-    elif "youtu.be" in video_url:
-        video_id = video_url.split("youtu.be/")[1].split("?")[0]
-    else:
-        raise ValueError("Please Enter a Valid URL")
-    return video_id
+    statistics = response["items"][0]["statistics"]
+    return statistics  # type: ignore
 
 
 def main(argv=None) -> int:
@@ -114,7 +91,14 @@ def main(argv=None) -> int:
     word_cloud(args.video_url, api_key)
 
     # Display engagement metrics
-    display_engagement_metrics(api_key, args.video_url)
+    statistics = display_engagement_metrics(api_key, args.video_url)
+
+    print("Engagement Metrics for Video ID:", get_video_id(args.video_url))
+    print("Views:", statistics.get("viewCount", 0))
+    print("Likes:", statistics.get("likeCount", 0))
+    print("Dislikes:", statistics.get("dislikeCount", 0))
+    print("Comments:", statistics.get("commentCount", 0))
+    print("Shares:", statistics.get("shareCount", 0))
 
     return 0
 

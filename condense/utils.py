@@ -9,6 +9,17 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
+def get_video_id(video_link: str) -> str:
+    # Extract video ID from YouTube video link
+    if "youtube.com/watch?v=" in video_link:
+        video_id = video_link.split("youtube.com/watch?v=")[1].split("&")[0]
+    elif "youtu.be" in video_link:
+        video_id = video_link.split("youtu.be/")[1].split("?")[0]
+    else:
+        raise ValueError("Invalid YouTube video link")
+    return video_id
+
+
 def save_to_text(data: List[Dict[str, str]], text_filename: str) -> None:
     """
     Save the transcript text to a text file.
