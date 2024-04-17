@@ -18,6 +18,8 @@ import SummaryAndNotes from "./pages/SummaryAndNotes";
 import Profile from "./pages/Profile";
 import Auth from "./utils/Auth";
 import NotFound from "./pages/NotFound";
+import YTSummaries from "./pages/YTSummaries"; 
+
 
 /**
  * Renders the main application component.
@@ -35,6 +37,8 @@ function App() {
             <Route exact path="/contact" element={<ContactUs />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/feedback" element={<Feedback />} />
+            <Route exact path="/ytsummaries" element={<YTSummaries />} /> 
+
             <Route element={<Auth />}>
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/summary" element={<SummaryPage />} />

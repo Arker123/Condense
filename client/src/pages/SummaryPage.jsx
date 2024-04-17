@@ -39,6 +39,18 @@ const SummaryPage = () => {
   const summaries = user.summaries;
   console.log("summaa:  ", summaries);
 
+  const convertTime = (time) => {
+    let seconds = Math.floor(time);
+    // const minutes = "0" + Math.floor(seconds / 60) ;
+    let minutes = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+
+    seconds = seconds % 60;
+    seconds = seconds.toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
   const fetchUser = async () => {
     try {
       console.log("user id: ", user.id);
@@ -107,12 +119,13 @@ const SummaryPage = () => {
       const res = axios.post(
         `${process.env.REACT_APP_API_URL}/summaries/generate`,
         {
-          url,
+          videoId,
         }
       );
       res
         .then((res) => {
-          setSummaryText(res.data.summary);
+          const sum = JSON5.parse(res.data?.summary || "")
+          setSummaryText(sum.summary);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -131,7 +144,7 @@ const SummaryPage = () => {
       const res = axios.get(apiUrl);
       res
         .then((res) => {
-          setSummaryText(res.data[0].summary.body);
+          setSummaryText(res.data[0]?.summary?.body);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -389,7 +402,7 @@ const SummaryPage = () => {
                       <FontAwesomeIcon icon={faSave} className="cursor-pointer"  onClick={() => handleSaveNote()} />
                     
                     
-                      <FontAwesomeIcon icon={faStar} className="cursor-pointer"  onClick={() => addNoteToFav() />
+                      <FontAwesomeIcon icon={faStar} className="cursor-pointer"  onClick={() => addNoteToFav()} />
                   
                   </div>
                 </div>
