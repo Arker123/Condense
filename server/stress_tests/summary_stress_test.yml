@@ -1,0 +1,33 @@
+config:
+  target: 'http://localhost:5000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 100
+      name: "Warming up"
+    - duration: 120
+      arrivalRate: 50
+      name: "Peak load"
+
+scenarios:
+  - name: "Fetch all summaries"
+    flow:
+      - get:
+          url: "/summaries/getAll"
+          qs:
+            userId: "65fbd783e390959bedecdec3"
+  
+  - name: "Fetch one summary"
+    flow:
+      - get:
+          url: "/summaries/getOne"
+          qs:
+            userId: "65fbd783e390959bedecdec3"
+            videoId: "https://www.youtube.com/watch?v=97V4BhuN2X8"
+
+  - name: "Fetch favorite summaries"
+    flow:
+      - get:
+          url: "/summaries/getFav"
+          qs:
+            userId: "65fbd783e390959bedecdec3"
