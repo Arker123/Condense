@@ -380,60 +380,26 @@ async function main() {
 
         console.log(json);
 
-        summary_text = json.summary.summary;
+        let summary_dict = await JSON.parse(json.summary);
+        console.log(summary_text);
+        summary_text = summary_dict.summary;
         console.log(summary_text);
     } catch (error) {
         console.error("Error fetching summary:", error);
     }
-    summary_area.style.display = "block";
-    var words = summary_text.split(" ");
-    var index = 0;
-    var intervalId = setInterval(function() {
-        summary_area.innerHTML += (words[index] + " ");
-        index++;
-        if(index == words.length) {
-            clearInterval(intervalId);
-        }
-    }, 50);
+    if(summary_text){
+      summary_area.style.display = "block";
+      var words = summary_text.split(" ");
+      var index = 0;
+      var intervalId = setInterval(function() {
+          summary_area.innerHTML += (words[index] + " ");
+          index++;
+          if(index == words.length) {
+              clearInterval(intervalId);
+          }
+      }, 50);
+    }
 });
-
-
-  // const fetchSummary = async () => {
-  //   // const reqSummary = summaries.find((summary) => summary.videoId === videoUrl);
-  //   // console.log("req summ: ", reqSummary);
-  //   const reqSummary = null;
-  //   if (!reqSummary) {
-  //     console.log("hii: ");
-  //     try {
-  //       const res = await axios.post(
-  //         `${process.env.REACT_APP_API_URL}/summaries/generate`,
-  //         {
-  //           videoUrl,
-  //         }
-  //       );
-  //       summary_text = res.data.summary;
-  //     } 
-  //     catch (err) {
-  //       // toast.error("Error while fetching summary", toastOptions);
-  //       console.log(err);
-  //     }
-  //   } 
-  //   else {
-  //     console.log("in fetch one summary");
-  //     const userId = "65fbd783e390959bedecdec3";
-  //     console.log(userId);
-  //     console.log(url);
-  //     const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${videoUrl}`;
-  
-  //     try {
-  //       const res = await axios.get(apiUrl);
-  //       summary_text = res.data[0].summary.body;
-  //     } catch (err) {
-  //       // toast.error("Error while fetching summary", toastOptions);
-  //       console.log(err);
-  //     }
-  //   }
-  // };
   
 
  ai_chat_entry_button.addEventListener("click", () => {
