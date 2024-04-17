@@ -23,6 +23,7 @@ requirements = [
     "soundcard==0.4.3",
     "soundfile==0.12.1",
     "moviepy==1.0.3",
+    "pyaudio==0.2.14",
 ]
 
 # this sets __version__
