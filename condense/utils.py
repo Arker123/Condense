@@ -19,6 +19,7 @@ class ExtendAction(argparse.Action):
         items = getattr(namespace, self.dest, None) or []
         items.extend(values)
         setattr(namespace, self.dest, items)
+
         
 class InstallContextMenu(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
@@ -74,8 +75,7 @@ class UninstallContextMenu(argparse.Action):
             reg.DeleteKey(menu_key, "command")
             reg.DeleteKey(shell_key, menu_name)
             sys.exit(0)
-
-
+            
 
 def get_progress_bar(functions, disable_progress, desc="", unit=""):
     pbar = tqdm.tqdm
