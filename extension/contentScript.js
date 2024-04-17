@@ -358,33 +358,33 @@ async function main() {
 
 
   get_summary.addEventListener("click", async () => {
+    get_summary.style.display = "none";
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
-    let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
-    // try {
-    //     const response = await fetch("http://localhost:5000/summaries/generate", {
-    //         method: "POST",
-    //         mode: "cors",
-    //         headers: {
-    //             Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             url: videoUrl,
-    //         }),
-    //     });
+    let summary_text = null;
+    // let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
+    try {
+        const response = await fetch("http://localhost:5000/summaries/generate", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: videoUrl,
+            }),
+        });
 
-    //     const json = await response.json();
+        const json = await response.json();
 
-    //     console.log(json);
+        console.log(json);
 
-    //     let summary_text = json.summary;
-    //     console.log(summary_text);
-    // } catch (error) {
-    //     console.error("Error fetching summary:", error);
-    // }
-
-    get_summary.style.display = "none";
+        summary_text = json.summary.summary;
+        console.log(summary_text);
+    } catch (error) {
+        console.error("Error fetching summary:", error);
+    }
     summary_area.style.display = "block";
     var words = summary_text.split(" ");
     var index = 0;
