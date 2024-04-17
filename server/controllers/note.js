@@ -24,6 +24,32 @@ const getAllNotes = async (req, res) => {
     }
 };
 
+const getFavNotes = async (req, res) => {
+    try {
+        const { userId } = req.query;
+        if (!userId) {
+            return res
+                .status(400)
+                .json({ success: false, message: "User Id is required" });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res
+                .status(400)
+                .json({ success: false, message: "User not found" });
+        }
+
+        // Filter notes where favorite is true
+        const favoriteNotes = user.notes.filter((note) => note.favorite);
+        console.log("favourite notes: ", favoriteNotes);
+
+        res.status(200).json({ success: true, notes: favoriteNotes });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
 const getNote = async (req, res) => {
     try {
         const { userId, videoId } = req.body;
@@ -218,6 +244,7 @@ const deleteNote = async (req, res) => {
 
 module.exports = {
     getAllNotes,
+    getFavNotes,
     getNote,
     modifyNote,
     createNote,
