@@ -101,8 +101,6 @@ const Profile = () => {
         setFavNotes(response.data.notes); // Assuming response contains an array of summaries
         console.log("fav notes:",response.data.notes);
         toast.success("Successfully retrieved all fav notes", toastOptions);
-        // alert("Successfully retrieved all fav summaries");
-        // console.log(data);
       })
       .catch((err) => {
         // alert(`Failed to get all fav summaries: ${err}`);
