@@ -9,7 +9,9 @@ from typing import Dict, List
 
 import googleapiclient.discovery
 from dotenv import load_dotenv
-from pyshorteners import Shortener  # Install pyshorteners using pip
+from pyshorteners import Shortener
+
+from condense.utils import get_video_id
 
 
 def make_parser() -> argparse.ArgumentParser:
@@ -58,18 +60,8 @@ class Ycom(object):
             self.api_service_name, self.api_version, developerKey=self.developer_key
         )
 
-    def get_video_id(self, video_link: str) -> str:
-        # Extract video ID from YouTube video link
-        if "youtube.com/watch?v=" in video_link:
-            video_id = video_link.split("youtube.com/watch?v=")[1].split("&")[0]
-        elif "youtu.be" in video_link:
-            video_id = video_link.split("youtu.be/")[1].split("?")[0]
-        else:
-            raise ValueError("Invalid YouTube video link")
-        return video_id
-
     def set_video_id(self, video_link: str) -> None:
-        self.video_id_to_extract_comments = self.get_video_id(video_link)
+        self.video_id_to_extract_comments = get_video_id(video_link)
 
     def write_to_csv(self):
         file_exists = os.path.isfile("comments.csv")

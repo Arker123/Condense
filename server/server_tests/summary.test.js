@@ -77,15 +77,14 @@ describe("Tests For fetch_One_summary", () => {
 
 describe("Tests For fetch_fav_summaries", () => {
     test("should respond with 400 status code if User_ID is missing", async () => {
-        const response = await request(server)
-            .get("/summaries/getFav")
-            .send({});
+        const response = await request(server).get("/summaries/getFav");
         expect(response.statusCode).toBe(400);
     });
     test("should respond with 200 status code and give all fav summaries when correct userId given", async () => {
-        const response = await request(server).get("/summaries/getFav").send({
-            userId: "66165ce6fba86a331f027edb",
-        });
+        const userId = "66165ce6fba86a331f027edb";
+        const response = await request(server).get(
+            `/summaries/getFav?userId=${userId}`,
+        );
         const dummySummary = {
             summary: { body: "This is a dummy favourite summary!" },
             videoId: "myfavouritevideo.com",
