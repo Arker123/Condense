@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "mypy": "^1.0.1",
+    "pytest": "^1.0.0"
+  }
+}
