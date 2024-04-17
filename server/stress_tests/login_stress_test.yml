@@ -1,0 +1,18 @@
+config:
+  target: 'http://localhost:5000'
+  phases:
+    - duration: 60
+      arrivalRate: 20
+      rampTo: 50
+      name: "Ramping up"
+    - duration: 120
+      arrivalRate: 50
+      name: "Sustained high load"
+
+scenarios:
+  - flow:
+      - post:
+          url: "/auth/login"
+          json:
+            email: "testing@gmail.com"
+            password: "testing"
