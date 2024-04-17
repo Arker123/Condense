@@ -79,8 +79,6 @@ const Profile = () => {
         setFavSummaries(response.data); // Assuming response contains an array of summaries
         console.log(response.data);
         toast.success("Successfully retrieved all fav summaries", toastOptions);
-        // alert("Successfully retrieved all fav summaries");
-        // console.log(data);
       })
       .catch((err) => {
         // alert(`Failed to get all fav summaries: ${err}`);
