@@ -5,6 +5,12 @@ tests/__pycache__
 condense.egg-info/
 client/coverage
 server/coverage
+server/stress_tests/login_report.json.html
+server/stress_tests/notes_report.json.html
+server/stress_tests/summary_report.json.html
+server/stress_tests/login_report.json
+server/stress_tests/notes_report.json
+server/stress_tests/summary_report.json
 .vscode
 # Mac specific files ignored.
 extensions/.DS_Store
