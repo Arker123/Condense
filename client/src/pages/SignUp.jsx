@@ -167,12 +167,12 @@ const SignUp = () => {
   return (
     <div className="">
       <motion.div
-        className=" flex flex-row bg-gradient-to-b from-red-500 via-red-900 to-black"
+        className=" flex flex-row bg-gradient-to-b from-black  to-[#6f0000]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-[500px] h-screen bg-gradient-to-b from-red-500 via-red-900 to-black">
+        <div className="w-[500px] h-screen bg-gradient-to-b from-black  to-[#6f0000]">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -186,40 +186,42 @@ const SignUp = () => {
               transition={{ duration: 1 }}
             >
               <img
-                src={"/images/logo_condense.jpg"}
+                src={"/images/white-logo.svg"}
                 alt="Your Image Alt Text"
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            <motion.div className="mt-[275px] ml-2 ">CONDENSE</motion.div>
+            <motion.div className="mt-[275px] ml-2 font-sans font-extrabold ">CONDENSE</motion.div>
           </motion.h1>
         </div>
 
-        <div className="flex justify-center items-center flex-1 w-[1000px] border-4 border-blue-100 rounded-l-3xl bg-white">
+        <div className="flex justify-center items-center flex-1 w-[1000px]  rounded-l-3xl bg-slate-100">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-[440px]  bg-white border   items-center rounded-2xl border-black shadow-md px-10 pb-8 pt-6 mb-4 ml-[150px]"
+            className="w-[440px]  bg-slate-50 border items-center rounded-2xl border-black shadow-2xl px-10 pb-8 pt-6 mb-4 ml-[150px]"
           >
-            <div className="flex flex-row mb-5 justify-center items-center text-black text-semibold text-[23px] font-serif font-medium">
-              <div
-                className={`px-5 py-1 border ${
-                  toggle ? "border-gray-200" : "border-black"
-                } cursor-pointer`}
-                onClick={() => setToggle(false)}
-                data-testid="Login-header-test"
-              >
-                Login
-              </div>
-              <div
-                className={`px-5 py-1 border ${
-                  toggle ? "border-black" : "border-gray-200"
-                } cursor-pointer`}
-                onClick={() => setToggle(true)}
-                data-testid="Register-header-test"
-              >
-                Register
+            <div className="flex flex-row mb-5 justify-center items-center text-black text-semibold text-[23px] font-sans font-medium">
+              <div className="w-[233px] rounded-xl h-[45px] border border-black flex flex-row">
+                <div
+                  className={`px-5 py-1 rounded-xl ${
+                    toggle ? "" : "border border-black text-[#6f0000] font-bold"
+                  } cursor-pointer`}
+                  onClick={() => setToggle(false)}
+                  data-testid="Login-header-test"
+                >
+                  Login
+                </div>
+                <div
+                  className={`px-5 py-1  rounded-xl ${
+                    toggle ? "border border-black text-[#6f0000] font-bold" : ""
+                  } cursor-pointer`}
+                  onClick={() => setToggle(true)}
+                  data-testid="Register-header-test"
+                >
+                  Register
+                </div>
               </div>
             </div>
 
@@ -233,12 +235,12 @@ const SignUp = () => {
                     Email ID
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="email"
                     type="text"
                     value={email}
                     onChange={handleEmailChange}
-                    placeholder=""
+                    placeholder="Enter your email ID"
                     data-testid="email-test"
                     required
                   />
@@ -251,12 +253,12 @@ const SignUp = () => {
                     Username
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow  bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="username"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your username"
                     data-testid="username-test"
                     required
                   />
@@ -269,12 +271,12 @@ const SignUp = () => {
                     Password
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow  bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password"
                     data-testid="password-test"
                     required
                   />
@@ -287,19 +289,19 @@ const SignUp = () => {
                     Confirm Password
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow  bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="confirmPassword"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password again"
                     data-testid="confirmpassword-test"
                     required
                   />
                 </div>
                 <div className="flex items-center justify-center">
                   <button
-                    className="text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline hover:bg-red-700"
+                    className="text-white bg-black text-[20px] font-bold font-sans py-2.5 px-6 rounded-xl focus:outline-none focus:shadow-outline hover:bg-red-700"
                     type="button"
                     onClick={handleSignupSubmit}
                   >
@@ -318,12 +320,12 @@ const SignUp = () => {
                     Email ID
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow  bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your email ID"
                     data-testid="email-test2"
                     required
                   />
@@ -336,12 +338,12 @@ const SignUp = () => {
                     Password
                   </label>
                   <input
-                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow bg-slate-200 appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder=""
+                    placeholder="Enter your password"
                     data-testid="password-test2"
                     required
                   />
@@ -349,7 +351,7 @@ const SignUp = () => {
                 <div className="flex justify-center items-center  ">
                   <button
                     type="button"
-                    className={`text-white bg-black text-[15px] font-bold py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline transition duration-300 type="button" hover:bg-red-700`}
+                    className={`text-white bg-black text-[20px] font-bold py-2.5 px-6  font-sans rounded-xl focus:outline-none focus:shadow-outline transition duration-300 type="button" hover:bg-red-700`}
                     onClick={handleLoginSubmit}
                   >
                     Login

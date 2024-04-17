@@ -26,6 +26,7 @@
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
+    "react-chatbot-kit": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-modal": "^3.16.1",
@@ -78,5 +79,8 @@
     "r3f-pack": "^2.7.0",
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.4.1"
+  },
+  "overrides": {
+    "react-refresh": "0.14.0"
   }
 }

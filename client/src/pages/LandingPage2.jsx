@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import Footer from "../components/shared/Footer";
+import { useDispatch, useSelector} from "react-redux";
+
 const data = [
   {
     img: "/images/feature_img1.webp",
@@ -82,7 +84,6 @@ function LandingPage2() {
     <>
     <div className="App bg-gradient-to-b p-8">
     <Navbar />
-      
       <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
         <div className="text-7xl font-bold">
           <p className="">Summarize </p>
