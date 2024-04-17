@@ -1,4 +1,6 @@
 import os
+import sys
+import tqdm
 import csv
 import json
 import logging
@@ -7,6 +9,24 @@ from typing import Dict, List
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
+
+
+class ExtendAction(argparse.Action):
+    # stores a list, and extends each argument value to the list
+    # Since Python 3.8 argparse supports this
+    # TODO: remove this code when only supporting Python 3.8+
+    def __call__(self, parser, namespace, values, option_string=None):
+        items = getattr(namespace, self.dest, None) or []
+        items.extend(values)
+        setattr(namespace, self.dest, items)
+
+def get_progress_bar(functions, disable_progress, desc="", unit=""):
+    pbar = tqdm.tqdm
+    if disable_progress:
+        # do not use tqdm to avoid unnecessary side effects when caller intends
+        # to disable progress completely
+        pbar = lambda s, *args, **kwargs: s
+    return pbar(functions, desc=desc, unit=unit)
 
 
 def get_video_id(video_link: str) -> str:
