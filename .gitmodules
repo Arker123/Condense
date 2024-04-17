@@ -1,0 +1,3 @@
+[submodule "condense/models"]
+	path = condense/models
+	url = ../Condense-models.git
