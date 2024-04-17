@@ -20,9 +20,11 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
+    "wordcloud==1.9.3",
     "soundcard==0.4.3",
     "soundfile==0.12.1",
     "moviepy==1.0.3",
+    "pyaudio==0.2.14",
 ]
 
 # this sets __version__
@@ -74,6 +76,7 @@ setuptools.setup(
             # type stubs for mypy
             "types-PyYAML==6.0.12.20240311",
             "types-tensorflow==2.15.0.20240314",
+            "matplotlib-stubs==0.2.0",
             "google-api-python-client-stubs==1.25.0",
         ],
         "build": ["pyinstaller==6.5.0", "setuptools==69.2.0", "build==1.1.1"],
