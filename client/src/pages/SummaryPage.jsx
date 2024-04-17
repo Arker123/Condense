@@ -23,6 +23,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
 import { setUserSlice } from "../redux/userSlice";
+import MyChatBot from "../components/shared/Chatbot/Chatbot";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 
@@ -442,12 +443,11 @@ const SummaryPage = () => {
                 <div className="w-[730px] h-[500px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
               </div>
             </div>
-
-          
         </div>
       </motion.div>
     </div>
     <ToastContainer />
+    <div><MyChatBot summary={summaryText}/></div>
     <Footer/>
     </>
   );
