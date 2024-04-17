@@ -1,5 +1,6 @@
 import os
 import sys
+import tqdm
 import csv
 import json
 import logging
@@ -18,6 +19,14 @@ class ExtendAction(argparse.Action):
         items = getattr(namespace, self.dest, None) or []
         items.extend(values)
         setattr(namespace, self.dest, items)
+
+def get_progress_bar(functions, disable_progress, desc="", unit=""):
+    pbar = tqdm.tqdm
+    if disable_progress:
+        # do not use tqdm to avoid unnecessary side effects when caller intends
+        # to disable progress completely
+        pbar = lambda s, *args, **kwargs: s
+    return pbar(functions, desc=desc, unit=unit)
 
 
 def get_video_id(video_link: str) -> str:

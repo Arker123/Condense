@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 import sys
+import time
 import argparse
 import textwrap
 import logging
@@ -9,6 +10,13 @@ import condense.utils
 from condense.render import Verbosity
 from condense.logging_ import TRACE, DebugLevel
 from pathlib import Path
+from condense.transcript import get_transcript
+from condense.summarizer import summerize_text
+from condense.analystics import word_cloud, display_engagement_metrics
+from typing import List, Dict, Tuple
+import json
+from condense.utils import get_video_id
+import csv
 
 logger = condense.logging_.getLogger("condense")
 
@@ -137,7 +145,13 @@ def make_parser(argv):
 
     output_group = parser.add_argument_group("rendering arguments")
     output_group.add_argument(
-        "-j", "--json", action="store_true", help="emit JSON instead of text"
+        "-j", "--json", action="store_true", help="emit JSON"
+    )
+    output_group.add_argument(
+        "-t", "--text", action="store_true", help="emit text"
+    )
+    output_group.add_argument(
+        "-c", "--csv", action="store_true", help="emit CSV"
     )
     output_group.add_argument(
         "-v",
@@ -215,7 +229,7 @@ def get_default_root() -> Path:
     else:
         return Path(__file__).resolve().parent
 
-def main():
+def main(argv=None) -> int:
     """
     arguments:
       argv: the command line arguments
@@ -236,7 +250,70 @@ def main():
     
     sample = Path(args.sample.name)
     args.sample.close()
-
+    
+    start_time = time.time()
+    
+    if args.transcribe:
+        logger.debug("transcribing")
+        transcript = get_transcript(sample)
+        print(json.dumps(transcript))
+        
+    if args.summarize:
+        logger.debug("summarizing")
+        summary, timestamp = summerize_text(sample)
+        print(json.dumps({"summary": summary, "timestamp": timestamp}))
+        
+        
+    if args.sentiment:
+        logger.debug("getting sentiment analysis")
+        # TODO: get sentiment analysis of the video
+        
+    if args.keywords:
+        logger.debug("getting keywords")
+        word_cloud(sample)
+        statistics = display_engagement_metrics(sample)
+        print("Engagement Metrics for Video ID:", get_video_id(sample))
+        print("Views:", statistics.get("viewCount", 0))
+        print("Likes:", statistics.get("likeCount", 0))
+        print("Dislikes:", statistics.get("dislikeCount", 0))
+        print("Comments:", statistics.get("commentCount", 0))
+        print("Shares:", statistics.get("shareCount", 0))
+        
+        
+    if not args.transcribe and not args.summarize and not args.sentiment and not args.keywords:
+        logger.debug("doing everything")
+        transcript = get_transcript(sample)
+        summary, timestamp = summerize_text(sample)
+        word_cloud(sample)
+        statistics = display_engagement_metrics(sample)
+        
+        # TODO: Improve rendering
+        print(json.dumps(transcript))
+        print(json.dumps({"summary": summary, "timestamp": timestamp}))
+        print("Engagement Metrics for Video ID:", get_video_id(sample))
+        print("Views:", statistics.get("viewCount", 0))
+        print("Likes:", statistics.get("likeCount", 0))
+        print("Dislikes:", statistics.get("dislikeCount", 0))
+        print("Comments:", statistics.get("commentCount", 0))
+        print("Shares:", statistics.get("shareCount", 0))
+        
+        
+        
+        
+    logger.info("finished execution after %.2f seconds", time.time() - start_time)
+    
+    if args.json:
+        logger.debug("emitting JSON")
+        # TODO: emit JSON
+        
+    if args.text:
+        logger.debug("emitting text")
+        # TODO: emit text
+        
+    if args.csv:
+        logger.debug("emitting CSV")
+        # TODO: emit CSV
+    
     return 0
 
 
