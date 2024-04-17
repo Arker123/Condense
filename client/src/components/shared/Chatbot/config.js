@@ -1,6 +1,6 @@
 import { createChatBotMessage } from "react-chatbot-kit";
 
-const getConfig = (onClickClose, videoID) => {
+const getConfig = (onClickClose, summary) => {
   const botName = "ClarifyBot";
   const config = {
     botName: botName,
@@ -19,12 +19,12 @@ const getConfig = (onClickClose, videoID) => {
     },
     initialMessages: [
       createChatBotMessage(`Hi! I'm ${botName}`),
-      createChatBotMessage(`Ask me anything about your video/audio ${videoID}.`, {
+      createChatBotMessage(`Ask me anything about your video/audio.`, {
         delay: 1000,
       }),
     ],
     state: {
-      videoId: videoID,
+      summary: summary,
     },
   };
   return config;

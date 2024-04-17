@@ -6,7 +6,7 @@ import MessageParser from "./MessageParser.js";
 import ActionProvider from "./ActionProvider.js";
 import React, { useState, useEffect, useRef } from "react";
 
-const MyChatBot = () => {
+const MyChatBot = (summary) => {
   const [showBot, toggleShow] = useState(false);
   const chatbotRef = useRef(null);
 
@@ -55,7 +55,7 @@ const MyChatBot = () => {
       {showBot ? (
         <div ref={chatbotRef}>
           <Chatbot
-            config={getConfig(onClickCloseBot, "dummyvideoid")}
+            config={getConfig(onClickCloseBot, summary)}
             messageParser={MessageParser}
             actionProvider={ActionProvider}
             messageHistory={loadMessages()}

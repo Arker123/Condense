@@ -384,7 +384,7 @@ const SummaryPage = () => {
         </motion.div>
       </div>
       <ToastContainer />
-      <div><MyChatBot /></div>
+      <div><MyChatBot summary={summaryText}/></div>
       
       <Footer />
 
