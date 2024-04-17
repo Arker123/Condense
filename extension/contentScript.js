@@ -17,7 +17,7 @@ function add_element(tag, attr_tag, attr_name, value) {
   const element = document.createElement(tag);
   element.setAttribute(attr_tag, attr_name);
   element.innerHTML = value;
-  
+
   return element;
 }
 
@@ -214,13 +214,13 @@ async function main() {
     "ai-chat-icon",
     `<svg data-v-38979994="" width="20" height="20" viewBox="0 0 213 178" xmlns="http://www.w3.org/2000/svg" class="nav-top" fill="none"><path data-v-38979994="" d="M23.5 7H132.5" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M132.5 6.9994C139 6.99881 146.6 9.0994 147 21.4994V36.5M55.5002 106L33.0002 129C29.3335 132.5 22.0002 136.6 22.0002 125C22.0002 113.4 22.0002 107.5 22.0002 106C17.0002 104.833 6.90016 100.3 6.50016 91.5C6.10016 82.7 6.33349 41.1663 6.50016 21.4994C6.54677 15.9994 10 6 27 6.9994" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M191.721 53H86.7209C74.721 53 69.2559 60 69.2209 64C69.0542 83 68.8209 123.7 69.2209 134.5C69.6209 145.3 81.0542 148.333 86.7209 148.5H160.221C165.388 154.333 177.221 166.8 183.221 170C189.221 173.2 191.388 168.667 191.721 166V142.5C202.521 142.5 205.888 134.167 206.221 130V64C206.221 55.6 196.554 53.1667 191.721 53Z" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path>
     </svg>`
-    );
+  );
 
-    const summary_icon = add_element(
-      "div",
-      "id",
-      "summary-icon",
-      `<svg
+  const summary_icon = add_element(
+    "div",
+    "id",
+    "summary-icon",
+    `<svg
       data-v-38979994=""
       width="20"
       height="20"
@@ -239,18 +239,16 @@ async function main() {
         </clipPath>
       </defs>
     </svg>`
-      )
-
-  
+  );
 
   const navbar = add_element("div", "id", "navbar", "");
   const t_button = add_element("button", "id", "t-button", "");
   t_button.appendChild(t_icon);
   t_button.innerHTML += "Transcript";
   navbar.appendChild(t_button);
-  const summary_button = add_element("button", "id", "summary-button","");
+  const summary_button = add_element("button", "id", "summary-button", "");
   summary_button.appendChild(summary_icon);
-  summary_button.innerHTML+= "Summary";
+  summary_button.innerHTML += "Summary";
   navbar.appendChild(summary_button);
   const notes_button = add_element("button", "id", "notes-button", "");
   notes_button.appendChild(notes_icon);
@@ -258,37 +256,58 @@ async function main() {
   navbar.appendChild(notes_button);
   ai_chat_button = add_element("button", "id", "ai-chat-button", "");
   ai_chat_button.appendChild(ai_chat_icon);
-  ai_chat_button.innerHTML+= 'AI Chat';
-  
+  ai_chat_button.innerHTML += "AI Chat";
+
   navbar.appendChild(ai_chat_button);
   container.appendChild(navbar);
-  
-  
+
   const transcript = add_element("div", "id", "transcript", "");
   const notes = add_element("div", "id", "notes", "");
-  const summary = add_element("div","id","summary","");
-  const summary_area = add_element("div","id","summary-area","");
-  const get_summary = add_element("button", "id", "get-summary-button",`Get Summary`);
+  const summary = add_element("div", "id", "summary", "");
+  const summary_area = add_element("div", "id", "summary-area", "");
+  const get_summary = add_element(
+    "button",
+    "id",
+    "get-summary-button",
+    `Get Summary`
+  );
   summary.appendChild(summary_area);
-  summary_area.appendChild(get_summary)
+  summary_area.appendChild(get_summary);
   const t_navbar = add_element("div", "id", "t-navbar", ``);
   const ai_chat = add_element("div", "id", "ai-chat", "");
-  const notes_entry = add_element("div", "id", "notes-entry", `
+  const notes_entry = add_element(
+    "div",
+    "id",
+    "notes-entry",
+    `
   <textarea id="notes-entry-box" placeholder="Enter your notes here..."></textarea>
-  `);
-  const notes_entry_button = add_element("button", "id", "notes-entry-button",`Enter`);
+  `
+  );
+  const notes_entry_button = add_element(
+    "button",
+    "id",
+    "notes-entry-button",
+    `Enter`
+  );
   notes_entry.appendChild(notes_entry_button);
-  const notes_card_area  = add_element("div", "id", "notes-card-area", ``);
-  
-  const ai_chat_entry = add_element("div", "id", "ai-chat-entry", `
+  const notes_card_area = add_element("div", "id", "notes-card-area", ``);
+
+  const ai_chat_entry = add_element(
+    "div",
+    "id",
+    "ai-chat-entry",
+    `
     <textarea id="ai-chat-entry-box" placeholder="Enter your Question here..."></textarea>
-  `);
-  const ai_chat_entry_button = add_element("button", "id", "ai-chat-entry-button",`Enter`);
+  `
+  );
+  const ai_chat_entry_button = add_element(
+    "button",
+    "id",
+    "ai-chat-entry-button",
+    `Enter`
+  );
   ai_chat_entry.appendChild(ai_chat_entry_button);
-  const ai_chat_card_area  = add_element("div", "id", "ai-chat-card-area", ``);
-  
-  
-  
+  const ai_chat_card_area = add_element("div", "id", "ai-chat-card-area", ``);
 
   //rgb(169, 32, 30) -> icon colour
 
@@ -305,7 +324,6 @@ async function main() {
     transcript.style.display = "flex";
     notes.style.display = "none";
     ai_chat.style.display = "none";
-
   });
 
   notes_button.addEventListener("click", () => {
@@ -341,8 +359,6 @@ async function main() {
     ai_chat.style.display = "none";
   });
 
-
-
   const notesDict = {};
 
   notes_entry_button.addEventListener("click", () => {
@@ -350,12 +366,11 @@ async function main() {
     if (notesText) {
       var htmlVideoPlayer = document.getElementsByTagName("video")[0];
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
-      notesDict[timestramp]=  notesText;
+      notesDict[timestramp] = notesText;
       getNotes();
       document.getElementById("notes-entry-box").value = "";
     }
   });
-
 
   get_summary.addEventListener("click", async () => {
     get_summary.style.display = "none";
@@ -364,58 +379,58 @@ async function main() {
     let summary_text = null;
     // let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
     try {
-        const response = await fetch("http://localhost:5000/summaries/generate", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                url: videoUrl,
-            }),
-        });
+      const response = await fetch("http://localhost:5000/summaries/generate", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: videoUrl,
+        }),
+      });
 
-        const json = await response.json();
+      const json = await response.json();
 
-        console.log(json);
+      console.log(json);
 
-        let summary_dict = await JSON.parse(json.summary);
-        console.log(summary_text);
-        summary_text = summary_dict.summary;
-        console.log(summary_text);
+      let summary_dict = await JSON.parse(json.summary);
+      console.log(summary_text);
+      summary_text = summary_dict.summary;
+      console.log(summary_text);
     } catch (error) {
-        console.error("Error fetching summary:", error);
+      console.error("Error fetching summary:", error);
     }
-    if(summary_text){
+    if (summary_text) {
       summary_area.style.display = "block";
       var words = summary_text.split(" ");
       var index = 0;
-      var intervalId = setInterval(function() {
-          summary_area.innerHTML += (words[index] + " ");
-          index++;
-          if(index == words.length) {
-              clearInterval(intervalId);
-          }
+      var intervalId = setInterval(function () {
+        summary_area.innerHTML += words[index] + " ";
+        index++;
+        if (index == words.length) {
+          clearInterval(intervalId);
+        }
       }, 50);
     }
-});
-  
+  });
 
- ai_chat_entry_button.addEventListener("click", () => {
+  ai_chat_entry_button.addEventListener("click", () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
     if (AiQues) {
-      
       document.getElementById("ai-chat-entry-box").value = "";
     }
   });
-  
 
-
-  function getNotes (){
-    notes_card_area.innerHTML="";
-    for(const [key,value] of Object.entries(notesDict)){
-      const notes_time_card = add_element("div","class","notes-time-card", `
+  function getNotes() {
+    notes_card_area.innerHTML = "";
+    for (const [key, value] of Object.entries(notesDict)) {
+      const notes_time_card = add_element(
+        "div",
+        "class",
+        "notes-time-card",
+        `
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
           <g id="surface1">
@@ -424,99 +439,129 @@ async function main() {
         </svg>
         ${key}
       </div>
-      `)
-      const notes_text_card = add_element("div","class","notes-text-card",value);
-      const my_component_right = add_element("div","class", "my-component-right","");
-      const copy_icon = add_element("i","class","el-icon-copy-document icon-copy","");
-      const edit_icon = add_element("i","class","el-icon-edit icon-edit","");
-      const delete_icon = add_element("i","class","el-icon-delete icon-delete","");
+      `
+      );
+      const notes_text_card = add_element(
+        "div",
+        "class",
+        "notes-text-card",
+        value
+      );
+      const my_component_right = add_element(
+        "div",
+        "class",
+        "my-component-right",
+        ""
+      );
+      const copy_icon = add_element(
+        "i",
+        "class",
+        "el-icon-copy-document icon-copy",
+        ""
+      );
+      const edit_icon = add_element("i", "class", "el-icon-edit icon-edit", "");
+      const delete_icon = add_element(
+        "i",
+        "class",
+        "el-icon-delete icon-delete",
+        ""
+      );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);
       my_component_right.appendChild(delete_icon);
       notes_time_card.appendChild(my_component_right);
-      const notesCard = add_element("div","class","notes-card","" );
+      const notesCard = add_element("div", "class", "notes-card", "");
       notesCard.appendChild(notes_time_card);
       notesCard.appendChild(notes_text_card);
       notes_card_area.appendChild(notesCard);
-      copy_icon.setAttribute('data-item-index', key);
-      delete_icon.setAttribute('data-item-index',key);
-      edit_icon.setAttribute('data-item-index',key);
-      notesCard.setAttribute('data-item-index',key);
-      notes_text_card.setAttribute('data-item-index',key);
+      copy_icon.setAttribute("data-item-index", key);
+      delete_icon.setAttribute("data-item-index", key);
+      edit_icon.setAttribute("data-item-index", key);
+      notesCard.setAttribute("data-item-index", key);
+      notes_text_card.setAttribute("data-item-index", key);
 
       copy_icon.onclick = function () {
-        var timestramp = this.getAttribute('data-item-index');
+        var timestramp = this.getAttribute("data-item-index");
         var notesText = notesDict[timestramp];
-        console.log(notesText)
+        console.log(notesText);
         navigator.clipboard.writeText(notesText).then(() => {
           alert("Copied to clipboard");
         });
-      }
+      };
 
-      delete_icon.onclick = function() {
-        var timestamp = this.getAttribute('data-item-index');
+      delete_icon.onclick = function () {
+        var timestamp = this.getAttribute("data-item-index");
         delete notesDict[timestamp];
         getNotes();
-      }
-
-      edit_icon.onclick = function() {
-          var timestamp = this.getAttribute('data-item-index');
-          console.log(timestamp);
-          const notes_text_card = notes_card_area.querySelector(`.notes-text-card[data-item-index="${timestamp}"]`);
-          console.log(notes_text_card);
-          const textarea = add_element("textarea","class","edit-text-area","");
-          
-          textarea.value = notesDict[timestamp];
-          textarea.classList.add('notes-text-area');
-          notes_text_card.replaceWith(textarea);
-      
-          textarea.focus();
-      
-          textarea.addEventListener('keydown', function(event) {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                  event.preventDefault();
-                  notesDict[timestamp] = textarea.value.trim();
-                  getNotes();
-              }
-          });
-      
-          textarea.addEventListener('blur', function() {
-              notesDict[timestamp] = textarea.value.trim();
-              getNotes();
-          });
       };
-    
+
+      edit_icon.onclick = function () {
+        var timestamp = this.getAttribute("data-item-index");
+        console.log(timestamp);
+        const notes_text_card = notes_card_area.querySelector(
+          `.notes-text-card[data-item-index="${timestamp}"]`
+        );
+        console.log(notes_text_card);
+        const textarea = add_element("textarea", "class", "edit-text-area", "");
+
+        textarea.value = notesDict[timestamp];
+        textarea.classList.add("notes-text-area");
+        notes_text_card.replaceWith(textarea);
+
+        textarea.focus();
+
+        textarea.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            notesDict[timestamp] = textarea.value.trim();
+            getNotes();
+          }
+        });
+
+        textarea.addEventListener("blur", function () {
+          notesDict[timestamp] = textarea.value.trim();
+          getNotes();
+        });
+      };
     }
   }
 
+  const data = await fetch("http://localhost:5000/transcript/", {
+    method: "POST",
+    mode: "cors", // this cannot be 'no-cors'
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      url: window.location.href,
+    }),
+  });
+  const json = await data.json();
+  console.log(json);
+  let res = await JSON.parse(json.transcript);
+  console.log(res);
+  let transcripts = [];
+  const countWords = (str) => str.split(" ").length;
+  let totalWords = 0;
+  let currStart = -1;
+  let currText = "";
+  res.forEach((transcript) => {
+    if (currStart == -1) currStart = transcript.start;
+    currText += transcript.text + " ";
+    let words = countWords(transcript.text);
+    totalWords += words;
+    if (totalWords > 40) {
+      totalWords = 0;
+      transcripts.push({ start: currStart, text: currText });
+      currText = "";
+      currStart = -1;
+    }
+  });
 
-  let transcripts = [
-    {
-      start: 0,
-      text: "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was",
-    },
-
-    {
-      start: 26,
-      text: "placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so",
-    },
-    {
-      start: 47,
-      text: "we'll be focusing on the first two because I would say these two helped me the most we'll also be comparing our scores from day one and day seven to see how much we actually improved but anyways the next step is about 20 minutes in the range focusing on flicking and micro adjusting with multiple weapons and then the last and probably the worst step before finally queuing comp is about 5 to 10 death matches day one it's been about 6 months since I've even touched aim lab so I was a little worried how well I would do on",
-    },
-    {
-      start: 71,
-      text: "these practice courses but to my surprise I almost got a new high score on straf track first try okay I actually felt like that was really good that was one of my best attempts on the other hand headshot stard took a little getting used to but I don't really stress over my lackluster attempt since I still have the entire week to bump that score up then it was time for the range where I literally just clicked heads for 20 minutes straight and then I proceeded to my mini mini death matches the warm-up is finally done as you can",
-    },
-    {
-      start: 96,
-      text: "see we got three placement matches left I did two of them they didn't go too well today we can get that done get our placement and then we'll decide where to go from there game one started pretty rough though we started out 0 and5 and I was bottom fragging too I was honestly just really nervous considering I hadn't played comp in about 3 months even though I know I really shouldn't be like the only difference between this and unrated is that there's a rank attached to it so I focused up and actually",
-    },
-    {
-      start: 118,
-      text: "started getting some kills for the team oh no one enem wow he suppressed me on start oh my God I was putting my team on my back as much as I possibly could this was just an unwinable game and our first Team MVP loss unfortunately it wasn't our last either another team MVP lost you know you love to see it with only one placement match left this next game could not have gone any worse we got absolutely bodied 1 to 13 let's see the rank please be gold please be gold please be gold I'm am so sad so oh my God",
-    },
-  ];
+  if (currText != "") {
+    transcripts.push({ start: currStart, text: currText });
+  }
 
   transcripts.forEach((transcript) => {
     console.log(typeof transcript.text);
@@ -557,7 +602,6 @@ async function main() {
   container.appendChild(summary);
   container.appendChild(notes);
   container.appendChild(ai_chat);
-
 
   const ele = document.getElementById("secondary-inner");
   const parent = document.getElementById("secondary");
