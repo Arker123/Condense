@@ -7,7 +7,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
+from googleapiclient.discovery import build
 
+from condense.utils import get_video_id
 from condense.comments import get_comments
 
 logger = logging.getLogger()
@@ -60,15 +62,45 @@ def word_cloud(video_url: str, api_key: str) -> None:
     plt.show()
 
 
-def main(argv: list[str] = None):
-    load_dotenv()  
+def display_engagement_metrics(api_key: str, video_url: str):
+    video_id = get_video_id(video_url)
+    if not video_id:
+        raise ValueError("Invalid YouTube video URL.")
+
+    youtube = build("youtube", "v3", developerKey=api_key)
+    request = youtube.videos().list(part="statistics", id=video_id)
+    response = request.execute()
+    if "items" not in response:
+        raise ValueError("Video statistics not available.")
+
+    statistics = response["items"][0]["statistics"]
+    return statistics  # type: ignore
+
+
+def main(argv=None) -> int:
+    load_dotenv()
+
     api_key = os.getenv("API_KEY")
     if api_key is None:
         raise ValueError("API_KEY environment variable is not set.")
 
     parser = make_parser()
     args = parser.parse_args(argv)
+
+    # Word cloud generation
     word_cloud(args.video_url, api_key)
+
+    # Display engagement metrics
+    statistics = display_engagement_metrics(api_key, args.video_url)
+
+    print("Engagement Metrics for Video ID:", get_video_id(args.video_url))
+    print("Views:", statistics.get("viewCount", 0))
+    print("Likes:", statistics.get("likeCount", 0))
+    print("Dislikes:", statistics.get("dislikeCount", 0))
+    print("Comments:", statistics.get("commentCount", 0))
+    print("Shares:", statistics.get("shareCount", 0))
+
+    return 0
 
 
 if __name__ == "__main__":
