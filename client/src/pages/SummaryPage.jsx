@@ -22,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
 import { setUserSlice } from "../redux/userSlice";
+import MyChatBot from "../components/shared/Chatbot/Chatbot";
 
 const SummaryPage = () => {
   const [summaryText, setSummaryText] = useState("Loading...");
@@ -383,7 +384,10 @@ const SummaryPage = () => {
         </motion.div>
       </div>
       <ToastContainer />
+      <div><MyChatBot /></div>
+      
       <Footer />
+
     </>
   );
 };
