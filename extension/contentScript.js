@@ -39,10 +39,14 @@ async function main() {
     flex-direction: column;
     overflow-y: scroll;
   }
-  #notes, #ai-chat{
+  #notes, #ai-chat, #summary{
     display: flex;
     flex-direction: column;
     display:none;
+  }
+  #summary{
+    justify-content: center;
+    align-items: center;
   }
 
 
@@ -107,7 +111,7 @@ async function main() {
     opacity: 0.5;
   }
 
-  #t-button, #notes-button, #ai-chat-button{
+  #t-button, #notes-button, #ai-chat-button, #summary-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
     border: none;
@@ -142,6 +146,29 @@ async function main() {
     color: white;
     cursor: pointer;
     border-radius: 5px;
+  }
+
+  #summary-area{
+    background-color: white;
+    width: 90%;
+    height: 57vh;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+    overflow-y: scroll;
+    border-radius: 5px;
+  }
+  #get-summary-button{
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
 
     .my-component-right[data-v-12aa23d4] {
       display: flex;
@@ -189,6 +216,31 @@ async function main() {
     </svg>`
     );
 
+    const summary_icon = add_element(
+      "div",
+      "id",
+      "summary-icon",
+      `<svg
+      data-v-38979994=""
+      width="20"
+      height="20"
+      viewBox="0 0 200 200"
+      xmlns="http://www.w3.org/2000/svg"
+      className="nav-top"
+      fill="none"
+    >
+      <g data-v-38979994="" clip-path="url(#clip0_900_158)"><path data-v-38979994="" d="M168.577 0H31.4232C23.0921 0.00915044 15.1048 3.32274 9.21376 9.21376C3.32274 15.1048 0.00915044 23.0921 0 31.4232L0 168.577C0.00915044 176.908 3.32274 184.895 9.21376 190.786C15.1048 196.677 23.0921 199.991 31.4232 200H168.577C176.908 199.991 184.895 196.677 190.786 190.786C196.677 184.895 199.991 176.908 200 168.577V31.4232C199.991 23.0921 196.677 15.1048 190.786 9.21376C184.895 3.32274 176.908 0.00915044 168.577 0ZM187.431 168.577C187.425 173.575 185.437 178.368 181.902 181.902C178.368 185.437 173.575 187.425 168.577 187.431H31.4232C26.4246 187.425 21.6324 185.437 18.0979 181.902C14.5634 178.368 12.5751 173.575 12.5693 168.577V31.4232C12.5751 26.4246 14.5634 21.6324 18.0979 18.0979C21.6324 14.5634 26.4246 12.5751 31.4232 12.5693H168.577C173.575 12.5751 178.367 14.5634 181.902 18.0979C185.436 21.6324 187.425 26.4246 187.431 31.4232L187.431 168.577Z" fill="rgba(33,36,39,0.8)"></path> 
+      <path data-v-38979994="" d="M151.746 94.5432H81.2672C80.0171 94.5432 78.8182 95.0398 77.9342 95.9237C77.0503 96.8077 76.5537 98.0066 76.5537 99.2567C76.5537 100.507 77.0503 101.706 77.9342 102.59C78.8182 103.474 80.0171 103.97 81.2672 103.97H151.746C152.997 103.97 154.195 103.474 155.079 102.59C155.963 101.706 156.46 100.507 156.46 99.2567C156.46 98.0066 155.963 96.8077 155.079 95.9237C154.195 95.0398 152.997 94.5432 151.746 94.5432ZM151.746 55.6191H81.2672C80.0171 55.6191 78.8182 56.1157 77.9342 56.9997C77.0503 57.8836 76.5537 59.0825 76.5537 60.3326C76.5537 61.5827 77.0503 62.7816 77.9342 63.6656C78.8182 64.5495 80.0171 65.0461 81.2672 65.0461H151.746C152.997 65.0461 154.195 64.5495 155.079 63.6656C155.963 62.7816 156.46 61.5827 156.46 60.3326C156.46 59.0825 155.963 57.8836 155.079 56.9997C154.195 56.1157 152.997 55.6191 151.746 55.6191ZM151.746 132.352H81.2672C80.0171 132.352 78.8182 132.848 77.9342 133.732C77.0503 134.616 76.5537 135.815 76.5537 137.065C76.5537 138.315 77.0503 139.514 77.9342 140.398C78.8182 141.282 80.0171 141.779 81.2672 141.779H151.746C152.997 141.779 154.195 141.282 155.079 140.398C155.963 139.514 156.46 138.315 156.46 137.065C156.46 135.815 155.963 134.616 155.079 133.732C154.195 132.848 152.997 132.352 151.746 132.352ZM47.4494 94.5432H46.2648C45.0147 94.5432 43.8158 95.0398 42.9318 95.9237C42.0479 96.8077 41.5513 98.0066 41.5513 99.2567C41.5513 100.507 42.0479 101.706 42.9318 102.59C43.8158 103.474 45.0147 103.97 46.2648 103.97H47.4494C48.6995 103.97 49.8984 103.474 50.7824 102.59C51.6663 101.706 52.1629 100.507 52.1629 99.2567C52.1629 98.0066 51.6663 96.8077 50.7824 95.9237C49.8984 95.0398 48.6995 94.5432 47.4494 94.5432ZM47.4494 55.6191H46.2648C45.0147 55.6191 43.8158 56.1157 42.9318 56.9997C42.0479 57.8836 41.5513 59.0825 41.5513 60.3326C41.5513 61.5827 42.0479 62.7816 42.9318 63.6656C43.8158 64.5495 45.0147 65.0461 46.2648 65.0461H47.4494C48.6995 65.0461 49.8984 64.5495 50.7824 63.6656C51.6663 62.7816 52.1629 61.5827 52.1629 60.3326C52.1629 59.0825 51.6663 57.8836 50.7824 56.9997C49.8984 56.1157 48.6995 55.6191 47.4494 55.6191ZM47.4494 132.352H46.2648C45.0147 132.352 43.8158 132.848 42.9318 133.732C42.0479 134.616 41.5513 135.815 41.5513 137.065C41.5513 138.315 42.0479 139.514 42.9318 140.398C43.8158 141.282 45.0147 141.779 46.2648 141.779H47.4494C48.6995 141.779 49.8984 141.282 50.7824 140.398C51.6663 139.514 52.1629 138.315 52.1629 137.065C52.1629 135.815 51.6663 134.616 50.7824 133.732C49.8984 132.848 48.6995 132.352 47.4494 132.352Z" fill="rgba(33,36,39,0.8)">
+      </path>
+      </g>
+      <defs data-v-38979994="">
+        <clipPath data-v-38979994="" id="clip0_900_158">
+          <rect data-v-38979994="" width="200" height="200" fill="white"></rect>
+        </clipPath>
+      </defs>
+    </svg>`
+      )
+
   
 
   const navbar = add_element("div", "id", "navbar", "");
@@ -196,6 +248,10 @@ async function main() {
   t_button.appendChild(t_icon);
   t_button.innerHTML += "Transcript";
   navbar.appendChild(t_button);
+  const summary_button = add_element("button", "id", "summary-button","");
+  summary_button.appendChild(summary_icon);
+  summary_button.innerHTML+= "Summary";
+  navbar.appendChild(summary_button);
   const notes_button = add_element("button", "id", "notes-button", "");
   notes_button.appendChild(notes_icon);
   notes_button.innerHTML += "Notes";
@@ -210,6 +266,11 @@ async function main() {
   
   const transcript = add_element("div", "id", "transcript", "");
   const notes = add_element("div", "id", "notes", "");
+  const summary = add_element("div","id","summary","");
+  const summary_area = add_element("div","id","summary-area","");
+  const get_summary = add_element("button", "id", "get-summary-button",`Get Summary`);
+  summary.appendChild(summary_area);
+  summary_area.appendChild(get_summary)
   const t_navbar = add_element("div", "id", "t-navbar", ``);
   const ai_chat = add_element("div", "id", "ai-chat", "");
   const notes_entry = add_element("div", "id", "notes-entry", `
@@ -226,7 +287,7 @@ async function main() {
   ai_chat_entry.appendChild(ai_chat_entry_button);
   const ai_chat_card_area  = add_element("div", "id", "ai-chat-card-area", ``);
   
-
+  
   
 
   //rgb(169, 32, 30) -> icon colour
@@ -239,7 +300,9 @@ async function main() {
     t_button.classList.add("active");
     notes_button.classList.remove("active");
     ai_chat_button.classList.remove("active");
-    transcript.style.display = "block";
+    summary_button.classList.remove("active");
+    summary.style.display = "none";
+    transcript.style.display = "flex";
     notes.style.display = "none";
     ai_chat.style.display = "none";
 
@@ -249,8 +312,10 @@ async function main() {
     t_button.classList.remove("active");
     notes_button.classList.add("active");
     ai_chat_button.classList.remove("active");
+    summary_button.classList.remove("active");
+    summary.style.display = "none";
     transcript.style.display = "none";
-    notes.style.display = "block";
+    notes.style.display = "flex";
     ai_chat.style.display = "none";
   });
 
@@ -258,9 +323,22 @@ async function main() {
     t_button.classList.remove("active");
     notes_button.classList.remove("active");
     ai_chat_button.classList.add("active");
+    summary_button.classList.remove("active");
+    summary.style.display = "none";
     transcript.style.display = "none";
     notes.style.display = "none";
-    ai_chat.style.display = "block";
+    ai_chat.style.display = "flex";
+  });
+
+  summary_button.addEventListener("click", () => {
+    t_button.classList.remove("active");
+    notes_button.classList.remove("active");
+    ai_chat_button.classList.remove("active");
+    summary_button.classList.add("active");
+    summary.style.display = "flex";
+    transcript.style.display = "none";
+    notes.style.display = "none";
+    ai_chat.style.display = "none";
   });
 
 
@@ -277,6 +355,52 @@ async function main() {
       document.getElementById("notes-entry-box").value = "";
     }
   });
+
+
+  get_summary.addEventListener("click", async () => {
+    get_summary.style.display = "none";
+    let videoUrl = window.location.href;
+    console.log("Video URL:", videoUrl);
+    let summary_text = null;
+    // let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
+    try {
+        const response = await fetch("http://localhost:5000/summaries/generate", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: videoUrl,
+            }),
+        });
+
+        const json = await response.json();
+
+        console.log(json);
+
+        let summary_dict = await JSON.parse(json.summary);
+        console.log(summary_text);
+        summary_text = summary_dict.summary;
+        console.log(summary_text);
+    } catch (error) {
+        console.error("Error fetching summary:", error);
+    }
+    if(summary_text){
+      summary_area.style.display = "block";
+      var words = summary_text.split(" ");
+      var index = 0;
+      var intervalId = setInterval(function() {
+          summary_area.innerHTML += (words[index] + " ");
+          index++;
+          if(index == words.length) {
+              clearInterval(intervalId);
+          }
+      }, 50);
+    }
+});
+  
 
  ai_chat_entry_button.addEventListener("click", () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
@@ -430,6 +554,7 @@ async function main() {
   ai_chat.appendChild(ai_chat_card_area);
   ai_chat.appendChild(ai_chat_entry);
   container.appendChild(transcript);
+  container.appendChild(summary);
   container.appendChild(notes);
   container.appendChild(ai_chat);
 
