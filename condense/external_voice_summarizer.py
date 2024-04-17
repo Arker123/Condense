@@ -56,7 +56,6 @@ def record_microphone(whisper_asr: whisper.model, summarizer: pipeline):
     Args:
         whisper_asr (whisper.model): The pre-trained model for speech recognition.
     """
-    logger.info(f"Recording.....")
     p = pyaudio.PyAudio()
     stream = p.open(format=AUDIO_FORMAT, channels=CHANNELS, rate=FRAME_RATE, input=True, frames_per_buffer=CHUNK)
     frames = []
@@ -76,6 +75,7 @@ def start_recording():
     """Start the audio recording process."""
     whisper_asr = load_model()
     summarizer = load_summarize_model()
+    logger.info(f"Recording.....")
     while True:
         try:
             # Create a new thread for recording audio
