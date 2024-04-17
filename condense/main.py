@@ -142,6 +142,27 @@ def make_parser(argv):
             else argparse.SUPPRESS
         ),
     )
+    
+    if sys.platform == "win32":
+        advanced_group.add_argument(
+            "--install-right-click-menu",
+            action=condense.utils.InstallContextMenu,
+            help=(
+                "install Condense to the right-click context menu for Windows Explorer and exit"
+                if show_all_options
+                else argparse.SUPPRESS
+            ),
+        )
+
+        advanced_group.add_argument(
+            "--uninstall-right-click-menu",
+            action=condense.utils.UninstallContextMenu,
+            help=(
+                "uninstall Condense from the right-click context menu for Windows Explorer and exit"
+                if show_all_options
+                else argparse.SUPPRESS
+            ),
+        )
 
     output_group = parser.add_argument_group("rendering arguments")
     output_group.add_argument(
