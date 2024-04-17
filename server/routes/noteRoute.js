@@ -1,6 +1,7 @@
 const express = require("express");
 const {
     getAllNotes,
+    getFavNotes,
     modifyNote,
     createNote,
     getNote,
@@ -12,6 +13,7 @@ const router = new express.Router();
 
 router.get("/all", getAllNotes);
 router.get("/one", getNote);
+router.get("/fav", getFavNotes);
 router.post("/modify", modifyNote);
 
 router.post("/create", createNote);
