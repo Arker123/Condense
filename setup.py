@@ -20,6 +20,7 @@ requirements = [
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
+    "wordcloud==1.9.3",
     "soundcard==0.4.3",
     "soundfile==0.12.1",
     "moviepy==1.0.3",
