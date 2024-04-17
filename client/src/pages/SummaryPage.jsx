@@ -121,15 +121,15 @@ const SummaryPage = () => {
       );
       res
         .then((res) => {
-          return JSON.parse(res.data || "");
+          return res.data.summary || "";
         })
-        .then((res) => res.summary)
-        .then((summary) => {
-          console.log(summary);
+        .then((res) => {
+          return JSON.parse(res);
         })
+        .then((summary) => setSummaryText(summary.summary))
+
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
-
           console.log(err);
         });
     } else {
