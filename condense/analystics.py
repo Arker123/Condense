@@ -14,6 +14,7 @@ from condense.comments import get_comments
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
+
 def make_parser() -> argparse.ArgumentParser:
     """
     Create the argument parser.
@@ -94,11 +95,11 @@ def get_video_id(video_url: str) -> str:
     elif "youtu.be" in video_url:
         video_id = video_url.split("youtu.be/")[1].split("?")[0]
     else:
-        return None
+        raise ValueError("Please Enter a Valid URL")
     return video_id
 
 
-def main(argv: list[str] = None):
+def main(argv=None) -> int:
     load_dotenv()
     api_key = os.getenv("API_KEY")
     if api_key is None:
@@ -113,6 +114,7 @@ def main(argv: list[str] = None):
     # Display engagement metrics
     display_engagement_metrics(api_key, args.video_url)
 
+    return 0
 
 if __name__ == "__main__":
     sys.exit(main())
