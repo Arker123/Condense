@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
