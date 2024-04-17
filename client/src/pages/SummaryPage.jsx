@@ -121,8 +121,11 @@ const SummaryPage = () => {
       );
       res
         .then((res) => {
-          const sum = JSON5.parse(res.data?.summary || "")
-          setSummaryText(sum.summary);
+          return JSON.parse(res.data || "");
+        })
+        .then((res) => res.summary)
+        .then((summary) => {
+          console.log(summary);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
