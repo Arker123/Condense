@@ -7,7 +7,9 @@ from threading import Thread
 
 import soundcard as sc
 import soundfile as sf
+from transformers import pipeline
 
+from condense.summarizer import load_summarize_model, get_summary_from_transcript
 from condense.youtube_audio_extractor import load_model, get_transcript
 
 import whisper  # isort: skip
@@ -18,10 +20,10 @@ logger.setLevel(logging.DEBUG)
 warnings.filterwarnings("ignore", category=sc.SoundcardRuntimeWarning)
 
 SAMPLE_RATE = 48000
-RECORD_SEC = 15
+RECORD_SEC = 25
 
 
-def record(model: whisper.model):
+def record(model: whisper.model, summarizer: pipeline):
     """
     Record audio from the default microphone and transcribe it using the provided model.
 
@@ -37,7 +39,12 @@ def record(model: whisper.model):
             data = mic.record(numframes=SAMPLE_RATE * RECORD_SEC)
             sf.write(file=filename, data=data[:, 0], samplerate=SAMPLE_RATE)
             transcribed_text = get_transcript(model, ".", filename)
-            print(transcribed_text)
+            text_list = transcribed_text[0]
+            text = " ".join(item["text"] for item in text_list)
+            print(text)
+            summary_text, time_stamps = get_summary_from_transcript(text_list, summarizer, 1)
+            print("summary text : ", summary_text)
+            print("timestamps : ", time_stamps)
     except Exception as e:
         raise ValueError("Error occurred while recording the audio: {e}")
     finally:
@@ -51,9 +58,16 @@ def main():
     """
     logging.basicConfig(level=logging.DEBUG)
     model = load_model()
+    summarizer = load_summarize_model()
     while True:
         try:
-            thread = Thread(target=record, args=(model,))
+            thread = Thread(
+                target=record,
+                args=(
+                    model,
+                    summarizer,
+                ),
+            )
             thread.start()
             time.sleep(RECORD_SEC)
         except KeyboardInterrupt:
