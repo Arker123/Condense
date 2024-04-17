@@ -7,11 +7,11 @@ require("dotenv").config();
 
 beforeEach(async () => {
     await mongoose.connect(process.env.MONGO_URL);
-}, 10000);
+}, 30000);
 
 afterEach(async () => {
     await mongoose.connection.close();
-}, 10000);
+}, 30000);
 
 const server = app.listen(() => {
     console.log(`Server is running on ${port} `);
