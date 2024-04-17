@@ -19,7 +19,7 @@ class ExtendAction(argparse.Action):
         items = getattr(namespace, self.dest, None) or []
         items.extend(values)
         setattr(namespace, self.dest, items)
-
+        
         
 class InstallContextMenu(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
