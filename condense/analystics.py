@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
 from googleapiclient.discovery import build
 
+
 from condense.comments import get_comments
 
 logger = logging.getLogger()
@@ -101,6 +102,7 @@ def get_video_id(video_url: str) -> str:
 
 def main(argv=None) -> int:
     load_dotenv()
+
     api_key = os.getenv("API_KEY")
     if api_key is None:
         raise ValueError("API_KEY environment variable is not set.")
@@ -115,6 +117,7 @@ def main(argv=None) -> int:
     display_engagement_metrics(api_key, args.video_url)
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
