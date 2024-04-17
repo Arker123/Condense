@@ -17,6 +17,7 @@ import {
   modifyFavSummaries,
   saveSummary,
   getUser,
+  modifyFavNotes,
 } from "../https/index";
 import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
@@ -33,15 +34,28 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
+  console.log("summaa:  ", summaries);
+
+  const convertTime = (time) => {
+    let seconds = Math.floor(time);
+    // const minutes = "0" + Math.floor(seconds / 60) ;
+    let minutes = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+
+    seconds = seconds % 60;
+    seconds = seconds.toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
 
   const fetchUser = async () => {
     try {
-      console.log(user.id);
+      console.log("user id: ", user.id);
       console.log({
         id: user.id,
       });
       const response = await getUser({ id: user.id });
-      console.log(response);
+      console.log("in fetch user: ", response);
       dispatch(setUserSlice({ user: response.data.user }));
       const notes = response.data.user.notes;
       setNote(notes.find((item) => item.videoId === videoId)?.body || "");
@@ -94,22 +108,47 @@ const SummaryPage = () => {
   };
 
   const fetchSummary = () => {
+    const reqSummary = summaries.find((summary) => summary.videoId == url);
+    console.log("req summ:  ", reqSummary);
 
-    const res = axios.post(
-      `${process.env.REACT_APP_API_URL}/summaries/generate`,
-      {
-        url,
-      }
-    );
-    res
-      .then((res) => {
-        setSummaryText(res.data.summary);
-      })
-      .catch((err) => {
-        toast.error("Error while fetching summary", toastOptions);
+    if (!reqSummary) {
+      console.log("hii: ");
+      const res = axios.post(
+        `${process.env.REACT_APP_API_URL}/summaries/generate`,
+        {
+          videoId,
+        }
+      );
+      res
+        .then((res) => {
+          const sum = JSON5.parse(res.data?.summary || "")
+          setSummaryText(sum.summary);
+        })
+        .catch((err) => {
+          toast.error("Error while fetching summary", toastOptions);
 
-        console.log(err);
-      });
+          console.log(err);
+        });
+    } else {
+      console.log("in fetch one summary");
+      const userId = user.id;
+      console.log(userId);
+      console.log(url);
+
+      // Construct the URL with query parameters
+      const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
+
+      const res = axios.get(apiUrl);
+      res
+        .then((res) => {
+          setSummaryText(res.data[0]?.summary?.body);
+        })
+        .catch((err) => {
+          toast.error("Error while fetching summary", toastOptions);
+
+          console.log(err);
+        });
+    }
   };
   const fetchTranscript = async () => {
     try {
@@ -140,7 +179,7 @@ const SummaryPage = () => {
       console.log(response);
       toast.success("Summary saved successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       let errorMessage = "Error while saving";
       toast.error(errorMessage, toastOptions);
     }
@@ -150,7 +189,7 @@ const SummaryPage = () => {
     console.log("in addsummarytofav");
     const data = {
       userId: user.id,
-      summaryId: url,
+      videoId: url,
     };
 
     try {
@@ -208,7 +247,22 @@ const SummaryPage = () => {
     console.log(response);
   };
 
-  const addNoteToFav = () => {};
+  const addNoteToFav = async () => {
+    console.log(" in fav note");
+    const data = {
+      userId: user.id,
+      videoId: videoId,
+    };
+
+    try {
+      const res = await modifyFavNotes(data);
+      toast.success("Summary fav flipped successfully");
+    } catch (error) {
+      console.log(error);
+      let errorMessage = "Error while updating fv";
+      toast.error(errorMessage, toastOptions);
+    }
+  };
 
   const handleVideoUrl = (url) => {
     const videoId = getVideoId(url);
@@ -257,7 +311,10 @@ const SummaryPage = () => {
                       >
                         <FontAwesomeIcon icon={faSave} />
                       </button>
-                      <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                      <button
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                        onClick={() => addNoteToFav()}
+                      >
                         <FontAwesomeIcon icon={faStar} />
                       </button>
                     </div>
@@ -290,7 +347,7 @@ const SummaryPage = () => {
                       : transcripts.map((transcript) => (
                           <div className="flex">
                             <div className="text-[rgb(116,173,252)] w-10 mr-2">
-                              {transcript.start}
+                              {convertTime(transcript.start)}
                             </div>
                             <div className="px-2 w-full">{transcript.text}</div>
                           </div>
