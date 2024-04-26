@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 # Copyright (C) 2024 Condense, Inc. All Rights Reserved.
+import csv
 import sys
+import json
 import time
+import logging
 import argparse
 import textwrap
-import logging
-from condense.version import __version__
-import condense.utils
-from condense.render import Verbosity
-from condense.logging_ import TRACE, DebugLevel
+from typing import Dict, List, Tuple
 from pathlib import Path
-from condense.transcript import get_transcript
-from condense.summarizer import summerize_text
-from condense.analystics import word_cloud, display_engagement_metrics
-from typing import List, Dict, Tuple
-import json
+
+import condense.utils
 from condense.utils import get_video_id
-import csv
+from condense.render import Verbosity
+from condense.version import __version__
+from condense.logging_ import TRACE, DebugLevel
+from condense.analystics import word_cloud, display_engagement_metrics
+from condense.summarizer import summerize_text
+from condense.transcript import get_transcript
 
 logger = condense.logging_.getLogger("condense")
 

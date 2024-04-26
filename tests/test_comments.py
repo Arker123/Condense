@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from condense.comments import Ycom, make_parser, get_comments, main
+from condense.comments import Ycom, main, make_parser, get_comments
 
 # Sample data for testing
 sample_comments_response = {
