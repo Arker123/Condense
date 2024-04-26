@@ -175,21 +175,26 @@ const SummaryPageFile = () => {
   //         });
   //     }
   //   };
-  //   const fetchTranscript = async () => {
-  //     try {
-  //       const res = await axios.post(
-  //         `${process.env.REACT_APP_API_URL}/transcript/`,
-  //         {
-  //           url,
-  //         }
-  //       );
-  //       const transcripts = await JSON5.parse(res.data.transcript);
-  //       console.log(transcripts);
-  //       setTranscripts(transcripts);
-  //     } catch (error) {
-  //       toast.error("Error while fetching transcripts", toastOptions);
-  //     }
-  //   };
+    const fetchTranscript = async () => {
+      try {
+        // Create FormData object to send multipart/form-data
+        const formData = new FormData();
+        formData.append('file', file); // Append file to form data
+
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/transcript/up`, formData,
+          {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+        console.log('File uploaded successfully:', res.data);
+      } catch (error) {
+        console.error('Error uploading file:', error.message);
+        toast.error("Error while fetching transcripts", toastOptions);
+      }
+    };
 
   //   const handleSaveSummary = async () => {
   //     console.log("in handlesavesummary");
@@ -296,7 +301,7 @@ const SummaryPageFile = () => {
   //   };
 
   useEffect(() => {
-    // fetchTranscript();
+    fetchTranscript();
     // fetchSummary();
   }, [file]);
 
