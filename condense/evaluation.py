@@ -7,9 +7,8 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from transformers import PreTrainedModel, PreTrainedTokenizer
-
 from comments import get_comments
+from transformers import PreTrainedModel, PreTrainedTokenizer
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)

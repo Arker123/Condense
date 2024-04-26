@@ -7,11 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
+from evaluation import main as evaluate_sentiment
 from googleapiclient.discovery import build
 
 from condense.utils import get_video_id
 from condense.comments import get_comments
-from evaluation import main as evaluate_sentiment
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
