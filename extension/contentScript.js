@@ -68,7 +68,7 @@ async function main() {
 
   }
 
-  .notes-time-card{
+  .notes-time-card {
     font-size: 14px;
     color: blue;
     padding: 5px;
@@ -104,13 +104,34 @@ async function main() {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom:10px;
   }
 
   .divider{
     border: 1px solid lightgray;
     opacity: 0.5;
   }
-
+  .question-card{
+    font-size:14px;
+    min-height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:#00BFFF;
+    color:white;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    width:70%;
+  }
+  .answer-card{
+    font-size:14px;
+    height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:white;
+    margin-bottom: 8px;
+    align-self: flex-start;
+    width:70%;
+  }
   #t-button, #notes-button, #ai-chat-button, #summary-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
@@ -135,6 +156,9 @@ async function main() {
     widht:100%;
     height:370px;
     overflow-y: scroll;
+    display:flex;
+    flex-direction: column;
+
   }
 
   #notes-entry-button, #ai-chat-entry-button {
@@ -148,7 +172,7 @@ async function main() {
     border-radius: 5px;
   }
 
-  #summary-area{
+  #summary-area, #ai-chat-area{
     background-color: white;
     width: 90%;
     height: 57vh;
@@ -163,6 +187,7 @@ async function main() {
     overflow-y: scroll;
     border-radius: 5px;
   }
+  
   #get-summary-button{
     background-color: blue;
     color: white;
@@ -170,11 +195,12 @@ async function main() {
     border-radius: 5px;
   }
 
-    .my-component-right[data-v-12aa23d4] {
+    .my-component-right {
       display: flex;
       align-items: center;
       color: #828282;
       position: relative;
+      flex-direction: row;
     }
 
     .icon-copy, .icon-edit, .icon-delete {
@@ -359,7 +385,17 @@ async function main() {
     ai_chat.style.display = "none";
   });
 
+  const getVideoId = (url) => {
+    const videoIdRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(videoIdRegex);
+    const videoId = match ? match[1] : null;
+    console.log("Video ID:", videoId);
+    return videoId;
+  };
+
   const notesDict = {};
+  const userId = "65fbd783e390959bedecdec3";
 
   notes_entry_button.addEventListener("click", () => {
     const notesText = document.getElementById("notes-entry-box").value.trim();
@@ -368,16 +404,17 @@ async function main() {
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
       notesDict[timestramp] = notesText;
       getNotes();
+      
       document.getElementById("notes-entry-box").value = "";
     }
   });
+  
+  let summary_text = null;
 
   get_summary.addEventListener("click", async () => {
     get_summary.style.display = "none";
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
-    let summary_text = null;
-    // let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
     try {
       const response = await fetch("http://localhost:5000/summaries/generate", {
         method: "POST",
@@ -387,7 +424,7 @@ async function main() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          url: videoUrl,
+          videoId: getVideoId(videoUrl),
         }),
       });
 
@@ -416,10 +453,48 @@ async function main() {
     }
   });
 
-  ai_chat_entry_button.addEventListener("click", () => {
+  ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
+    let answer = null;
     if (AiQues) {
+      const question_card = add_element("div","class","question-card",``);
+      question_card.style.display = "block";
+      question_card.innerHTML+= AiQues;
+      ai_chat_card_area.appendChild(question_card);
       document.getElementById("ai-chat-entry-box").value = "";
+      
+      try {
+        const response = await fetch("http://localhost:5000/chatbot/generate", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            summary : summary_text,
+            question: AiQues,
+          }),
+        });
+  
+        const json = await response.json();
+  
+        console.log(json);
+  
+        answer = await JSON.parse(json.response);
+        console.log(answer);
+      } catch (error) {
+        console.error("Error fetching summary:", error);
+      }
+      const answer_card = add_element("div","class","answer-card","");
+      if(answer){
+        answer_card.innerHTML+=answer;
+      }
+      else{
+        answer_card.innerHTML+="Failed to load ";
+      }
+      ai_chat_card_area.appendChild(answer_card);
+      
     }
   });
 
@@ -454,17 +529,17 @@ async function main() {
         ""
       );
       const copy_icon = add_element(
-        "i",
+        "div",
         "class",
-        "el-icon-copy-document icon-copy",
-        ""
+        "icon-copy",
+        `<i data-v-12aa23d4="" class="el-icon-copy-document icon-copy" style="font-size: 16px;"></i>`
       );
-      const edit_icon = add_element("i", "class", "el-icon-edit icon-edit", "");
+      const edit_icon = add_element("div", "class", "icon-edit", `<i data-v-12aa23d4="" class="el-icon-edit icon-edit" style="font-size: 16px;"></i>`)
       const delete_icon = add_element(
-        "i",
+        "div",
         "class",
-        "el-icon-delete icon-delete",
-        ""
+        "icon-delete",
+        `<i data-v-12aa23d4="" class="el-icon-delete icon-delete" style="font-size: 16px;"></i>`
       );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);

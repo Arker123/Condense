@@ -25,6 +25,7 @@ requirements = [
     "soundfile==0.12.1",
     "moviepy==1.0.3",
     "pyaudio==0.2.14",
+    "pathlib==1.0.1",
 ]
 
 # this sets __version__
