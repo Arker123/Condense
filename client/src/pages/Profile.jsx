@@ -104,7 +104,7 @@ const Profile = () => {
       })
       .catch((err) => {
         toast.error("Failed to get all fav notes", toastOptions);
-        console.log(err);
+        // console.log(err);
       });
   };
 
