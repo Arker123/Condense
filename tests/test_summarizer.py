@@ -2,6 +2,8 @@
 
 from unittest.mock import MagicMock
 
+# import pytest
+
 from condense.summarizer import (
     clean_data,
     get_summary,
@@ -10,9 +12,6 @@ from condense.summarizer import (
     load_summarize_model,
     get_summary_from_transcript,
 )
-
-# import pytest
-
 
 input_data = [
     {"start": 0.0, "end": 10.0, "text": "Excessive whitespace!"},
