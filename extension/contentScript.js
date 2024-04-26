@@ -70,7 +70,7 @@ async function main() {
 
   }
 
-  .notes-time-card, {
+  .notes-time-card {
     font-size: 14px;
     color: blue;
     padding: 5px;
@@ -106,14 +106,35 @@ async function main() {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom:10px;
   }
 
   .divider{
     border: 1px solid lightgray;
     opacity: 0.5;
   }
-
-  #t-button, #notes-button, #ai-chat-button, #summary-button{
+  .question-card{
+    font-size:14px;
+    min-height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:#00BFFF;
+    color:white;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    width:70%;
+  }
+  .answer-card{
+    font-size:14px;
+    height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:white;
+    margin-bottom: 8px;
+    align-self: flex-start;
+    width:70%;
+  }
+  #t-button, #notes-button, #ai-chat-button, #summary-button, #save-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
     border: none;
@@ -137,6 +158,9 @@ async function main() {
     widht:100%;
     height:370px;
     overflow-y: auto;
+    display:flex;
+    flex-direction: column;
+
   }
 
   #notes-entry-button, #ai-chat-entry-button {
@@ -150,7 +174,7 @@ async function main() {
     border-radius: 5px;
   }
 
-  #summary-area{
+  #summary-area, #ai-chat-area{
     background-color: white;
     width: 90%;
     margin: 10px;
@@ -173,23 +197,35 @@ async function main() {
     border-radius: 5px;
   }
 
-    .my-component-right[data-v-12aa23d4] {
-      display: flex;
-      align-items: center;
-      color: #828282;
-      position: relative;
-    }
+  .my-component-right {
+    display: flex;
+    align-items: center;
+    color: #828282;
+    position: relative;
+    flex-direction: row;
+  }
 
-    .icon-copy, .icon-edit, .icon-delete {
-        font-size: 20px;
-        margin-left: 12px;
-        cursor: pointer;
-    }
+  .icon-copy, .icon-edit, .icon-delete {
+      font-size: 20px;
+      margin-left: 12px;
+      cursor: pointer;
+  }
 
-    .edit-text-area {
-      width :100%;
-      border-radius:5px;
-    }
+  .edit-text-area {
+    width :100%;
+    border-radius:5px;
+  }
+
+  #save-button{
+    border-radius: 5px;
+    background-color: rgba(169, 32, 30,0.9);
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    left: 25px;
+    color: white;
+    cursor: pointer
+  }
     
   }
   
@@ -262,6 +298,23 @@ async function main() {
   ai_chat_button.innerHTML += "AI Chat";
 
   navbar.appendChild(ai_chat_button);
+
+  save_button = add_element("button", "id", "save-button", "");
+
+  const save_icon = add_element(
+    "div",
+    "id",
+    "save-icon",
+    `
+    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z" fill="#ffffff"></path> </g></svg>`
+  );
+
+  save_button.appendChild(save_icon);
+  save_button.innerHTML += "Save";
+
+  // save_button.onclick = async () => {
+
+  navbar.appendChild(save_button);
   container.appendChild(navbar);
 
   const transcript = add_element("div", "id", "transcript", "");
@@ -431,6 +484,12 @@ async function main() {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
     let answer = null;
     if (AiQues) {
+      const question_card = add_element("div", "class", "question-card", ``);
+      question_card.style.display = "block";
+      question_card.innerHTML += AiQues;
+      ai_chat_card_area.appendChild(question_card);
+      document.getElementById("ai-chat-entry-box").value = "";
+
       try {
         const response = await fetch("http://localhost:5000/chatbot/generate", {
           method: "POST",
@@ -454,18 +513,13 @@ async function main() {
       } catch (error) {
         console.error("Error fetching summary:", error);
       }
-      const question_card = add_element("div", "class", "question-card", "");
-      question_card.innerHTML += AiQues;
       const answer_card = add_element("div", "class", "answer-card", "");
       if (answer) {
         answer_card.innerHTML += answer;
       } else {
-        answer_card.innerHTML += "Failed to load";
+        answer_card.innerHTML += "Could not generate a response ";
       }
-
-      ai_chat.appendChild(question_card);
-      ai_chat.appendChild(answer_card);
-      document.getElementById("ai-chat-entry-box").value = "";
+      ai_chat_card_area.appendChild(answer_card);
     }
   });
 
@@ -500,17 +554,22 @@ async function main() {
         ""
       );
       const copy_icon = add_element(
-        "i",
+        "div",
         "class",
-        "el-icon-copy-document icon-copy",
-        ""
+        "icon-copy",
+        `<i data-v-12aa23d4="" class="el-icon-copy-document icon-copy" style="font-size: 16px;"></i>`
       );
-      const edit_icon = add_element("i", "class", "el-icon-edit icon-edit", "");
-      const delete_icon = add_element(
-        "i",
+      const edit_icon = add_element(
+        "div",
         "class",
-        "el-icon-delete icon-delete",
-        ""
+        "icon-edit",
+        `<i data-v-12aa23d4="" class="el-icon-edit icon-edit" style="font-size: 16px;"></i>`
+      );
+      const delete_icon = add_element(
+        "div",
+        "class",
+        "icon-delete",
+        `<i data-v-12aa23d4="" class="el-icon-delete icon-delete" style="font-size: 16px;"></i>`
       );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);
