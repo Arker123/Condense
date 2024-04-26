@@ -87,7 +87,6 @@ def main(argv=None) -> str:
     neutral_count = 0
 
     for comment in comments:
-        print(comment)
         sentiment = predict_sentiment(model, tokenizer, comment[0])
         if sentiment == "positive":
             positive_count += 1
