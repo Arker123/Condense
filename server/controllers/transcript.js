@@ -9,15 +9,14 @@ const getTranscript = async (req, res) => {
         if (!url) {
             return res.status(400).json({ message: "URL is required" });
         }
+
         const pythonProcess = spawnSync("python", [
             "../condense/transcript.py",
             "--url",
             url,
             "-t",
         ]);
-        console.log("url in transcript : ", url )
-        const stderr = await pythonProcess.stderr.toString()
-        console.log(stderr)
+
         const dataToSend = await pythonProcess.stdout.toString();
         if (dataToSend) {
             res.status(200).json({

@@ -274,6 +274,11 @@ const SummaryPage = () => {
     return videoUrl;
   };
 
+  useEffect(() => {
+    fetchTranscript();
+    fetchSummary();
+  }, [url]);
+
   const [isOpen, setIsOpen] = useState(false);
 
   let timeoutId;

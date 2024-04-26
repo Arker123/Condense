@@ -21,6 +21,7 @@ from condense.transcript import get_transcript
 
 logger = condense.logging_.getLogger("condense")
 
+
 class ArgumentValueError(ValueError):
     pass
 
@@ -97,35 +98,34 @@ def make_parser(argv):
         type=argparse.FileType("r"),
         help="path to video to analyze",
     )
-    
+
     transcribe_group = parser.add_argument_group("transcribe arguments")
     transcribe_group.add_argument(
         "--transcribe",
         action="store_true",
         help="transcribe the video",
     )
-    
+
     summarize_group = parser.add_argument_group("summarize arguments")
     summarize_group.add_argument(
         "--summarize",
         action="store_true",
         help="summarize the video",
     )
-    
+
     sentiment_group = parser.add_argument_group("sentiment arguments")
     sentiment_group.add_argument(
         "--sentiment",
         action="store_true",
         help="give sentiment analysis of the video",
     )
-    
+
     keywords_group = parser.add_argument_group("keywords arguments")
     keywords_group.add_argument(
         "--keywords",
         action="store_true",
         help="give keywords of the video",
     )
-    
 
     advanced_group = parser.add_argument_group("advanced arguments")
     advanced_group.add_argument(
@@ -137,13 +137,9 @@ def make_parser(argv):
         "--version",
         action="version",
         version="%(prog)s {:s}".format(__version__),
-        help=(
-            "show program's version number and exit"
-            if show_all_options
-            else argparse.SUPPRESS
-        ),
+        help=("show program's version number and exit" if show_all_options else argparse.SUPPRESS),
     )
-    
+
     if sys.platform == "win32":
         advanced_group.add_argument(
             "--install-right-click-menu",
@@ -166,15 +162,9 @@ def make_parser(argv):
         )
 
     output_group = parser.add_argument_group("rendering arguments")
-    output_group.add_argument(
-        "-j", "--json", action="store_true", help="emit JSON"
-    )
-    output_group.add_argument(
-        "-t", "--text", action="store_true", help="emit text"
-    )
-    output_group.add_argument(
-        "-c", "--csv", action="store_true", help="emit CSV"
-    )
+    output_group.add_argument("-j", "--json", action="store_true", help="emit JSON")
+    output_group.add_argument("-t", "--text", action="store_true", help="emit text")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV")
     output_group.add_argument(
         "-v",
         "--verbose",
@@ -229,13 +219,13 @@ def set_log_config(debug, quiet):
     logging.getLogger().handlers[0].setFormatter(condense.logging_.ColorFormatter())
 
 
-
 def is_running_standalone() -> bool:
     """
     are we running from a PyInstaller'd executable?
     if so, then we'll be able to access `sys._MEIPASS` for the packaged resources.
     """
     return hasattr(sys, "frozen") and hasattr(sys, "_MEIPASS")
+
 
 def get_default_root() -> Path:
     """
@@ -251,45 +241,45 @@ def get_default_root() -> Path:
     else:
         return Path(__file__).resolve().parent
 
+
 def main(argv=None) -> int:
     """
     arguments:
       argv: the command line arguments
     """
     # TODO: use rich as default Traceback handler
-    
+
     if argv is None:
         argv = sys.argv[1:]
-        
+
     parser = make_parser(argv)
     try:
         args = parser.parse_args(args=argv)
     except ArgumentValueError as e:
         print(e)
         return -1
-    
+
     set_log_config(args.debug, args.quiet)
-    
+
     sample = Path(args.sample.name)
     args.sample.close()
-    
+
     start_time = time.time()
-    
+
     if args.transcribe:
         logger.debug("transcribing")
         transcript = get_transcript(sample)
         print(json.dumps(transcript))
-        
+
     if args.summarize:
         logger.debug("summarizing")
         summary, timestamp = summerize_text(sample)
         print(json.dumps({"summary": summary, "timestamp": timestamp}))
-        
-        
+
     if args.sentiment:
         logger.debug("getting sentiment analysis")
         # TODO: get sentiment analysis of the video
-        
+
     if args.keywords:
         logger.debug("getting keywords")
         word_cloud(sample)
@@ -300,15 +290,14 @@ def main(argv=None) -> int:
         print("Dislikes:", statistics.get("dislikeCount", 0))
         print("Comments:", statistics.get("commentCount", 0))
         print("Shares:", statistics.get("shareCount", 0))
-        
-        
+
     if not args.transcribe and not args.summarize and not args.sentiment and not args.keywords:
         logger.debug("doing everything")
         transcript = get_transcript(sample)
         summary, timestamp = summerize_text(sample)
         word_cloud(sample)
         statistics = display_engagement_metrics(sample)
-        
+
         # TODO: Improve rendering
         print(json.dumps(transcript))
         print(json.dumps({"summary": summary, "timestamp": timestamp}))
@@ -318,24 +307,21 @@ def main(argv=None) -> int:
         print("Dislikes:", statistics.get("dislikeCount", 0))
         print("Comments:", statistics.get("commentCount", 0))
         print("Shares:", statistics.get("shareCount", 0))
-        
-        
-        
-        
+
     logger.info("finished execution after %.2f seconds", time.time() - start_time)
-    
+
     if args.json:
         logger.debug("emitting JSON")
         # TODO: emit JSON
-        
+
     if args.text:
         logger.debug("emitting text")
         # TODO: emit text
-        
+
     if args.csv:
         logger.debug("emitting CSV")
         # TODO: emit CSV
-    
+
     return 0
 
 

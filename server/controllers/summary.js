@@ -12,13 +12,13 @@ const generateSummary = async (req, res) => {
     console.log(url);
     const summary = await redisClient.get(videoId);
 
-    // if (summary) {
-    //   console.log("Cache hit");
-    //   return res.status(200).json({
-    //     summary: JSON.parse(summary),
-    //     message: "Summary generated successfully",
-    //   });
-    // }
+    if (summary) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        summary: JSON.parse(summary),
+        message: "Summary generated successfully",
+      });
+    }
 
     console.log("Cache miss, generating summary...");
     const pythonProcess = spawnSync("python", [
@@ -26,8 +26,7 @@ const generateSummary = async (req, res) => {
       "--url",
       url,
     ]);
-    const stderr = pythonProcess.stderr.toString()
-    console.log(stderr)
+
     const dataToSend = await pythonProcess.stdout.toString();
     await redisClient.set(videoId, JSON.stringify(dataToSend));
     res.status(200).json({
