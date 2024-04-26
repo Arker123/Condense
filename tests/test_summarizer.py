@@ -2,6 +2,8 @@
 
 from unittest.mock import MagicMock
 
+import pytest
+
 from condense.summarizer import (
     clean_data,
     get_summary,
