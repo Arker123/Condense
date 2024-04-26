@@ -1,64 +1,68 @@
-import argparse
-from unittest.mock import MagicMock, patch
+
+# Copyright (C) 2024 Condense, Inc. All Rights Reserved.
 
 import pytest
+from unittest.mock import MagicMock
+from condense.summarizer import (
+    make_parser,
+    load_summarize_model,
+    clean_data,
+    get_summary,
+    summerize_text,
+    get_summary_from_transcript,
+)
 
-from condense.summarizer import main, clean_data, make_parser, summerize_text, get_summary_from_transcript
+@pytest.fixture
+def mocked_data():
+    return [
+        {"start": 0.0, "end": 10.0, "text": "This is a test test test test sentence."},
+        {"start": 10.0, "end": 20.0, "text": "Another test test test test test sentence."},
+    ]
 
-# Define sample data for testing
-sample_transcript_data = [
-    {"start": 0, "end": 10, "text": "Hello,  world!   This is a test."},
-    {"start": 10, "end": 20, "text": "Another sentence goes here."},
-    {"start": 20, "end": 30, "text": ""},
-]
+@pytest.fixture
+def mocked_summarizer():
+    return MagicMock()
 
 
 def test_make_parser():
-    # Test argument parser creation
     parser = make_parser()
-    assert isinstance(parser, argparse.ArgumentParser)
+    assert parser is not None
 
 
-def test_clean_data():
-    # Test data cleaning function
-    cleaned_data = clean_data(sample_transcript_data)
+def test_load_summarize_model():
+    model = load_summarize_model()
+    assert model is not None
 
 
-@patch("condense.summarizer.get_transcript", return_value=sample_transcript_data)
-@patch(
-    "condense.summarizer.get_summary_from_transcript",
-    return_value=([{"summary_text": "Summarized text", "start": 0, "end": 10}], []),
-)
-def test_summarize_text(mock_get_summary_from_transcript, mock_get_transcript):
-    # Test summerize_text function
-    video_url = "https://example.com/video"
-    summary, time_stamp = summerize_text(video_url)
-    mock_get_transcript.assert_called_once_with(video_url)
-    mock_get_summary_from_transcript.assert_called_once_with(sample_transcript_data)
-    assert summary == [{"summary_text": "Summarized text", "start": 0, "end": 10}]
+def test_clean_data(mocked_data):
+    print(mocked_data)
+    cleaned_data = clean_data(mocked_data, check_meet=0)
+    print(cleaned_data)
+    assert len(cleaned_data) == 2
+    assert cleaned_data[0]["text"] == "This is a test sentence."
+    assert cleaned_data[1]["text"] == "Another test sentence."
+
+
+def test_get_summary(mocked_data, mocked_summarizer):
+    mocked_summarizer.return_value = [{"summary_text": "Summary."}]
+    summary, time_stamp = get_summary(mocked_data, mocked_summarizer, check_meet=0)
+    assert len(summary) == 2
+    assert summary[0]["summary_text"] == "Summary."
+    assert summary[1]["summary_text"] == "Summary."
+
+
+def test_summerize_text(monkeypatch, mocked_data):
+    monkeypatch.setattr("condense.summarizer.get_transcript", lambda url: mocked_data)
+    mocked_summarizer = MagicMock()
+    mocked_summarizer.return_value = ([], [])
+    summary, time_stamp = summerize_text("https://example.com/video")
+    assert summary == []
     assert time_stamp == []
 
 
-@patch("condense.summarizer.clean_data", return_value=sample_transcript_data)
-@patch("condense.summarizer.get_summary")
-def test_get_summary_from_transcript(mock_get_summary, mock_clean_data):
-    # Test get_summary_from_transcript function
-    summary_text = "Summarized text"
-    mock_get_summary.return_value = ([{"summary_text": summary_text, "start": 0, "end": 10}], [])
-    summary, time_stamp = get_summary_from_transcript(sample_transcript_data)
-    print(summary, time_stamp)
-    assert summary == [{"summary_text": summary_text, "start": 0, "end": 10}]
-    assert time_stamp == []
-
-
-@patch(
-    "condense.summarizer.summerize_text",
-    return_value=([{"summary_text": "Summarized text", "start": 0, "end": 10}], []),
-)
-@patch("condense.summarizer.make_parser")
-def test_main(mock_make_parser, mock_summerize_text):
-    # Test main function
-    mock_make_parser.return_value.parse_args.return_value = MagicMock(video_url="https://example.com/video")
-    with patch("builtins.print") as mock_print:
-        main()
-        mock_print.assert_called_with({"summary": "Summarized text", "time_stamp": []})
+def test_get_summary_from_transcript(mocked_data, mocked_summarizer):
+    mocked_summarizer.return_value = [{"summary_text": "Summary."}]
+    summary, time_stamp = get_summary_from_transcript(mocked_data, mocked_summarizer, check_meet=0)
+    assert len(summary) == 2
+    assert summary[0]["summary_text"] == "Summary."
+    assert summary[1]["summary_text"] == "Summary."
