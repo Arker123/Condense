@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from condense.comments import Ycom, make_parser, get_comments, main
+from condense.comments import Ycom, main, make_parser, get_comments
 
 # Sample data for testing
 sample_comments_response = {
@@ -42,7 +42,7 @@ def test_make_parser():
 
 def test_ycom():
     ycom_instance = Ycom(apikey="test_api_key", write_to_file=False)
-    
+
     # Test make_youtube method
     with patch("googleapiclient.discovery.build") as mock_build:
         ycom_instance.make_youtube()
@@ -76,13 +76,13 @@ def test_get_comments():
 def test_main(capsys):
     # Prepare arguments for the main function
     test_argv = ["-u", sample_video_url, "-c"]
-    
+
     # Patch and execute the main function
     with patch("condense.comments.get_comments", return_value=[["Sample comment", "Author", 5]]):
         main(test_argv)
-    
+
     # Capture the standard output
     captured = capsys.readouterr()
-    
+
     # Assert that the captured output is as expected
     assert captured.out.strip() == "[['Sample comment', 'Author', 5]]"
