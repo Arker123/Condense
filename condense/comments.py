@@ -142,16 +142,16 @@ def get_comments(apikey: str, file: bool, video_url: str) -> List[List[str]]:
     return Y.show_comments()
 
 
-def main(argv=None) -> int:
-    load_dotenv()
-    apikey = os.getenv("API_KEY")
+def main(argv=None) -> str:
+    # load_dotenv()
+    apikey = "AIzaSyCkSWgMiJNS6N9EbtmiCEG6aPYOCYzCFuQ"
 
     parser = make_parser()
     args = parser.parse_args(argv)
 
     comments = get_comments(str(apikey), args.csv, args.video_url)
+
     return comments
-    return 0
 
 
 if __name__ == "__main__":
