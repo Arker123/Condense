@@ -36,7 +36,13 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str, api_key: str) -> None:
+def word_cloud(video_url: str) -> None:
+    load_dotenv()
+
+    api_key = os.getenv("API_KEY")
+    if api_key is None:
+        raise ValueError("API_KEY environment variable is not set.")
+    
     get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
@@ -62,7 +68,12 @@ def word_cloud(video_url: str, api_key: str) -> None:
     plt.show()
 
 
-def display_engagement_metrics(api_key: str, video_url: str):
+def display_engagement_metrics(video_url: str):
+    load_dotenv()
+
+    api_key = os.getenv("API_KEY")
+    if api_key is None:
+        raise ValueError("API_KEY environment variable is not set.")
     video_id = get_video_id(video_url)
     if not video_id:
         raise ValueError("Invalid YouTube video URL.")
@@ -78,20 +89,15 @@ def display_engagement_metrics(api_key: str, video_url: str):
 
 
 def main(argv=None) -> int:
-    load_dotenv()
-
-    api_key = os.getenv("API_KEY")
-    if api_key is None:
-        raise ValueError("API_KEY environment variable is not set.")
 
     parser = make_parser()
     args = parser.parse_args(argv)
 
     # Word cloud generation
-    word_cloud(args.video_url, api_key)
+    word_cloud(args.video_url)
 
     # Display engagement metrics
-    statistics = display_engagement_metrics(api_key, args.video_url)
+    statistics = display_engagement_metrics(args.video_url)
 
     print("Engagement Metrics for Video ID:", get_video_id(args.video_url))
     print("Views:", statistics.get("viewCount", 0))
