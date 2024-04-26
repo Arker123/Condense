@@ -53,7 +53,7 @@ const MyChatBot = (summary) => {
   return (
     <div className="chatbotStyle">
       {showBot ? (
-        <div ref={chatbotRef}>
+        <div ref={chatbotRef} data-testid="chatbot-open">
           <Chatbot
             config={getConfig(onClickCloseBot, summary)}
             messageParser={MessageParser}
@@ -67,6 +67,7 @@ const MyChatBot = (summary) => {
         // Don't Show Bot
         <div
           className="collapsed"
+          data-testid="chatbot-close"
           style={{
             padding: "5px",
             borderTopLeftRadius: "5px",
@@ -74,7 +75,7 @@ const MyChatBot = (summary) => {
             width: "275px", 
           }}
         >
-          <button onClick={onClickOpenBot}>
+          <button onClick={onClickOpenBot} data-testid="open-chatbot-button">
             &nbsp;&nbsp;Conversation with ClarifyBot
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
           </button>
