@@ -121,7 +121,6 @@ const SummaryPage = () => {
     console.log("req summ:  ", reqSummary);
 
     if (!reqSummary) {
-      console.log("hii: ");
       const res = axios.post(
         `${process.env.REACT_APP_API_URL}/summaries/generate`,
         {
