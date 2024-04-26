@@ -39,11 +39,11 @@ function Navbar() {
         </nav>
         <div className="user-actions">
           {user.email ? (
-            <div className="login-signup-button rounded-full">
+            <div className="login-signup-button rounded-full mt-[-12px]">
               <button onClick={() => dispatch(logout())}>Logout</button>
             </div>
           ) : (
-            <div className="login-signup-button rounded-full">
+            <div className="login-signup-button rounded-full mt-[-12px]">
               <Link to="/signup">Login/SignUp</Link>
             </div>
           )}
