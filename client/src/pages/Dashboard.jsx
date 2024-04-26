@@ -174,7 +174,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>
@@ -187,7 +187,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>
@@ -201,7 +201,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50 }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>

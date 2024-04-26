@@ -11,7 +11,7 @@ const Sidebar = () => {
   const menus = [
     { name: "Dashboard", link: "/dashboard", icon: IoMdHome },
     { name: "Chat with AI", link: "/", icon: BsChatFill },
-    { name: "My Notes", link: "/mynotes", icon: FaNoteSticky },
+    { name: "My Notes", link: "/mynotesandsummaries", icon: FaNoteSticky },
     { name: "Youtube Summaries", link: "/", icon: MdSummarize },
     { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
   ];

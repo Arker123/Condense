@@ -140,7 +140,7 @@ const Profile = () => {
         <div>
           <h2 className="header float-left p-4">USER PROFILE</h2>
           <div className="flex groupside justify-end p-2 gap-4 mt-5">
-            <div className="w-30 h-10  sidebuttons rounded-3xl flex items-center px-4">
+            <div className="w-30 h-10  sidebuttons rounded-3xl flex items-center px-4 ">
               <div className="flex flex-row gap-2" onClick={handleRedirect}>
                 <FiPhoneCall className="mt-1" />
                 <p className="cursor-pointer">Contact Us</p>
@@ -178,7 +178,7 @@ const Profile = () => {
                 </span>
               </div>
               <button 
-                className="bg-blue-400 text-black px-4 py-2 w-full mt-2 rounded-md hover:bg-gray-300 hover:text-gray-800 transition-colors duration-300 ease-in-out"
+                className="bg-[#6f0000] text-slate-300 px-4 py-2 w-full mt-2 rounded-xl text-[18px] hover:scale-105 transition-all duration-300 ease-in-out "
                 onClick={() => setShowPopup(true)}
               >
                 Update Password
