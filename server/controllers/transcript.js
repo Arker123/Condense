@@ -14,7 +14,6 @@ const getTranscript = async (req, res) => {
             "../condense/transcript.py",
             "--url",
             url,
-            "-t",
         ]);
 
         const dataToSend = await pythonProcess.stdout.toString();

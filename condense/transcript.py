@@ -77,7 +77,7 @@ def main(argv=None) -> int:
 
     transcript = get_transcript(args.video_url)
     print(json.dumps(transcript))
-    # save_to_file(transcript, args)
+    save_to_file(transcript, args)
 
     return 0
 
