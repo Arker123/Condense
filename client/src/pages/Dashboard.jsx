@@ -145,7 +145,7 @@ const Dashboard = () => {
                     });
                 }}
                 className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[55px] hover:underline"
-                style={{ alignSelf: "center" }} // Center the button horizontally
+                style={{ alignSelf: "center" }} 
               >
                 Join Meeting
               </button>
@@ -212,7 +212,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>
@@ -225,7 +225,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>
@@ -239,7 +239,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50 }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>
