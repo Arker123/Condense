@@ -67,7 +67,7 @@ def render_meta(results: ResultDocument, console, verbose):
                 ("version", results.metadata.version),
             ]
         )
-        
+
     table = Table(box=box.ASCII2, show_header=False)
     for row in rows:
         table.add_row(str(row[0]), str(row[1]))
@@ -78,7 +78,6 @@ def render_meta(results: ResultDocument, console, verbose):
 def strtime(seconds):
     m, s = divmod(seconds, 60)
     return f"{m:02.0f}:{s:02.0f}"
-
 
 
 def render_sub_heading(heading, n, console, disable_headers):

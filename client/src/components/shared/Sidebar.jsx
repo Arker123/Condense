@@ -6,6 +6,8 @@ import { FaNoteSticky } from "react-icons/fa6";
 import { MdSummarize } from "react-icons/md";
 import { IoExtensionPuzzle } from "react-icons/io5";
 import { IoMdHome } from "react-icons/io";
+import { FaChartBar } from 'react-icons/fa';
+
 
 const Sidebar = () => {
   const menus = [
@@ -14,6 +16,8 @@ const Sidebar = () => {
     { name: "My Notes", link: "/mynotesandsummaries", icon: FaNoteSticky },
     { name: "Youtube Summaries", link: "/", icon: MdSummarize },
     { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
+    { name: "Analytics", link: "/analytics", icon: FaChartBar },
+
   ];
   const [open, setOpen] = useState(true);
 
