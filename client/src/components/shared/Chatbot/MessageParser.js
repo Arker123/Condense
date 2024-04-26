@@ -1,11 +1,5 @@
 import React from "react";
-import axios from 'axios';
-// const res = axios.post('/chatbot/generate',{
-//   summary:"",
-//   question:""
-// })
-
-// const response = res.data.response;
+import axios from "axios";
 
 class MessageParser {
   constructor(actionProvider, state) {
@@ -13,23 +7,23 @@ class MessageParser {
     this.state = state;
   }
 
-  parse(message) {
+  async parse(message) {
     // this.state gives an array of all messages + videoID. Add logic here!
-    console.log("Summary", this.state.summary.summary);
+    console.log("Summary", this.state.summary.summary.replaceAll('"', "'"));
     console.log("Question", message);
     // Fetch the reply of the message here!
-    const res = axios.post('/chatbot/generate',{
-        summary:this.state.summary.summary,
-        question:message
-      })
-    if (res.ok)
-    { 
+    const res = await axios.post("http://localhost:5000/chatbot/generate", {
+      summary: this.state.summary.summary.replaceAll('"', "'"),
+      question: message,
+    });
+    const reply2 = "Sorry! I am unable to answer your query at the moment!";
+    if (res.ok) {
+      let reply = res.data.response;
+      if (reply === "") this.actionProvider.messageHandler(reply2);
+      else this.actionProvider.messageHandler(reply);
+    } else {
       const reply = res.data.response;
-      this.actionProvider.messageHandler(reply);
-    }
-    else{
-      const reply = res.data.response;
-      const reply2 = "Sorry! I am unable to answer your query at the moment!"
+      if (reply === "") this.actionProvider.messageHandler(reply2);
       this.actionProvider.messageHandler(reply);
     }
   }
