@@ -14,8 +14,8 @@ from rich.console import Console
 import condense.utils as util
 import condense.logging_
 from condense.render import Verbosity
-from condense.render.sanitize import sanitize
 from condense.results import ResultDocument
+from condense.render.sanitize import sanitize
 
 MIN_WIDTH_LEFT_COL = 22
 MIN_WIDTH_RIGHT_COL = 82
