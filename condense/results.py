@@ -26,6 +26,7 @@ from condense.render.sanitize import sanitize
 
 logger = condense.logging_.getLogger(__name__)
 
+
 class InvalidResultsFile(Exception):
     pass
 
@@ -42,15 +43,15 @@ class Metadata:
     version: str = __version__
     size: int = 0
     runtime: Runtime = field(default_factory=Runtime)
-    
-    
+
+
 @dataclass
 class Analysis:
     enable_transcript: bool = True
     enable_summary: bool = True
     enable_analysis: bool = True
     enable_keywords: bool = True
-    
+
 
 @dataclass
 class ResultDocument:
