@@ -100,8 +100,8 @@ class Ycom(object):
                 self.rpauth = self.response["items"][i]["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"]
                 self.rplike = self.response["items"][i]["snippet"]["topLevelComment"]["snippet"]["likeCount"]
                 self.comments.append([self.rpcom, self.rpauth, self.rplike])
-                if self.write_to_file:
-                    self.write_to_csv()
+                # if self.write_to_file:
+                #     self.write_to_csv()
         else:
             raise ValueError(
                 "Comments are disabled for the video:",
@@ -142,17 +142,16 @@ def get_comments(apikey: str, file: bool, video_url: str) -> List[List[str]]:
     return Y.show_comments()
 
 
-def main(argv=None) -> int:
-    load_dotenv()
-    apikey = os.getenv("API_KEY")
+def main(argv=None) -> str:
+    # load_dotenv()
+    apikey = "AIzaSyCkSWgMiJNS6N9EbtmiCEG6aPYOCYzCFuQ"
 
     parser = make_parser()
     args = parser.parse_args(argv)
 
     comments = get_comments(str(apikey), args.csv, args.video_url)
-    print(comments)
 
-    return 0
+    return comments
 
 
 if __name__ == "__main__":

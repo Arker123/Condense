@@ -7,7 +7,11 @@ from typing import Any
 import nltk
 import emoji
 import torch
+from comments import main as comments_main  # Import the main function from comments.py
+from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
+
+from condense.sentiment_lstm import SentimentLSTM
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -20,17 +24,19 @@ def make_parser() -> argparse.ArgumentParser:
     Create the argument parser.
     """
     parser = argparse.ArgumentParser(
-        description="Get the sentiment of comment",
+        description="Get the sentiment of comments extracted from a YouTube video",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-c",
-        "--comment",
-        dest="comment",
+        "-v",
+        "--url",
+        dest="video_url",
         type=str,
         required=True,
-        help="comment to get the sentiment Info",
+        help="YouTube video URL to extract comments from",
     )
+    output_group = parser.add_argument_group("rendering arguments")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
 
@@ -52,6 +58,8 @@ def preprocess_data(comment: str) -> str:
 def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, comment: str) -> str:
     refined_comment = preprocess_data(comment)
     sequence = tokenizer.texts_to_sequences([refined_comment])
+    if len(sequence[0]) == 0:
+        return "neutral"
     tensor = torch.LongTensor(sequence)
 
     # Pass the tensor through the model to get the predicted sentiment
@@ -64,19 +72,36 @@ def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, co
         return predicted_sentiment
 
 
-def main(argv=None) -> int:
-    logging.basicConfig(level=logging.DEBUG)
-    parser = make_parser()
-    args = parser.parse_args(argv)
-
+def main(argv=None) -> str:
     nltk.download("punkt")
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
-    sentiment = predict_sentiment(model, tokenizer, args.comment)
-    print(sentiment)
 
-    return 0
+    # Extract comments from the YouTube video
+    comments = comments_main(argv)
+
+    # Perform sentiment analysis on each comment and count the results
+    positive_count = 0
+    negative_count = 0
+    neutral_count = 0
+
+    for comment in comments:
+        print(comment)
+        sentiment = predict_sentiment(model, tokenizer, comment[0])
+        if sentiment == "positive":
+            positive_count += 1
+        elif sentiment == "negative":
+            negative_count += 1
+        elif sentiment == "neutral":
+            neutral_count += 1
+
+    sentiment_results = ""
+    sentiment_results += "Positive comments: " + str(positive_count) + "\n"
+    sentiment_results += "Negative comments: " + str(negative_count) + "\n"
+    sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
+    print(sentiment_results)
+    return sentiment_results
 
 
 if __name__ == "__main__":

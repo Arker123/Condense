@@ -13,8 +13,8 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+from condense.sentiment_lstm import SentimentLSTM
 from condense.data_preprocessing import preprocess_data
-from condense.sentimentLSTM_model import SentimentLSTM
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
