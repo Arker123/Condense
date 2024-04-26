@@ -395,15 +395,10 @@ const SummaryPage = () => {
                     TRANSCRIPT
                   </motion.div>
                 </div>
-                <div
-                  data-testid="transcript-test"
-                  className="w-full flex flex-col gap-5 pb-8 pl-2 pr-2"
-                >
+                <div data-testid = 'transcript-test' className="w-full flex flex-col gap-5 pb-5 px-4 pt-2">
                   {transcripts.map((transcript) => (
                     <div className="flex">
-                      <div className="text-[rgb(116,173,252)] w-10 mr-2">
-                        {transcript.start}
-                      </div>
+                      <div className="text-[rgb(116,173,252)] w-10 mr-2">{convertTime(transcript.start)}</div>
                       <div className="px-2 w-full">{transcript.text}</div>
                     </div>
                   ))}
@@ -447,7 +442,10 @@ const SummaryPage = () => {
                 />
               </div>
 
-              <div className="w-[800px] h-[700px] bg-white rounded-lg flex flex-col items-center justify-center mb-5 " style={{ overflowY: 'hidden' }}>
+              <div
+                className="w-[800px] h-[700px] bg-white rounded-lg flex flex-col items-center justify-center overflow-y-hidden mb-5"
+                
+              >
                 <div className="h-[50px] w-[730px] flex flex-row  items-center justify-between  text-red-800 font-bold text-[33px] ">
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -458,16 +456,12 @@ const SummaryPage = () => {
                   </motion.div>
 
                   <div className="flex flex-row gap-4">
-                    <FontAwesomeIcon 
-                      icon={faSave}
-                      className="cursor-pointer" 
-                      onClick={() => handleSaveSummary()}/>
-
-                    <FontAwesomeIcon 
-                      icon={faStar}   
-                      className="cursor-pointer" 
-                      onClick={() => addSummaryToFav()}
-                    />
+                   
+                      <FontAwesomeIcon icon={faSave} onClick={handleSaveSummary} className="cursor-pointer" />
+                    
+                    
+                      <FontAwesomeIcon icon={faStar} onClick={addSummaryToFav} className="cursor-pointer" />
+                  
                   </div>
                 </div>
                 <div className="w-full h-full outline-none overflow-auto text-black text-[18px] font-normal rounded-xl p-4">
