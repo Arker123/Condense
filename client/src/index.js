@@ -12,9 +12,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-
+import { registerLicense } from '@syncfusion/ej2-base';
 library.add(faMapMarkerAlt, faPhone, faEnvelope, far);
-
+// Registering Syncfusion license key
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NBaF5cWWJCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXtcdnVVQmdZVEN0WkM=');
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

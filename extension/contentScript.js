@@ -37,12 +37,14 @@ async function main() {
   #transcript{
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
+    height: 440px;
   }
   #notes, #ai-chat, #summary{
     display: flex;
     flex-direction: column;
     display:none;
+    height: 440px;
   }
   #summary{
     justify-content: center;
@@ -68,7 +70,7 @@ async function main() {
 
   }
 
-  .notes-time-card{
+  .notes-time-card {
     font-size: 14px;
     color: blue;
     padding: 5px;
@@ -104,14 +106,35 @@ async function main() {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom:10px;
   }
 
   .divider{
     border: 1px solid lightgray;
     opacity: 0.5;
   }
-
-  #t-button, #notes-button, #ai-chat-button, #summary-button{
+  .question-card{
+    font-size:14px;
+    min-height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:#00BFFF;
+    color:white;
+    margin-bottom: 5px;
+    align-self: flex-end;
+    width:70%;
+  }
+  .answer-card{
+    font-size:14px;
+    height: 20px;
+    padding: 1px;
+    border-radius: 5px;
+    background:white;
+    margin-bottom: 8px;
+    align-self: flex-start;
+    width:70%;
+  }
+  #t-button, #notes-button, #ai-chat-button, #summary-button, #save-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
     border: none;
@@ -134,7 +157,10 @@ async function main() {
   #notes-card-area, #ai-chat-card-area{
     widht:100%;
     height:370px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    display:flex;
+    flex-direction: column;
+
   }
 
   #notes-entry-button, #ai-chat-entry-button {
@@ -148,21 +174,22 @@ async function main() {
     border-radius: 5px;
   }
 
-  #summary-area{
+  #summary-area, #ai-chat-area{
     background-color: white;
     width: 90%;
-    height: 57vh;
     margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
-    overflow-y: scroll;
+    line-height: 1.7;
+    height: 100%;
+    padding: 15px;
+    overflow-y: auto;
     border-radius: 5px;
   }
+  
   #get-summary-button{
     background-color: blue;
     color: white;
@@ -170,23 +197,35 @@ async function main() {
     border-radius: 5px;
   }
 
-    .my-component-right[data-v-12aa23d4] {
-      display: flex;
-      align-items: center;
-      color: #828282;
-      position: relative;
-    }
+  .my-component-right {
+    display: flex;
+    align-items: center;
+    color: #828282;
+    position: relative;
+    flex-direction: row;
+  }
 
-    .icon-copy, .icon-edit, .icon-delete {
-        font-size: 20px;
-        margin-left: 12px;
-        cursor: pointer;
-    }
+  .icon-copy, .icon-edit, .icon-delete {
+      font-size: 20px;
+      margin-left: 12px;
+      cursor: pointer;
+  }
 
-    .edit-text-area {
-      width :100%;
-      border-radius:5px;
-    }
+  .edit-text-area {
+    width :100%;
+    border-radius:5px;
+  }
+
+  #save-button{
+    border-radius: 5px;
+    background-color: rgba(169, 32, 30,0.9);
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    left: 25px;
+    color: white;
+    cursor: pointer
+  }
     
   }
   
@@ -259,6 +298,23 @@ async function main() {
   ai_chat_button.innerHTML += "AI Chat";
 
   navbar.appendChild(ai_chat_button);
+
+  save_button = add_element("button", "id", "save-button", "");
+
+  const save_icon = add_element(
+    "div",
+    "id",
+    "save-icon",
+    `
+    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z" fill="#ffffff"></path> </g></svg>`
+  );
+
+  save_button.appendChild(save_icon);
+  save_button.innerHTML += "Save";
+
+  // save_button.onclick = async () => {
+
+  navbar.appendChild(save_button);
   container.appendChild(navbar);
 
   const transcript = add_element("div", "id", "transcript", "");
@@ -311,8 +367,6 @@ async function main() {
 
   //rgb(169, 32, 30) -> icon colour
 
-  const t_body = add_element("div", "id", "t-body", "");
-
   t_button.classList.add("active");
 
   t_button.addEventListener("click", () => {
@@ -359,7 +413,17 @@ async function main() {
     ai_chat.style.display = "none";
   });
 
+  const getVideoId = (url) => {
+    const videoIdRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(videoIdRegex);
+    const videoId = match ? match[1] : null;
+    console.log("Video ID:", videoId);
+    return videoId;
+  };
+
   const notesDict = {};
+  const userId = "65fbd783e390959bedecdec3";
 
   notes_entry_button.addEventListener("click", () => {
     const notesText = document.getElementById("notes-entry-box").value.trim();
@@ -368,16 +432,17 @@ async function main() {
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
       notesDict[timestramp] = notesText;
       getNotes();
+
       document.getElementById("notes-entry-box").value = "";
     }
   });
+
+  let summary_text = null;
 
   get_summary.addEventListener("click", async () => {
     get_summary.style.display = "none";
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
-    let summary_text = null;
-    // let summary_text = "demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so. demon 1 arguably the best player in valerant right now his former team Evil Genius has won VCT 2023 and largely because of him since at that event he also won the MVP award the haters respect mying name I'm the best in this game which is why I'm going to be training like demon one every single day for the next seven days to see how high I can climb there's one problem though I've heard from some of my friends that episode 8's rank reset has been brutal to say the least my immortal friend was placed diamond and my diamond friend was placed gold and I PE Gold too last episode so there's no tell how low I'm going to get placed but honestly I think I belong in plat so we're going to see if demon 1's a routine can give me that extra boost that I'm going to need if I want to hit plat by the end of this video so what is this same routine well it's three very simple steps the first one being his a Labs playlist that you can see here he did specify though that the last three were we just for fun so."
     try {
       const response = await fetch("http://localhost:5000/summaries/generate", {
         method: "POST",
@@ -387,7 +452,7 @@ async function main() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          url: videoUrl,
+          videoId: getVideoId(videoUrl),
         }),
       });
 
@@ -396,7 +461,6 @@ async function main() {
       console.log(json);
 
       let summary_dict = await JSON.parse(json.summary);
-      console.log(summary_text);
       summary_text = summary_dict.summary;
       console.log(summary_text);
     } catch (error) {
@@ -416,10 +480,46 @@ async function main() {
     }
   });
 
-  ai_chat_entry_button.addEventListener("click", () => {
+  ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
+    let answer = null;
     if (AiQues) {
+      const question_card = add_element("div", "class", "question-card", ``);
+      question_card.style.display = "block";
+      question_card.innerHTML += AiQues;
+      ai_chat_card_area.appendChild(question_card);
       document.getElementById("ai-chat-entry-box").value = "";
+
+      try {
+        const response = await fetch("http://localhost:5000/chatbot/generate", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            summary: summary_text,
+            question: AiQues,
+          }),
+        });
+
+        const json = await response.json();
+
+        console.log(json);
+
+        answer = await json.response;
+        console.log(answer);
+      } catch (error) {
+        console.error("Error fetching summary:", error);
+      }
+      const answer_card = add_element("div", "class", "answer-card", "");
+      if (answer) {
+        answer_card.innerHTML += answer;
+      } else {
+        answer_card.innerHTML += "Could not generate a response ";
+      }
+      ai_chat_card_area.appendChild(answer_card);
     }
   });
 
@@ -454,17 +554,22 @@ async function main() {
         ""
       );
       const copy_icon = add_element(
-        "i",
+        "div",
         "class",
-        "el-icon-copy-document icon-copy",
-        ""
+        "icon-copy",
+        `<i data-v-12aa23d4="" class="el-icon-copy-document icon-copy" style="font-size: 16px;"></i>`
       );
-      const edit_icon = add_element("i", "class", "el-icon-edit icon-edit", "");
-      const delete_icon = add_element(
-        "i",
+      const edit_icon = add_element(
+        "div",
         "class",
-        "el-icon-delete icon-delete",
-        ""
+        "icon-edit",
+        `<i data-v-12aa23d4="" class="el-icon-edit icon-edit" style="font-size: 16px;"></i>`
+      );
+      const delete_icon = add_element(
+        "div",
+        "class",
+        "icon-delete",
+        `<i data-v-12aa23d4="" class="el-icon-delete icon-delete" style="font-size: 16px;"></i>`
       );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);
@@ -525,52 +630,56 @@ async function main() {
       };
     }
   }
+  const t_body = add_element("div", "id", "t-body", "Loading...");
 
-  const data = await fetch("http://localhost:5000/transcript/", {
-    method: "POST",
-    mode: "cors", // this cannot be 'no-cors'
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url: window.location.href,
-    }),
-  });
-  const json = await data.json();
-  console.log(json);
-  let res = await JSON.parse(json.transcript);
-  console.log(res);
-  let transcripts = [];
-  const countWords = (str) => str.split(" ").length;
-  let totalWords = 0;
-  let currStart = -1;
-  let currText = "";
-  res.forEach((transcript) => {
-    if (currStart == -1) currStart = transcript.start;
-    currText += transcript.text + " ";
-    let words = countWords(transcript.text);
-    totalWords += words;
-    if (totalWords > 40) {
-      totalWords = 0;
+  const get_transcript = async () => {
+    const temp_t_body = add_element("div", "id", "t-body", "");
+
+    const data = await fetch("http://localhost:5000/transcript/", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: window.location.href,
+      }),
+    });
+    const json = await data.json();
+    console.log(json);
+    let res = [];
+    if (json?.transcript) res = await JSON.parse(json.transcript);
+    let transcripts = [];
+    const countWords = (str) => str.split(" ").length;
+    let totalWords = 0;
+    let currStart = -1;
+    let currText = "";
+    res.forEach((transcript) => {
+      if (currStart == -1) currStart = transcript.start;
+      currText += transcript.text + " ";
+      let words = countWords(transcript.text);
+      totalWords += words;
+      if (totalWords > 40) {
+        totalWords = 0;
+        transcripts.push({ start: currStart, text: currText });
+        currText = "";
+        currStart = -1;
+      }
+    });
+
+    if (currText != "") {
       transcripts.push({ start: currStart, text: currText });
-      currText = "";
-      currStart = -1;
     }
-  });
 
-  if (currText != "") {
-    transcripts.push({ start: currStart, text: currText });
-  }
-
-  transcripts.forEach((transcript) => {
-    console.log(typeof transcript.text);
-    let card = add_element("div", "class", "card", "");
-    let time_card = add_element(
-      "div",
-      "class",
-      "time-card",
-      `
+    transcripts.forEach((transcript) => {
+      console.log(typeof transcript.text);
+      let card = add_element("div", "class", "card", "");
+      let time_card = add_element(
+        "div",
+        "class",
+        "time-card",
+        `
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
         <g id="surface1">
         <path style=" stroke:none;fill-rule:evenodd;fill:blue;fill-opacity:1;" d="M 6 0 C 9.3125 0 12 2.6875 12 6 C 12 9.3125 9.3125 12 6 12 C 2.6875 12 0 9.3125 0 6 C 0 2.6875 2.6875 0 6 0 Z M 6 0.5 C 9.035156 0.5 11.5 2.964844 11.5 6 C 11.5 9.035156 9.035156 11.5 6 11.5 C 2.964844 11.5 0.5 9.035156 0.5 6 C 0.5 2.964844 2.964844 0.5 6 0.5 Z M 6 6 L 9 6 L 9 6.5 L 5.5 6.5 L 5.5 2 L 6 2 Z M 6 6 "/>
@@ -579,18 +688,21 @@ async function main() {
       
       ${convertSeconds(transcript.start)}
       `
-    );
-    let text_card = add_element(
-      "div",
-      "class",
-      "text-card",
-      `<div>${transcript.text}</div>`
-    );
-    card.appendChild(time_card);
-    card.appendChild(add_element("hr", "class", "divider", ""));
-    card.appendChild(text_card);
-    t_body.appendChild(card);
-  });
+      );
+      let text_card = add_element(
+        "div",
+        "class",
+        "text-card",
+        `<div>${transcript.text}</div>`
+      );
+      card.appendChild(time_card);
+      card.appendChild(add_element("hr", "class", "divider", ""));
+      card.appendChild(text_card);
+      temp_t_body.appendChild(card);
+    });
+
+    t_body.replaceWith(temp_t_body);
+  };
 
   transcript.appendChild(t_navbar);
   transcript.appendChild(t_body);
@@ -602,10 +714,12 @@ async function main() {
   container.appendChild(summary);
   container.appendChild(notes);
   container.appendChild(ai_chat);
-
+  console.log("now");
   const ele = document.getElementById("secondary-inner");
   const parent = document.getElementById("secondary");
   parent.insertBefore(container, ele);
+
+  await get_transcript();
 }
 
 const observer = new MutationObserver((mutationsList, observer) => {
