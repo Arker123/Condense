@@ -307,7 +307,7 @@ const SummaryPage = () => {
         <div className="flex flex-row items-end justify-end gap-[20px] mr-10 ">
           <div className="w-[90px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><LuDownload />PDF
           </div>
-          <div className="relative">
+          {/* <div className="relative">
             <div
               className="w-[90px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"
               onMouseEnter={() => toggleDropdown(true)}
@@ -329,8 +329,8 @@ const SummaryPage = () => {
                 <a href="#" className="py-1 flex items-center justify-center font-medium rounded-lg hover:text-red-900 hover:bg-red-200">share to Linkedln</a>
                 <a href="#" className="flex items-center justify-center rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200">share to Twitter</a>
                 </div>
-          </div>
-          <div className="w-[120px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><FaWandMagicSparkles />Summarize</div>
+          </div> */}
+          {/* <div className="w-[120px] h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md flex flex-row gap-2 cursor-pointer items-center justify-center mt-3"><FaWandMagicSparkles />Summarize</div> */}
         </div>
 
         <div className="flex flex-row w-full h-screen bg-gradient-to-b from-black  to-[#6f0000] mt-5 ">

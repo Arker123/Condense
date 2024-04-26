@@ -10,7 +10,26 @@ import { FiPhoneCall } from "react-icons/fi";
 import { motion } from "framer-motion";
 import CountUp from 'react-countup';
 import { ProgressBarComponent } from '@syncfusion/ej2-react-progressbar';
+// import ReactWordcloud from "react-wordcloud";
+// import "tippy.js/dist/tippy.css";
+// import "tippy.js/animations/scale.css";
+// import words from "./words";
 
+// const options = {
+//     colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
+//     enableTooltip: true,
+//     deterministic: false,
+//     fontFamily: "impact",
+//     fontSizes: [5, 60],
+//     fontStyle: "normal",
+//     fontWeight: "normal",
+//     padding: 1,
+//     rotations: 3,
+//     rotationAngles: [0, 90],
+//     scale: "sqrt",
+//     spiral: "archimedean",
+//     transitionDuration: 1000
+//   };
 
 
 // SentimentAnalysis component to display sentiment analysis data
@@ -95,6 +114,9 @@ const WordCloud = ({ wordcloudData }) => {
             <p className="ml-[25px] text-[18px] font-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus voluptatibus libero odio, obcaecati sapiente maiores debitis in a eveniet numquam. Commodi nesciunt eos odio voluptatem non velit magnam ratione temporibus!</p>
             {/* Render word cloud content here */}
         </div>
+    //     <div style={{ height: 300, width: 600 }}>
+    //     <ReactWordcloud options={options} words={words} />
+    //   </div>
     );
 };
 
@@ -186,12 +208,12 @@ const Analytics = () => {
                                     <p className="cursor-pointer">Contact Us</p>
                                 </div>
                             </div>
-                            <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
+                            {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                                 <IoMdSettings />
                             </div>
                             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                                 <IoIosNotifications />
-                            </div>
+                            </div> */}
                             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full cursor-pointer" onClick={handleProfileRedirect}>
                                 <CgProfile />
                             </div>

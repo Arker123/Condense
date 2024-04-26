@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
-import { IoMdSettings } from "react-icons/io";
-import { IoIosNotifications } from "react-icons/io";
+// import { IoMdSettings } from "react-icons/io";
+// import { IoIosNotifications } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 
 const SummaryAndNotes = () => {
@@ -57,13 +57,13 @@ const SummaryAndNotes = () => {
                   </div>
                 </div>
 
-                <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+                {/* <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
                   <IoMdSettings />
-                </div>
+                </div> */}
 
-                <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+                {/* <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
                   <IoIosNotifications />
-                </div>
+                </div> */}
 
                 <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full cursor-pointer" onClick={handleProfileRedirect}>
                   <CgProfile />
