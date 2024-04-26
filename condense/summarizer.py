@@ -107,18 +107,15 @@ def get_summary_from_transcript(
 
 
 def main(argv=None) -> int:
-    # parser = make_parser()
-    # argv = parser.parse_args(argv)
-    # summary, time_stamp = summerize_text(argv.video_url)
-    # summary_text = " ".join([f"{chunk['summary_text']}" for chunk in summary])
-    # summary_dict = {"summary": summary_text, "time_stamp": time_stamp}
-    # json_output = json.dumps(summary_dict)
-    # print(json_output)
-    clean_data([
-        {"start": 0.0, "end": 10.0, "text": "This is a test test test test sentence."},
-        {"start": 10.0, "end": 20.0, "text": "Another test test test test test sentence."},
-    ],0)
-    # return 0
+    parser = make_parser()
+    argv = parser.parse_args(argv)
+    summary, time_stamp = summerize_text(argv.video_url)
+    summary_text = " ".join([f"{chunk['summary_text']}" for chunk in summary])
+    summary_dict = {"summary": summary_text, "time_stamp": time_stamp}
+    json_output = json.dumps(summary_dict)
+    print(json_output)
+
+    return 0
 
 
 if __name__ == "__main__":
