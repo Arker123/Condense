@@ -294,11 +294,11 @@ const SummaryPage = () => {
   };
 
   return (
-    <>
-    <div className="flex flex-row">
+    <div className="bg-gradient-to-b from-black  to-[#6f0000]">
+    <div className="flex flex-row bg-gradient-to-b from-black  to-[#6f0000]">
       <Sidebar />
       <motion.div
-        className="  bg-gradient-to-b from-black  to-[#6f0000] w-[1450px]"
+        className="bg-gradient-to-b from-black  to-[#6f0000] w-[1450px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -421,12 +421,14 @@ const SummaryPage = () => {
               </div>
             </div>
         </div>
+        <Footer />
       </motion.div>
     </div>
+    
     <ToastContainer />
     <div><MyChatBot summary={summaryText}/></div>
-    <Footer/>
-    </>
+    
+    </div>
   );
 };
 
