@@ -6,7 +6,7 @@ import {
     screen,
     waitFor,
 } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import SignUp from "../pages/SignUp";
 import { login, Register } from "../https/index"; // Import login and Register functions
 import { Provider } from "react-redux";

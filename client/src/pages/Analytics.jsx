@@ -200,8 +200,8 @@ const Analytics = () => {
                     <div className="flex flex-row items-center justify-center gap-[90px]  ">
                     <SentimentAnalysis sentimentData={sentimentData} className="mr-[50px]" />
                     <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center">
-                            <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Views</p>
-                            <p className="text-[35px] text-slate-50  font-bold">{startCounting && (
+                            <p data-testid="views-title" className="text-[35px] text-slate-50 font-sans font-bold mt-1" >Views</p>
+                            <p data-testid="views-count" className="text-[35px] text-slate-50  font-bold">{startCounting && (
                                 <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.views} daal dena
                             )}
                             {/* {youtubeStats.views} */}
@@ -210,7 +210,7 @@ const Analytics = () => {
                     </div>
                     <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center">
                             <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Likes</p>
-                            <p className="text-[35px] text-slate-50  font-bold">{startCounting && (
+                            <p data-testid="likes-count" className="text-[35px] text-slate-50  font-bold">{startCounting && (
                                 <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.likes} daal dena
                             )}
                             {/* {youtubeStats.likes} */}
