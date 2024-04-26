@@ -5,6 +5,7 @@ const {
     sendOtp,
     verifyOtp,
     refresh,
+    updatePassword,
 } = require("../controllers/auth");
 
 const express = require("express");
@@ -22,5 +23,7 @@ router.post("/refresh", refresh);
 router.post("/login", loginUser);
 
 router.get("/logout", logoutUser);
+
+router.post("/updatePassword", updatePassword);
 
 module.exports = router;

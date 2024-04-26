@@ -37,13 +37,13 @@ const SummaryAndNotes = () => {
   return (
     <div className="">
       <motion.div
-        className=" flex flex-col h-[1000px] justify-center items-center bg-gradient-to-b from-gray-900 via-gray-800 to-red-900"
+        className=" flex flex-col h-[1000px] justify-center items-center bg-gradient-to-b from-black to-[#6f0000]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-full h-[1000px] bg-gradient-to-b from-gray-900 via-gray-800 to-red-900">
-          <div className="flex flex-col w-full h-[1200px] bg-none p-12">
+        <div className="w-full h-[1000px] bg-gradient-to-b from-[#100b08] to-[#6f0000] ">
+          <div className="flex flex-col w-full h-[1000px] bg-none p-12">
             <div className="flex flex-row items-center justify-between mb-8">
               {/* Heading on the left */}
               <h1 className="text-3xl font-bold text-white">{title}</h1>
@@ -72,10 +72,10 @@ const SummaryAndNotes = () => {
             </div>
             <div className="flex flex-row w-full bg-none max-h-[600px]">
               <div className="w-1/2 bg-white rounded-lg mr-4">
-                <div className="p-4 items-center justify-center bg-none">
+                <div className=" items-center justify-center bg-none">
                   <div className="relative" style={{ paddingTop: "56.25%" }}>
                     <iframe
-                      className="absolute top-0 left-0 w-full h-full"
+                      className="absolute top-0 left-0 w-full h-full rounded-lg"
                       src={handleVideoUrl(youtubeUrl)}
                       title="YouTube video player"
                       frameBorder="0"
@@ -88,7 +88,7 @@ const SummaryAndNotes = () => {
               </div>
               <div className="w-1/2 bg-white rounded-lg ml-4 pl-4 pr-4 pt-4 overflow-y-scroll whitespace-normal">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-left text-4xl font-bold sticky top-0 bg-white text-brown-800 flex items-center justify-between font-league-gothic">
+                  <h2 className="text-left text-4xl font-bold sticky top-0 bg-white text-brown-800 flex items-center justify-between font-league-gothic text-red-900">
                     NOTES
                   </h2>
                 </div>
@@ -103,7 +103,7 @@ const SummaryAndNotes = () => {
                     style={{ height: "400px" }}
                 >
                     <div className="flex justify-between items-center mb-4 ">
-                        <h2 className="text-left text-4xl font-bold sticky top-0 bg-white text-brown-800 flex items-center justify-between font-league-gothic">
+                        <h2 className="text-left text-4xl font-bold sticky top-0 bg-white text-brown-800 flex items-center justify-between font-league-gothic text-red-900">
                           SUMMARY
                         </h2>
                     </div>

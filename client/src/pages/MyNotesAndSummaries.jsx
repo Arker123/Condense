@@ -97,7 +97,7 @@ const MyNotesAndSummaries = () => {
 
   return (
     <div className="h-screen">
-      <section className="flex flex-col gap-6 bg-gradient-to-b from-gray-900 via-gray-800 to-red-900 h-full w-full overflow-auto pb-4">
+      <section className="flex flex-col gap-6 bg-gradient-to-b from-[#100b08] to-[#6f0000] h-full w-full overflow-auto pb-4">
         <div className="flex flex-row items-center justify-between mt-7">
           {/* Heading on the left */}
           <h1 className="text-3xl font-bold text-white ml-[80px]">
