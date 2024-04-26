@@ -11,6 +11,7 @@ import SummaryPageFile from "./pages/SummaryPageFile";
 import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
+import Analytics from "./pages/Analytics";
 
 import MyNotes from './pages/MyNotes';
 import MyNotesAndSummaries from "./pages/MyNotesAndSummaries";
@@ -48,6 +49,8 @@ function App() {
               <Route exact path="/mynotes" element={<MyNotes/>} />
               <Route exact path="/mynotesandsummaries" element={<MyNotesAndSummaries/>} />
               <Route exact path="/summaryAndNote" element={<SummaryAndNotes/>} />
+              <Route exact path="/analytics" element={<Analytics/>} />
+
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

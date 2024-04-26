@@ -116,6 +116,43 @@ const Dashboard = () => {
             </div>
           </div>
         );
+        case "Live Meet":
+        return (
+          <div className="bg-slate-50 h-[310px] w-[800px] flex flex-col mt-[50px] rounded-2xl">
+            <motion.p
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+              className="text-[55px] maintext flex items-center justify-center mt-8"
+            >
+              Join Live Meeting
+            </motion.p>
+            <div className="flex flex-col items-center justify-center">
+              <button
+                onClick={() => {
+                  // Request permission to access microphone
+                  navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(function(stream) {
+                      // Microphone access granted, you can do further processing here
+                      console.log('Microphone access granted');
+                      // Redirect to the live meeting page
+                      navigate("/live-meeting", { state: stream });
+                    })
+                    .catch(function(error) {
+                      // Microphone access denied or error occurred
+                      console.error('Error accessing microphone:', error);
+                      // Handle error gracefully
+                    });
+                }}
+                className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[55px] hover:underline"
+                style={{ alignSelf: "center" }} // Center the button horizontally
+              >
+                Join Meeting
+              </button>
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -200,6 +237,20 @@ const Dashboard = () => {
                   {selectedButton === "Video to Summary" ? (
                     <motion.div
                       transition={{ type: "spring", stiffness: 50 }}
+                      layoutId="underline"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                    ></motion.div>
+                  ) : null}
+                </button>
+                <button
+                  className={`relative transition duration-200 ease-in-out text-sm text-black font-medium w-1/3 rounded-2xl`}
+                  onClick={() => handleButtonClick("Live Meet")}
+                >
+                  <span className="z-10 relative">Live Meet</span>
+                  
+                  {selectedButton === "Live Meet" ? (
+                    <motion.div
+                      transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
                       className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
                     ></motion.div>
