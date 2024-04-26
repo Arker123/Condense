@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./ContactUs.css";
 import Footer from "../components/shared/Footer"
 import Navbar from "../components/shared/Navbar/Navbar";
+
 function ContactUs() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,49 +27,21 @@ function ContactUs() {
           <div>
             <h1>CONTACT US</h1>
             <p>
-              Email, call or complete the form to find out <br /> how Condense
+              Email, call or complete the form <br /> to find out how Condense
               can help solve your problem.
             </p>
             <p>
               <FontAwesomeIcon icon={["far", "envelope"]} /> &nbsp; &nbsp;
-              hello@condense.com
+              contactus@condense.com
             </p>
             <p>
-              <FontAwesomeIcon icon={["fas", "phone"]} /> &nbsp; &nbsp; +91
+              <FontAwesomeIcon icon={["fas", "phone"]} /> &nbsp; +91
               99999 99999
             </p>
             <p>
               <FontAwesomeIcon icon={["fas", "map-marker-alt"]} /> &nbsp; &nbsp;
-              IIT ROPAR, Punjab{" "}
+              IIT ROPAR,  &nbsp; Punjab{" "}
             </p>
-            <div className="child1-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Feedback and Suggestions</th>
-                    <th>Media Inquiries</th>
-                    <th>Customer Support</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      We value your feedback and are continuously working to
-                      improve Condense. Your input is crucial in shaping the
-                      future of Condense.
-                    </td>
-                    <td>
-                      For media related inquiries please email us at
-                      media@condense.com
-                    </td>
-                    <td>
-                      Our customer support team is available around the clock to
-                      address any concerns you may have.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
         <div className="contactus-child2">
@@ -112,6 +85,34 @@ function ContactUs() {
           </div>
         </div>
       </div>
+      <div className="child1-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Feedback and Suggestions</th>
+              <th>Media Inquiries</th>
+              <th>Customer Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                We value your feedback and are continuously working to
+                improve Condense. Your input is crucial in shaping the
+                future of Condense.
+              </td>
+              <td>
+                For media related inquiries please email us at
+                media@condense.com
+              </td>
+              <td>
+                Our customer support team is available around the clock to
+                address any concerns you may have.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <Footer/>
     </>
@@ -119,4 +120,3 @@ function ContactUs() {
 }
 
 export default ContactUs;
-

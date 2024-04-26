@@ -349,7 +349,6 @@ const SummaryPage = () => {
                 >
                   NOTES
                 </motion.div>
-
                 <div className="flex flex-row gap-4">
                   <FontAwesomeIcon icon={faSave} className="cursor-pointer" onClick={() => handleSaveNote()} />
                   <FontAwesomeIcon icon={faStar} className="cursor-pointer" onClick={() => addNoteToFav()} />
