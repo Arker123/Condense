@@ -9,6 +9,8 @@ import emoji
 import torch
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
+from comments import get_comments
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
@@ -20,16 +22,23 @@ def make_parser() -> argparse.ArgumentParser:
     Create the argument parser.
     """
     parser = argparse.ArgumentParser(
-        description="Get the sentiment of comment",
+        description="Get the sentiment of comments extracted from a YouTube video",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-c",
-        "--comment",
-        dest="comment",
+        "-v",
+        "--video",
+        dest="video_url",
         type=str,
         required=True,
-        help="comment to get the sentiment Info",
+        help="YouTube video URL to extract comments from",
+    )
+    parser.add_argument(
+        "-c",
+        "--csv",
+        dest="csv_output",
+        action="store_true",
+        help="Store results in a CSV file (optional)",
     )
 
     return parser
@@ -64,7 +73,7 @@ def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, co
         return predicted_sentiment
 
 
-def main(argv=None) -> int:
+def main(argv=None) -> str:
     logging.basicConfig(level=logging.DEBUG)
     parser = make_parser()
     args = parser.parse_args(argv)
@@ -73,10 +82,31 @@ def main(argv=None) -> int:
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
-    sentiment = predict_sentiment(model, tokenizer, args.comment)
-    print(sentiment)
 
-    return 0
+    # Extract comments from the YouTube video
+    comments = get_comments(file=args.csv_output, video_url=args.video_url)
+
+    # Perform sentiment analysis on each comment and count the results
+    positive_count = 0
+    negative_count = 0
+    neutral_count = 0
+
+    for comment in comments:
+        sentiment = predict_sentiment(model, tokenizer, comment)
+        if sentiment == "positive":
+            positive_count += 1
+        elif sentiment == "negative":
+            negative_count += 1
+        elif sentiment == "neutral":
+            neutral_count += 1
+
+    # Print or store the results
+    sentiment_results = ""
+    sentiment_results += "Positive comments: " + str(positive_count) + "\n"
+    sentiment_results += "Negative comments: " + str(negative_count) + "\n"
+    sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
+
+    return sentiment_results
 
 
 if __name__ == "__main__":

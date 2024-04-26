@@ -11,6 +11,7 @@ from googleapiclient.discovery import build
 
 from condense.utils import get_video_id
 from condense.comments import get_comments
+from evaluation import main as evaluate_sentiment
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -105,6 +106,10 @@ def main(argv=None) -> int:
     print("Dislikes:", statistics.get("dislikeCount", 0))
     print("Comments:", statistics.get("commentCount", 0))
     print("Shares:", statistics.get("shareCount", 0))
+
+    print("\nSentiment Analysis Results:")
+    sentiment_results = evaluate_sentiment(["-v", args.video_url])
+    print(sentiment_results)
 
     return 0
 
