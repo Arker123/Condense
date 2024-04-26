@@ -26,13 +26,14 @@ import { setUserSlice } from "../redux/userSlice";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 
-const SummaryPage = () => {
+const SummaryPageFile = () => {
   const [summaryText, setSummaryText] = useState("Loading...");
   const [transcripts, setTranscripts] = useState([]);
   const [note, setNote] = useState("Loading...");
 
   const location = useLocation();
-  const url = location.state;
+  const file = location.state;
+  console.log("file: ", file);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const notes = user.notes;
@@ -51,6 +52,15 @@ const SummaryPage = () => {
     return `${minutes}:${seconds}`;
   };
 
+  // Check if a file is provided
+  if (!file) {
+    return <p>No file provided</p>;
+  }
+
+  // Check the file type to determine whether it's an MP3 or MP4 file
+  const isMp3 = file.type.startsWith("audio/mpeg");
+  const isMp4 = file.type.startsWith("video/mp4");
+
   const fetchUser = async () => {
     try {
       console.log("user id: ", user.id);
@@ -68,11 +78,11 @@ const SummaryPage = () => {
   };
 
   useEffect(() => {
-    if (url) {
+    if (file) {
       const fetchData = async () => {
         await fetchUser();
-        await fetchTranscript();
-        await fetchSummary();
+        // await fetchTranscript();
+        // await fetchSummary();
       };
       fetchData();
     } else {
@@ -81,26 +91,26 @@ const SummaryPage = () => {
       }, 3000);
       return () => clearTimeout(timeout);
     }
-  }, [url]);
-  if (!url) {
+  }, [file]);
+  if (!file) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <div>Invalid URL</div>
+        <div>Invalid File</div>
         <div>Redirecting...</div>
       </div>
     );
   }
-  console.log(`in url page, url: ${url}`);
+  console.log(`in file page, file: ${file}`);
 
-  const getVideoId = (url) => {
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url?.match(regExp);
+  //   const getVideoId = (url) => {
+  //     const regExp =
+  //       /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  //     const match = url?.match(regExp);
 
-    return match && match[2].length === 11 ? match[2] : null;
-  };
+  //     return match && match[2].length === 11 ? match[2] : null;
+  //   };
 
-  const videoId = getVideoId(url);
+  //   const videoId = getVideoId(url);
 
   const toastOptions = {
     position: "bottom-right",
@@ -110,185 +120,185 @@ const SummaryPage = () => {
     theme: "dark",
   };
 
-  const fetchSummary = () => {
-    const reqSummary = summaries.find((summary) => summary.videoId == url);
-    console.log("req summ:  ", reqSummary);
+  //   const fetchSummary = () => {
+  //     const reqSummary = summaries.find((summary) => summary.videoId == url);
+  //     console.log("req summ:  ", reqSummary);
 
-    if (!reqSummary) {
-      console.log("hii: ");
-      const res = axios.post(
-        `${process.env.REACT_APP_API_URL}/summaries/generate`,
-        {
-          videoId,
-        }
-      );
-      res
-        .then((res) => {
-          // console.log(res.data.summary);
-          // return res.data.summary || "";
-          console.log("Generated summary: ", res.data.summary);
-          const summary = res.data.summary || "";
-          // Split the content based on JSON delimiters
-          // const parts = summary.split(/\[\{.*?\}\]|\{\{.*?\}\}/);
+  //     if (!reqSummary) {
+  //       console.log("hii: ");
+  //       const res = axios.post(
+  //         `${process.env.REACT_APP_API_URL}/summaries/generate`,
+  //         {
+  //           videoId,
+  //         }
+  //       );
+  //       res
+  //         .then((res) => {
+  //           // console.log(res.data.summary);
+  //           // return res.data.summary || "";
+  //           console.log("Generated summary: ", res.data.summary);
+  //           const summary = res.data.summary || "";
+  //           // Split the content based on JSON delimiters
+  //           // const parts = summary.split(/\[\{.*?\}\]|\{\{.*?\}\}/);
 
-          // // Take the first part, which corresponds to the text passage
-          // const textPart = parts[0].trim();
-          setSummaryText(summary);
-        })
-        // .then((res) => {
-        //   return JSON.parse(res);
-        // })
-        // .then((summary) => setSummaryText(summary.summary))
+  //           // // Take the first part, which corresponds to the text passage
+  //           // const textPart = parts[0].trim();
+  //           setSummaryText(summary);
+  //         })
+  //         // .then((res) => {
+  //         //   return JSON.parse(res);
+  //         // })
+  //         // .then((summary) => setSummaryText(summary.summary))
 
-        .catch((err) => {
-          toast.error("Error while fetching summary", toastOptions);
-          console.log(err);
-        });
-    } else {
-      console.log("in fetch one summary");
-      const userId = user.id;
-      console.log(userId);
-      console.log(url);
+  //         .catch((err) => {
+  //           toast.error("Error while fetching summary", toastOptions);
+  //           console.log(err);
+  //         });
+  //     } else {
+  //       console.log("in fetch one summary");
+  //       const userId = user.id;
+  //       console.log(userId);
+  //       console.log(url);
 
-      // Construct the URL with query parameters
-      const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
+  //       // Construct the URL with query parameters
+  //       const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
 
-      const res = axios.get(apiUrl);
-      res
-        .then((res) => {
-          setSummaryText(res.data[0]?.summary?.body);
-        })
-        .catch((err) => {
-          toast.error("Error while fetching summary", toastOptions);
+  //       const res = axios.get(apiUrl);
+  //       res
+  //         .then((res) => {
+  //           setSummaryText(res.data[0]?.summary?.body);
+  //         })
+  //         .catch((err) => {
+  //           toast.error("Error while fetching summary", toastOptions);
 
-          console.log(err);
-        });
-    }
-  };
-  const fetchTranscript = async () => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/transcript/`,
-        {
-          url,
-        }
-      );
-      const transcripts = await JSON5.parse(res.data.transcript);
-      console.log(transcripts);
-      setTranscripts(transcripts);
-    } catch (error) {
-      toast.error("Error while fetching transcripts", toastOptions);
-    }
-  };
+  //           console.log(err);
+  //         });
+  //     }
+  //   };
+  //   const fetchTranscript = async () => {
+  //     try {
+  //       const res = await axios.post(
+  //         `${process.env.REACT_APP_API_URL}/transcript/`,
+  //         {
+  //           url,
+  //         }
+  //       );
+  //       const transcripts = await JSON5.parse(res.data.transcript);
+  //       console.log(transcripts);
+  //       setTranscripts(transcripts);
+  //     } catch (error) {
+  //       toast.error("Error while fetching transcripts", toastOptions);
+  //     }
+  //   };
 
-  const handleSaveSummary = async () => {
-    console.log("in handlesavesummary");
-    const data = {
-      userId: user.id,
-      videoId: url,
-      summaryBody: summaryText,
-    };
+  //   const handleSaveSummary = async () => {
+  //     console.log("in handlesavesummary");
+  //     const data = {
+  //       userId: user.id,
+  //       videoId: url,
+  //       summaryBody: summaryText,
+  //     };
 
-    try {
-      const response = await saveSummary(data);
-      console.log(response);
-      toast.success("Summary saved successfully");
-    } catch (error) {
-      // console.log(error);
-      let errorMessage = "Error while saving";
-      toast.error(errorMessage, toastOptions);
-    }
-  };
+  //     try {
+  //       const response = await saveSummary(data);
+  //       console.log(response);
+  //       toast.success("Summary saved successfully");
+  //     } catch (error) {
+  //       // console.log(error);
+  //       let errorMessage = "Error while saving";
+  //       toast.error(errorMessage, toastOptions);
+  //     }
+  //   };
 
-  const addSummaryToFav = async () => {
-    console.log("in addsummarytofav");
-    const data = {
-      userId: user.id,
-      videoId: url,
-    };
+  //   const addSummaryToFav = async () => {
+  //     console.log("in addsummarytofav");
+  //     const data = {
+  //       userId: user.id,
+  //       videoId: url,
+  //     };
 
-    try {
-      const response = await modifyFavSummaries(data);
-      console.log(response);
-      toast.success("Summary fav flipped successfully");
-    } catch (error) {
-      console.log(error);
-      let errorMessage = "Error while updating fv";
-      toast.error(errorMessage, toastOptions);
-    }
-  };
+  //     try {
+  //       const response = await modifyFavSummaries(data);
+  //       console.log(response);
+  //       toast.success("Summary fav flipped successfully");
+  //     } catch (error) {
+  //       console.log(error);
+  //       let errorMessage = "Error while updating fv";
+  //       toast.error(errorMessage, toastOptions);
+  //     }
+  //   };
 
-  const handleSaveNote = async () => {
-    const data = {
-      userId: user.id,
-      videoId: videoId,
-      note: { title: "Untitled Note", body: note },
-    };
+  //   const handleSaveNote = async () => {
+  //     const data = {
+  //       userId: user.id,
+  //       videoId: videoId,
+  //       note: { title: "Untitled Note", body: note },
+  //     };
 
-    const reqNote = notes.find((item) => item.videoId === videoId);
+  //     const reqNote = notes.find((item) => item.videoId === videoId);
 
-    if (!reqNote) {
-      try {
-        const response = await createNote(data);
-        console.log(response);
-        toast.success("Note saved successfully");
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
-        let errorMessage = "Error while saving";
-        toast.error(errorMessage, toastOptions);
-      }
-    } else {
-      try {
-        const response = await modifyNote(data);
-        console.log(response);
-        toast.success("Note saved successfully");
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
-        let errorMessage = "Error while saving";
-        toast.error(errorMessage, toastOptions);
-      }
-    }
-  };
+  //     if (!reqNote) {
+  //       try {
+  //         const response = await createNote(data);
+  //         console.log(response);
+  //         toast.success("Note saved successfully");
+  //         window.location.reload();
+  //       } catch (error) {
+  //         console.log(error);
+  //         let errorMessage = "Error while saving";
+  //         toast.error(errorMessage, toastOptions);
+  //       }
+  //     } else {
+  //       try {
+  //         const response = await modifyNote(data);
+  //         console.log(response);
+  //         toast.success("Note saved successfully");
+  //         window.location.reload();
+  //       } catch (error) {
+  //         console.log(error);
+  //         let errorMessage = "Error while saving";
+  //         toast.error(errorMessage, toastOptions);
+  //       }
+  //     }
+  //   };
 
-  const handleDeleteNote = async () => {
-    const data = {
-      userId: user.id,
-      videoId: url,
-    };
+  //   const handleDeleteNote = async () => {
+  //     const data = {
+  //       userId: user.id,
+  //       videoId: url,
+  //     };
 
-    const response = await deleteNote(data);
-    console.log(response);
-  };
+  //     const response = await deleteNote(data);
+  //     console.log(response);
+  //   };
 
-  const addNoteToFav = async () => {
-    console.log(" in fav note");
-    const data = {
-      userId: user.id,
-      videoId: videoId,
-    };
+  //   const addNoteToFav = async () => {
+  //     console.log(" in fav note");
+  //     const data = {
+  //       userId: user.id,
+  //       videoId: videoId,
+  //     };
 
-    try {
-      const res = await modifyFavNotes(data);
-      toast.success("Summary fav flipped successfully");
-    } catch (error) {
-      console.log(error);
-      let errorMessage = "Error while updating fv";
-      toast.error(errorMessage, toastOptions);
-    }
-  };
+  //     try {
+  //       const res = await modifyFavNotes(data);
+  //       toast.success("Summary fav flipped successfully");
+  //     } catch (error) {
+  //       console.log(error);
+  //       let errorMessage = "Error while updating fv";
+  //       toast.error(errorMessage, toastOptions);
+  //     }
+  //   };
 
-  const handleVideoUrl = (url) => {
-    const videoId = getVideoId(url);
-    const videoUrl = "https://www.youtube.com/embed/" + videoId;
-    return videoUrl;
-  };
+  //   const handleVideoUrl = (url) => {
+  //     const videoId = getVideoId(url);
+  //     const videoUrl = "https://www.youtube.com/embed/" + videoId;
+  //     return videoUrl;
+  //   };
 
   useEffect(() => {
-    fetchTranscript();
-    fetchSummary();
-  }, [url]);
+    // fetchTranscript();
+    // fetchSummary();
+  }, [file]);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -370,15 +380,25 @@ const SummaryPage = () => {
           <div className="flex flex-row w-full h-screen bg-gradient-to-b from-black  to-[#6f0000] mt-5 ">
             <div className="flex flex-col w-[700px]  h-screen items-center justify-center gap-4 ">
               <div className="w-[600px] h-[320px] rounded-xl flex items-center justify-center hover:shadow-xl">
-                <iframe
-                  className="w-[600px] h-[320px] rounded-xl"
-                  src={handleVideoUrl(url)}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  autoPlay
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+                {isMp3 ? (
+                  <div className="flex flex-col">
+                    {/* <img src={'/images/audio.png'} className="rounded-full object-cover mt-3.5"/> */}
+                    <audio className="rounded-xl" controls autoPlay>
+                      <source
+                        src={URL.createObjectURL(file)}
+                        type="audio/mp3"
+                      />
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                ) : isMp4 ? (
+                  <video className="rounded-xl" controls autoPlay>
+                    <source src={URL.createObjectURL(file)} type="video/mp4" />
+                    Your browser does not support the video element.
+                  </video>
+                ) : (
+                  <p>This file format is not supported.</p>
+                )}
               </div>
 
               <div
@@ -446,7 +466,10 @@ const SummaryPage = () => {
                 />
               </div>
 
-              <div className="w-[800px] h-[700px] bg-white rounded-lg flex flex-col items-center justify-center mb-5 " style={{ overflowY: 'hidden' }}>
+              <div
+                className="w-[800px] h-[700px] bg-white rounded-lg flex flex-col items-center justify-center mb-5 "
+                style={{ overflowY: "hidden" }}
+              >
                 <div className="h-[50px] w-[730px] flex flex-row  items-center justify-between  text-red-800 font-bold text-[33px] ">
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -457,14 +480,15 @@ const SummaryPage = () => {
                   </motion.div>
 
                   <div className="flex flex-row gap-4">
-                    <FontAwesomeIcon 
+                    <FontAwesomeIcon
                       icon={faSave}
-                      className="cursor-pointer" 
-                      onClick={() => handleSaveSummary()}/>
+                      className="cursor-pointer"
+                      onClick={() => handleSaveSummary()}
+                    />
 
-                    <FontAwesomeIcon 
-                      icon={faStar}   
-                      className="cursor-pointer" 
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className="cursor-pointer"
                       onClick={() => addSummaryToFav()}
                     />
                   </div>
@@ -483,4 +507,4 @@ const SummaryPage = () => {
   );
 };
 
-export default SummaryPage;
+export default SummaryPageFile;
