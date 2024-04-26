@@ -15,9 +15,17 @@ function YTSummaries() {
 function YTHeader() {
   return (
     // Use styles object for className
-    <header className={styles.YTheader}>
-      <img src="/images/logo_condense.jpg" alt="Logo" className={styles.YTheaderLogo} /> 
-      Condense
+    // <header className={styles.YTheader}>
+    <header className="flex flex-row gap-4 items-center justify-center mt-5">
+      {/* <img src="/images/logo_condense.jpg" alt="Logo" className={styles.YTheaderLogo} />  */}
+      <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+      <img
+                src={"/images/white-logo.svg"}
+                alt="Your Image Alt Text"
+                className="w-full h-full object-cover"
+              />
+              </div>
+      <p className='text-[30px] text-slate-50 font-sans font-extrabold mt-1'>Condense</p>
     </header>
   );
 }
@@ -34,7 +42,7 @@ function MainContent() {
 function HeroSection() {
   return (
     // Use styles object for className
-    <section className={styles.hero}>
+    <section className={`${styles.hero} rounded-xl`}>
       <h1>YouTube Summaries</h1>
       <p>
       Elevate your learning journey with Condense's innovative features. Our AI-generated video summaries boost efficiency, helping you save up to 60% of your time. Effortlessly navigate through content with concise summaries, timestamped highlights, and crucial insights.
@@ -76,12 +84,12 @@ function ExploreByCategory() {
 function Category({ title, summaryCount, imageSrc }) {
   return (
     // Use styles object for className
-    <div className={styles.categoryCard}>
-      {imageSrc && <img src={imageSrc} alt={title} className={styles.categoryImage} />}
-      <div className={styles.cardContent}>
-        <h2>{title}</h2>
+    <div className={`${styles.categoryCard} h-[310px] hover:scale-105 transition-all duration-300 ease-in-out`}>
+      {imageSrc && <img src={imageSrc} alt={title} className={`${styles.categoryImage} rounded-lg mb-3`}/>}
+      <div className={`${styles.cardContent} flex flex-col`}>
+        <h2 >{title}</h2>
         <span>{summaryCount} Summaries</span>
-        <button className={styles.categoryButton}>View YouTube Summary</button>
+        <button className={`${styles.categoryButton} w-[240px] mb-3 ml-7`}>View YouTube Summary</button>
       </div>
     </div>
   );

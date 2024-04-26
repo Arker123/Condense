@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-import pytest
+# import pytest
 
 from condense.summarizer import (
     clean_data,
