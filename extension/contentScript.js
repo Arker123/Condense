@@ -491,7 +491,7 @@ async function main() {
         answer_card.innerHTML+=answer;
       }
       else{
-        answer_card.innerHTML+="Failed to load";
+        answer_card.innerHTML+="Failed to load ";
       }
       ai_chat_card_area.appendChild(answer_card);
       
