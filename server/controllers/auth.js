@@ -376,7 +376,7 @@ const updatePassword = async (req, res) => {
         // Update user's password
         await User.updateOne({ email }, { password: hashedPassword });
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Password updated successfully",
         });
