@@ -12,7 +12,7 @@ env:
 
 jobs:
   code_style:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted # change this to "ubuntu-latest" after workflows are live
     # Pin action version by commit hash to maximize trust, ref: https://securitylab.github.com/research/github-actions-building-blocks/
     steps:
     - name: Checkout Condense
