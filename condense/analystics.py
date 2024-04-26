@@ -42,7 +42,7 @@ def word_cloud(video_url: str) -> None:
     api_key = os.getenv("API_KEY")
     if api_key is None:
         raise ValueError("API_KEY environment variable is not set.")
-    
+
     get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
