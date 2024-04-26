@@ -51,21 +51,21 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
 
   return (
     <div>
-      <div className="bg-gray-200 rounded-md w-[400px] h-[390px] ml-[70px] mt-10">
-        <div className="flex flex-col ml-[25px]">
+      {/* <div className="bg-gray-200 rounded-2xl w-[400px] h-[370px] ml-[70px] mt-10 hover:bg-slate-300">
+        <div className="flex flex-col ">
           {thumbnailUrl && (
             <img
               src={thumbnailUrl}
-              className="w-[350px] h-[250px] rounded-md mt-4"
+              className="w-[400px] h-[250px] rounded-2xl "
               alt="YouTube Video Thumbnail"
             />
           )}
-          <p className="text-black font-medium text-[16px] w-[350px] mt-3">
+          <p className="text-black font-medium text-[18px] w-[350px] mt-3 ml-[20px]">
             {title}
           </p>
           <div className="flex flex-row items-center justify-between">
             <button
-              className="bg-red-900 p-2 rounded-lg w-[80px] text-white hover:text-red-200 text-[18px] font font-medium mt-3 hover:font-bold cursor-pointer"
+              className="bg-red-900 p-2 rounded-lg w-[80px] text-white hover:text-red-200 text-[18px] font font-medium mt-3 hover:font-bold cursor-pointer ml-[20px]"
               onClick={navigateToSummary}
             >
               Open
@@ -76,7 +76,34 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
+      <div className="bg-gray-200 rounded-2xl w-[400px] h-[370px] ml-[70px] mt-10 overflow-hidden hover:scale-105 transition-all duration-300 ease-in-out hover:bg-slate-300">
+  <div className="flex flex-col">
+    {thumbnailUrl && (
+      <img
+        src={thumbnailUrl}
+        className="w-[400px] h-[250px] rounded-2xl"
+        alt="YouTube Video Thumbnail"
+      />
+    )}
+    <p className="text-black font-medium text-[18px] w-[350px] mt-3 ml-[20px]">
+      {title}
+    </p>
+    <div className="flex flex-row items-center justify-between">
+      <button
+        className="bg-red-900 p-2 rounded-lg w-[80px] text-white hover:text-red-200 text-[18px] font font-medium mt-3 hover:font-bold cursor-pointer ml-[20px]"
+        onClick={navigateToSummary}
+      >
+        Open
+      </button>
+      <MdDeleteOutline
+        className="mr-5 text-[35px] hover:text-red-900 cursor-pointer"
+        onClick={deleteCard}
+      />
+    </div>
+  </div>
+</div>
+
     </div>
   );
 };
