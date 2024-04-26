@@ -78,10 +78,8 @@ def main(argv=None) -> str:
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
 
-    # Extract comments from the YouTube video
     comments = comments_main(argv)
 
-    # Perform sentiment analysis on each comment and count the results
     positive_count = 0
     negative_count = 0
     neutral_count = 0
