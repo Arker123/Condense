@@ -21,9 +21,16 @@ function add_element(tag, attr_tag, attr_name, value) {
   return element;
 }
 
+let container;
+
 async function main() {
+  if (container) {
+    console.log(container);
+    container.remove();
+  }
+  // if (!window.location.href.match(/.*youtube.com\/watch\/.*/)) return;
+
   add_css(`
-  
   #ext-container {
     border-radius: 10px;
     display: flex;
@@ -37,12 +44,14 @@ async function main() {
   #transcript{
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
+    height: 440px;
   }
   #notes, #ai-chat, #summary{
     display: flex;
     flex-direction: column;
     display:none;
+    height: 440px;
   }
   #summary{
     justify-content: center;
@@ -132,13 +141,14 @@ async function main() {
     align-self: flex-start;
     width:70%;
   }
-  #t-button, #notes-button, #ai-chat-button, #summary-button{
+  #t-button, #notes-button, #ai-chat-button, #summary-button, #save-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
     border: none;
     outline: none;
     font-size: 12px;
-    padding: 10px;    
+    padding: 15px;    
+    cursor: pointer;
   }
 
   #notes-entry-box, #ai-chat-entry-box{
@@ -155,7 +165,7 @@ async function main() {
   #notes-card-area, #ai-chat-card-area{
     widht:100%;
     height:370px;
-    overflow-y: scroll;
+    overflow-y: auto;
     display:flex;
     flex-direction: column;
 
@@ -175,7 +185,6 @@ async function main() {
   #summary-area, #ai-chat-area{
     background-color: white;
     width: 90%;
-    height: 57vh;
     margin: 10px;
     display: flex;
     justify-content: center;
@@ -183,8 +192,9 @@ async function main() {
     font-family: Arial, sans-serif;
     font-size: 14px;
     line-height: 1.7;
+    height: 100%;
     padding: 15px;
-    overflow-y: scroll;
+    overflow-y: auto;
     border-radius: 5px;
 
   }
@@ -196,19 +206,19 @@ async function main() {
     border-radius: 5px;
   }
 
-    .my-component-right {
-      display: flex;
-      align-items: center;
-      color: #828282;
-      position: relative;
-      flex-direction: row;
-    }
+  .my-component-right {
+    display: flex;
+    align-items: center;
+    color: #828282;
+    position: relative;
+    flex-direction: row;
+  }
 
-    .icon-copy, .icon-edit, .icon-delete {
-        font-size: 20px;
-        margin-left: 12px;
-        cursor: pointer;
-    }
+  .icon-copy, .icon-edit, .icon-delete {
+      font-size: 20px;
+      margin-left: 12px;
+      cursor: pointer;
+  }
 
     .edit-text-area {
       width :100%;
@@ -217,12 +227,28 @@ async function main() {
     #navbar{
       margin-bottom:5px;
     }
+
+  #save-button{
+    border-radius: 5px;
+    background-color: rgba(152, 32, 30,0.9);
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    left: 20px;
+    color: white;
+    cursor: pointer
+  }
+
+  #save-button:hover{
+    background-color: rgba(180, 32, 30,1);
+    scale: 1.02;
+  }
     
   }
   
   `);
 
-  const container = add_element("div", "id", "ext-container", "");
+  container = add_element("div", "id", "ext-container", "");
 
   const t_icon = add_element(
     "div",
@@ -288,6 +314,21 @@ async function main() {
   ai_chat_button.innerHTML += "AI Chat";
 
   navbar.appendChild(ai_chat_button);
+
+  save_button = add_element("button", "id", "save-button", "");
+
+  const save_icon = add_element(
+    "div",
+    "id",
+    "save-icon",
+    `
+    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z" fill="#ffffff"></path> </g></svg>`
+  );
+
+  save_button.appendChild(save_icon);
+  // save_button.innerHTML += "Save";
+
+  navbar.appendChild(save_button);
   container.appendChild(navbar);
 
   const transcript = add_element("div", "id", "transcript", "");
@@ -332,8 +373,6 @@ async function main() {
   const ai_chat_card_area = add_element("div", "id", "ai-chat-card-area", ``);
 
   //rgb(169, 32, 30) -> icon colour
-
-  const t_body = add_element("div", "id", "t-body", "");
 
   t_button.classList.add("active");
   t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
@@ -399,6 +438,7 @@ async function main() {
     summary_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
     ai_chat_button.style.borderBottom ="none";
 
+
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
     try {
@@ -419,7 +459,6 @@ async function main() {
       console.log(json);
 
       let summary_dict = await JSON.parse(json.summary);
-      console.log(summary_text);
       summary_text = summary_dict.summary;
       console.log(summary_text);
     } catch (error) {
@@ -437,6 +476,7 @@ async function main() {
         }
       }, 50);
     }
+
   });
 
   const getVideoId = (url) => {
@@ -458,22 +498,84 @@ async function main() {
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
       notesDict[timestramp] = notesText;
       getNotes();
-      
+
       document.getElementById("notes-entry-box").value = "";
     }
   });
-  
+
+  // get_summary.addEventListener("click", async () => {
+  //   get_summary.style.display = "none";
+  //   let videoUrl = window.location.href;
+  //   console.log("Video URL:", videoUrl);
+  //   try {
+  //     const response = await fetch("http://localhost:5000/summaries/generate", {
+  //       method: "POST",
+  //       mode: "cors",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         videoId: getVideoId(videoUrl),
+  //       }),
+  //     });
+
+  //     const json = await response.json();
+
+  //     console.log(json);
+
+  //     let summary_dict = await JSON.parse(json.summary);
+  //     summary_text = summary_dict.summary;
+  //     console.log(summary_text);
+  //   } catch (error) {
+  //     console.error("Error fetching summary:", error);
+  //   }
+  //   if (summary_text) {
+  //     summary_area.style.display = "block";
+  //     var words = summary_text.split(" ");
+  //     var index = 0;
+  //     var intervalId = setInterval(function () {
+  //       summary_area.innerHTML += words[index] + " ";
+  //       index++;
+  //       if (index == words.length) {
+  //         clearInterval(intervalId);
+  //       }
+  //     }, 50);
+  //   }
+  // });
+
+  save_button.onclick = async function () {
+    if (summary_text) {
+      try {
+        const response = await fetch("http://localhost:5000/summaries/save", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            summaryBody: summary_text,
+            videoId: getVideoId(window.location.href),
+            userId: userId,
+          }),
+        });
+      } catch (error) {
+        console.error("Error saving summary:", error);
+      }
+    }
+  };
 
   ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
     let answer = null;
     if (AiQues) {
-      const question_card = add_element("div","class","question-card",``);
+      const question_card = add_element("div", "class", "question-card", ``);
       question_card.style.display = "block";
-      question_card.innerHTML+= AiQues;
+      question_card.innerHTML += AiQues;
       ai_chat_card_area.appendChild(question_card);
       document.getElementById("ai-chat-entry-box").value = "";
-      
+
       try {
         const response = await fetch("http://localhost:5000/chatbot/generate", {
           method: "POST",
@@ -483,29 +585,27 @@ async function main() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            summary : summary_text,
+            summary: summary_text,
             question: AiQues,
           }),
         });
-  
+
         const json = await response.json();
-  
+
         console.log(json);
-  
-        answer = await JSON.parse(json.response);
+
+        answer = await json.response;
         console.log(answer);
       } catch (error) {
         console.error("Error fetching ai-chat response:", error);
       }
-      const answer_card = add_element("div","class","answer-card","");
-      if(answer){
-        answer_card.innerHTML+=answer;
-      }
-      else{
-        answer_card.innerHTML+="Failed to load";
+      const answer_card = add_element("div", "class", "answer-card", "");
+      if (answer) {
+        answer_card.innerHTML += answer;
+      } else {
+        answer_card.innerHTML += "Could not generate a response ";
       }
       ai_chat_card_area.appendChild(answer_card);
-      
     }
   });
 
@@ -613,52 +713,56 @@ async function main() {
       };
     }
   }
+  const t_body = add_element("div", "id", "t-body", "Loading...");
 
-  const data = await fetch("http://localhost:5000/transcript/", {
-    method: "POST",
-    mode: "cors", // this cannot be 'no-cors'
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url: window.location.href,
-    }),
-  });
-  const json = await data.json();
-  console.log(json);
-  let res = await JSON.parse(json.transcript);
-  console.log(res);
-  let transcripts = [];
-  const countWords = (str) => str.split(" ").length;
-  let totalWords = 0;
-  let currStart = -1;
-  let currText = "";
-  res.forEach((transcript) => {
-    if (currStart == -1) currStart = transcript.start;
-    currText += transcript.text + " ";
-    let words = countWords(transcript.text);
-    totalWords += words;
-    if (totalWords > 40) {
-      totalWords = 0;
+  const get_transcript = async () => {
+    const temp_t_body = add_element("div", "id", "t-body", "");
+
+    const data = await fetch("http://localhost:5000/transcript/", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: window.location.href,
+      }),
+    });
+    const json = await data.json();
+    console.log(json);
+    let res = [];
+    if (json?.transcript) res = await JSON.parse(json.transcript);
+    let transcripts = [];
+    const countWords = (str) => str.split(" ").length;
+    let totalWords = 0;
+    let currStart = -1;
+    let currText = "";
+    res.forEach((transcript) => {
+      if (currStart == -1) currStart = transcript.start;
+      currText += transcript.text + " ";
+      let words = countWords(transcript.text);
+      totalWords += words;
+      if (totalWords > 40) {
+        totalWords = 0;
+        transcripts.push({ start: currStart, text: currText });
+        currText = "";
+        currStart = -1;
+      }
+    });
+
+    if (currText != "") {
       transcripts.push({ start: currStart, text: currText });
-      currText = "";
-      currStart = -1;
     }
-  });
 
-  if (currText != "") {
-    transcripts.push({ start: currStart, text: currText });
-  }
-
-  transcripts.forEach((transcript) => {
-    console.log(typeof transcript.text);
-    let card = add_element("div", "class", "card", "");
-    let time_card = add_element(
-      "div",
-      "class",
-      "time-card",
-      `
+    transcripts.forEach((transcript) => {
+      console.log(typeof transcript.text);
+      let card = add_element("div", "class", "card", "");
+      let time_card = add_element(
+        "div",
+        "class",
+        "time-card",
+        `
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
         <g id="surface1">
         <path style=" stroke:none;fill-rule:evenodd;fill:blue;fill-opacity:1;" d="M 6 0 C 9.3125 0 12 2.6875 12 6 C 12 9.3125 9.3125 12 6 12 C 2.6875 12 0 9.3125 0 6 C 0 2.6875 2.6875 0 6 0 Z M 6 0.5 C 9.035156 0.5 11.5 2.964844 11.5 6 C 11.5 9.035156 9.035156 11.5 6 11.5 C 2.964844 11.5 0.5 9.035156 0.5 6 C 0.5 2.964844 2.964844 0.5 6 0.5 Z M 6 6 L 9 6 L 9 6.5 L 5.5 6.5 L 5.5 2 L 6 2 Z M 6 6 "/>
@@ -667,18 +771,21 @@ async function main() {
       
       ${convertSeconds(transcript.start)}
       `
-    );
-    let text_card = add_element(
-      "div",
-      "class",
-      "text-card",
-      `<div>${transcript.text}</div>`
-    );
-    card.appendChild(time_card);
-    card.appendChild(add_element("hr", "class", "divider", ""));
-    card.appendChild(text_card);
-    t_body.appendChild(card);
-  });
+      );
+      let text_card = add_element(
+        "div",
+        "class",
+        "text-card",
+        `<div>${transcript.text}</div>`
+      );
+      card.appendChild(time_card);
+      card.appendChild(add_element("hr", "class", "divider", ""));
+      card.appendChild(text_card);
+      temp_t_body.appendChild(card);
+    });
+
+    t_body.replaceWith(temp_t_body);
+  };
 
   transcript.appendChild(t_navbar);
   transcript.appendChild(t_body);
@@ -690,10 +797,12 @@ async function main() {
   container.appendChild(summary);
   container.appendChild(notes);
   container.appendChild(ai_chat);
-
+  console.log("now");
   const ele = document.getElementById("secondary-inner");
   const parent = document.getElementById("secondary");
   parent.insertBefore(container, ele);
+
+  await get_transcript();
 }
 
 const observer = new MutationObserver((mutationsList, observer) => {
@@ -714,3 +823,16 @@ const observer = new MutationObserver((mutationsList, observer) => {
 const targetNode = document.body;
 const config = { childList: true, subtree: true };
 observer.observe(targetNode, config);
+
+const observeUrlChange = () => {
+  let oldHref = document.location.href;
+  const observer = new MutationObserver((mutations) => {
+    if (oldHref !== document.location.href) {
+      oldHref = document.location.href;
+      main();
+    }
+  });
+  observer.observe(targetNode, { childList: true, subtree: true });
+};
+
+window.onload = observeUrlChange;
