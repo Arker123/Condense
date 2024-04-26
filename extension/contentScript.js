@@ -114,21 +114,21 @@ async function main() {
   .question-card{
     font-size:14px;
     min-height: 20px;
-    padding: 1px;
+    padding: 5px;
     border-radius: 5px;
-    background:#00BFFF;
+    background:rgb(169, 32, 30);
     color:white;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     align-self: flex-end;
     width:70%;
   }
   .answer-card{
     font-size:14px;
     height: 20px;
-    padding: 1px;
+    padding: 5px;
     border-radius: 5px;
     background:white;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     align-self: flex-start;
     width:70%;
   }
@@ -138,7 +138,7 @@ async function main() {
     border: none;
     outline: none;
     font-size: 12px;
-    padding: 15px;    
+    padding: 10px;    
   }
 
   #notes-entry-box, #ai-chat-entry-box{
@@ -166,7 +166,7 @@ async function main() {
     width: 50px;
     left: 312px;
     top:-30px;
-    background-color: blue;
+    background-color: rgb(169, 32, 30);
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -182,10 +182,11 @@ async function main() {
     align-items: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
+    line-height: 1.7;
+    padding: 15px;
     overflow-y: scroll;
     border-radius: 5px;
+
   }
   
   #get-summary-button{
@@ -213,6 +214,9 @@ async function main() {
       width :100%;
       border-radius:5px;
     }
+    #navbar{
+      margin-bottom:5px;
+    }
     
   }
   
@@ -224,7 +228,7 @@ async function main() {
     "div",
     "id",
     "t-icon",
-    `<svg data-v-8ec02cea="" width="17.59" height="20" viewBox="0 0 176 200" xmlns="http://www.w3.org/2000/svg" class="nav-top" xmlns:xlink="http://www.w3.org/1999/xlink" filter="none"><g data-v-8ec02cea=""><path data-v-8ec02cea="" d="M140.914 0H35.0863C25.9618 0.0101648 17.2139 3.63956 10.7622 10.0918C4.31045 16.5441 0.681772 25.2923 0.672363 34.4168V165.583C0.682546 174.707 4.31146 183.455 10.763 189.907C17.2146 196.359 25.962 199.989 35.0862 200H140.914C150.038 199.989 158.786 196.359 165.237 189.907C171.689 183.455 175.318 174.707 175.328 165.583V34.4168C175.319 25.2923 171.69 16.5441 165.238 10.0918C158.786 3.63955 150.039 0.0101544 140.914 0ZM43.9545 41.0451H134.126V63.8299H43.9545V41.0451ZM134.126 161.612H43.9545C42.7773 161.612 41.6483 161.144 40.8159 160.312C39.9835 159.48 39.5159 158.351 39.5159 157.174C39.5159 155.996 39.9835 154.867 40.8159 154.035C41.6483 153.203 42.7773 152.735 43.9545 152.735H134.126C135.303 152.735 136.432 153.203 137.265 154.035C138.097 154.867 138.565 155.996 138.565 157.174C138.565 158.351 138.097 159.48 137.265 160.312C136.432 161.144 135.303 161.612 134.126 161.612ZM134.126 138.827H43.9545C43.3716 138.827 42.7944 138.713 42.2559 138.489C41.7174 138.266 41.2281 137.939 40.8159 137.527C40.4038 137.115 40.0768 136.626 39.8538 136.087C39.6307 135.549 39.5159 134.972 39.5159 134.389C39.5159 133.806 39.6307 133.229 39.8538 132.69C40.0768 132.152 40.4038 131.662 40.8159 131.25C41.2281 130.838 41.7174 130.511 42.2559 130.288C42.7944 130.065 43.3716 129.95 43.9545 129.95H134.126C135.303 129.95 136.432 130.418 137.265 131.25C138.097 132.083 138.565 133.212 138.565 134.389C138.565 135.566 138.097 136.695 137.265 137.527C136.432 138.36 135.303 138.827 134.126 138.827Z" fill="rgb(169, 32, 30)" stroke="none"></path></g></svg>`
+    `<svg data-v-57b574a0="" width="20" height="20" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="nav-top" fill="none"><g data-v-57b574a0="" clip-path="url(#clip0_900_165)"><path data-v-57b574a0="" d="M152.914 0H47.0863C37.9618 0.0101648 29.2139 3.63956 22.7622 10.0918C16.3104 16.5441 12.6818 25.2923 12.6724 34.4168V165.583C12.6825 174.707 16.3115 183.455 22.763 189.907C29.2146 196.359 37.962 199.989 47.0862 200H152.914C162.038 199.989 170.786 196.359 177.237 189.907C183.689 183.455 187.318 174.707 187.328 165.583V34.4168C187.319 25.2923 183.69 16.5441 177.238 10.0918C170.786 3.63955 162.039 0.0101544 152.914 0ZM175.492 165.583C175.486 171.57 173.105 177.309 168.872 181.542C164.639 185.775 158.9 188.157 152.914 188.164H47.0863C41.1 188.157 35.3609 185.775 31.1282 181.542C26.8955 177.309 24.5148 171.57 24.5086 165.583V34.4168C24.5149 28.4305 26.8955 22.6911 31.1282 18.4579C35.3609 14.2246 41.1 11.8433 47.0863 11.8363H152.914C158.901 11.8433 164.64 14.2247 168.872 18.4579C173.105 22.6912 175.486 28.4306 175.492 34.4169L175.492 165.583Z" fill="rgba(33,36,39,0.8)"></path> <path data-v-57b574a0="" d="M146.126 129.936H55.9542C55.3713 129.936 54.7942 130.051 54.2556 130.274C53.7171 130.497 53.2278 130.824 52.8157 131.236C52.4035 131.648 52.0766 132.138 51.8535 132.676C51.6304 133.215 51.5156 133.792 51.5156 134.375C51.5156 134.958 51.6304 135.535 51.8535 136.073C52.0766 136.612 52.4035 137.101 52.8157 137.513C53.2278 137.925 53.7171 138.252 54.2556 138.475C54.7942 138.699 55.3713 138.813 55.9542 138.813H146.126C147.303 138.813 148.432 138.346 149.264 137.513C150.097 136.681 150.564 135.552 150.564 134.375C150.564 133.198 150.097 132.069 149.264 131.236C148.432 130.404 147.303 129.936 146.126 129.936ZM146.126 152.736H55.9542C55.3713 152.736 54.7942 152.851 54.2556 153.074C53.7171 153.297 53.2278 153.624 52.8157 154.036C52.4035 154.448 52.0766 154.937 51.8535 155.476C51.6304 156.014 51.5156 156.591 51.5156 157.174C51.5156 157.757 51.6304 158.334 51.8535 158.873C52.0766 159.411 52.4035 159.901 52.8157 160.313C53.2278 160.725 53.7171 161.052 54.2556 161.275C54.7942 161.498 55.3713 161.613 55.9542 161.613H146.126C147.303 161.613 148.432 161.145 149.264 160.313C150.097 159.481 150.564 158.352 150.564 157.174C150.564 155.997 150.097 154.868 149.264 154.036C148.432 153.203 147.303 152.736 146.126 152.736ZM146.126 36.6074H55.9542C54.777 36.6074 53.6481 37.0751 52.8157 37.9075C51.9833 38.7399 51.5156 39.8688 51.5156 41.046V63.8308C51.5156 65.008 51.9833 66.1369 52.8157 66.9693C53.6481 67.8017 54.777 68.2694 55.9542 68.2694H146.126C147.303 68.2694 148.432 67.8017 149.264 66.9693C150.097 66.1369 150.564 65.008 150.564 63.8308V41.046C150.564 39.8688 150.097 38.7399 149.264 37.9075C148.432 37.0751 147.303 36.6074 146.126 36.6074ZM141.687 59.407H60.3929V45.4994H141.687L141.687 59.407Z" fill="rgba(33,36,39,0.8)"></path></g> <defs data-v-57b574a0=""><clipPath data-v-57b574a0="" id="clip0_900_165"><rect data-v-57b574a0="" width="200" height="200" fill="white"></rect></clipPath></defs></svg>`
   );
 
   const notes_icon = add_element(
@@ -238,8 +242,7 @@ async function main() {
     "div",
     "id",
     "ai-chat-icon",
-    `<svg data-v-38979994="" width="20" height="20" viewBox="0 0 213 178" xmlns="http://www.w3.org/2000/svg" class="nav-top" fill="none"><path data-v-38979994="" d="M23.5 7H132.5" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M132.5 6.9994C139 6.99881 146.6 9.0994 147 21.4994V36.5M55.5002 106L33.0002 129C29.3335 132.5 22.0002 136.6 22.0002 125C22.0002 113.4 22.0002 107.5 22.0002 106C17.0002 104.833 6.90016 100.3 6.50016 91.5C6.10016 82.7 6.33349 41.1663 6.50016 21.4994C6.54677 15.9994 10 6 27 6.9994" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M191.721 53H86.7209C74.721 53 69.2559 60 69.2209 64C69.0542 83 68.8209 123.7 69.2209 134.5C69.6209 145.3 81.0542 148.333 86.7209 148.5H160.221C165.388 154.333 177.221 166.8 183.221 170C189.221 173.2 191.388 168.667 191.721 166V142.5C202.521 142.5 205.888 134.167 206.221 130V64C206.221 55.6 196.554 53.1667 191.721 53Z" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path>
-    </svg>`
+    `<svg data-v-57b574a0="" width="20" height="20" viewBox="0 0 213 178" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-top"><path data-v-57b574a0="" d="M23.5 7H132.5" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path> <path data-v-57b574a0="" d="M132.5 6.9994C139 6.99881 146.6 9.0994 147 21.4994V36.5M55.5002 106L33.0002 129C29.3335 132.5 22.0002 136.6 22.0002 125C22.0002 113.4 22.0002 107.5 22.0002 106C17.0002 104.833 6.90016 100.3 6.50016 91.5C6.10016 82.7 6.33349 41.1663 6.50016 21.4994C6.54677 15.9994 10 6 27 6.9994" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path> <path data-v-57b574a0="" d="M191.721 53H86.7209C74.721 53 69.2559 60 69.2209 64C69.0542 83 68.8209 123.7 69.2209 134.5C69.6209 145.3 81.0542 148.333 86.7209 148.5H160.221C165.388 154.333 177.221 166.8 183.221 170C189.221 173.2 191.388 168.667 191.721 166V142.5C202.521 142.5 205.888 134.167 206.221 130V64C206.221 55.6 196.554 53.1667 191.721 53Z" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path></svg>`
   );
 
   const summary_icon = add_element(
@@ -291,14 +294,7 @@ async function main() {
   const notes = add_element("div", "id", "notes", "");
   const summary = add_element("div", "id", "summary", "");
   const summary_area = add_element("div", "id", "summary-area", "");
-  const get_summary = add_element(
-    "button",
-    "id",
-    "get-summary-button",
-    `Get Summary`
-  );
   summary.appendChild(summary_area);
-  summary_area.appendChild(get_summary);
   const t_navbar = add_element("div", "id", "t-navbar", ``);
   const ai_chat = add_element("div", "id", "ai-chat", "");
   const notes_entry = add_element(
@@ -340,6 +336,7 @@ async function main() {
   const t_body = add_element("div", "id", "t-body", "");
 
   t_button.classList.add("active");
+  t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
 
   t_button.addEventListener("click", () => {
     t_button.classList.add("active");
@@ -350,6 +347,10 @@ async function main() {
     transcript.style.display = "flex";
     notes.style.display = "none";
     ai_chat.style.display = "none";
+    t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="none";
   });
 
   notes_button.addEventListener("click", () => {
@@ -361,6 +362,10 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "flex";
     ai_chat.style.display = "none";
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="none";
   });
 
   ai_chat_button.addEventListener("click", () => {
@@ -372,9 +377,15 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "none";
     ai_chat.style.display = "flex";
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
   });
 
-  summary_button.addEventListener("click", () => {
+  let summary_text = null;
+
+  summary_button.addEventListener("click", async () => {
     t_button.classList.remove("active");
     notes_button.classList.remove("active");
     ai_chat_button.classList.remove("active");
@@ -383,36 +394,11 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "none";
     ai_chat.style.display = "none";
-  });
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
+    ai_chat_button.style.borderBottom ="none";
 
-  const getVideoId = (url) => {
-    const videoIdRegex =
-      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(videoIdRegex);
-    const videoId = match ? match[1] : null;
-    console.log("Video ID:", videoId);
-    return videoId;
-  };
-
-  const notesDict = {};
-  const userId = "65fbd783e390959bedecdec3";
-
-  notes_entry_button.addEventListener("click", () => {
-    const notesText = document.getElementById("notes-entry-box").value.trim();
-    if (notesText) {
-      var htmlVideoPlayer = document.getElementsByTagName("video")[0];
-      var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
-      notesDict[timestramp] = notesText;
-      getNotes();
-      
-      document.getElementById("notes-entry-box").value = "";
-    }
-  });
-  
-  let summary_text = null;
-
-  get_summary.addEventListener("click", async () => {
-    get_summary.style.display = "none";
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
     try {
@@ -453,6 +439,31 @@ async function main() {
     }
   });
 
+  const getVideoId = (url) => {
+    const videoIdRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(videoIdRegex);
+    const videoId = match ? match[1] : null;
+    console.log("Video ID:", videoId);
+    return videoId;
+  };
+
+  const notesDict = {};
+  const userId = "65fbd783e390959bedecdec3";
+
+  notes_entry_button.addEventListener("click", () => {
+    const notesText = document.getElementById("notes-entry-box").value.trim();
+    if (notesText) {
+      var htmlVideoPlayer = document.getElementsByTagName("video")[0];
+      var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
+      notesDict[timestramp] = notesText;
+      getNotes();
+      
+      document.getElementById("notes-entry-box").value = "";
+    }
+  });
+  
+
   ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
     let answer = null;
@@ -484,14 +495,14 @@ async function main() {
         answer = await JSON.parse(json.response);
         console.log(answer);
       } catch (error) {
-        console.error("Error fetching summary:", error);
+        console.error("Error fetching ai-chat response:", error);
       }
       const answer_card = add_element("div","class","answer-card","");
       if(answer){
         answer_card.innerHTML+=answer;
       }
       else{
-        answer_card.innerHTML+="Failed to load ";
+        answer_card.innerHTML+="Failed to load";
       }
       ai_chat_card_area.appendChild(answer_card);
       
@@ -532,14 +543,16 @@ async function main() {
         "div",
         "class",
         "icon-copy",
-        `<i data-v-12aa23d4="" class="el-icon-copy-document icon-copy" style="font-size: 16px;"></i>`
+        `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z" fill="#080341"></path> </g></svg>`
       );
-      const edit_icon = add_element("div", "class", "icon-edit", `<i data-v-12aa23d4="" class="el-icon-edit icon-edit" style="font-size: 16px;"></i>`)
+      const edit_icon = add_element("div", "class", "icon-edit", 
+      `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Edit_Pencil_01"> <path id="Vector" d="M12 8.00012L4 16.0001V20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
+    );
       const delete_icon = add_element(
         "div",
         "class",
         "icon-delete",
-        `<i data-v-12aa23d4="" class="el-icon-delete icon-delete" style="font-size: 16px;"></i>`
+        `<svg width="16px" height="16px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M160 256H96a32 32 0 0 1 0-64h256V95.936a32 32 0 0 1 32-32h256a32 32 0 0 1 32 32V192h256a32 32 0 1 1 0 64h-64v672a32 32 0 0 1-32 32H192a32 32 0 0 1-32-32V256zm448-64v-64H416v64h192zM224 896h576V256H224v640zm192-128a32 32 0 0 1-32-32V416a32 32 0 0 1 64 0v320a32 32 0 0 1-32 32zm192 0a32 32 0 0 1-32-32V416a32 32 0 0 1 64 0v320a32 32 0 0 1-32 32z"></path></g></svg>`
       );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);
