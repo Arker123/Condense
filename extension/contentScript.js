@@ -21,9 +21,16 @@ function add_element(tag, attr_tag, attr_name, value) {
   return element;
 }
 
+let container;
+
 async function main() {
+  if (container) {
+    console.log(container);
+    container.remove();
+  }
+  if (!window.location.href.match(/.*youtube.com\/watch\/.*/)) return;
+
   add_css(`
-  
   #ext-container {
     border-radius: 10px;
     display: flex;
@@ -141,6 +148,7 @@ async function main() {
     outline: none;
     font-size: 12px;
     padding: 15px;    
+    cursor: pointer;
   }
 
   #notes-entry-box, #ai-chat-entry-box{
@@ -218,20 +226,25 @@ async function main() {
 
   #save-button{
     border-radius: 5px;
-    background-color: rgba(169, 32, 30,0.9);
+    background-color: rgba(152, 32, 30,0.9);
     margin: 10px;
     padding: 10px;
     position: relative;
-    left: 25px;
+    left: 20px;
     color: white;
     cursor: pointer
+  }
+
+  #save-button:hover{
+    background-color: rgba(180, 32, 30,1);
+    scale: 1.02;
   }
     
   }
   
   `);
 
-  const container = add_element("div", "id", "ext-container", "");
+  container = add_element("div", "id", "ext-container", "");
 
   const t_icon = add_element(
     "div",
@@ -310,9 +323,7 @@ async function main() {
   );
 
   save_button.appendChild(save_icon);
-  save_button.innerHTML += "Save";
-
-  // save_button.onclick = async () => {
+  // save_button.innerHTML += "Save";
 
   navbar.appendChild(save_button);
   container.appendChild(navbar);
@@ -479,6 +490,28 @@ async function main() {
       }, 50);
     }
   });
+
+  save_button.onclick = async function () {
+    if (summary_text) {
+      try {
+        const response = await fetch("http://localhost:5000/summaries/save", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            summaryBody: summary_text,
+            videoId: getVideoId(window.location.href),
+            userId: userId,
+          }),
+        });
+      } catch (error) {
+        console.error("Error saving summary:", error);
+      }
+    }
+  };
 
   ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
@@ -740,3 +773,16 @@ const observer = new MutationObserver((mutationsList, observer) => {
 const targetNode = document.body;
 const config = { childList: true, subtree: true };
 observer.observe(targetNode, config);
+
+const observeUrlChange = () => {
+  let oldHref = document.location.href;
+  const observer = new MutationObserver((mutations) => {
+    if (oldHref !== document.location.href) {
+      oldHref = document.location.href;
+      main();
+    }
+  });
+  observer.observe(targetNode, { childList: true, subtree: true });
+};
+
+window.onload = observeUrlChange;

@@ -11,8 +11,7 @@ const generateSummary = async (req, res) => {
     const url = "https://www.youtube.com/watch?v=" + videoId;
     console.log(url);
     const summary = await redisClient.get(videoId);
-
-    if (summary) {
+    if (summary !== "" && summary !== null) {
       console.log("Cache hit");
       return res.status(200).json({
         summary: JSON.parse(summary),
@@ -28,11 +27,17 @@ const generateSummary = async (req, res) => {
     ]);
 
     const dataToSend = await pythonProcess.stdout.toString();
-    await redisClient.set(videoId, JSON.stringify(dataToSend));
-    res.status(200).json({
-      summary: dataToSend,
-      message: "Summary generated successfully",
-    });
+    const data = await JSON.parse(dataToSend);
+
+    if (data.summary) {
+      await redisClient.set(videoId, JSON.stringify(dataToSend));
+      res.status(200).json({
+        summary: dataToSend,
+        message: "Summary generated successfully",
+      });
+    } else {
+      res.status(400).send({ message: "Error in getting summary" });
+    }
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
@@ -103,28 +108,28 @@ const fetchOneSummary = async (req, res) => {
 };
 
 const fetchFavSummaries = async (req, res) => {
-    try {
-        const { userId } = req.query;
-        if (!userId) return res.status(400).send("User ID is required");
+  try {
+    const { userId } = req.query;
+    if (!userId) return res.status(400).send("User ID is required");
 
-        // Find user with the given user ID
-        const user = await User.findById(userId);
+    // Find user with the given user ID
+    const user = await User.findById(userId);
 
-        if (!user) {
-            return res.status(400).send("User not found");
-        }
+    if (!user) {
+      return res.status(400).send("User not found");
+    }
 
-        // console.log(user.summaries);
+    // console.log(user.summaries);
 
     // Extract summary IDs from the user document where favorite is true
     const summaryIds = user.summaries
       .filter((summary) => summary.favorite === true)
       .map((summary) => summary.summaryId);
 
-        // console.log(summaryIds);
+    // console.log(summaryIds);
 
-        // Fetch summaries from the Summary schema based on the summary IDs
-        const summaries = await Summary.find({ _id: { $in: summaryIds } });
+    // Fetch summaries from the Summary schema based on the summary IDs
+    const summaries = await Summary.find({ _id: { $in: summaryIds } });
 
     console.log("Found the following summaries:");
     console.log(summaries);

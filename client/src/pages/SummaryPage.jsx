@@ -116,7 +116,6 @@ const SummaryPage = () => {
     console.log("req summ:  ", reqSummary);
 
     if (!reqSummary) {
-      console.log("hii: ");
       const res = axios.post(
         `${process.env.REACT_APP_API_URL}/summaries/generate`,
         {
@@ -274,11 +273,6 @@ const SummaryPage = () => {
     return videoUrl;
   };
 
-  useEffect(() => {
-    fetchTranscript();
-    fetchSummary();
-  }, [url]);
-
   const [isOpen, setIsOpen] = useState(false);
 
   let timeoutId;
@@ -357,7 +351,7 @@ const SummaryPage = () => {
               </div>
 
               <div
-                className="w-[600px]  bg-white rounded-xl  overflow-y-scroll mb-5"
+                className="w-[600px]  bg-white rounded-xl  overflow-y-auto mb-5"
                 style={{ height: "600px" }}
               >
                 <div className="flex justify-between items-center w-[200px] h-[50px] ml-5 text-[33px] font-bold text-red-800">
@@ -386,7 +380,7 @@ const SummaryPage = () => {
 
             <div className="flex flex-col w-[900px]  h-screen items-center justify-center gap-6">
             <div
-                className="w-[800px] h-[500px] bg-white rounded-lg flex flex-col items-center justify-center overflow-y-scroll"
+                className="w-[800px] h-[500px] bg-white rounded-lg flex flex-col items-center justify-center overflow-y-auto"
                 
               >
                 <div className="h-[50px] w-[730px] flex flex-row  items-center justify-between  text-red-800 font-bold text-[33px] ">
