@@ -1,14 +1,15 @@
 // import {spawn} from 'child_process'
 const { spawnSync } = require("child_process");
-
 const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
+const redisClient = require("../redisConfig");
 
 // Your other codes
 
 const getTs = async (req, res) => {
-  const form = formidable({ multiples: true });
+  const form = formidable({});
+
   let oldPath;
   let newPath;
   form.parse(req, (err, fields, files) => {
@@ -68,15 +69,26 @@ const getTranscript = async (req, res) => {
       return res.status(400).json({ message: "URL is required" });
     }
 
+    const transcript = await redisClient.get("transcript-" + url);
+    if (transcript) {
+      console.log("Cache hit for transcript");
+      return res.status(200).json({
+        transcript: JSON.parse(transcript),
+        message: "Transcript generated successfully",
+      });
+    }
+    console.log("Cache miss, generating transcript...");
+
     const pythonProcess = spawnSync("python", [
       "../condense/transcript.py",
       "--url",
       url,
-      "-t",
     ]);
 
     const dataToSend = await pythonProcess.stdout.toString();
+
     if (dataToSend) {
+      await redisClient.set("transcript-" + url, JSON.stringify(dataToSend));
       res.status(200).json({
         transcript: dataToSend,
         message: "Transcript generated successfully",

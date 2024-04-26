@@ -1,8 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=League+Gothic");
-
 .App2 {
   text-align: center;
-  background: linear-gradient(to bottom,  rgb(45, 4, 4), #6f0000);
+  background: linear-gradient(to bottom, rgb(45, 4, 4), #6f0000);
   min-height: 100vh;
 }
 
@@ -10,15 +8,17 @@
   margin-top: 6%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .contactus-child1 {
-  width: 100%;
+  width: 30%;
 }
+
 .contactus-child2 {
   padding-top: 2%;
-  width: 80%;
+  width: 60%;
 }
 
 .contactus-child1 h1 {
@@ -43,12 +43,13 @@
   color: #f6f6f6;
   font: "Gothic A1";
   text-align: left;
-  font-size: 1.1vw;
+  font-size: 1.2vw;
   padding-left: 12%;
 }
 
 .child1-table {
-  padding-left: 12%;
+  width: 100%;
+  margin-top: 4%;
 }
 
 .contact-container {
@@ -66,6 +67,7 @@
   box-shadow: 2px;
   padding: 7%;
   width: 80%;
+  margin: -50px auto 0 auto; /* Adjusted margin */
 }
 
 .contact-form form {
@@ -93,12 +95,12 @@
   border: 1px solid #dddddd;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.3);
-  color: rgb(0, 0, 0); /* Set text color to white */
+  color: rgb(0, 0, 0);
 }
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: rgba(142, 139, 139, 0.774); /* Set placeholder text color to white */
+  color: rgba(142, 139, 139, 0.774);
 }
 
 .contact-form button {
@@ -110,10 +112,21 @@
   width: 100%;
   border-radius: 25px;
   align-self: center;
-  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+  transition: background-color 0.3s;
 }
 
 .contact-form button:hover {
-  background-color: #0f2c45; /* Change color on hover */
+  background-color: #0f2c45;
 }
 
+/* Adjusted table cell wrapping */
+.child1-table th,
+.child1-table td {
+  color: #ffffff;
+  font-size: 1.5rem;
+  white-space: normal; /* Allow wrapping */
+  word-wrap: break-word; /* Break words */
+  max-width: 500px; /* Adjust the maximum width as needed */
+  padding-left: 170px; /* Add left padding */
+
+}
