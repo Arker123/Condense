@@ -1,25 +1,40 @@
 #!/usr/bin/env python
 # Copyright (C) 2024 Condense, Inc. All Rights Reserved.
+import os
 import csv
 import sys
 import json
-import time
+import random
 import logging
 import argparse
 import textwrap
+from enum import Enum
+from time import time
 from typing import Dict, List, Tuple
 from pathlib import Path
 
 import condense.utils
-from condense.utils import get_video_id
+import condense.render.default
+from condense.utils import get_video_id, is_type_enabled, get_runtime_diff
 from condense.render import Verbosity
+from condense.results import Analysis, Metadata, ResultDocument, ResultDocumentUrl
 from condense.version import __version__
 from condense.logging_ import TRACE, DebugLevel
-from condense.analystics import word_cloud, display_engagement_metrics
-from condense.summarizer import summerize_text
+from condense.analytics import word_cloud, display_engagement_metrics
+from condense.summarizer import summerize_text, load_summarize_model, get_summary_from_transcript
 from condense.transcript import get_transcript
+from condense.video_audio_to_data import extract_audio
+from condense.youtube_audio_extractor import start_translate
 
 logger = condense.logging_.getLogger("condense")
+
+
+class AnalysisType(str, Enum):
+    TRANSCRIPT = "transcript"
+    SUMMARY = "summary"
+    WORDCLOUD = "wordcloud"
+    SENTIMENT = "sentiment"
+    ANALYTICS = "analytics"
 
 
 class ArgumentValueError(ValueError):
@@ -93,31 +108,18 @@ def make_parser(argv):
     parser.register("action", "extend", condense.utils.ExtendAction)
     parser.add_argument("-H", action="help", help="show advanced options and exit")
 
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
         "sample",
         type=argparse.FileType("r"),
+        nargs="?",
         help="path to video to analyze",
     )
-
-    transcribe_group = parser.add_argument_group("transcribe arguments")
-    transcribe_group.add_argument(
-        "--transcribe",
-        action="store_true",
-        help="transcribe the video",
-    )
-
-    summarize_group = parser.add_argument_group("summarize arguments")
-    summarize_group.add_argument(
-        "--summarize",
-        action="store_true",
-        help="summarize the video",
-    )
-
-    sentiment_group = parser.add_argument_group("sentiment arguments")
-    sentiment_group.add_argument(
-        "--sentiment",
-        action="store_true",
-        help="give sentiment analysis of the video",
+    group.add_argument(
+        "--url",
+        dest="video_url",
+        type=str,
+        help="The URL of the video to get the summary for",
     )
 
     keywords_group = parser.add_argument_group("keywords arguments")
@@ -125,6 +127,26 @@ def make_parser(argv):
         "--keywords",
         action="store_true",
         help="give keywords of the video",
+    )
+
+    analysis_group = parser.add_argument_group("analysis arguments")
+    analysis_group.add_argument(
+        "--no",
+        action="extend",
+        dest="disabled_types",
+        nargs="+",
+        choices=[t.value for t in AnalysisType],
+        default=[],
+        help="do not analyze specified argument type(s)",
+    )
+    analysis_group.add_argument(
+        "--only",
+        action="extend",
+        dest="enabled_types",
+        nargs="+",
+        choices=[t.value for t in AnalysisType],
+        default=[],
+        help="only analyze specified argument type(s)",
     )
 
     advanced_group = parser.add_argument_group("advanced arguments")
@@ -255,72 +277,121 @@ def main(argv=None) -> int:
     parser = make_parser(argv)
     try:
         args = parser.parse_args(args=argv)
+        if args.enabled_types and args.disabled_types:
+            parser.error("--no and --only arguments are not allowed together")
     except ArgumentValueError as e:
         print(e)
         return -1
 
     set_log_config(args.debug, args.quiet)
 
-    sample = Path(args.sample.name)
-    args.sample.close()
+    analysis = Analysis(
+        enable_transcript=is_type_enabled(AnalysisType.TRANSCRIPT, args.disabled_types, args.enabled_types),
+        enable_summary=is_type_enabled(AnalysisType.SUMMARY, args.disabled_types, args.enabled_types),
+        enable_wordcloud=is_type_enabled(AnalysisType.WORDCLOUD, args.disabled_types, args.enabled_types),
+        enable_analytics=is_type_enabled(AnalysisType.ANALYTICS, args.disabled_types, args.enabled_types),
+        enable_sentiment=is_type_enabled(AnalysisType.SENTIMENT, args.disabled_types, args.enabled_types),
+    )
 
-    start_time = time.time()
+    time0 = time()
 
-    if args.transcribe:
-        logger.debug("transcribing")
-        transcript = get_transcript(sample)
-        print(json.dumps(transcript))
+    if args.sample:
+        sample = args.sample.name
 
-    if args.summarize:
-        logger.debug("summarizing")
-        summary, timestamp = summerize_text(sample)
-        print(json.dumps({"summary": summary, "timestamp": timestamp}))
+        results = ResultDocument(metadata=Metadata(path=str(sample)), analysis=analysis)
 
-    if args.sentiment:
-        logger.debug("getting sentiment analysis")
-        # TODO: get sentiment analysis of the video
+        tmp_audio_dir = "tmp_audio"
+        tmp_audio_file = None
+        # check if file is a video file or an audio file
+        if sample.suffix in [".mp4", ".avi", ".mov", ".mkv"]:
+            logger.info("Video file detected")
+            if not os.path.exists(tmp_audio_dir):
+                os.makedirs(tmp_audio_dir)
+            tmp_audio_file = f"tmp_audio_{random.randint(0, 100000)}.mp3"
+            audio_path = f"{tmp_audio_dir}/{tmp_audio_file}"
+            audio_path = extract_audio(sample, audio_path)
+            logger.info(f"Audio extracted and saved to {audio_path}")
 
-    if args.keywords:
-        logger.debug("getting keywords")
-        word_cloud(sample)
-        statistics = display_engagement_metrics(sample)
-        print("Engagement Metrics for Video ID:", get_video_id(sample))
-        print("Views:", statistics.get("viewCount", 0))
-        print("Likes:", statistics.get("likeCount", 0))
-        print("Dislikes:", statistics.get("dislikeCount", 0))
-        print("Comments:", statistics.get("commentCount", 0))
-        print("Shares:", statistics.get("shareCount", 0))
+        elif sample.suffix in [".mp3", ".wav"]:
+            logger.info("Audio file detected")
+            audio_path = sample
+        else:
+            raise ValueError(
+                "Please provide either a video or audio file.\n The supported file types are: .mp4, .avi, .mov, .mkv, .mp3, .wav"
+            )
 
-    if not args.transcribe and not args.summarize and not args.sentiment and not args.keywords:
-        logger.debug("doing everything")
-        transcript = get_transcript(sample)
-        summary, timestamp = summerize_text(sample)
-        word_cloud(sample)
-        statistics = display_engagement_metrics(sample)
+        if results.analysis.enable_transcript:
+            transcript, _ = start_translate("./", audio_path)
+            results.aggregate.transcript = transcript
+            print(results.aggregate.transcript)  # TODO: remove when rendering is implemented
 
-        # TODO: Improve rendering
-        print(json.dumps(transcript))
-        print(json.dumps({"summary": summary, "timestamp": timestamp}))
-        print("Engagement Metrics for Video ID:", get_video_id(sample))
-        print("Views:", statistics.get("viewCount", 0))
-        print("Likes:", statistics.get("likeCount", 0))
-        print("Dislikes:", statistics.get("dislikeCount", 0))
-        print("Comments:", statistics.get("commentCount", 0))
-        print("Shares:", statistics.get("shareCount", 0))
+        if results.analysis.enable_summary and not results.aggregate.transcript:
+            transcript, _ = start_translate("./", audio_path)
+            results.aggregate.transcript = transcript
+            summarizer = load_summarize_model()
+            results.aggregate.summary
+            print(results.aggregate.summary)  # TODO: remove when rendering is implemented
 
-    logger.info("finished execution after %.2f seconds", time.time() - start_time)
+        elif results.analysis.enable_summary and results.aggregate.transcript:
+            print("yoo")
+            summarizer = load_summarize_model()
+            summary = get_summary_from_transcript(transcript, summarizer, 0)
+            results.aggregate.summary = summary
+            print(results.aggregate.summary)  # TODO: remove when rendering is implemented
+
+        # cleanup
+        if tmp_audio_file:
+            os.remove(audio_path)
+
+        args.sample.close()
+
+    elif args.video_url:
+        sample = args.video_url
+        get_transcript(sample)
+
+        resultsurl = ResultDocumentUrl(metadata=Metadata(path=str(sample)), analysis=analysis, url=sample)
+
+        if resultsurl.analysis.enable_transcript:
+            resultsurl.aggregate.transcript = get_transcript(sample)
+            print(resultsurl.aggregate.transcript)  # TODO: remove when rendering is implemented
+
+        if resultsurl.analysis.enable_summary and not resultsurl.aggregate.transcript:
+            resultsurl.aggregate.summary = summerize_text(sample)
+            print(resultsurl.aggregate.summary)  # TODO: remove when rendering is implemented
+
+        elif resultsurl.analysis.enable_summary and resultsurl.aggregate.transcript:
+            summarizer = load_summarize_model()
+            resultsurl.aggregate.summary = get_summary_from_transcript(resultsurl.aggregate.transcript, summarizer, 0)
+            print(resultsurl.aggregate.summary)  # TODO: remove when rendering is implemented
+
+        if resultsurl.analysis.enable_wordcloud:
+            resultsurl.aggregate.wordcloud = word_cloud(sample)
+
+        if resultsurl.analysis.enable_analytics:
+            resultsurl.aggregate.analytics = display_engagement_metrics(sample)
+
+        if resultsurl.analysis.enable_sentiment:
+            # TODO: get sentiment analysis of the video
+            pass
+
+    else:
+        raise ValueError("Please provide either a sample file or a video URL.")
+
+    results.metadata.runtime.total = get_runtime_diff(time0)
+    logger.info("finished execution after %.2f seconds", results.metadata.runtime.total)
 
     if args.json:
-        logger.debug("emitting JSON")
-        # TODO: emit JSON
-
-    if args.text:
-        logger.debug("emitting text")
-        # TODO: emit text
-
-    if args.csv:
-        logger.debug("emitting CSV")
-        # TODO: emit CSV
+        # TODO: write render json script
+        pass
+    else:
+        # this may be slow when there's many strings, so informing users what's happening
+        logger.info("rendering results")
+        if args.video_url:
+            r = condense.render.default.renderUrl(resultsurl, args.verbose, args.quiet, args.color)
+            print(r)
+        elif args.sample:
+            ru = condense.render.default.render(results, args.verbose, args.quiet, args.color)
+            print(ru)
 
     return 0
 
