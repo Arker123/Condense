@@ -11,6 +11,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { IoIosNotifications } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import userEvent from '@testing-library/user-event';
 import "./Profile.css";
 import {
   updatePass
@@ -210,6 +211,7 @@ const Profile = () => {
               </h3>
             </div>
             <div
+              data-testid = "FavouriteNotesButton"
               className={`navtabs ${activeTab === "Favorite Notes" ? "navtabsActive" : ""}`}
               onClick={() => handleTabClick("Favorite Notes")}
             >
@@ -224,7 +226,7 @@ const Profile = () => {
             {activeTab === "Favorite Summaries" && (
               <div className="text-red-900 h-full mb-4 text-1xl">
                 {/* Content for Favorite Summaries tab */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div data-testid = "Summary_test" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {favSummaries.map((summary) => (
                     <ProfileCard key={summary._id} summary={summary} />
                   ))}
@@ -242,7 +244,7 @@ const Profile = () => {
             {activeTab === "Favorite Notes" && (
               <div className="text-red-900 h-full mb-4 text-1xl">
                 {/* Content for Favorite Notes tab */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div data-testid = "Notes_test" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {favNotes.map((note) => (
                     <ProfileCardNote key={note._id} note={note} />
                   ))}

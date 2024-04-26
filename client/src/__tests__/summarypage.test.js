@@ -1,6 +1,6 @@
 import React from 'react';
 import {cleanup, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import SummaryPage from '../pages/SummaryPage.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
