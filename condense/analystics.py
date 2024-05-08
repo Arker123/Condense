@@ -58,8 +58,8 @@ def word_cloud(video_url: str) -> str:
     stopwords = set(STOPWORDS)
 
     for val in comments:
-        val = str(val)
-        tokens = val.split()
+        str_val = str(val)
+        tokens = str_val.split()
         for i in range(len(tokens)):
             tokens[i] = tokens[i].lower()
 

@@ -105,12 +105,14 @@ def evaluate_sentiment(video_url: str, file: str) -> Any:
     return sentiment_results
 
 
-def main(argv=None) -> str:
+def main(argv=None) -> int:
     parser = make_parser()
     args = parser.parse_args(argv)
 
     sentiment_results = evaluate_sentiment(args.video_url, args.csv)
     print(sentiment_results)
+    
+    return 0
 
 
 if __name__ == "__main__":
