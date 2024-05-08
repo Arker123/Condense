@@ -2,6 +2,10 @@
  * @jest-environment node
  */
 
+/* 
+Note: These e2e tests can only be run when we have either a local/online-deployed website (because their entry point is the WebURL). 
+If online, change the baseurl below accordingly & unskip the tests to run.
+*/
 const puppeteer = require("puppeteer");
 let browser;
 let page;
@@ -40,7 +44,7 @@ describe("Testing summary generation functionality", () => {
   const youtubeLinkInputSelector = 'input[type="link"]';
   const summarizeButtonSelector = "button ::-p-text(Start Summarizing)";
 
-  test(
+  test.skip(
     "on clicking get started -> should login successfuly and direct to summary page",
     async () => {
       await page.waitForSelector(getStartedButtonSelector);
@@ -68,7 +72,7 @@ describe("Testing summary generation functionality", () => {
     TIMEOUT
   );
 
-  test("should redirect to summary page on giving input of youtube link", async () => {
+  test.skip("should redirect to summary page on giving input of youtube link", async () => {
     await page.waitForSelector(youtubeLinkInputSelector);
     await page.type(
       youtubeLinkInputSelector,

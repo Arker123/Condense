@@ -2,6 +2,11 @@
  * @jest-environment node
  */
 
+/* 
+Note: These e2e tests can only be run when we have either a local/online-deployed website (because their entry point is the WebURL). 
+If online, change the baseurl below accordingly & unskip the tests to run.
+*/
+
 const puppeteer = require("puppeteer");
 let browser;
 let page;
@@ -39,7 +44,7 @@ describe("Testing user login functionality", () => {
   const registerTabSelector = 'div[data-testid="Register-header-test"]';
   const loginTabSelector = 'div[data-testid="Login-header-test"]';
 
-  test("should have two tabs -> Login / SignUp with tab switching", async () => {
+  test.skip("should have two tabs -> Login / SignUp with tab switching", async () => {
     const registerTab = await page.waitForSelector(registerTabSelector);
     expect(registerTab).toBeTruthy();
     await page.click(registerTabSelector, { clickCount: 1 });
@@ -48,7 +53,7 @@ describe("Testing user login functionality", () => {
     await page.click(loginTabSelector, { clickCount: 1 });
   });
 
-  test("while logging in, should display errors if email or password is empty", async () => {
+  test.skip("while logging in, should display errors if email or password is empty", async () => {
     await page.waitForSelector(loginButtonSelector);
     await page.click(loginButtonSelector, { clickCount: 1 });
     const emailErrorSelector = "div ::-p-text(Email is required.)";
@@ -64,7 +69,7 @@ describe("Testing user login functionality", () => {
     expect(passwordError).toBeTruthy();
   }, TIMEOUT);
 
-  test("should login successfuly and redirect to landing page if correct credentials", async () => {
+  test.skip("should login successfuly and redirect to landing page if correct credentials", async () => {
     await page.waitForSelector(passwordSelector);
     await page.type(passwordSelector, "L4n4Pd07"); //L4n4Pd07
     await page.waitForSelector(loginButtonSelector);

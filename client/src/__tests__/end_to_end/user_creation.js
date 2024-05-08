@@ -2,6 +2,10 @@
  * @jest-environment node
  */
 
+/* 
+Note: These e2e tests can only be run when we have either a local/online-deployed website (because their entry point is the WebURL). 
+If online, change the baseurl below accordingly & unskip the tests to run.
+*/
 const puppeteer = require("puppeteer");
 let browser;
 let page;
@@ -40,7 +44,7 @@ describe("Testing user creation functionality", () => {
   const signUpButtonSelector = 'button ::-p-text(Sign Up)';
   const registerTabSelector = 'div[data-testid="Register-header-test"]';
 
-  test("while registering, should display errors if input fields are empty", async () => {
+  test.skip("while registering, should display errors if input fields are empty", async () => {
     const registerTab = await page.waitForSelector(registerTabSelector);
     expect(registerTab).toBeTruthy();
     await page.click(registerTabSelector, { clickCount: 1 });
@@ -84,7 +88,7 @@ describe("Testing user creation functionality", () => {
 
   }, TIMEOUT);
 
-  test("should show error if user already exists", async () => {
+  test.skip("should show error if user already exists", async () => {
     const registerTab = await page.waitForSelector(registerTabSelector);
     expect(registerTab).toBeTruthy();
     await page.click(registerTabSelector, { clickCount: 1 });
