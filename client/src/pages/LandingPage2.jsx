@@ -5,11 +5,9 @@ import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../components/shared/Navbar/Navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import Footer from "../components/shared/Footer";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
   {
@@ -45,7 +43,6 @@ const data = [
 ];
 
 function Card({ item }) {
-  
   return (
     <div className="flex h-[300px] w-[600px] justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
       <div className="flex w-1/2 flex-col p-5">
@@ -79,106 +76,122 @@ function LandingPage2() {
   console.log(user.id);
   const email = user.email;
   console.log("email=> ", email);
+  let webSocket;
+  useEffect(() => {
+    webSocket = new WebSocket("ws://localhost:443/");
 
+    return () => {
+      webSocket.close();
+    };
+  }, []);
+
+  if (webSocket) {
+    webSocket.onmessage = (event) => {
+      console.log(event);
+    };
+    webSocket.onopen = (event) => {
+      console.log("Connected to server");
+      webSocket.send("Hello from client");
+    };
+  }
+  // webSocket.send("Hello from client");
   return (
     <>
-    <div className="App bg-gradient-to-b p-8">
-    <Navbar />
-      <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
-        <div className="text-7xl font-bold">
-          <p className="">Summarize </p>
-          <p className="">Effortlessly</p>
+      <div className="App bg-gradient-to-b p-8">
+        <Navbar />
+        <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
+          <div className="text-7xl font-bold">
+            <p className="">Summarize </p>
+            <p className="">Effortlessly</p>
+          </div>
+          <p className="text-lg">Condense long videos into short summaries.</p>
+          <Link
+            to="/dashboard"
+            className="bg-[#5a377b] p-3 rounded-lg px-16 mt-8 hover:bg-[#42285a]"
+          >
+            Get started!
+          </Link>
         </div>
-        <p className="text-lg">Condense long videos into short summaries.</p>
-        <Link
-          to="/dashboard"
-          className="bg-[#5a377b] p-3 rounded-lg px-16 mt-8 hover:bg-[#42285a]"
-        >
-          Get started!
-        </Link>
-      </div>
-      <div className="flex flex-wrap justify-around gap-14 p-10 mt-36 font-['Gothic A1']">
-        {/* {data.map((item) => (
+        <div className="flex flex-wrap justify-around gap-14 p-10 mt-36 font-['Gothic A1']">
+          {/* {data.map((item) => (
           <Card item={item} />
         ))}
         <Card item={data[0]} /> */}
-        <div data-aos="fade-right">
-          <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[0].title}</div>
-              <div className="p-1 pt-5 text-justify">{data[0].body}</div>
+          <div data-aos="fade-right">
+            <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[0].title}</div>
+                <div className="p-1 pt-5 text-justify">{data[0].body}</div>
+              </div>
+              <div>
+                <img className="h-full w-full" src={data[0].img}></img>
+              </div>
             </div>
-            <div>
-              <img className="h-full w-full" src={data[0].img}></img>
+          </div>
+          <div data-aos="fade-left">
+            <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[1].title}</div>
+                <div className="p-1 pt-5 text-justify">{data[1].body}</div>
+              </div>
+
+              <div>
+                <img className="h-full w-full" src={data[1].img}></img>
+              </div>
+            </div>
+          </div>
+          <div data-aos="zoom-in">
+            <div className="flex h-[300px] w-[750px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[2].title}</div>
+                <div className="p-1 pt-5 text-justify">{data[2].body}</div>
+              </div>
+
+              <div>
+                <img className="h-full w-full" src={data[2].img}></img>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-right">
+            <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[3].title}</div>
+                <div className="p-1 pt-5 text-justify">{data[3].body}</div>
+              </div>
+              <div>
+                <img className="h-full w-full" src={data[3].img}></img>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-left">
+            <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[4].title}</div>
+                <div className="p-1 pt-5 text-justify">{data[4].body}</div>
+              </div>
+
+              <div>
+                <img className="h-full w-full" src={data[4].img}></img>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="zoom-in">
+            <div className="flex h-[300px] w-[750px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
+              <div className="flex w-1/2 flex-col p-5">
+                <div className="text-xl font-semibold">{data[5].title}</div>
+                <div className="p-2 pt-5 text-justify">{data[5].body}</div>
+              </div>
+              <div>
+                <img className="h-full w-full" src={data[5].img}></img>
+              </div>
             </div>
           </div>
         </div>
-        <div data-aos="fade-left">
-          <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[1].title}</div>
-              <div className="p-1 pt-5 text-justify">{data[1].body}</div>
-            </div>
-
-            <div>
-              <img className="h-full w-full" src={data[1].img}></img>
-            </div>
-          </div>
-        </div>
-        <div data-aos="zoom-in">
-          <div className="flex h-[300px] w-[750px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[2].title}</div>
-              <div className="p-1 pt-5 text-justify">{data[2].body}</div>
-            </div>
-
-            <div>
-              <img className="h-full w-full" src={data[2].img}></img>
-            </div>
-          </div>
-        </div>
-
-        <div data-aos="fade-right">
-          <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[3].title}</div>
-              <div className="p-1 pt-5 text-justify">{data[3].body}</div>
-            </div>
-            <div>
-              <img className="h-full w-full" src={data[3].img}></img>
-            </div>
-          </div>
-        </div>
-
-        <div data-aos="fade-left">
-          <div className="flex h-[300px] w-[600px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[4].title}</div>
-              <div className="p-1 pt-5 text-justify">{data[4].body}</div>
-            </div>
-
-            <div>
-              <img className="h-full w-full" src={data[4].img}></img>
-            </div>
-          </div>
-        </div>
-
-        <div data-aos="zoom-in">
-          <div className="flex h-[300px] w-[750px] hover:scale-105 duration-150 justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-            <div className="flex w-1/2 flex-col p-5">
-              <div className="text-xl font-semibold">{data[5].title}</div>
-              <div className="p-2 pt-5 text-justify">{data[5].body}</div>
-            </div>
-            <div>
-              <img className="h-full w-full" src={data[5].img}></img>
-            </div>
-          </div>
-        </div>
-
-       
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 }

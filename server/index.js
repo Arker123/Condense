@@ -8,11 +8,7 @@ const noteRoute = require("./routes/noteRoute");
 const transcriptRoute = require("./routes/transcriptRoute");
 const chatbotRoute = require("./routes/chatbotRoute");
 const userRoute = require("./routes/userRoute");
-<<<<<<< HEAD
-const redisClient = require("./redis");
-=======
 const redisClient = require("./redisConfig.js");
->>>>>>> hardik/sof-215-summary-page-backend-integration-in-extension
 
 const app = express();
 dotenv.config();
@@ -28,6 +24,23 @@ app.use("/user", userRoute);
 app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
 app.use("/chatbot", chatbotRoute);
+
+const { WebSocketServer } = require("ws");
+const sockserver = new WebSocketServer({ port: 443 });
+sockserver.on("connection", (ws) => {
+  console.log("New client connected!");
+  ws.send("connection established");
+  ws.on("close", () => console.log("Client has disconnected!"));
+  ws.on("message", (data) => {
+    sockserver.clients.forEach((client) => {
+      console.log(`distributing message: ${data}`);
+      client.send(`${data}`);
+    });
+  });
+  ws.onerror = function () {
+    console.log("websocket error");
+  };
+});
 
 mongoose
   .connect(process.env.MONGO_URL)
