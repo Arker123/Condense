@@ -10,6 +10,7 @@ from rich import box
 from rich.table import Table
 from rich.markup import escape
 from rich.console import Console
+import matplotlib.pyplot as plt
 
 import condense.utils as util
 import condense.logging_
@@ -177,11 +178,20 @@ def renderUrl(results: condense.results.ResultDocumentUrl, verbose, disable_head
         console.print(" ".join(summary_texts))
         console.print("\n")
         
+    if results.analysis.enable_wordcloud:
+        plt.figure(figsize=(8, 8), facecolor=None)
+        plt.imshow(results.aggregate.wordcloud)
+        plt.axis("off")
+        plt.tight_layout(pad=0)
+        plt.show()
+        
     if results.analysis.enable_analytics:
         render_sub_heading("Condense Analytics", len(results.aggregate.analytics), console, disable_headers)
         for key, value in results.aggregate.analytics.items():
             console.print(f"{key}: {value}")
         console.print("\n")
+        
+        
 
     console.file.seek(0)
     return console.file.read()

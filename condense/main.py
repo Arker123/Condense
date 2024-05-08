@@ -368,14 +368,6 @@ def main(argv=None) -> int:
 
         if resultsurl.analysis.enable_wordcloud:
             resultsurl.aggregate.wordcloud = word_cloud(sample)
-            
-            if resultsurl.analysis.enable_wordcloud:
-                plt.figure(figsize=(8, 8), facecolor=None)
-                plt.imshow(resultsurl.aggregate.wordcloud)
-                plt.axis("off")
-                plt.tight_layout(pad=0)
-                plt.show()
-
 
         if resultsurl.analysis.enable_analytics:
             resultsurl.aggregate.analytics = display_engagement_metrics(sample)
