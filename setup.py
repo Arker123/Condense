@@ -63,7 +63,7 @@ setuptools.setup(
     install_requires=requirements,
     extras_require={
         "dev": [
-            "pydantic==1.10.9",
+            "pydantic==2.7.1",
             "pyyaml==6.0.1",
             "pytest==8.1.1",
             "pytest-sugar==1.0.0",
