@@ -132,19 +132,13 @@ const Dashboard = () => {
             <div className="flex flex-col items-center justify-center">
               <button
                 onClick={() => {
-                  // Request permission to access microphone
                   navigator.mediaDevices.getUserMedia({ audio: true })
-                    .then(function(stream) {
-                      // Microphone access granted, you can do further processing here
-                      console.log('Microphone access granted');
-                      // Redirect to the live meeting page
-                      navigate("/live-meeting", { state: stream });
-                    })
-                    .catch(function(error) {
-                      // Microphone access denied or error occurred
-                      console.error('Error accessing microphone:', error);
-                      // Handle error gracefully
-                    });
+                  .then(function(stream) {
+                    navigate("/live-meet");
+                  })
+                  .catch(function(error) {
+                    console.error('Error accessing microphone:', error);
+                  });
                 }}
                 className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[55px] hover:underline"
                 style={{ alignSelf: "center" }} 
@@ -183,15 +177,6 @@ const Dashboard = () => {
                   <p className="cursor-pointer">Contact Us</p>
                 </div>
               </div>
-
-              {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
-                <IoMdSettings />
-              </div>
-
-              <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
-                <IoIosNotifications />
-              </div> */}
-
               <div
                 className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full  cursor-pointer"
                 onClick={handleProfileRedirect}

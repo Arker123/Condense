@@ -37,10 +37,10 @@ sockserver.on("connection", (ws) => {
 
   pythonProcess.stdout.on("data", (data) => {
     console.log(`stdout: ${data}`);
+    ws.send(data);
   });
   pythonProcess.stderr.on("data", (data) => {
     console.error(`stderr: ${data}`);
-    ws.send(data);
   });
 
 

@@ -47,7 +47,7 @@ function App() {
               <Route exact path="/mynotesandsummaries" element={<MyNotesAndSummaries/>} />
               <Route exact path="/summaryAndNote" element={<SummaryAndNotes/>} />
               <Route exact path="/analytics" element={<Analytics/>} />
-              <Route exact path="/summarymeet" element={<SummaryMeet/>} />
+              <Route exact path="/live-meet" element={<SummaryMeet/>} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

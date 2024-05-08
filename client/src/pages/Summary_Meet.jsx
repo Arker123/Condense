@@ -38,241 +38,26 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
-  console.log("summaa:  ", summaries);
 
-  const convertTime = (time) => {
-    let seconds = Math.floor(time);
-    // const minutes = "0" + Math.floor(seconds / 60) ;
-    let minutes = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-
-    seconds = seconds % 60;
-    seconds = seconds.toString().padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
-
-  const fetchUser = async () => {
-    try {
-      console.log("user id: ", user.id);
-      console.log({
-        id: user.id,
-      });
-      const response = await getUser({ id: user.id });
-      console.log("in fetch user: ", response);
-      dispatch(setUserSlice({ user: response.data.user }));
-      const notes = response.data.user.notes;
-      setNote(notes.find((item) => item.videoId === videoId)?.body || "");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (url) {
-      const fetchData = async () => {
-        await fetchUser();
-        await fetchTranscript();
-        await fetchSummary();
+  let webSocket = null;
+  const handleStart = () => {
+    webSocket = new WebSocket("ws://localhost:443/");
+    if (webSocket) {
+      webSocket.onopen = (event) => {
+        console.log("Connected to server");
+        webSocket.send("Hello from client");
+        webSocket.onmessage = (event) => {
+          console.log(event);
+        };
       };
-      fetchData();
-    } else {
-      const timeout = setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [url]);
-  if (!url) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <div>Invalid URL</div>
-        <div>Redirecting...</div>
-      </div>
-    );
-  }
-  console.log(`in url page, url: ${url}`);
-
-  const getVideoId = (url) => {
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url?.match(regExp);
-
-    return match && match[2].length === 11 ? match[2] : null;
-  };
-
-  const videoId = getVideoId(url);
-
-  const toastOptions = {
-    position: "bottom-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
-
-  const fetchSummary = () => {
-    const reqSummary = summaries.find((summary) => summary.videoId == url);
-    console.log("req summ:  ", reqSummary);
-
-    if (!reqSummary) {
-      const res = axios.post(
-        `${process.env.REACT_APP_API_URL}/summaries/generate`,
-        {
-          videoId,
-        }
-      );
-      res
-        .then((res) => {
-          const sum = JSON5.parse(res.data?.summary || "")
-          setSummaryText(sum.summary);
-          setTimestamps(sum.time_stamp);
-        })
-        .catch((err) => {
-          toast.error("Error while fetching summary", toastOptions);
-
-          console.log(err);
-        });
-    } else {
-      console.log("in fetch one summary");
-      const userId = user.id;
-      console.log(userId);
-      console.log(url);
-
-      // Construct the URL with query parameters
-      const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
-
-      const res = axios.get(apiUrl);
-      res
-        .then((res) => {
-          setSummaryText(res.data[0]?.summary?.body);
-        })
-        .catch((err) => {
-          toast.error("Error while fetching summary", toastOptions);
-
-          console.log(err);
-        });
-    }
-  };
-  const fetchTranscript = async () => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/transcript/`,
-        {
-          url,
-        }
-      );
-      const transcripts = await JSON5.parse(res.data.transcript);
-      console.log(transcripts);
-      setTranscripts(transcripts);
-    } catch (error) {
-      toast.error("Error while fetching transcripts", toastOptions);
     }
   };
 
-  const handleSaveSummary = async () => {
-    console.log("in handlesavesummary");
-    const data = {
-      userId: user.id,
-      videoId: url,
-      summaryBody: summaryText,
-    };
-
-    try {
-      const response = await saveSummary(data);
-      console.log(response);
-      toast.success("Summary saved successfully");
-    } catch (error) {
-      // console.log(error);
-      let errorMessage = "Error while saving";
-      toast.error(errorMessage, toastOptions);
-    }
+  const handleStop = () => {
+    if (webSocket) webSocket.close();
+    // websocket = null
   };
 
-  const addSummaryToFav = async () => {
-    console.log("in addsummarytofav");
-    const data = {
-      userId: user.id,
-      videoId: url,
-    };
-
-    try {
-      const response = await modifyFavSummaries(data);
-      console.log(response);
-      toast.success("Summary fav flipped successfully");
-    } catch (error) {
-      console.log(error);
-      let errorMessage = "Error while updating fv";
-      toast.error(errorMessage, toastOptions);
-    }
-  };
-
-  const handleSaveNote = async () => {
-    const data = {
-      userId: user.id,
-      videoId: videoId,
-      note: { title: "Untitled Note", body: note },
-    };
-
-    const reqNote = notes.find((item) => item.videoId === videoId);
-
-    if (!reqNote) {
-      try {
-        const response = await createNote(data);
-        console.log(response);
-        toast.success("Note saved successfully");
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
-        let errorMessage = "Error while saving";
-        toast.error(errorMessage, toastOptions);
-      }
-    } else {
-      try {
-        const response = await modifyNote(data);
-        console.log(response);
-        toast.success("Note saved successfully");
-        window.location.reload();
-      } catch (error) {
-        console.log(error);
-        let errorMessage = "Error while saving";
-        toast.error(errorMessage, toastOptions);
-      }
-    }
-  };
-
-  const handleDeleteNote = async () => {
-    const data = {
-      userId: user.id,
-      videoId: url,
-    };
-
-    const response = await deleteNote(data);
-    console.log(response);
-  };
-
-  const addNoteToFav = async () => {
-    console.log(" in fav note");
-    const data = {
-      userId: user.id,
-      videoId: videoId,
-    };
-
-    try {
-      const res = await modifyFavNotes(data);
-      toast.success("Summary fav flipped successfully");
-    } catch (error) {
-      console.log(error);
-      let errorMessage = "Error while updating fv";
-      toast.error(errorMessage, toastOptions);
-    }
-  };
-
-  const handleVideoUrl = (url) => {
-    const videoId = getVideoId(url);
-    const videoUrl = "https://www.youtube.com/embed/" + videoId;
-    return videoUrl;
-  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -299,16 +84,9 @@ const SummaryPage = () => {
           transition={{ duration: 1 }}
         >
           <div className="flex justify-between mt-5 ">
-            <div className="flex flex-row w-full h-full max-w-[500px] rounded-lg hover:shadow-xl">
-              <iframe
-                className="w-full h-full rounded-lg"
-                src={handleVideoUrl(url)}
-                title="YouTube video player"
-                autoPlay
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              ></iframe>
-            </div>
             <div className="flex flex-row items-start justify-end gap-3 md:gap-5">
+              <button className="bg-white p-2 px-2 border rounded-md cursor-pointer" onClick={handleStart}>Start</button>
+              <button className="bg-white p-2 px-2 border rounded-md cursor-pointer" onClick={handleStop}>Stop</button>
               <div className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3">
                 <LuDownload className="mr-2" /> PDF
               </div>
@@ -361,30 +139,6 @@ const SummaryPage = () => {
                 placeholder=""
                 className="w-full h-[250px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl"
               />
-            </div>
-            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll px-5">
-              <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.0 }}
-                >
-                  TIMESTAMPS
-                </motion.div>
-
-                <div className="flex flex-row gap-4">
-                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
-                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
-                </div>
-              </div>
-              <div data-testid="timestamps-test" className="w-full flex flex-col gap-5 pb-5">
-                {Timestamps.map((timestamp, index) => (
-                  <div className="flex" key={index}>
-                    <div className="text-[rgb(116,173,252)] w-10 mr-2">{parseInt(timestamp.start)}</div>
-                    <div className="px-2">{timestamp.summary_text}</div>
-                  </div>
-                ))}
-              </div>
             </div>
             <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll px-5">
               <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
