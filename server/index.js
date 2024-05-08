@@ -6,6 +6,7 @@ const authRoute = require("./routes/authRoute");
 const summaryRoute = require("./routes/summaryRoute");
 const noteRoute = require("./routes/noteRoute");
 const transcriptRoute = require("./routes/transcriptRoute");
+const analyticsRoute = require("./routes/analyticsRoute")
 const chatbotRoute = require("./routes/chatbotRoute");
 const userRoute = require("./routes/userRoute");
 const redisClient = require("./redisConfig.js");
@@ -24,6 +25,7 @@ app.use("/note", noteRoute);
 app.use("/user", userRoute);
 app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
+app.use("/youtube-stats", analyticsRoute)
 app.use("/chatbot", chatbotRoute);
 
 const { WebSocketServer } = require("ws");

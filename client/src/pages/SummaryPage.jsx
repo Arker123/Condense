@@ -43,8 +43,7 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
-  console.log("summaa:  ", summaries);
-
+  const analytics = 1;
   const convertTime = (time) => {
     let seconds = Math.floor(time);
     // const minutes = "0" + Math.floor(seconds / 60) ;
@@ -60,11 +59,7 @@ const SummaryPage = () => {
   const fetchUser = async () => {
     try {
       console.log("user id: ", user.id);
-      console.log({
-        id: user.id,
-      });
       const response = await getUser({ id: user.id });
-      console.log("in fetch user: ", response);
       dispatch(setUserSlice({ user: response.data.user }));
       const notes = response.data.user.notes;
       setNote(notes.find((item) => item.videoId === videoId)?.body || "");
@@ -96,7 +91,6 @@ const SummaryPage = () => {
       </div>
     );
   }
-  console.log(`in url page, url: ${url}`);
 
   const getVideoId = (url) => {
     const regExp =
@@ -118,7 +112,6 @@ const SummaryPage = () => {
 
   const fetchSummary = () => {
     const reqSummary = summaries.find((summary) => summary.videoId == url);
-    console.log("req summ:  ", reqSummary);
 
     if (!reqSummary) {
       const res = axios.post(
@@ -143,10 +136,7 @@ const SummaryPage = () => {
           console.log(err);
         });
     } else {
-      console.log("in fetch one summary");
       const userId = user.id;
-      console.log(userId);
-      console.log(url);
 
       // Construct the URL with query parameters
       const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
@@ -172,7 +162,6 @@ const SummaryPage = () => {
         }
       );
       const transcripts = await JSON5.parse(res.data.transcript);
-      console.log(transcripts);
       setTranscripts(transcripts);
     } catch (error) {
       toast.error("Error while fetching transcripts", toastOptions);
@@ -180,7 +169,6 @@ const SummaryPage = () => {
   };
 
   const handleSaveSummary = async () => {
-    console.log("in handlesavesummary");
     const data = {
       userId: user.id,
       videoId: url,
@@ -199,7 +187,6 @@ const SummaryPage = () => {
   };
 
   const addSummaryToFav = async () => {
-    console.log("in addsummarytofav");
     const data = {
       userId: user.id,
       videoId: url,
@@ -367,7 +354,7 @@ const SummaryPage = () => {
   return (
     <>
       <div className="flex flex-row">
-        <Sidebar />
+        <Sidebar analytics={analytics} url={url} />
         <motion.div
           className="flex flex-col flex-grow bg-gradient-to-b from-black to-[#6f0000] px-4 md:px-8"
           initial={{ opacity: 0 }}

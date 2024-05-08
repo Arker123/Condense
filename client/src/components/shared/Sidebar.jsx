@@ -9,18 +9,22 @@ import { IoMdHome, IoMdAnalytics,  IoMdPerson } from "react-icons/io";
 import { FaChartBar } from 'react-icons/fa';
 
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const menus = [
     { name: "Home", link: "/landing", icon: IoMdHome },
     { name: "Dashboard", link: "/dashboard", icon: IoMdAnalytics },
     // { name: "Chat with AI", link: "/", icon: BsChatFill },
     { name: "My Notes", link: "/mynotesandsummaries", icon: FaNoteSticky },
     // { name: "Youtube Summaries", link: "/", icon: MdSummarize },
+    { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
     // { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
     // { name: "Analytics", link: "/analytics", icon: FaChartBar },
     { name: "My Profile", link: "/profile", icon: IoMdPerson },
-
   ];
+  const url = props.url;
+  if (props.analytics) {
+    menus.push({ name: "Analytics", link: "/analytics", icon: FaChartBar, url: url });
+  }
   const [open, setOpen] = useState(true);
 
     return (
@@ -51,7 +55,10 @@ const Sidebar = () => {
 
           {menus?.map((menu, i) => (
             <Link
-              to={menu?.link}
+              to={{
+                pathname: menu?.link,
+                search: `?url=${encodeURIComponent(url)}`
+              }}
               key={i}
               className={` ${
                 menu?.margin && "mt-5"
