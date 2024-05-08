@@ -7,8 +7,11 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from comments import get_comments
+from comments import main as comments_main  # Import the main function from comments.py
+from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
+
+from condense.sentiment_lstm import SentimentLSTM
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -26,19 +29,14 @@ def make_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "-v",
-        "--video",
+        "--url",
         dest="video_url",
         type=str,
         required=True,
         help="YouTube video URL to extract comments from",
     )
-    parser.add_argument(
-        "-c",
-        "--csv",
-        dest="csv_output",
-        action="store_true",
-        help="Store results in a CSV file (optional)",
-    )
+    output_group = parser.add_argument_group("rendering arguments")
+    output_group.add_argument("-c", "--csv", action="store_true", help="emit CSV instead of JSON")
 
     return parser
 
@@ -60,6 +58,8 @@ def preprocess_data(comment: str) -> str:
 def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, comment: str) -> str:
     refined_comment = preprocess_data(comment)
     sequence = tokenizer.texts_to_sequences([refined_comment])
+    if len(sequence[0]) == 0:
+        return "neutral"
     tensor = torch.LongTensor(sequence)
 
     # Pass the tensor through the model to get the predicted sentiment
@@ -73,17 +73,13 @@ def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, co
 
 
 def main(argv=None) -> str:
-    logging.basicConfig(level=logging.DEBUG)
-    parser = make_parser()
-    args = parser.parse_args(argv)
-
     nltk.download("punkt")
     checkpoint = torch.load(path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
 
     # Extract comments from the YouTube video
-    comments = get_comments(file=args.csv_output, video_url=args.video_url)
+    comments = comments_main(argv)
 
     # Perform sentiment analysis on each comment and count the results
     positive_count = 0
@@ -91,7 +87,7 @@ def main(argv=None) -> str:
     neutral_count = 0
 
     for comment in comments:
-        sentiment = predict_sentiment(model, tokenizer, comment)
+        sentiment = predict_sentiment(model, tokenizer, comment[0])
         if sentiment == "positive":
             positive_count += 1
         elif sentiment == "negative":
@@ -99,12 +95,11 @@ def main(argv=None) -> str:
         elif sentiment == "neutral":
             neutral_count += 1
 
-    # Print or store the results
     sentiment_results = ""
     sentiment_results += "Positive comments: " + str(positive_count) + "\n"
     sentiment_results += "Negative comments: " + str(negative_count) + "\n"
     sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
-
+    print(sentiment_results)
     return sentiment_results
 
 
