@@ -60,12 +60,13 @@ def word_cloud(video_url: str) -> None:
         width=800, height=800, background_color="white", stopwords=stopwords, min_font_size=10
     ).generate(comment_words)
 
-    plt.figure(figsize=(8, 8), facecolor=None)
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.tight_layout(pad=0)
+    return wordcloud
+    # plt.figure(figsize=(8, 8), facecolor=None)
+    # plt.imshow(wordcloud)
+    # plt.axis("off")
+    # plt.tight_layout(pad=0)
 
-    plt.show()
+    # plt.show()
 
 
 def display_engagement_metrics(video_url: str):
@@ -97,7 +98,7 @@ def main(argv=None) -> int:
     print(sentiment_results)
 
     # Word cloud generation
-    word_cloud(args.video_url)
+    wordcloud = word_cloud(args.video_url)
 
     # Display engagement metrics
     statistics = display_engagement_metrics(args.video_url)
@@ -109,6 +110,8 @@ def main(argv=None) -> int:
     print("Comments:", statistics.get("commentCount", 0))
     print("Shares:", statistics.get("shareCount", 0))
     os.remove("./comments.csv")
+
+    print(wordcloud)
     return 0
 
 

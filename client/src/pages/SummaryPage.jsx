@@ -54,11 +54,7 @@ const SummaryPage = () => {
   const fetchUser = async () => {
     try {
       console.log("user id: ", user.id);
-      console.log({
-        id: user.id,
-      });
       const response = await getUser({ id: user.id });
-      console.log("in fetch user: ", response);
       dispatch(setUserSlice({ user: response.data.user }));
       const notes = response.data.user.notes;
       setNote(notes.find((item) => item.videoId === videoId)?.body || "");
@@ -90,7 +86,6 @@ const SummaryPage = () => {
       </div>
     );
   }
-  console.log(`in url page, url: ${url}`);
 
   const getVideoId = (url) => {
     const regExp =
@@ -112,7 +107,6 @@ const SummaryPage = () => {
 
   const fetchSummary = () => {
     const reqSummary = summaries.find((summary) => summary.videoId == url);
-    console.log("req summ:  ", reqSummary);
 
     if (!reqSummary) {
       const res = axios.post(
@@ -159,7 +153,6 @@ const SummaryPage = () => {
         }
       );
       const transcripts = await JSON5.parse(res.data.transcript);
-      console.log(transcripts);
       setTranscripts(transcripts);
     } catch (error) {
       toast.error("Error while fetching transcripts", toastOptions);
@@ -167,7 +160,6 @@ const SummaryPage = () => {
   };
 
   const handleSaveSummary = async () => {
-    console.log("in handlesavesummary");
     const data = {
       userId: user.id,
       videoId: url,
@@ -186,7 +178,6 @@ const SummaryPage = () => {
   };
 
   const addSummaryToFav = async () => {
-    console.log("in addsummarytofav");
     const data = {
       userId: user.id,
       videoId: url,
@@ -287,7 +278,7 @@ const SummaryPage = () => {
   return (
     <>
       <div className="flex flex-row">
-        <Sidebar analytics={analytics} />
+        <Sidebar analytics={analytics} url={url} />
         <motion.div
           className="flex flex-col flex-grow bg-gradient-to-b from-black to-[#6f0000] px-4 md:px-8"
           initial={{ opacity: 0 }}

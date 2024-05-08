@@ -17,8 +17,9 @@ const Sidebar = (props) => {
     // { name: "Youtube Summaries", link: "/", icon: MdSummarize },
     { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
   ];
+  const url = props.url;
   if (props.analytics) {
-    menus.push({ name: "Analytics", link: "/analytics", icon: FaChartBar });
+    menus.push({ name: "Analytics", link: "/analytics", icon: FaChartBar, url: url });
   }
   const [open, setOpen] = useState(true);
 
@@ -50,7 +51,10 @@ const Sidebar = (props) => {
 
           {menus?.map((menu, i) => (
             <Link
-              to={menu?.link}
+              to={{
+                pathname: menu?.link,
+                search: `?url=${encodeURIComponent(url)}`
+              }}
               key={i}
               className={` ${
                 menu?.margin && "mt-5"

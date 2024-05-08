@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import JSON5 from "json5";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/shared/Sidebar";
 import { IoIosNotifications } from "react-icons/io";
@@ -19,9 +20,8 @@ const SentimentAnalysis = ({ sentimentData }) => {
     const [startCounting, setStartCounting] = useState(false);
     const [startCounting1, setStartCounting1] = useState(false);
     const [startCounting2, setStartCounting2] = useState(false);
-
+    const total = sentimentData.positiveComments + sentimentData.negativeComments + sentimentData.neutralComments
     useEffect(() => {
-        // Set startCounting to true after a short delay to trigger the counter animation
         const timer = setTimeout(() => {
             setStartCounting(true);
             setStartCounting1(true);
@@ -36,9 +36,8 @@ const SentimentAnalysis = ({ sentimentData }) => {
             <p className="text-[28px] font-bold w-[290px]   flex items-center justify-center mt-1 text-[#6f0000]">Sentiment Analysis</p>
             <div className="flex flex-col gap-2 mt-5 ">
                 <p className="text-[20px] flex flex-row gap-2 ml-[25px] font-medium">
-                    Positive:
-                    {/* Positive: 59 {sentimentData.positive}% */}
-                    <ProgressBarComponent id="linear" type='Linear' height='35' value={100} animation={{ // value mein {sentimentData.positive} daal dena
+                    Positive: 
+                    <ProgressBarComponent id="linear" type='Linear' height='35' value={sentimentData.positive} animation={{
                         enable: true,
                         duration: 2000,
                         delay: 0
@@ -46,14 +45,13 @@ const SentimentAnalysis = ({ sentimentData }) => {
 
                     />
                     {startCounting && (
-                        <CountUp start={0} end={80} duration={2.5} /> // end mein {sentimentData.positive} daal dena
+                        <CountUp start={0} end={(sentimentData.positiveComments*100)/total} duration={2.5} /> // end mein {sentimentData.positive} daal dena
                     )}%
                 </p>
                 {/*  */}
                 <p className="text-[20px] flex flex-row gap-2 ml-[15px] font-medium">
-                    {/* Negative: 55 {sentimentData.negative}% */}
                     Negative:
-                    <ProgressBarComponent id="Negative" type='Linear' height='35' value={100} animation={{ // value mein {sentimentData.positive} daal dena
+                    <ProgressBarComponent id="Negative" type='Linear' height='35' value={sentimentData.negative} animation={{ // value mein {sentimentData.positive} daal dena
                         enable: true,
                         duration: 2000,
                         delay: 0
@@ -61,25 +59,22 @@ const SentimentAnalysis = ({ sentimentData }) => {
 
                     />
                     {startCounting1 && (
-                        <CountUp start={0} end={80} duration={2.5} /> // Adjust duration as needed
+                        <CountUp start={0} end={(sentimentData.negativeComments*100)/total} duration={2.5} /> // Adjust duration as needed
                     )}%
                 </p>
-                <p className="text-[20px] flex flex-row gap-2 ml-[15px] mb-3">
-                    {/* Neutral: 96{sentimentData.neutral}% */}
-                    <p className="text-[20px] flex flex-row gap-2 ml-[15px] font-medium ">
+                <p className="text-[20px] flex flex-row gap-2 ml-[15px] font-medium mb-3">
+                    Neutral:
 
-                        Neutral:
-                        <ProgressBarComponent id="Neutral" type='Linear' height='35' value={100} animation={{ // value mein {sentimentData.positive} daal dena
-                            enable: true,
-                            duration: 2000,
-                            delay: 0
-                        }}
+                    <ProgressBarComponent id="Neutral" type='Linear' height='35' value={sentimentData.neutral} animation={{ // value mein {sentimentData.positive} daal dena
+                        enable: true,
+                        duration: 2000,
+                        delay: 0
+                    }}
 
-                        />
-                        {startCounting1 && (
-                            <CountUp start={0} end={80} duration={2.5} /> // Adjust duration as needed
-                        )}%
-                    </p>
+                    />
+                    {startCounting2 && (
+                        <CountUp start={0} end={(sentimentData.neutralComments*100)/total} duration={2.5} /> // Adjust duration as needed
+                    )}%
                 </p>
             </div>
         </div>
@@ -101,39 +96,52 @@ const WordCloud = ({ wordcloudData }) => {
 
 const Analytics = () => {
     const location = useLocation();
-    const url = location.state;
-    console.log("url : ", url)
+    const searchParams = new URLSearchParams(location.search);
+    const url = searchParams.get("url");
+    console.log("url:", url);
     const [startCounting, setStartCounting] = useState(false);
 
-    useEffect(() => {
-        // Set startCounting to true after a short delay to trigger the counter animation
-        const timer = setTimeout(() => {
-            setStartCounting(true);
-        }, 500); // Adjust the delay time as needed
-
-        return () => clearTimeout(timer); // Cleanup function
-    }, []);
-
     var [wordcloudData, setWordCloudData] = useState([]);
-    var [sentimentData, setsentimentData] = useState({});
     var [engagementData, setEngagementData] = useState({});
     var [youtubeStats, setYoutubeStats] = useState({
+        positiveComments: 0,
+        negativeComments : 0,
+        neutralComments : 0
+    });
+    const [sentimentData, setSentiment] = useState({
         views: 0,
         likes: 0,
         dislikes: 0,
         comments: 0,
         shares: 0,
-    });
+    })
 
     useEffect(() => {
-        axios.get(
+        axios.post(
             `${process.env.REACT_APP_API_URL}/youtube-stats`,
             {
                 url,
             }
         )
         .then(response => {
-            setYoutubeStats(response.data);
+            const stats = JSON5.parse(response.data.statistics);
+            console.log(stats)
+            const lines = stats.split('\n');
+
+            const result = {
+                positiveComments: parseInt(lines[2].match(/Positive comments: (\d+)/)[1]),
+                negativeComments: parseInt(lines[3].match(/Negative comments: (\d+)/)[1]),
+                neutralComments: parseInt(lines[4].match(/Neutral comments: (\d+)/)[1])
+            };
+            const engagementMetrics = {
+                views: parseInt(lines[7].match(/Views: (\d+)/)[1]),
+                likes: parseInt(lines[8].match(/Likes: (\d+)/)[1]),
+                dislikes: parseInt(lines[9].match(/Dislikes: (\d+)/)[1]),
+                comments: parseInt(lines[10].match(/Comments: (\d+)/)[1]),
+                shares: parseInt(lines[11].match(/Shares: (\d+)/)[1])
+            };
+            setSentiment(result)
+            setYoutubeStats(engagementMetrics)
         })
         .catch(error => {
             console.error('Error fetching YouTube statistics:', error);
@@ -161,7 +169,6 @@ const Analytics = () => {
             <section className="flex flex-row gap-6 bg-gradient-to-b from-black to-[#6f0000] h-screen">
                 <Sidebar />
                 <div className="w-full flex flex-col">
-                    {/* Top Icons */}
                     <div>
                         <div className="flex groupside justify-end p-2 gap-4 mt-5 mr-4">
                             <div className="w-30 h-10 sidebuttons rounded-3xl flex items-center px-4">
@@ -170,12 +177,6 @@ const Analytics = () => {
                                     <p className="cursor-pointer">Contact Us</p>
                                 </div>
                             </div>
-                            {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
-                                <IoMdSettings />
-                            </div>
-                            <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
-                                <IoIosNotifications />
-                            </div> */}
                             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full cursor-pointer" onClick={handleProfileRedirect}>
                                 <CgProfile />
                             </div>
@@ -186,27 +187,27 @@ const Analytics = () => {
                         <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center">
                             <p data-testid="views-title" className="text-[35px] text-slate-50 font-sans font-bold mt-1" >Views</p>
                             <p data-testid="views-count" className="text-[35px] text-slate-50  font-bold">{startCounting && (
-                                <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.views} daal dena
+                                <CountUp start={0} end={50} duration={2.5} /> 
                             )}
-                                {/* {youtubeStats.views} */}
+                                {youtubeStats.views}
                             </p>
 
                         </div>
                         <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center">
                             <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Likes</p>
                             <p data-testid="likes-count" className="text-[35px] text-slate-50  font-bold">{startCounting && (
-                                <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.likes} daal dena
+                                <CountUp start={0} end={50} duration={2.5} /> 
                             )}
-                                {/* {youtubeStats.likes} */}
+                                {youtubeStats.likes}
                             </p>
 
                         </div>
                         <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center">
                             <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Dislikes</p>
                             <p className="text-[35px] text-slate-50  font-bold">{startCounting && (
-                                <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.dislikes} daal dena
+                                <CountUp start={0} end={50} duration={2.5} /> 
                             )}
-                                {/* {youtubeStats.dislikes} */}
+                                {youtubeStats.dislikes}
                             </p>
 
                         </div>
@@ -220,18 +221,18 @@ const Analytics = () => {
                             <div className="border border-white h-[110px] w-[200px] flex flex-col rounded-2xl  mt-2 items-center">
                                 <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Comments</p>
                                 <p className="text-[35px] text-slate-50  font-bold">{startCounting && (
-                                    <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.comments} daal dena
+                                    <CountUp start={0} end={50} duration={2.5} />
                                 )}
-                                    {/* {youtubeStats.comments} */}
+                                    {youtubeStats.comments}
                                 </p>
 
                             </div>
                             <div className="border border-white h-[110px] w-[180px] flex flex-col rounded-2xl  mt-2 items-center ml-3">
                                 <p className="text-[35px] text-slate-50 font-sans font-bold mt-1">Shares</p>
                                 <p className="text-[35px] text-slate-50  font-bold">{startCounting && (
-                                    <CountUp start={0} end={50} duration={2.5} /> // end mein {youtubeStats.shares} daal dena
+                                    <CountUp start={0} end={50} duration={2.5} />
                                 )}
-                                    {/* {youtubeStats.shares} */}
+                                    {youtubeStats.shares}
                                 </p>
 
                             </div>

@@ -1,4 +1,5 @@
 import re
+import os
 import sys
 import logging
 import argparse
@@ -16,7 +17,13 @@ from condense.sentiment_lstm import SentimentLSTM
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-path = "saved_models/SentimentModel.pth"
+current_directory = os.getcwd()
+directory_components = current_directory.split(os.path.sep)
+if "server" in directory_components:
+    server_index = directory_components.index("server")
+    directory_components[server_index] = "condense"
+modified_directory = os.path.sep.join(directory_components)
+path = os.path.join(modified_directory, "saved_models", "SentimentModel.pth")
 
 
 def make_parser() -> argparse.ArgumentParser:
