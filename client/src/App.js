@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import SignUp from "./pages/SignUp";
 import SummaryPage from "./pages/SummaryPage";
+import SummaryPageFile from "./pages/SummaryPageFile";
 import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
@@ -42,8 +43,8 @@ function App() {
             <Route element={<Auth />}>
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/summary" element={<SummaryPage />} />
+              <Route exact path="/summaryFile" element={<SummaryPageFile />} />
               <Route exact path="/profile" element={<Profile />} />
-              <Route exact path="/mynotes" element={<MyNotes/>} />
               <Route exact path="/mynotesandsummaries" element={<MyNotesAndSummaries/>} />
               <Route exact path="/summaryAndNote" element={<SummaryAndNotes/>} />
               <Route exact path="/analytics" element={<Analytics/>} />
