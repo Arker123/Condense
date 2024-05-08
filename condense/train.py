@@ -79,7 +79,7 @@ def save_model(model: torch.nn.Module, tokenizer: Tokenizer) -> None:
         model (torch.nn.Module): The trained PyTorch model to save.
         tokenizer: The tokenizer used to preprocess the text data.
     """
-    model_save_dir = "saved_models"
+    model_save_dir = "models"
     filename = "SentimentModel.pth"
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
