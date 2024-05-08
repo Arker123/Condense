@@ -1,5 +1,5 @@
-import re
 import os
+import re
 import sys
 import logging
 import argparse
@@ -8,10 +8,10 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from condense.comments import get_comments
 from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
+from condense.comments import get_comments
 from condense.sentiment_lstm import SentimentLSTM
 
 logger = logging.getLogger()

@@ -1,8 +1,8 @@
 import os
 import sys
+import random
 import string
 import logging
-import random
 import argparse
 from typing import Optional
 
@@ -10,12 +10,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
-from condense.evaluation import evaluate_sentiment
-from condense.comments import get_comments
 from googleapiclient.discovery import build
 
 from condense.utils import get_video_id
 from condense.comments import get_comments
+from condense.evaluation import evaluate_sentiment
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)

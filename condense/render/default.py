@@ -6,11 +6,11 @@ import textwrap
 import collections
 from typing import Dict, List, Tuple, Union
 
+import matplotlib.pyplot as plt
 from rich import box
 from rich.table import Table
 from rich.markup import escape
 from rich.console import Console
-import matplotlib.pyplot as plt
 
 import condense.utils as util
 import condense.logging_

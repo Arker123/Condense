@@ -7,12 +7,13 @@ import json
 import random
 import logging
 import argparse
-import rich.traceback
 import textwrap
 from enum import Enum
 from time import time
 from typing import Dict, List, Tuple
 from pathlib import Path
+
+import rich.traceback
 import matplotlib.pyplot as plt
 
 import condense.utils
