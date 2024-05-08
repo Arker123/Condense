@@ -25,11 +25,16 @@ import { setUserSlice } from "../redux/userSlice";
 import MyChatBot from "../components/shared/Chatbot/Chatbot";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { FaWandMagicSparkles } from "react-icons/fa6";
+import jsPDF from "jspdf";
 
 const SummaryPage = () => {
   const [summaryText, setSummaryText] = useState("Loading...");
-  const [Timestamps, setTimestamps] = useState([{ start: 0, end: 0, summary_text: 'Loading...' }]); 
-  const [transcripts, setTranscripts] = useState([{ start: 0, end: 0, text: 'Loading...' }]); 
+  const [Timestamps, setTimestamps] = useState([
+    { start: 0, end: 0, summary_text: "Loading..." },
+  ]);
+  const [transcripts, setTranscripts] = useState([
+    { start: 0, end: 0, text: "Loading..." },
+  ]);
   const [note, setNote] = useState("Loading...");
 
   const location = useLocation();
@@ -124,13 +129,17 @@ const SummaryPage = () => {
       );
       res
         .then((res) => {
-          const sum = JSON5.parse(res.data?.summary || "")
+          const sum = JSON5.parse(res.data?.summary || "");
           setSummaryText(sum.summary);
           setTimestamps(sum.time_stamp);
         })
+        // .then((res) => {
+        //   return JSON.parse(res);
+        // })
+        // .then((summary) => setSummaryText(summary.summary))
+
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
-
           console.log(err);
         });
     } else {
@@ -288,6 +297,73 @@ const SummaryPage = () => {
     }, 200); // Delay of 200ms
   };
 
+  const downloadPdf = () => {
+    const doc = new jsPDF();
+
+    // Add Summary
+    doc.text(10, 10, "Summary:");
+    doc.text(10, 20, summaryText);
+
+    // Add Notes
+    doc.text(10, 40, "Notes:");
+    doc.text(10, 50, note);
+
+    // Add Transcripts
+    doc.text(10, 70, "Transcripts:");
+    transcripts.forEach((transcript, index) => {
+      doc.text(10, 80 + index * 10, `${transcript.start}: ${transcript.text}`);
+    });
+
+    doc.save("summary.pdf");
+  };
+
+  const sharePdf = (option) => {
+    const doc = new jsPDF();
+
+    // Add Summary
+    doc.text(10, 10, "Summary:");
+    doc.text(10, 20, summaryText);
+
+    // Add Notes
+    doc.text(10, 40, "Notes:");
+    doc.text(10, 50, note);
+
+    // Add Transcripts
+    doc.text(10, 70, "Transcripts:");
+    transcripts.forEach((transcript, index) => {
+      doc.text(10, 80 + index * 10, `${transcript.start}: ${transcript.text}`);
+    });
+
+    // Generate Blob from PDF content
+    const pdfBlob = doc.output("blob");
+
+    // Generate URL for Blob
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // Share PDF via URL
+    if (option === "whatsapp") {
+      const message = "Check out this PDF";
+      const shareLink = `https://wa.me/?text=${encodeURIComponent(message)}%0A${encodeURIComponent(pdfUrl)}`;
+      window.open(shareLink, "_blank");
+    } else if (option === "linkedin") {
+      const title = "Check out this PDF";
+      const summary = "This is a summary of the PDF content";
+      const source = "Condense";
+      const shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pdfUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}&source=${encodeURIComponent(source)}`;
+      window.open(shareLink, "_blank");
+    } else if (option === "telegram") {
+      const shareLink = `https://t.me/share/url?url=${encodeURIComponent(pdfUrl)}`;
+      window.open(shareLink, "_blank");
+    } else if (option === "facebook") {
+      const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pdfUrl)}`;
+      window.open(shareLink, "_blank");
+    } else if (option === "twitter") {
+      const text = "Check out this PDF";
+      const shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pdfUrl)}&text=${encodeURIComponent(text)}`;
+      window.open(shareLink, "_blank");
+    }
+  };
+
   return (
     <>
       <div className="flex flex-row">
@@ -309,7 +385,10 @@ const SummaryPage = () => {
               ></iframe>
             </div>
             <div className="flex flex-row items-start justify-end gap-3 md:gap-5">
-              <div className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3">
+              <div
+                className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3"
+                onClick={downloadPdf}
+              >
                 <LuDownload className="mr-2" /> PDF
               </div>
               <div className="relative">
@@ -326,10 +405,61 @@ const SummaryPage = () => {
                   onMouseEnter={() => toggleDropdown(true)}
                   onMouseLeave={() => toggleDropdown(false)}
                 >
-                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">Facebook</a>
-                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">Reddit</a>
-                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">LinkedIn</a>
-                  <a href="#" className="p-2 flex rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200">Twitter</a>
+                  <a
+                    href="#"
+                    className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200"
+                    onClick={() => sharePdf("facebook")}
+                  >
+                    <FontAwesomeIcon
+                      icon={["fab", "facebook"]}
+                      className="mr-2"
+                    />{" "}
+                    Facebook
+                  </a>
+                  <a
+                    href="#"
+                    className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200"
+                    onClick={() => sharePdf("whatsapp")}
+                  >
+                    <FontAwesomeIcon
+                      icon={["fab", "whatsapp"]}
+                      className="mr-2"
+                    />{" "}
+                    WhatsApp
+                  </a>
+                  <a
+                    href="#"
+                    className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200"
+                    onClick={() => sharePdf("linkedin")}
+                  >
+                    <FontAwesomeIcon
+                      icon={["fab", "linkedin"]}
+                      className="mr-2"
+                    />{" "}
+                    LinkedIn
+                  </a>
+                  <a
+                    href="#"
+                    className="p-2 flex rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200"
+                    onClick={() => sharePdf("twitter")}
+                  >
+                    <FontAwesomeIcon
+                      icon={["fab", "twitter"]}
+                      className="mr-2"
+                    />{" "}
+                    Twitter
+                  </a>
+                  <a
+                    href="#"
+                    className="p-2 flex rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200"
+                    onClick={() => sharePdf("telegram")}
+                  >
+                    <FontAwesomeIcon
+                      icon={["fab", "telegram"]}
+                      className="mr-2"
+                    />{" "}
+                    Telegram
+                  </a>
                 </div>
               </div>
               <div className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3">
@@ -349,11 +479,20 @@ const SummaryPage = () => {
                   NOTES
                 </motion.div>
                 <div className="flex flex-row gap-4">
-                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" onClick={() => handleSaveNote()} />
-                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" onClick={() => addNoteToFav()} />
+                  <FontAwesomeIcon
+                    icon={faSave}
+                    className="cursor-pointer"
+                    onClick={() => handleSaveNote()}
+                  />
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="cursor-pointer"
+                    onClick={() => addNoteToFav()}
+                  />
                 </div>
               </div>
               <textarea
+                data-testid="notes-test"
                 id="note"
                 type="text"
                 value={note}
@@ -377,10 +516,15 @@ const SummaryPage = () => {
                   <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
                 </div>
               </div>
-              <div data-testid="timestamps-test" className="w-full flex flex-col gap-5 pb-5">
+              <div
+                data-testid="timestamps-test"
+                className="w-full flex flex-col gap-5 pb-5"
+              >
                 {Timestamps.map((timestamp, index) => (
                   <div className="flex" key={index}>
-                    <div className="text-[rgb(116,173,252)] w-10 mr-2">{parseInt(timestamp.start)}</div>
+                    <div className="text-[rgb(116,173,252)] w-10 mr-2">
+                      {parseInt(timestamp.start)}
+                    </div>
                     <div className="px-2">{timestamp.summary_text}</div>
                   </div>
                 ))}
@@ -400,7 +544,10 @@ const SummaryPage = () => {
                   <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
                 </div>
               </div>
-              <div data-testid="transcript-test" className="w-full flex flex-col overflow-y-scroll h-5/6 gap-5 pb-5">
+              <div
+                data-testid="transcript-test"
+                className="w-full flex flex-col gap-5 pb-5"
+              >
                 {transcripts.map((transcript, index) => (
                   <div className="flex" key={index}>
                     <div className="text-[rgb(116,173,252)] w-10 mr-2">{convertTime(transcript.start)}</div>
@@ -423,13 +570,18 @@ const SummaryPage = () => {
                   <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
                 </div>
               </div>
-              <div className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
+              <div className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">
+                {summaryText}
+              </div>
+              <div data-testid="summary-test" className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
             </div>
           </div>
         </motion.div>
       </div>
       <ToastContainer />
-      <div><MyChatBot summary={summaryText} /></div>
+      <div>
+        <MyChatBot summary={summaryText} />
+      </div>
       <Footer />
     </>
   );

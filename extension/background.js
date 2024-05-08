@@ -82,6 +82,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
   } else if (request.message === "logout") {
     user_signed_in = false;
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        message: "logout",
+      });
+    });
     chrome.action.setPopup({ popup: "./index.html" }, () => {
       sendResponse("success");
     });

@@ -37,7 +37,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str) -> None:
+def word_cloud(video_url: str) -> WordCloud:
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
@@ -67,6 +67,8 @@ def word_cloud(video_url: str) -> None:
     plt.tight_layout(pad=0)
 
     plt.show()
+
+    return wordcloud
 
 
 def display_engagement_metrics(video_url: str):

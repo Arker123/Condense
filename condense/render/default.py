@@ -14,7 +14,7 @@ from rich.console import Console
 import condense.utils as util
 import condense.logging_
 from condense.render import Verbosity
-from condense.results import ResultDocument
+from condense.results import ResultDocument, ResultDocumentUrl
 from condense.render.sanitize import sanitize
 
 MIN_WIDTH_LEFT_COL = 22
@@ -46,22 +46,34 @@ def width(s: str, character_count: int) -> str:
 def render_meta(results: ResultDocument, console, verbose):
     rows: List[Tuple[str, str]] = list()
 
-    lang = f"{results.metadata.language}" if results.metadata.language else ""
-    lang_v = (
-        f" ({results.metadata.language_version})"
-        if results.metadata.language != "unknown" and results.metadata.language_version
-        else ""
-    )
-    lang_s = f" - selected: {results.metadata.language_selected}" if results.metadata.language_selected else ""
-    language_value = f"{lang}{lang_v}{lang_s}"
-
     if verbose == Verbosity.DEFAULT:
-        rows.append((width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.file_path, MIN_WIDTH_RIGHT_COL)))
-        rows.append(("identified language", language_value))
+        rows.append((width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.path, MIN_WIDTH_RIGHT_COL)))
     else:
         rows.extend(
             [
-                (width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.file_path, MIN_WIDTH_RIGHT_COL)),
+                (width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.path, MIN_WIDTH_RIGHT_COL)),
+                ("start date", results.metadata.runtime.start_date.strftime("%Y-%m-%d %H:%M:%S")),
+                ("runtime", strtime(results.metadata.runtime.total)),
+                ("version", results.metadata.version),
+            ]
+        )
+
+    table = Table(box=box.ASCII2, show_header=False)
+    for row in rows:
+        table.add_row(str(row[0]), str(row[1]))
+
+    console.print(table)
+
+
+def render_meta_url(results: ResultDocumentUrl, console, verbose):
+    rows: List[Tuple[str, str]] = list()
+
+    if verbose == Verbosity.DEFAULT:
+        rows.append((width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.path, MIN_WIDTH_RIGHT_COL)))
+    else:
+        rows.extend(
+            [
+                (width("file path", MIN_WIDTH_LEFT_COL), width(results.metadata.path, MIN_WIDTH_RIGHT_COL)),
                 ("start date", results.metadata.runtime.start_date.strftime("%Y-%m-%d %H:%M:%S")),
                 ("runtime", strtime(results.metadata.runtime.total)),
                 ("version", results.metadata.version),
@@ -121,6 +133,24 @@ def render(results: condense.results.ResultDocument, verbose, disable_headers, c
             colored_str = heading_style(f"Condense RESULTS (version {results.metadata.version})\n")
             console.print(colored_str)
         render_meta(results, console, verbose)
+        console.print("\n")
+
+    console.file.seek(0)
+    return console.file.read()
+
+
+def renderUrl(results: condense.results.ResultDocumentUrl, verbose, disable_headers, color):
+    sys.__stdout__.reconfigure(encoding="utf-8")
+    console = Console(file=io.StringIO(), color_system=get_color(color), highlight=False, soft_wrap=True)
+
+    if not disable_headers:
+        console.print("\n")
+        if verbose == Verbosity.DEFAULT:
+            console.print(f"Condense RESULTS (version {results.metadata.version})\n")
+        else:
+            colored_str = heading_style(f"Condense RESULTS (version {results.metadata.version})\n")
+            console.print(colored_str)
+        render_meta_url(results, console, verbose)
         console.print("\n")
 
     console.file.seek(0)

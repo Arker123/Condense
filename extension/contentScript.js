@@ -233,6 +233,7 @@ async function main() {
     }
     #navbar{
       margin-bottom:5px;
+      display:flex;
     }
 
   #save-button{
@@ -243,7 +244,8 @@ async function main() {
     position: relative;
     left: 20px;
     color: white;
-    cursor: pointer
+    cursor: pointer;
+    display: none;
   }
 
   #save-button:hover{
@@ -483,6 +485,14 @@ async function main() {
       }, 50);
     }
   });
+  const user_local = await chrome.storage.local.get("userInfo");
+  // const user_local_json = JSON.parse(user_local);
+  console.log(user_local);
+  if (user_local.userInfo) {
+    save_button.style.display = "block";
+  } else {
+    save_button.style.display = "none";
+  }
 
   const getVideoId = (url) => {
     const videoIdRegex =
@@ -529,11 +539,18 @@ async function main() {
         const res = await Fetchuser(email);
         console.log(res);
         const user = res.user;
+        if (user) {
+          save_button.style.display = "block";
+        }
         chrome.storage.local.set({ userInfo: JSON.stringify(user) });
       } catch (e) {
         console.log(e.message);
       }
       console.log("Received user_info:", user_info);
+    }
+    if (message.message === "logout") {
+      chrome.storage.local.remove("userInfo");
+      save_button.style.display = "none";
     }
   });
 

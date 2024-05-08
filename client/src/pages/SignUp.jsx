@@ -105,8 +105,8 @@ const SignUp = () => {
       setName("");
       navigate(-1);
     } catch (error) {
-      console.log(error);
-      toast.error(error, toastOptions);
+      console.log("Error", error);
+      toast.error("Error: "+error, toastOptions);
     }
     setIsLoading(false);
 
@@ -121,7 +121,7 @@ const SignUp = () => {
 
     //check if all fields are filled
     if (email === "") {
-      errorMessage = "Name is required.";
+      errorMessage = "Email is required.";
       toast.error(errorMessage, toastOptions);
       return;
     }

@@ -1,6 +1,8 @@
 node_modules
 .env
 condense/__pycache__
+condense/render/__pycache__
+condense/tmp_audio
 tests/__pycache__
 condense.egg-info/
 client/coverage
