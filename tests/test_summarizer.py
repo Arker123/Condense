@@ -13,6 +13,9 @@ from condense.summarizer import (
     get_summary_from_transcript,
 )
 
+# import pytest
+
+
 input_data = [
     {"start": 0.0, "end": 10.0, "text": "Excessive whitespace!"},
     {"start": 10.0, "end": 20.0, "text": "Excessive  whitespace!"},
