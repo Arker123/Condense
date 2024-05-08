@@ -1,6 +1,5 @@
 // SummaryPage.js
 import React, { useEffect, useState } from "react";
-import styles from "./SummaryPage.module.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -10,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faStar } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../components/shared/Sidebar";
 import Footer from "../components/shared/Footer";
+import { LuDownload } from "react-icons/lu";
 import {
   modifyNote,
   createNote,
@@ -22,10 +22,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import JSON5 from "json5";
 import { setUserSlice } from "../redux/userSlice";
+import MyChatBot from "../components/shared/Chatbot/Chatbot";
+import { FaRegShareFromSquare } from "react-icons/fa6";
+import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const SummaryPage = () => {
   const [summaryText, setSummaryText] = useState("Loading...");
-  const [transcripts, setTranscripts] = useState([]);
+  const [Timestamps, setTimestamps] = useState([{ start: 0, end: 0, summary_text: 'Loading...' }]); 
+  const [transcripts, setTranscripts] = useState([{ start: 0, end: 0, text: 'Loading...' }]); 
   const [note, setNote] = useState("Loading...");
 
   const location = useLocation();
@@ -35,6 +39,18 @@ const SummaryPage = () => {
   const notes = user.notes;
   const summaries = user.summaries;
   console.log("summaa:  ", summaries);
+
+  const convertTime = (time) => {
+    let seconds = Math.floor(time);
+    // const minutes = "0" + Math.floor(seconds / 60) ;
+    let minutes = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+
+    seconds = seconds % 60;
+    seconds = seconds.toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
 
   const fetchUser = async () => {
     try {
@@ -100,16 +116,17 @@ const SummaryPage = () => {
     console.log("req summ:  ", reqSummary);
 
     if (!reqSummary) {
-      console.log("hii: ");
       const res = axios.post(
         `${process.env.REACT_APP_API_URL}/summaries/generate`,
         {
-          url,
+          videoId,
         }
       );
       res
         .then((res) => {
-          setSummaryText(res.data.summary);
+          const sum = JSON5.parse(res.data?.summary || "")
+          setSummaryText(sum.summary);
+          setTimestamps(sum.time_stamp);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -128,7 +145,7 @@ const SummaryPage = () => {
       const res = axios.get(apiUrl);
       res
         .then((res) => {
-          setSummaryText(res.data[0].summary.body);
+          setSummaryText(res.data[0]?.summary?.body);
         })
         .catch((err) => {
           toast.error("Error while fetching summary", toastOptions);
@@ -257,119 +274,162 @@ const SummaryPage = () => {
     return videoUrl;
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  let timeoutId;
+
+  const toggleDropdown = (open) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      setIsOpen(open);
+    }, 200); // Delay of 200ms
+  };
+
   return (
     <>
       <div className="flex flex-row">
         <Sidebar />
         <motion.div
-          className=" flex flex-col justify-center items-center bg-gradient-to-b from-black  to-[#6f0000]"
+          className="flex flex-col flex-grow bg-gradient-to-b from-black to-[#6f0000] px-4 md:px-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <div className="w-full h-[1400px] bg-gradient-to-b from-black  to-[#6f0000] mb-4">
-            <div className="flex flex-col w-full h-[1200px] bg-none p-12">
-              <div className="flex flex-row w-full bg-none">
-                <div className="w-3/5 h-[600px] bg-white rounded-lg mr-4">
-                  <div className="p-4 items-center justify-center bg-none">
-                    <div className="relative" style={{ paddingTop: "56.25%" }}>
-                      <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={handleVideoUrl(url)}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        autoPlay
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  </div>
+          <div className="flex justify-between mt-5 ">
+            <div className="flex flex-row w-full h-full max-w-[500px] rounded-lg hover:shadow-xl">
+              <iframe
+                className="w-full h-full rounded-lg"
+                src={handleVideoUrl(url)}
+                title="YouTube video player"
+                autoPlay
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              ></iframe>
+            </div>
+            <div className="flex flex-row items-start justify-end gap-3 md:gap-5">
+              <div className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3">
+                <LuDownload className="mr-2" /> PDF
+              </div>
+              <div className="relative">
+                <div
+                  className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3"
+                  onMouseEnter={() => toggleDropdown(true)}
+                  onMouseLeave={() => toggleDropdown(false)}
+                >
+                  <FaRegShareFromSquare className="mr-2" /> Share
                 </div>
                 <div
-                  className="w-2/5 bg-white rounded-lg ml-4 pl-4 pr-4"
-                  style={{ height: "600px" }}
+                  className={`absolute top-10 bg-white shadow-md rounded-md p-2 transition-opacity mt-4 w-full md:w-[150px] lg:w-[200px] ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                  style={{ transition: "opacity 0.3s ease-in-out" }}
+                  onMouseEnter={() => toggleDropdown(true)}
+                  onMouseLeave={() => toggleDropdown(false)}
                 >
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className={styles.transcriptHeader}>NOTES</h2>
-                    <div>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
-                        onClick={() => handleSaveNote()}
-                      >
-                        <FontAwesomeIcon icon={faSave} />
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                        onClick={() => addNoteToFav()}
-                      >
-                        <FontAwesomeIcon icon={faStar} />
-                      </button>
-                    </div>
-                  </div>
-                  <textarea
-                    id="note"
-                    type="text"
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder=""
-                    data-testid="notes-test"
-                    className="bg-none w-full h-[480px] outline-none overflow-auto"
-                  />
+                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">Facebook</a>
+                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">Reddit</a>
+                  <a href="#" className="p-2 flex font-medium rounded-lg hover:text-red-900 hover:bg-red-200">LinkedIn</a>
+                  <a href="#" className="p-2 flex rounded-lg py-1 font-medium hover:text-red-900 hover:bg-red-200">Twitter</a>
                 </div>
               </div>
-              <div className="flex flex-row w-full bg-none h-[800px] mt-12">
-                <div
-                  className="w-1/2  bg-white rounded-lg mr-4 pl-4 pr-4 overflow-y-scroll"
-                  style={{ height: "600px" }}
+              <div className="inline-flex h-10 bg-white text-black font-normal text-[16px] hover:text-red-500 rounded-md cursor-pointer items-center justify-center px-3">
+                <FaWandMagicSparkles className="mr-2" /> Summarize
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-5">
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto px-5 ">
+              <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0 }}
                 >
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className={styles.transcriptHeader}>TRANSCRIPT</h2>
-                  </div>
-                  <div
-                    data-testid="transcript-test"
-                    className="w-full flex flex-col gap-5 pb-5"
-                  >
-                    {transcripts.length === 0
-                      ? "Loading..."
-                      : transcripts.map((transcript) => (
-                          <div className="flex">
-                            <div className="text-[rgb(116,173,252)] w-10 mr-2">
-                              {transcript.start}
-                            </div>
-                            <div className="px-2 w-full">{transcript.text}</div>
-                          </div>
-                        ))}
-                  </div>
-                </div>
-                <div
-                  className="w-1/2 bg-white rounded-lg ml-4 pl-4 pr-4 overflow-y-scroll"
-                  style={{ height: "600px" }}
-                >
-                  <div className="flex justify-between items-center mb-4 ">
-                    <h2 className={styles.transcriptHeader}>SUMMARY</h2>
-                    <div>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-700"
-                        onClick={() => handleSaveSummary()}
-                      >
-                        <FontAwesomeIcon icon={faSave} />
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                        onClick={() => addSummaryToFav()}
-                      >
-                        <FontAwesomeIcon icon={faStar} />
-                      </button>
-                    </div>
-                  </div>
-                  <div data-testid="summary-test" className="pb-2">{summaryText}</div>
+                  NOTES
+                </motion.div>
+                <div className="flex flex-row gap-4">
+                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" onClick={() => handleSaveNote()} />
+                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" onClick={() => addNoteToFav()} />
                 </div>
               </div>
+              <textarea
+                id="note"
+                type="text"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder=""
+                className="w-full h-[250px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl"
+              />
+            </div>
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto px-5">
+              <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0 }}
+                >
+                  TIMESTAMPS
+                </motion.div>
+
+                <div className="flex flex-row gap-4">
+                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
+                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
+                </div>
+              </div>
+              <div data-testid="timestamps-test" className="w-full flex flex-col gap-5 pb-5">
+                {Timestamps.map((timestamp, index) => (
+                  <div className="flex" key={index}>
+                    <div className="text-[rgb(116,173,252)] w-10 mr-2">{parseInt(timestamp.start)}</div>
+                    <div className="px-2">{timestamp.summary_text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg  px-5">
+              <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0 }}
+                >
+                  TRANSCRIPT
+                </motion.div>
+                <div className="flex flex-row gap-4">
+                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
+                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
+                </div>
+              </div>
+              <div data-testid="transcript-test" className="w-full flex flex-col overflow-y-scroll h-5/6 gap-5 pb-5">
+                {transcripts.map((transcript, index) => (
+                  <div className="flex" key={index}>
+                    <div className="text-[rgb(116,173,252)] w-10 mr-2">{convertTime(transcript.start)}</div>
+                    <div className="px-2">{transcript.text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto mb-5 px-5">
+              <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.0 }}
+                >
+                  SUMMARY
+                </motion.div>
+                <div className="flex flex-row gap-4">
+                  <FontAwesomeIcon icon={faSave} className="cursor-pointer" />
+                  <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
+                </div>
+              </div>
+              <div className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
             </div>
           </div>
         </motion.div>
       </div>
       <ToastContainer />
+      <div><MyChatBot summary={summaryText} /></div>
       <Footer />
     </>
   );

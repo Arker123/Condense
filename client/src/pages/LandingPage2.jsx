@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import "./LandingPage2.css"; // Make sure to create an App.css file for styling
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../components/shared/Navbar/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import Footer from "../components/shared/Footer";
+import { useDispatch, useSelector} from "react-redux";
+
 const data = [
   {
     img: "/images/feature_img1.webp",
@@ -40,6 +45,7 @@ const data = [
 ];
 
 function Card({ item }) {
+  
   return (
     <div className="flex h-[300px] w-[600px] justify-between bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
       <div className="flex w-1/2 flex-col p-5">
@@ -69,11 +75,15 @@ function Card({ item }) {
 
 function LandingPage2() {
   AOS.init();
+  const user = useSelector((state) => state.user);
+  console.log(user.id);
+  const email = user.email;
+  console.log("email=> ", email);
 
   return (
     <>
     <div className="App bg-gradient-to-b p-8">
-      <Navbar />
+    <Navbar />
       <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
         <div className="text-7xl font-bold">
           <p className="">Summarize </p>

@@ -1,12 +1,101 @@
 import os
 import csv
+import sys
 import json
 import logging
 import argparse
 from typing import Dict, List
 
+import tqdm
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
+
+
+class ExtendAction(argparse.Action):
+    # stores a list, and extends each argument value to the list
+    # Since Python 3.8 argparse supports this
+    # TODO: remove this code when only supporting Python 3.8+
+    def __call__(self, parser, namespace, values, option_string=None):
+        items = getattr(namespace, self.dest, None) or []
+        items.extend(values)
+        setattr(namespace, self.dest, items)
+
+
+class InstallContextMenu(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        super(InstallContextMenu, self).__init__(option_strings, dest, nargs=0, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        # Theoretically, we don't need to check the platform again here,
+        # because non-Windows platforms will not accept the --install-right-click-menu parameter at all.
+        # This judgment is just to make the mypy type check pass.
+        # The same logic applies to `UninstallContextMenu` below.
+        if sys.platform == "win32":
+            import winreg as reg
+
+            menu_name = "Open with Condense"
+            icon_path = None
+
+            if getattr(sys, "frozen", False):
+                # If this is a standalone condense.exe, the path to the condense is sys.executable
+                menu_command = f'C:\\windows\\system32\\cmd.exe /K "^"{sys.executable}^" ^"%1^""'
+                icon_path = sys.executable
+            else:
+                menu_command = f'C:\\windows\\system32\\cmd.exe /K "python -m condense ^"%1^""'
+
+            # Create `shell` if it does not exist
+            try:
+                shell_key = reg.OpenKey(reg.HKEY_CURRENT_USER, r"Software\\Classes\\*\\shell", 0, reg.KEY_SET_VALUE)
+            except FileNotFoundError:
+                shell_key = reg.CreateKey(reg.HKEY_CURRENT_USER, r"Software\\Classes\\*\\shell")
+                shell_key = reg.OpenKey(reg.HKEY_CURRENT_USER, r"Software\\Classes\\*\\shell", 0, reg.KEY_SET_VALUE)
+
+            reg.SetValue(shell_key, menu_name, reg.REG_SZ, menu_name)
+
+            menu_key = reg.OpenKey(shell_key, menu_name, 0, reg.KEY_SET_VALUE)
+            if icon_path:
+                reg.SetValueEx(menu_key, "Icon", 0, reg.REG_SZ, icon_path)
+            reg.SetValue(menu_key, "command", reg.REG_SZ, menu_command)
+            sys.exit(0)
+
+
+class UninstallContextMenu(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        super(UninstallContextMenu, self).__init__(option_strings, dest, nargs=0, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if sys.platform == "win32":
+            import winreg as reg
+
+            menu_name = "Open with Condense"
+
+            shell_key = reg.OpenKey(reg.HKEY_CURRENT_USER, r"Software\\Classes\\*\\shell")
+            menu_key = reg.OpenKey(shell_key, menu_name)
+
+            reg.DeleteKey(menu_key, "command")
+            reg.DeleteKey(shell_key, menu_name)
+            sys.exit(0)
+
+
+def get_progress_bar(functions, disable_progress, desc="", unit=""):
+    pbar = tqdm.tqdm
+    if disable_progress:
+        # do not use tqdm to avoid unnecessary side effects when caller intends
+        # to disable progress completely
+        pbar = lambda s, *args, **kwargs: s
+    return pbar(functions, desc=desc, unit=unit)
+
+
+def get_video_id(video_link: str) -> str:
+    # Extract video ID from YouTube video link
+    if "youtube.com/watch?v=" in video_link:
+        video_id = video_link.split("youtube.com/watch?v=")[1].split("&")[0]
+    elif "youtu.be" in video_link:
+        video_id = video_link.split("youtu.be/")[1].split("?")[0]
+    else:
+        raise ValueError("Invalid YouTube video link")
+    return video_id
 
 
 def save_to_text(data: List[Dict[str, str]], text_filename: str) -> None:

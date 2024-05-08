@@ -14,8 +14,7 @@
     "@mui/material": "^5.15.12",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/user-event": "^14.5.2",
+    "@syncfusion/ej2-react-progressbar": "^25.1.35",
     "aos": "^2.3.4",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
@@ -26,6 +25,8 @@
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
+    "react-chatbot-kit": "^2.2.2",
+    "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-modal": "^3.16.1",
@@ -66,7 +67,10 @@
     "@babel/eslint-parser": "^7.23.10",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
-    "@testing-library/react": "^14.2.1",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.5.2",
+    "axios-mock-adapter": "^1.22.0",
     "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
@@ -78,5 +82,8 @@
     "r3f-pack": "^2.7.0",
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.4.1"
+  },
+  "overrides": {
+    "react-refresh": "0.14.0"
   }
 }

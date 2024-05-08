@@ -6,8 +6,13 @@ const authRoute = require("./routes/authRoute");
 const summaryRoute = require("./routes/summaryRoute");
 const noteRoute = require("./routes/noteRoute");
 const transcriptRoute = require("./routes/transcriptRoute");
+const chatbotRoute = require("./routes/chatbotRoute");
 const userRoute = require("./routes/userRoute");
+<<<<<<< HEAD
 const redisClient = require("./redis");
+=======
+const redisClient = require("./redisConfig.js");
+>>>>>>> hardik/sof-215-summary-page-backend-integration-in-extension
 
 const app = express();
 dotenv.config();
@@ -22,20 +27,21 @@ app.use("/note", noteRoute);
 app.use("/user", userRoute);
 app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
+app.use("/chatbot", chatbotRoute);
 
 mongoose
-    .connect(process.env.MONGO_URL)
-    .then(() => console.log("Connected to Database"))
-    .then(() => {
-        if (process.env.NODE_ENV != "test") {
-            app.listen(port, () => {
-                console.log(`Server is running on ${port} `);
-            });
-        }
-    })
-    .then(() => {
-        redisClient.connect();
-    })
-    .catch((err) => console.log(err));
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to Database"))
+  .then(() => {
+    redisClient.connect();
+  })
+  .then(() => {
+    if (process.env.NODE_ENV != "test") {
+      app.listen(port, () => {
+        console.log(`Server is running on ${port} `);
+      });
+    }
+  })
+  .catch((err) => console.log(err));
 
 module.exports = app;

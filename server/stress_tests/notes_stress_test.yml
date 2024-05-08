@@ -1,0 +1,21 @@
+config:
+  target: 'http://localhost:5000'
+  phases:
+    - duration: 60  
+      arrivalRate: 10  # New virtual users per second
+      rampTo: 50  
+    - duration: 120
+      arrivalRate: 50  # Sustained testing at 50 users per second
+
+scenarios:
+  - flow:
+      - get:
+          url: "/note/all"
+          qs:
+            userId: "66165f6e494b692f52ee5250"
+      - think: 1  # Pause for 1 second between requests
+      - get:
+          url: "/note/one"
+          qs:
+            userId: "66165f6e494b692f52ee5250"
+            videoId: "ixlTimtNi74"

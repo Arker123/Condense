@@ -1,0 +1,136 @@
+/* The main application wrapper */
+.YTSummaries {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom,  rgb(39, 4, 4),#872834);
+}
+
+/* YTHeader styles */
+.YTheader {
+  background: linear-gradient(to bottom, #872834, rgb(45, 4, 4));
+  padding: 20px; /* Padding adjusted for top and bottom */
+  font-size: 24px;
+  color: white;
+  font-size: 2.5rem;
+  /* margin-top: 30px; */
+  color: #ffffff;
+}
+
+.YTheaderLogo {
+  width: 30px;
+  height: 30px;
+  /* margin-top: 20px; */
+  margin-right: 20px; /* Adjust the margin as needed */
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Main content styles */
+main {
+  padding: 20px; /* Padding adjusted */
+}
+
+/* Hero section styles */
+.hero {
+  padding: 40px;
+  background-color: #e9ecef;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  color: #872834; /* Color adjusted to match the screenshot */
+  margin-bottom: 20px;
+  font-size: 20px;
+
+}
+
+.hero p {
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.hero button {
+  padding: 10px 20px;
+  background-color: #872834; /* Button color adjusted */
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 5px; /* Added border-radius */
+}
+
+.hero button:hover {
+  background-color: #700; /* Darker red for hover effect */
+}
+
+/* Categories section styles */
+.categories {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+
+
+
+
+
+.categoryCard button:hover {
+  background-color: #700; /* Darker red for hover effect */
+}
+
+
+.categoryCard {
+  border: 1px solid #ccc; /* light grey border */
+  border-radius: 8px; /* rounded corners */
+  /* padding: 16px; spacing inside the card */
+  margin: 16px; /* spacing outside the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  transition: 0.3s; /* smooth transition for hover effect */
+  background: #fff; /* white background */
+  width: 300px; /* set a fixed width */
+}
+
+.categoryCard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* larger shadow on hover */
+  background-color: rgba(226, 223, 223, 0.851);
+  cursor: pointer;
+
+
+}
+
+.card-content {
+  margin: 8px 0px; /* spacing between content */
+}
+
+.categoryCard h2 {
+  margin: 0;
+  color: #333; /* dark text color */
+}
+
+.categoryCard span {
+  display: block; /* make span take its own line */
+  color: #666; /* medium text color */
+  margin-bottom: 16px; /* space before the button */
+}
+
+.categoryCard button {
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  background-color: #872834; /* Button color adjusted */
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.categoryImage {
+  width: 100%;
+  height: 175px; /* Fixed height, or 'auto' for a variable height */
+  object-fit: cover; /* This will cover the area without stretching the image */
+}

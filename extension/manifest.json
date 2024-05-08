@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrKfMnLqViEyokd1wk57FxJtW2XXpGXzIHBzv9vQI/01UsuP0IV5/lj0wx7zJ/xcibUgDeIxobvv9XD+zO1MdjMWuqJFcKuSS4Suqkje6u+pMrTSGOSHq1bmBVh0kpToN8YoJs/P/yrRd7FEtAXTaFTGxQL4C385MeXSjaQfiRiQIDAQAB",
   "name": "Condense",
   "version": "1.0",
   "description": "A youtube summarizer extension!",
@@ -8,16 +9,26 @@
     "48": "/icons/icon48.png",
     "16": "/icons/icon16.png"
   },
+  "background": {
+    
+      "service_worker": "background.js"  
+    
+  },
   "action": {
     "default_icon": "/icons/icon16.png",
     "default_popup": "index.html"
   },
-  "permissions": ["activeTab", "storage", "tabs"],
+  "permissions": ["activeTab", "storage", "tabs","identity"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["contentScript.js"],
       "css": ["styles.css"]
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+}
+
+  
 }
