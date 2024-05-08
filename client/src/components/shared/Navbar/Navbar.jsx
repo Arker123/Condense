@@ -30,7 +30,7 @@ function Navbar() {
               <a href="#extension">Chrome Extension</a>
             </li>
             <li>
-              <a href="/dashboard">Youtube Summaries</a>
+              <a href="/dashboard">Dashboard</a>
             </li>
             <li>
               <a href="/contact">Contact</a>
