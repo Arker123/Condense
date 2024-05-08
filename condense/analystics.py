@@ -44,13 +44,12 @@ def word_cloud(video_url: str) -> None:
     if api_key is None:
         raise ValueError("API_KEY environment variable is not set.")
 
-    get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
     comment_words = ""
     stopwords = set(STOPWORDS)
 
-    for val in df.CONTENT:
+    for val in df.comment:
         val = str(val)
         tokens = val.split()
         for i in range(len(tokens)):
@@ -93,6 +92,9 @@ def main(argv=None) -> int:
 
     parser = make_parser()
     args = parser.parse_args(argv)
+    sentiment_results = evaluate_sentiment(["-c", args.video_url])
+    print("\nSentiment Analysis Results:")
+    print(sentiment_results)
 
     # Word cloud generation
     word_cloud(args.video_url)
@@ -106,11 +108,7 @@ def main(argv=None) -> int:
     print("Dislikes:", statistics.get("dislikeCount", 0))
     print("Comments:", statistics.get("commentCount", 0))
     print("Shares:", statistics.get("shareCount", 0))
-
-    print("\nSentiment Analysis Results:")
-    sentiment_results = evaluate_sentiment(["-v", args.video_url])
-    print(sentiment_results)
-
+    os.remove("./comments.csv")
     return 0
 
 

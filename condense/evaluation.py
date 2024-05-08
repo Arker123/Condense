@@ -7,7 +7,7 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from comments import main as comments_main  # Import the main function from comments.py
+from comments import start_comment as comments_main  # Import the main function from comments.py
 from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
@@ -99,7 +99,6 @@ def main(argv=None) -> str:
     sentiment_results += "Positive comments: " + str(positive_count) + "\n"
     sentiment_results += "Negative comments: " + str(negative_count) + "\n"
     sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
-    print(sentiment_results)
     return sentiment_results
 
 
