@@ -7,6 +7,7 @@ import json
 import random
 import logging
 import argparse
+import rich.traceback
 import textwrap
 from enum import Enum
 from time import time
@@ -269,8 +270,9 @@ def main(argv=None) -> int:
     arguments:
       argv: the command line arguments
     """
-    # TODO: use rich as default Traceback handler
-
+    # use rich as default Traceback handler
+    rich.traceback.install(show_locals=True)
+    
     if argv is None:
         argv = sys.argv[1:]
 
@@ -303,7 +305,7 @@ def main(argv=None) -> int:
         tmp_audio_dir = "tmp_audio"
         tmp_audio_file = None
         # check if file is a video file or an audio file
-        if sample.suffix in [".mp4", ".avi", ".mov", ".mkv"]:
+        if Path(sample).suffix in [".mp4", ".avi", ".mov", ".mkv"]:
             logger.info("Video file detected")
             if not os.path.exists(tmp_audio_dir):
                 os.makedirs(tmp_audio_dir)
@@ -312,7 +314,7 @@ def main(argv=None) -> int:
             audio_path = extract_audio(sample, audio_path)
             logger.info(f"Audio extracted and saved to {audio_path}")
 
-        elif sample.suffix in [".mp3", ".wav"]:
+        elif Path(sample).suffix in [".mp3", ".wav"]:
             logger.info("Audio file detected")
             audio_path = sample
         else:
@@ -323,62 +325,73 @@ def main(argv=None) -> int:
         if results.analysis.enable_transcript:
             transcript, _ = start_translate("./", audio_path)
             results.aggregate.transcript = transcript
-            print(results.aggregate.transcript)  # TODO: remove when rendering is implemented
 
         if results.analysis.enable_summary and not results.aggregate.transcript:
+            
             transcript, _ = start_translate("./", audio_path)
             results.aggregate.transcript = transcript
             summarizer = load_summarize_model()
-            results.aggregate.summary
-            print(results.aggregate.summary)  # TODO: remove when rendering is implemented
+            results.aggregate.summary = get_summary_from_transcript(transcript, summarizer, 0)
 
         elif results.analysis.enable_summary and results.aggregate.transcript:
             print("yoo")
             summarizer = load_summarize_model()
             summary = get_summary_from_transcript(transcript, summarizer, 0)
             results.aggregate.summary = summary
-            print(results.aggregate.summary)  # TODO: remove when rendering is implemented
 
         # cleanup
         if tmp_audio_file:
             os.remove(audio_path)
 
         args.sample.close()
+        
+        results.metadata.runtime.total = get_runtime_diff(time0)
+        logger.info("finished execution after %.2f seconds", results.metadata.runtime.total)
 
     elif args.video_url:
         sample = args.video_url
         get_transcript(sample)
 
         resultsurl = ResultDocumentUrl(metadata=Metadata(path=str(sample)), analysis=analysis, url=sample)
+        
+        logger.info("Enabling the following analysis: %s", resultsurl.analysis)
 
         if resultsurl.analysis.enable_transcript:
             resultsurl.aggregate.transcript = get_transcript(sample)
-            print(resultsurl.aggregate.transcript)  # TODO: remove when rendering is implemented
 
         if resultsurl.analysis.enable_summary and not resultsurl.aggregate.transcript:
             resultsurl.aggregate.summary = summerize_text(sample)
-            print(resultsurl.aggregate.summary)  # TODO: remove when rendering is implemented
 
         elif resultsurl.analysis.enable_summary and resultsurl.aggregate.transcript:
             summarizer = load_summarize_model()
             resultsurl.aggregate.summary = get_summary_from_transcript(resultsurl.aggregate.transcript, summarizer, 0)
-            print(resultsurl.aggregate.summary)  # TODO: remove when rendering is implemented
 
         if resultsurl.analysis.enable_wordcloud:
             resultsurl.aggregate.wordcloud = word_cloud(sample)
 
         if resultsurl.analysis.enable_analytics:
             resultsurl.aggregate.analytics = display_engagement_metrics(sample)
+            # statistics = display_engagement_metrics(args.video_url)
+
+            # print("Engagement Metrics for Video ID:", get_video_id(args.video_url))
+            # print("Views:", statistics.get("viewCount", 0))
+            # print("Likes:", statistics.get("likeCount", 0))
+            # print("Dislikes:", statistics.get("dislikeCount", 0))
+            # print("Comments:", statistics.get("commentCount", 0))
+            # print("Shares:", statistics.get("shareCount", 0))
 
         if resultsurl.analysis.enable_sentiment:
             # TODO: get sentiment analysis of the video
             pass
+        
+        resultsurl.metadata.runtime.total = get_runtime_diff(time0)
+        logger.info("finished execution after %.2f seconds", resultsurl.metadata.runtime.total)
 
     else:
         raise ValueError("Please provide either a sample file or a video URL.")
 
-    results.metadata.runtime.total = get_runtime_diff(time0)
-    logger.info("finished execution after %.2f seconds", results.metadata.runtime.total)
+    
+    
 
     if args.json:
         # TODO: write render json script

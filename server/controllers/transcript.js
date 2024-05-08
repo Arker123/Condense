@@ -8,11 +8,11 @@ const redisClient = require("../redisConfig");
 // Your other codes
 
 const getTs = async (req, res) => {
-  const form = formidable({});
-
+  const form = formidable.formidable({});
+  console.log("In getTs", form);
   let oldPath;
   let newPath;
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, async (err, fields, files) => {
     if (err) {
       console.error("Error parsing form:", err);
       res.status(500).send({ error: "Error parsing form" });
@@ -25,12 +25,25 @@ const getTs = async (req, res) => {
     // Assuming 'file' is the name of the field for the uploaded file
     const uploadedFile = files["file"];
 
+    // console.log("UPLOADED", uploadedFile, uploadedFile[0].filepath);
+
     // Move the file to a permanent location on the server
-    oldPath = uploadedFile.filepath;
+    oldPath = uploadedFile[0].filepath;
+
+    const summary = await redisClient.get(oldPath);
+    if (summary !== "" && summary !== null) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        summary: summary,
+        message: "Summary generated successfully",
+      });
+    }
+
+    console.log("Old pathhhhh", oldPath);
     newPath = path.join(
       __dirname,
       "uploads",
-      uploadedFile.originalFilename || "File"
+      uploadedFile[0].originalFilename || "File"
     );
 
     fs.rename(oldPath, newPath, async (err) => {
@@ -43,13 +56,23 @@ const getTs = async (req, res) => {
       // Respond with success message and the file path
       // res.send({ success: true, filePath: newPath });
 
-      const pythonProcess = spawnSync("python", [
-        "../condense/video_audio_to_data.py",
-        "-a",
-        oldPath,
+      console.log("Cacheee miss, generating transcript...");
+      console.log(oldPath);
+
+      const pythonProcess = spawnSync("condense", [
+        newPath,
+        "--only",
+        "summary"
       ]);
-      const dataToSend = await pythonProcess.stdout.toString();
+
+      console.log("Python process error: ", pythonProcess.stderr.toString());
+      console.log("Python process output: ", pythonProcess.stdout.toString());
+      
+      const dataToSend = pythonProcess.stdout.toString();
+
+      console.log("DATAAAAAAA: ", dataToSend);
       if (dataToSend) {
+        await redisClient.set(oldPath, dataToSend);
         res.status(200).json({
           transcript: dataToSend,
           message: "Transcript generated successfully",

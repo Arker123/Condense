@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
-from evaluation import main as evaluate_sentiment
+from condense.evaluation import main as evaluate_sentiment
 from googleapiclient.discovery import build
 
 from condense.utils import get_video_id
@@ -37,12 +37,12 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str) -> WordCloud:
+def word_cloud(video_url: str):
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
     if api_key is None:
-        raise ValueError("API_KEY environment variable is not set.")
+        raise ValueError("Please provide an API key to use this feature.")
 
     get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
@@ -76,7 +76,7 @@ def display_engagement_metrics(video_url: str):
 
     api_key = os.getenv("API_KEY")
     if api_key is None:
-        raise ValueError("API_KEY environment variable is not set.")
+        raise ValueError("Please provide an API key to use this feature.")
     video_id = get_video_id(video_url)
     if not video_id:
         raise ValueError("Invalid YouTube video URL.")

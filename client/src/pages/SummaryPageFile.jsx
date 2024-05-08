@@ -181,6 +181,8 @@ const SummaryPageFile = () => {
         const formData = new FormData();
         formData.append('file', file); // Append file to form data
 
+        console.log("file: ", file);
+
         const res = await axios.post(
           `${process.env.REACT_APP_API_URL}/transcript/up`, formData,
           {
@@ -190,6 +192,15 @@ const SummaryPageFile = () => {
           }
         );
         console.log('File uploaded successfully:', res.data);
+
+        const summary = res.data || "";
+            // Split the content based on JSON delimiters
+            // const parts = summary.split(/\[\{.*?\}\]|\{\{.*?\}\}/);
+
+            // // Take the first part, which corresponds to the text passage
+            // const textPart = parts[0].trim();
+            setSummaryText(summary.transcript);
+
       } catch (error) {
         console.error('Error uploading file:', error.message);
         toast.error("Error while fetching transcripts", toastOptions);

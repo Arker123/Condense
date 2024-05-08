@@ -59,7 +59,10 @@ def clean_data(data: List[Dict], check_meet: int) -> List[Dict]:
                 final_data.append({"start": start, "end": end, "text": text})
                 start, cnt = end, 0
                 sentences = []
-                print("text", text)
+        
+        if cnt > 0:
+            text = " ".join(sentences)
+            final_data.append({"start": start, "end": end, "text": text})
 
         if check_meet:
             text = " ".join(sentences)
@@ -99,7 +102,6 @@ def get_summary_from_transcript(
     data: List[Dict[str, str]], summarizer, check_meet: int
 ) -> Tuple[List[Dict], List[Dict]]:
     data = clean_data(data, check_meet)
-    print(data)
     for sentence in data:
         sentences = nltk.tokenize.sent_tokenize(sentence["text"])
         sentence["text"] = " ".join(sentences)

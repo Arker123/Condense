@@ -7,7 +7,7 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from comments import main as comments_main  # Import the main function from comments.py
+from condense.comments import main as comments_main  # Import the main function from comments.py
 from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
 

@@ -57,9 +57,9 @@ class Analysis:
 
 @dataclass
 class Aggregate:
-    transcript: List[Dict[str, str]] = field(default_factory=list)  # TODO: check types here
+    transcript: List[Dict[str, str]] = field(default_factory=list)
     summary: Tuple[List[Dict], List[Dict]] = field(default_factory=lambda: ([], []))
-    wordcloud: WordCloud = field(default_factory=WordCloud)
+    wordcloud: str = field(default_factory=str)
     analytics: Dict[str, List[str]] = field(default_factory=dict)
     sentiment: Dict[str, List[str]] = field(default_factory=dict)
 

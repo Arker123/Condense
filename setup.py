@@ -16,7 +16,7 @@ requirements = [
     "pyshorteners==1.0.1",
     "google-api-python-client==2.122.0",
     "nltk==3.8.1",
-    "tensorflow==2.13.1",
+    "tensorflow==2.14.1",
     "transformers==4.37.2",
     "python-dotenv==1.0.1",
     "torch==2.0",
