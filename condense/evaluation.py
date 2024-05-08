@@ -1,4 +1,5 @@
 import re
+import os
 import sys
 import logging
 import argparse
@@ -7,7 +8,7 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from condense.comments import main as comments_main  # Import the main function from comments.py
+from condense.comments import start_comment as comments_main  # Import the main function from comments.py
 from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
@@ -16,7 +17,13 @@ from condense.sentiment_lstm import SentimentLSTM
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-path = "saved_models/SentimentModel.pth"
+current_directory = os.getcwd()
+directory_components = current_directory.split(os.path.sep)
+if "server" in directory_components:
+    server_index = directory_components.index("server")
+    directory_components[server_index] = "condense"
+modified_directory = os.path.sep.join(directory_components)
+path = os.path.join(modified_directory, "saved_models", "SentimentModel.pth")
 
 
 def make_parser() -> argparse.ArgumentParser:
@@ -99,7 +106,6 @@ def main(argv=None) -> str:
     sentiment_results += "Positive comments: " + str(positive_count) + "\n"
     sentiment_results += "Negative comments: " + str(negative_count) + "\n"
     sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
-    print(sentiment_results)
     return sentiment_results
 
 

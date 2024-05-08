@@ -12,6 +12,7 @@ import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
 import Analytics from "./pages/Analytics";
+// import MyNotes from './pages/MyNotes';
 import MyNotesAndSummaries from "./pages/MyNotesAndSummaries";
 import SummaryAndNotes from "./pages/SummaryAndNotes";
 

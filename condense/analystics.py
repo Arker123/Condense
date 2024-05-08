@@ -1,6 +1,8 @@
 import os
 import sys
+import string
 import logging
+import random
 import argparse
 
 import pandas as pd
@@ -37,20 +39,19 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str):
+def word_cloud(video_url: str) -> str:
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
     if api_key is None:
         raise ValueError("Please provide an API key to use this feature.")
 
-    get_comments(api_key, file=False, video_url=video_url)
     df = pd.read_csv(r"comments.csv", encoding="latin-1")
 
     comment_words = ""
     stopwords = set(STOPWORDS)
 
-    for val in df.CONTENT:
+    for val in df.comment:
         val = str(val)
         tokens = val.split()
         for i in range(len(tokens)):
@@ -66,9 +67,9 @@ def word_cloud(video_url: str):
     plt.axis("off")
     plt.tight_layout(pad=0)
 
-    plt.show()
-
-    return wordcloud
+    filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".png"
+    plt.savefig(filename)
+    return filename
 
 
 def display_engagement_metrics(video_url: str):
@@ -95,9 +96,12 @@ def main(argv=None) -> int:
 
     parser = make_parser()
     args = parser.parse_args(argv)
+    sentiment_results = evaluate_sentiment(["-c", args.video_url])
+    print("\nSentiment Analysis Results:")
+    print(sentiment_results)
 
     # Word cloud generation
-    word_cloud(args.video_url)
+    file_name = word_cloud(args.video_url)
 
     # Display engagement metrics
     statistics = display_engagement_metrics(args.video_url)
@@ -108,11 +112,9 @@ def main(argv=None) -> int:
     print("Dislikes:", statistics.get("dislikeCount", 0))
     print("Comments:", statistics.get("commentCount", 0))
     print("Shares:", statistics.get("shareCount", 0))
+    os.remove("./comments.csv")
 
-    print("\nSentiment Analysis Results:")
-    sentiment_results = evaluate_sentiment(["-v", args.video_url])
-    print(sentiment_results)
-
+    print(file_name)
     return 0
 
 
