@@ -76,7 +76,7 @@ const Dashboard = () => {
 
               <button
                 onClick={() => {
-                  navigate("/summary", { state: audio });
+                  navigate("/summaryFile", { state: audio });
                 }}
                 className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[55px] hover:underline"
               >
@@ -109,7 +109,7 @@ const Dashboard = () => {
 
               <button
                 onClick={() => {
-                  navigate("/summary", { state: video });
+                  navigate("/summaryFile", { state: video });
                 }}
                 className="cursor-pointer text-black bg-gradient-to-b from-red-400 to-red-900 rounded-xl shadow-lg w-[150px] h-[50px] mt-[55px] hover:underline"
               >

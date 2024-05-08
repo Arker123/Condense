@@ -33,7 +33,7 @@ const getTs = async (req, res) => {
       uploadedFile.originalFilename || "File"
     );
 
-    fs.rename(oldPath, newPath, (err) => {
+    fs.rename(oldPath, newPath, async (err) => {
       if (err) {
         console.error("Error moving file:", err);
         res.status(500).send({ error: "Error moving file" });
@@ -41,23 +41,25 @@ const getTs = async (req, res) => {
       }
 
       // Respond with success message and the file path
-      res.send({ success: true, filePath: newPath });
-    });
-  });
+      // res.send({ success: true, filePath: newPath });
 
-  const pythonProcess = spawnSync("python", [
-    "../condense/video_audio_to_data.py",
-    "-a",
-    oldPath,
-  ]);
-  const dataToSend = await pythonProcess.stdout.toString();
-  if (dataToSend) {
-    res.status(200).json({
-      transcript: dataToSend,
+      const pythonProcess = spawnSync("python", [
+        "../condense/video_audio_to_data.py",
+        "-a",
+        oldPath,
+      ]);
+      const dataToSend = await pythonProcess.stdout.toString();
+      if (dataToSend) {
+        res.status(200).json({
+          transcript: dataToSend,
+          message: "Transcript generated successfully",
+        });
+      } else {
+        res.status(400).send({ message: "Error in getting transcript" });
+      }
+
     });
-  } else {
-    res.status(400).send({ message: "Error in getting transcript" });
-  }
+  });  
 };
 
 const getTranscript = async (req, res) => {
@@ -66,7 +68,7 @@ const getTranscript = async (req, res) => {
     const { url } = req.body;
     // console.log(url + 'transcript');
     if (!url) {
-      return res.status(400).json({ message: "URL is required" });
+      return res.status(400).json({ message: "File is required" });
     }
 
     const transcript = await redisClient.get("transcript-" + url);
