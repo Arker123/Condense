@@ -7,6 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from wordcloud import STOPWORDS, WordCloud
+from evaluation import main as evaluate_sentiment
 from googleapiclient.discovery import build
 
 from condense.utils import get_video_id
@@ -36,7 +37,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str) -> None:
+def word_cloud(video_url: str) -> WordCloud:
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
@@ -66,6 +67,8 @@ def word_cloud(video_url: str) -> None:
     plt.tight_layout(pad=0)
 
     plt.show()
+
+    return wordcloud
 
 
 def display_engagement_metrics(video_url: str):
@@ -105,6 +108,10 @@ def main(argv=None) -> int:
     print("Dislikes:", statistics.get("dislikeCount", 0))
     print("Comments:", statistics.get("commentCount", 0))
     print("Shares:", statistics.get("shareCount", 0))
+
+    print("\nSentiment Analysis Results:")
+    sentiment_results = evaluate_sentiment(["-v", args.video_url])
+    print(sentiment_results)
 
     return 0
 

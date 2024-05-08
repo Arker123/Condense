@@ -17,17 +17,38 @@ test("In Dashboard Page renders dashboard component", () => {
     expect(absorbVideosText).toBeInTheDocument();
 });
 
-test("In Dashboard Page input field is rendered with correct attributes", () => {
+test("In Dashboard Page input field is rendered with correct attributes and input type switching can be done", () => {
     render(
         <Router>
             <Dashboard />
         </Router>,
     );
-    const inputField = screen.getByPlaceholderText(
+    const youtubeSummaryButton = screen.getByRole("button", { name: "YouTube Summary" });
+    const audioSummaryButton = screen.getByRole("button", { name: "Audio to Summary" });
+    const videoSummaryButton = screen.getByRole("button", { name: "Video to Summary" });
+
+    expect(youtubeSummaryButton).toBeInTheDocument();
+    expect(audioSummaryButton).toBeInTheDocument();
+    expect(videoSummaryButton).toBeInTheDocument();
+
+    fireEvent.click(youtubeSummaryButton);
+    const inputLinkField = screen.getByPlaceholderText(
         /Paste Youtube Video link Here!/i,
     );
-    expect(inputField).toBeInTheDocument();
-    expect(inputField).toHaveAttribute("type", "link");
+    expect(inputLinkField).toBeInTheDocument();
+    expect(inputLinkField).toHaveAttribute("type", "link");
+    
+    fireEvent.click(videoSummaryButton);
+    const inputVideoField = screen.getByTestId("video");
+
+    expect(inputVideoField).toBeInTheDocument();
+    expect(inputVideoField).toHaveAttribute("type", "file");
+
+    fireEvent.click(audioSummaryButton);
+    const inputAudioField = screen.getByTestId("audio");
+    expect(inputAudioField).toBeInTheDocument();
+    expect(inputAudioField).toHaveAttribute("type", "file");
+
 });
 
 test("In Dashboard Page button is rendered with correct attributes and text", () => {
@@ -40,7 +61,7 @@ test("In Dashboard Page button is rendered with correct attributes and text", ()
     expect(button).toBeInTheDocument();
 });
 
-test('In Dashboard Page renders "Contact us" text', () => {
+test('In Dashboard Page renders "Contact us" button', () => {
     render(
         <Router>
             <Dashboard />

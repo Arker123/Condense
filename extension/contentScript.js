@@ -488,8 +488,37 @@ async function main() {
     return videoId;
   };
 
+const Fetchuser = async (userId) => {
+  try {
+    const response = await fetch("http://localhost:5000/user/", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: userId
+      }),
+    });
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return  null;
+  }
+}
+
   const notesDict = {};
-  const userId = "65fbd783e390959bedecdec3";
+
+  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+      if (message.message === 'user_info') {
+          const user_info = message.data;
+          console.log('Received user_info:', user_info);
+      }
+  });
+
+  const userId = "66165f6e494b692f52ee5250";
 
   notes_entry_button.addEventListener("click", () => {
     const notesText = document.getElementById("notes-entry-box").value.trim();
@@ -503,48 +532,8 @@ async function main() {
     }
   });
 
-  // get_summary.addEventListener("click", async () => {
-  //   get_summary.style.display = "none";
-  //   let videoUrl = window.location.href;
-  //   console.log("Video URL:", videoUrl);
-  //   try {
-  //     const response = await fetch("http://localhost:5000/summaries/generate", {
-  //       method: "POST",
-  //       mode: "cors",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         videoId: getVideoId(videoUrl),
-  //       }),
-  //     });
-
-  //     const json = await response.json();
-
-  //     console.log(json);
-
-  //     let summary_dict = await JSON.parse(json.summary);
-  //     summary_text = summary_dict.summary;
-  //     console.log(summary_text);
-  //   } catch (error) {
-  //     console.error("Error fetching summary:", error);
-  //   }
-  //   if (summary_text) {
-  //     summary_area.style.display = "block";
-  //     var words = summary_text.split(" ");
-  //     var index = 0;
-  //     var intervalId = setInterval(function () {
-  //       summary_area.innerHTML += words[index] + " ";
-  //       index++;
-  //       if (index == words.length) {
-  //         clearInterval(intervalId);
-  //       }
-  //     }, 50);
-  //   }
-  // });
-
   save_button.onclick = async function () {
+    const videoId = getVideoId(window.location.href);
     if (summary_text) {
       try {
         const response = await fetch("http://localhost:5000/summaries/save", {
@@ -556,7 +545,7 @@ async function main() {
           },
           body: JSON.stringify({
             summaryBody: summary_text,
-            videoId: getVideoId(window.location.href),
+            videoId: videoId,
             userId: userId,
           }),
         });
@@ -564,6 +553,57 @@ async function main() {
         console.error("Error saving summary:", error);
       }
     }
+    let allNotes = Object.values(notesDict).join("\n");
+    console.log(allNotes);
+    if(allNotes){
+      note = {title: "Untitled", body : allNotes};
+      const res = await Fetchuser(userId);
+      const user = res.user;
+      const notes = user.notes;
+      console.log(notes);
+      const reqNote = notes.find((item) => item.videoId === videoId);
+      if (!reqNote) {
+        try {
+          const response = await fetch("http://localhost:5000/note/create", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: userId, 
+              videoId: videoId, 
+              note: note
+            }),
+          });
+          console.log("notes created successfully ");
+        } catch (error) {
+          console.error("Error creating notes :", error);
+        }
+      } 
+      else {
+        try {
+          const response = await fetch("http://localhost:5000/note/modify", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: userId, 
+              videoId: videoId, 
+              note: note
+            }),
+          });
+          console.log("notes modified successfully ");
+        } catch (error) {
+          console.error("Error modifying notes :", error);
+        }
+      }
+    }
+    alert("Summary and Notes saved successfully");
   };
 
   ai_chat_entry_button.addEventListener("click", async () => {

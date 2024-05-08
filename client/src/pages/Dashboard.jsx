@@ -66,6 +66,7 @@ const Dashboard = () => {
             <div className="flex flex-row gap-4">
               <div className="ml-[50px] pl-2 mt-[50px] bg-gray-300 h-[60px] w-max rounded-xl items-center justify-center ">
                 <input
+                  data-testid="audio"
                   type="file"
                   accept="audio/*"
                   onChange={(e) => setAudio(e.target.files[0])}
@@ -98,6 +99,7 @@ const Dashboard = () => {
             <div className="flex flex-row gap-4">
               <div className="ml-[50px] pl-2 mt-[50px] bg-gray-300 h-[60px] w-max rounded-xl items-center justify-center ">
                 <input
+                  data-testid="video"
                   type="file"
                   accept="video/mp4"
                   onChange={(e) => setVideo(e.target.files[0])}
@@ -182,13 +184,13 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
+              {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                 <IoMdSettings />
               </div>
 
               <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                 <IoIosNotifications />
-              </div>
+              </div> */}
 
               <div
                 className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full  cursor-pointer"
@@ -207,10 +209,10 @@ const Dashboard = () => {
                   onClick={() => handleButtonClick("YouTube Summary")}
                 >
                   <span className="z-10 relative">YouTube Summary</span>
-                  
+
                   {selectedButton === "YouTube Summary" ? (
                     <motion.div
-                      transition={{ type: "spring", stiffness: 50  }}
+                      transition={{ type: "spring", stiffness: 50 }}
                       layoutId="underline"
                       className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
@@ -223,7 +225,7 @@ const Dashboard = () => {
                   <span className="z-10 relative">Audio to Summary</span>
                   {selectedButton === "Audio to Summary" ? (
                     <motion.div
-                      transition={{ type: "spring", stiffness: 50  }}
+                      transition={{ type: "spring", stiffness: 50 }}
                       layoutId="underline"
                       className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
@@ -234,7 +236,7 @@ const Dashboard = () => {
                   onClick={() => handleButtonClick("Video to Summary")}
                 >
                   <span className="z-10 relative">Video to Summary</span>
-                  
+
                   {selectedButton === "Video to Summary" ? (
                     <motion.div
                       transition={{ type: "spring", stiffness: 50 }}
@@ -253,7 +255,7 @@ const Dashboard = () => {
                     <motion.div
                       transition={{ type: "spring", stiffness: 50  }}
                       layoutId="underline"
-                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-red-500 border border-slate-50"
+                      className="absolute rounded-2xl w-full h-full left-0 bottom-0 bg-gradient-to-b from-red-400 to-red-900 border border-slate-50"
                     ></motion.div>
                   ) : null}
                 </button>

@@ -2,6 +2,7 @@ import os
 import csv
 import sys
 import json
+import time
 import logging
 import argparse
 from typing import Dict, List
@@ -76,6 +77,19 @@ class UninstallContextMenu(argparse.Action):
             reg.DeleteKey(menu_key, "command")
             reg.DeleteKey(shell_key, menu_name)
             sys.exit(0)
+
+
+def is_type_enabled(type_, disabled_types, enabled_types):
+    if disabled_types:
+        return type_ not in disabled_types
+    elif enabled_types:
+        return type_ in enabled_types
+    else:
+        return True
+
+
+def get_runtime_diff(time0):
+    return round(time.time() - time0, 4)
 
 
 def get_progress_bar(functions, disable_progress, desc="", unit=""):

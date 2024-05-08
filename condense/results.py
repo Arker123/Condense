@@ -4,11 +4,12 @@ import re
 import json
 import datetime
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from pathlib import Path
 from dataclasses import field
 
-from pydantic import TypeAdapter, ValidationError
+from pydantic import ValidationError
+from wordcloud import WordCloud
 
 # we use pydantic for dataclasses so that we can
 # easily load and validate JSON reports.
@@ -39,7 +40,7 @@ class Runtime:
 
 @dataclass
 class Metadata:
-    file_path: str
+    path: str
     version: str = __version__
     size: int = 0
     runtime: Runtime = field(default_factory=Runtime)
@@ -47,20 +48,35 @@ class Metadata:
 
 @dataclass
 class Analysis:
-    enable_transcript: bool = True
+    enable_transcript: bool = False
     enable_summary: bool = True
-    enable_analysis: bool = True
-    enable_keywords: bool = True
+    enable_wordcloud: bool = True
+    enable_analytics: bool = True
+    enable_sentiment: bool = True
+
+
+@dataclass
+class Aggregate:
+    transcript: List[Dict[str, str]] = field(default_factory=list)  # TODO: check types here
+    summary: Tuple[List[Dict], List[Dict]] = field(default_factory=lambda: ([], []))
+    wordcloud: WordCloud = field(default_factory=WordCloud)
+    analytics: Dict[str, List[str]] = field(default_factory=dict)
+    sentiment: Dict[str, List[str]] = field(default_factory=dict)
 
 
 @dataclass
 class ResultDocument:
     metadata: Metadata
     analysis: Analysis = field(default_factory=Analysis)
+    aggregate: Aggregate = field(default_factory=Aggregate)
 
-    @classmethod
-    def parse_file(cls, path: Path) -> "ResultDocument":
-        return TypeAdapter(cls).validate_json(path.read_text(encoding="utf-8"))
+
+@dataclass
+class ResultDocumentUrl:
+    metadata: Metadata
+    url: str
+    analysis: Analysis = field(default_factory=Analysis)
+    aggregate: Aggregate = field(default_factory=Aggregate)
 
 
 def read(sample: Path) -> ResultDocument:
