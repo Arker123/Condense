@@ -105,7 +105,7 @@ const Profile = () => {
       })
       .catch((err) => {
         toast.error("Failed to get all fav notes", toastOptions);
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -148,13 +148,13 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
+            {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
               <IoMdSettings />
             </div>
 
             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
               <IoIosNotifications />
-            </div>
+            </div> */}
 
             <div
               className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full  cursor-pointer"

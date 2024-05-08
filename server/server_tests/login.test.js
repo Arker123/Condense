@@ -100,4 +100,39 @@ describe("When you try to generate an OTP", () => {
   });
 });
 
+describe("When a user tries to update their password", () => {
+  test("If invalid user, should respond with status code 404", async () => {
+    const response = await request(server)
+      .post("/auth/updatePassword")
+      .send({
+        email: "invalid@gmail.com",
+        oldPassword: "testing",
+        newPassword: "testing",
+      });
+    expect(response.statusCode).toBe(404);
+  });
+
+  test("If invalid old password, should respond with status code 400", async () => {
+    const response = await request(server)
+      .post("/auth/updatePassword")
+      .send({
+        email: "testing@gmail.com",
+        oldPassword: "incorrectPassword",
+        newPassword: "testing",
+      });
+    expect(response.statusCode).toBe(400);
+  });
+
+  test("If valid old password & new password, should respond with status code 400", async () => {
+    const response = await request(server)
+      .post("/auth/updatePassword")
+      .send({
+        email: "testing@gmail.com",
+        oldPassword: "testing",
+        newPassword: "testing",
+      });
+    expect(response.statusCode).toBe(200);
+  });
+});
+
 server.close();

@@ -5,17 +5,21 @@ import { BsChatFill } from "react-icons/bs";
 import { FaNoteSticky } from "react-icons/fa6";
 import { MdSummarize } from "react-icons/md";
 import { IoExtensionPuzzle } from "react-icons/io5";
-import { IoMdHome } from "react-icons/io";
+import { IoMdHome, IoMdAnalytics,  IoMdPerson } from "react-icons/io";
 import { FaChartBar } from 'react-icons/fa';
 
 
 const Sidebar = (props) => {
   const menus = [
-    { name: "Dashboard", link: "/dashboard", icon: IoMdHome },
+    { name: "Home", link: "/landing", icon: IoMdHome },
+    { name: "Dashboard", link: "/dashboard", icon: IoMdAnalytics },
     // { name: "Chat with AI", link: "/", icon: BsChatFill },
     { name: "My Notes", link: "/mynotesandsummaries", icon: FaNoteSticky },
     // { name: "Youtube Summaries", link: "/", icon: MdSummarize },
     { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
+    // { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
+    // { name: "Analytics", link: "/analytics", icon: FaChartBar },
+    { name: "My Profile", link: "/profile", icon: IoMdPerson },
   ];
   const url = props.url;
   if (props.analytics) {
