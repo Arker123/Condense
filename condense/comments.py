@@ -5,7 +5,7 @@ import csv
 import sys
 import logging
 import argparse
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import googleapiclient.discovery
 from dotenv import load_dotenv
@@ -134,28 +134,24 @@ class Ycom(object):
         return self.comments
 
 
-def get_comments(apikey: str, file: bool, video_url: str) -> List[List[str]]:
+def get_comments(video_url: str, file: Optional[str] = None) -> List[List[str]]:
+    load_dotenv()
+    apikey = os.getenv("API_KEY")
     Y = Ycom(apikey, file)
     Y.make_youtube()
     Y.set_video_id(video_url)
     Y.request_comments()
     return Y.show_comments()
 
-def start_comment(argv=None) -> str:
-    load_dotenv()
-    apikey = os.getenv("API_KEY")
-    comments = get_comments(str(apikey), argv[0], argv[1])
-    return comments
 
 def main(argv=None) -> int:
-    load_dotenv()
-    apikey = os.getenv("API_KEY")
-
     parser = make_parser()
     args = parser.parse_args(argv)
 
-    comments = get_comments(str(apikey), args.csv, args.video_url)
-    return comments
+    comments = get_comments(args.video_url, args.csv)
+    print(comments)
+    
+    return 0
 
 
 if __name__ == "__main__":

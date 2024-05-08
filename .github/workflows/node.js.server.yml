@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted # change this to "ubuntu-latest" after workflows are live
+    runs-on: ubuntu-latest
 
     defaults:
       run:

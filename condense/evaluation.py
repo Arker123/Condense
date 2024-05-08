@@ -8,7 +8,7 @@ from typing import Any
 import nltk
 import emoji
 import torch
-from condense.comments import start_comment as comments_main  # Import the main function from comments.py
+from condense.comments import get_comments
 from langdetect import detect
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
@@ -16,14 +16,6 @@ from condense.sentiment_lstm import SentimentLSTM
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-
-current_directory = os.getcwd()
-directory_components = current_directory.split(os.path.sep)
-if "server" in directory_components:
-    server_index = directory_components.index("server")
-    directory_components[server_index] = "condense"
-modified_directory = os.path.sep.join(directory_components)
-path = os.path.join(modified_directory, "saved_models", "SentimentModel.pth")
 
 
 def make_parser() -> argparse.ArgumentParser:
@@ -79,14 +71,18 @@ def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, co
         return predicted_sentiment
 
 
-def main(argv=None) -> str:
+def evaluate_sentiment(video_url: str, file: str) -> Any:
     nltk.download("punkt")
-    checkpoint = torch.load(path)
+    
+    # get the model relative to the current file
+    model_path = os.path.join(os.path.dirname(__file__), "models/SentimentModel.pth")
+    
+    checkpoint = torch.load(model_path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
 
     # Extract comments from the YouTube video
-    comments = comments_main(argv)
+    comments = get_comments(video_url, file)
 
     # Perform sentiment analysis on each comment and count the results
     positive_count = 0
@@ -107,6 +103,13 @@ def main(argv=None) -> str:
     sentiment_results += "Negative comments: " + str(negative_count) + "\n"
     sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
     return sentiment_results
+
+def main(argv=None) -> str:
+    parser = make_parser()
+    args = parser.parse_args(argv)
+    
+    sentiment_results = evaluate_sentiment(args.video_url, args.csv)
+    print(sentiment_results)
 
 
 if __name__ == "__main__":

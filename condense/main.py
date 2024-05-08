@@ -13,6 +13,7 @@ from enum import Enum
 from time import time
 from typing import Dict, List, Tuple
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 import condense.utils
 import condense.render.default
@@ -354,7 +355,6 @@ def main(argv=None) -> int:
 
         resultsurl = ResultDocumentUrl(metadata=Metadata(path=str(sample)), analysis=analysis, url=sample)
         
-        logger.info("Enabling the following analysis: %s", resultsurl.analysis)
 
         if resultsurl.analysis.enable_transcript:
             resultsurl.aggregate.transcript = get_transcript(sample)
@@ -368,17 +368,17 @@ def main(argv=None) -> int:
 
         if resultsurl.analysis.enable_wordcloud:
             resultsurl.aggregate.wordcloud = word_cloud(sample)
+            
+            if resultsurl.analysis.enable_wordcloud:
+                plt.figure(figsize=(8, 8), facecolor=None)
+                plt.imshow(resultsurl.aggregate.wordcloud)
+                plt.axis("off")
+                plt.tight_layout(pad=0)
+                plt.show()
+
 
         if resultsurl.analysis.enable_analytics:
             resultsurl.aggregate.analytics = display_engagement_metrics(sample)
-            # statistics = display_engagement_metrics(args.video_url)
-
-            # print("Engagement Metrics for Video ID:", get_video_id(args.video_url))
-            # print("Views:", statistics.get("viewCount", 0))
-            # print("Likes:", statistics.get("likeCount", 0))
-            # print("Dislikes:", statistics.get("dislikeCount", 0))
-            # print("Comments:", statistics.get("commentCount", 0))
-            # print("Shares:", statistics.get("shareCount", 0))
 
         if resultsurl.analysis.enable_sentiment:
             # TODO: get sentiment analysis of the video
