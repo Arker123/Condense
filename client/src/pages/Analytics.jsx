@@ -186,12 +186,12 @@ const Analytics = () => {
                                     <p className="cursor-pointer">Contact Us</p>
                                 </div>
                             </div>
-                            <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
+                            {/* <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                                 <IoMdSettings />
                             </div>
                             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full">
                                 <IoIosNotifications />
-                            </div>
+                            </div> */}
                             <div className="w-10 h-[40px] sidebuttons flex items-center text-[30px] justify-center rounded-full cursor-pointer" onClick={handleProfileRedirect}>
                                 <CgProfile />
                             </div>
