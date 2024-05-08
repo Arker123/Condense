@@ -1,12 +1,12 @@
 .chatbotStyle {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 50%; /* Make the chatbot icon container circular */
+  /* border-radius: 50%; Make the chatbot icon container circular */
   background-color: black; /* Black background */
-  padding: 5px; /* Adjust padding as needed */
+  /* padding: 5px;  */
   position: fixed;
   bottom: 20px; /* Adjust position as needed */
   right: 20px; /* Adjust position as needed */
-  z-index: 1000; /* Ensure it's above other content */
+  /* z-index: 1000; Ensure it's above other content */
 }
 
 .chatbotStyle:hover {
@@ -17,8 +17,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px; /* Set width to match icon size */
-  height: 60px; /* Set height to match icon size */
+  width: 60px; /* Set width to match icon size */
+  height: 70px; /* Set height to match icon size */
   border-radius: 10%; /* Make it round */
   cursor: pointer;
 }
