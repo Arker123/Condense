@@ -40,7 +40,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str, filename: Optional[str] = None) -> str:
+def word_cloud(video_url: str) -> str:
     """
     Generate a word cloud from the comments of a YouTube video.
     """
@@ -68,14 +68,6 @@ def word_cloud(video_url: str, filename: Optional[str] = None) -> str:
     wordcloud = WordCloud(
         width=800, height=800, background_color="white", stopwords=stopwords, min_font_size=10
     ).generate(comment_words)
-    
-    plt.figure(figsize=(8, 8), facecolor=None)
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.tight_layout(pad=0)
-    
-    if filename:
-        plt.savefig(filename)
 
     return wordcloud
 
@@ -110,7 +102,13 @@ def main(argv=None) -> int:
 
     # Word cloud generation
     filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".png"
-    word_cloud(args.video_url, filename)
+    wordcloud = word_cloud(args.video_url, filename)
+    
+    plt.figure(figsize=(8, 8), facecolor=None)
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.savefig(filename)
 
     # Display engagement metrics
     statistics = display_engagement_metrics(args.video_url)
