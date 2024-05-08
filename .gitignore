@@ -26,3 +26,4 @@ condense/transcripts
 condense/saved_models
 server/audio
 server/transcripts
+server/controllers/uploads
