@@ -73,10 +73,10 @@ def predict_sentiment(model: PreTrainedModel, tokenizer: PreTrainedTokenizer, co
 
 def evaluate_sentiment(video_url: str, file: str) -> Any:
     nltk.download("punkt")
-    
+
     # get the model relative to the current file
     model_path = os.path.join(os.path.dirname(__file__), "models/SentimentModel.pth")
-    
+
     checkpoint = torch.load(model_path)
     model = checkpoint["model"]
     tokenizer = checkpoint["tokenizer"]
@@ -104,10 +104,11 @@ def evaluate_sentiment(video_url: str, file: str) -> Any:
     sentiment_results += "Neutral comments: " + str(neutral_count) + "\n"
     return sentiment_results
 
+
 def main(argv=None) -> str:
     parser = make_parser()
     args = parser.parse_args(argv)
-    
+
     sentiment_results = evaluate_sentiment(args.video_url, args.csv)
     print(sentiment_results)
 

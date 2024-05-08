@@ -135,13 +135,13 @@ def render(results: condense.results.ResultDocument, verbose, disable_headers, c
             console.print(colored_str)
         render_meta(results, console, verbose)
         console.print("\n")
-        
+
     if results.analysis.enable_transcript:
         render_sub_heading("Condense Transcripts", len(results.aggregate.transcript), console, disable_headers)
         for i, chunk in enumerate(results.aggregate.transcript):
             console.print(f"{chunk['start']} {chunk['text']}")
         console.print("\n")
-        
+
     if results.analysis.enable_summary:
         render_sub_heading("Condense Summary", len(results.aggregate.summary), console, disable_headers)
         summary_texts = [chunk["summary_text"] for chunk in results.aggregate.summary[0]]
@@ -165,33 +165,31 @@ def renderUrl(results: condense.results.ResultDocumentUrl, verbose, disable_head
             console.print(colored_str)
         render_meta_url(results, console, verbose)
         console.print("\n")
-        
+
     if results.analysis.enable_transcript:
         render_sub_heading("Condense Transcripts", len(results.aggregate.transcript), console, disable_headers)
         for i, chunk in enumerate(results.aggregate.transcript):
             console.print(f"{chunk['start']} {chunk['text']}")
         console.print("\n")
-        
+
     if results.analysis.enable_summary:
         render_sub_heading("Condense Summary", len(results.aggregate.summary), console, disable_headers)
         summary_texts = [chunk["summary_text"] for chunk in results.aggregate.summary[0]]
         console.print(" ".join(summary_texts))
         console.print("\n")
-        
+
     if results.analysis.enable_wordcloud:
         plt.figure(figsize=(8, 8), facecolor=None)
         plt.imshow(results.aggregate.wordcloud)
         plt.axis("off")
         plt.tight_layout(pad=0)
         plt.show()
-        
+
     if results.analysis.enable_analytics:
         render_sub_heading("Condense Analytics", len(results.aggregate.analytics), console, disable_headers)
         for key, value in results.aggregate.analytics.items():
             console.print(f"{key}: {value}")
         console.print("\n")
-        
-        
 
     console.file.seek(0)
     return console.file.read()

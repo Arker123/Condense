@@ -274,7 +274,7 @@ def main(argv=None) -> int:
     """
     # use rich as default Traceback handler
     rich.traceback.install(show_locals=True)
-    
+
     if argv is None:
         argv = sys.argv[1:]
 
@@ -329,7 +329,7 @@ def main(argv=None) -> int:
             results.aggregate.transcript = transcript
 
         if results.analysis.enable_summary and not results.aggregate.transcript:
-            
+
             transcript, _ = start_translate("./", audio_path)
             results.aggregate.transcript = transcript
             summarizer = load_summarize_model()
@@ -346,7 +346,7 @@ def main(argv=None) -> int:
             os.remove(audio_path)
 
         args.sample.close()
-        
+
         results.metadata.runtime.total = get_runtime_diff(time0)
         logger.info("finished execution after %.2f seconds", results.metadata.runtime.total)
 
@@ -355,7 +355,6 @@ def main(argv=None) -> int:
         get_transcript(sample)
 
         resultsurl = ResultDocumentUrl(metadata=Metadata(path=str(sample)), analysis=analysis, url=sample)
-        
 
         if resultsurl.analysis.enable_transcript:
             resultsurl.aggregate.transcript = get_transcript(sample)
@@ -376,15 +375,12 @@ def main(argv=None) -> int:
         if resultsurl.analysis.enable_sentiment:
             # TODO: get sentiment analysis of the video
             pass
-        
+
         resultsurl.metadata.runtime.total = get_runtime_diff(time0)
         logger.info("finished execution after %.2f seconds", resultsurl.metadata.runtime.total)
 
     else:
         raise ValueError("Please provide either a sample file or a video URL.")
-
-    
-    
 
     if args.json:
         # TODO: write render json script

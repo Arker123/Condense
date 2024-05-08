@@ -59,7 +59,7 @@ def clean_data(data: List[Dict], check_meet: int) -> List[Dict]:
                 final_data.append({"start": start, "end": end, "text": text})
                 start, cnt = end, 0
                 sentences = []
-        
+
         if cnt > 0:
             text = " ".join(sentences)
             final_data.append({"start": start, "end": end, "text": text})

@@ -150,7 +150,7 @@ def main(argv=None) -> int:
 
     comments = get_comments(args.video_url, args.csv)
     print(comments)
-    
+
     return 0
 
 

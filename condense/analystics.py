@@ -44,7 +44,7 @@ def word_cloud(video_url: str) -> str:
     """
     Generate a word cloud from the comments of a YouTube video.
     """
-    
+
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
@@ -64,7 +64,7 @@ def word_cloud(video_url: str) -> str:
             tokens[i] = tokens[i].lower()
 
         comment_words += " ".join(tokens) + " "
-            
+
     wordcloud = WordCloud(
         width=800, height=800, background_color="white", stopwords=stopwords, min_font_size=10
     ).generate(comment_words)
@@ -103,7 +103,7 @@ def main(argv=None) -> int:
     # Word cloud generation
     filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".png"
     wordcloud = word_cloud(args.video_url, filename)
-    
+
     plt.figure(figsize=(8, 8), facecolor=None)
     plt.imshow(wordcloud)
     plt.axis("off")
