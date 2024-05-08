@@ -27,13 +27,13 @@ function Navbar() {
               </a>
             </li>
             <li>
-              <a href="#extension">Chrome Extension</a>
-            </li>
-            <li>
               <a href="/dashboard">Dashboard</a>
             </li>
             <li>
-              <a href="/contact">Contact</a>
+              <a href="/contact">Contact Us</a>
+            </li>
+            <li>
+              <a href="/feedback">Feedback</a>
             </li>
           </ul>
         </nav>
