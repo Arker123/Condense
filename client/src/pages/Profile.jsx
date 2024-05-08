@@ -11,6 +11,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiPhoneCall } from "react-icons/fi";
 import { IoIosNotifications } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import userEvent from '@testing-library/user-event';
 import "./Profile.css";
 import {
   updatePass
@@ -140,7 +141,7 @@ const Profile = () => {
         <div>
           <h2 className="header float-left p-4">USER PROFILE</h2>
           <div className="flex groupside justify-end p-2 gap-4 mt-5">
-            <div className="w-30 h-10  sidebuttons rounded-3xl flex items-center px-4">
+            <div className="w-30 h-10  sidebuttons rounded-3xl flex items-center px-4 ">
               <div className="flex flex-row gap-2" onClick={handleRedirect}>
                 <FiPhoneCall className="mt-1" />
                 <p className="cursor-pointer">Contact Us</p>
@@ -178,7 +179,7 @@ const Profile = () => {
                 </span>
               </div>
               <button 
-                className="bg-blue-400 text-black px-4 py-2 w-full mt-2 rounded-md hover:bg-gray-300 hover:text-gray-800 transition-colors duration-300 ease-in-out"
+                className="bg-[#6f0000] text-slate-300 px-4 py-2 w-full mt-2 rounded-xl text-[18px] hover:scale-105 transition-all duration-300 ease-in-out "
                 onClick={() => setShowPopup(true)}
               >
                 Update Password
@@ -210,6 +211,7 @@ const Profile = () => {
               </h3>
             </div>
             <div
+              data-testid = "FavouriteNotesButton"
               className={`navtabs ${activeTab === "Favorite Notes" ? "navtabsActive" : ""}`}
               onClick={() => handleTabClick("Favorite Notes")}
             >
@@ -224,7 +226,7 @@ const Profile = () => {
             {activeTab === "Favorite Summaries" && (
               <div className="text-red-900 h-full mb-4 text-1xl">
                 {/* Content for Favorite Summaries tab */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div data-testid = "Summary_test" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {favSummaries.map((summary) => (
                     <ProfileCard key={summary._id} summary={summary} />
                   ))}
@@ -242,7 +244,7 @@ const Profile = () => {
             {activeTab === "Favorite Notes" && (
               <div className="text-red-900 h-full mb-4 text-1xl">
                 {/* Content for Favorite Notes tab */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div data-testid = "Notes_test" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {favNotes.map((note) => (
                     <ProfileCardNote key={note._id} note={note} />
                   ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {cleanup, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import SummaryPage from '../pages/SummaryPage.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -15,8 +15,7 @@ jest.mock('react-router-dom', () => ({
     useLocation: jest.fn(), // mock the hook
 }));;
 
-// FIXME: This test is failing because the notes are not being rendered in the Summary Page
-test.skip('In Summary Page Transcript text is rendered', () => {
+test('In Summary Page Transcript text is rendered', () => {
 
     useLocation.mockReturnValue({
         state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",
@@ -35,8 +34,7 @@ test.skip('In Summary Page Transcript text is rendered', () => {
     expect(transcripts).toBeInTheDocument();
 });
 
-// FIXME: This test is failing because the notes are not being rendered in the Summary Page
-test.skip('In Summary Page Notes text is rendered', () => {
+test('In Summary Page Notes text is rendered', () => {
 
     useLocation.mockReturnValue({
         state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",
@@ -55,8 +53,7 @@ test.skip('In Summary Page Notes text is rendered', () => {
     expect(notes).toBeInTheDocument();
 });
 
-// FIXME: This test is failing because the notes are not being rendered in the Summary Page
-test.skip('In Summary Page summary text is rendered', () => {
+test('In Summary Page summary text is rendered', () => {
 
     useLocation.mockReturnValue({
         state: "https://www.youtube.com/watch?v=zJU_Bp-Yp1c&ab_channel=Avatar%3ATheLastAirbender",

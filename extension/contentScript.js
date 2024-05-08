@@ -21,9 +21,16 @@ function add_element(tag, attr_tag, attr_name, value) {
   return element;
 }
 
+let container;
+
 async function main() {
+  if (container) {
+    console.log(container);
+    container.remove();
+  }
+  // if (!window.location.href.match(/.*youtube.com\/watch\/.*/)) return;
+
   add_css(`
-  
   #ext-container {
     border-radius: 10px;
     display: flex;
@@ -37,12 +44,14 @@ async function main() {
   #transcript{
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
+    height: 440px;
   }
   #notes, #ai-chat, #summary{
     display: flex;
     flex-direction: column;
     display:none;
+    height: 440px;
   }
   #summary{
     justify-content: center;
@@ -114,31 +123,32 @@ async function main() {
   .question-card{
     font-size:14px;
     min-height: 20px;
-    padding: 1px;
+    padding: 5px;
     border-radius: 5px;
-    background:#00BFFF;
+    background:rgb(169, 32, 30);
     color:white;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     align-self: flex-end;
     width:70%;
   }
   .answer-card{
     font-size:14px;
     height: 20px;
-    padding: 1px;
+    padding: 5px;
     border-radius: 5px;
     background:white;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     align-self: flex-start;
     width:70%;
   }
-  #t-button, #notes-button, #ai-chat-button, #summary-button{
+  #t-button, #notes-button, #ai-chat-button, #summary-button, #save-button{
     background-color: transparent;
     color: rgb(169, 32, 30);
     border: none;
     outline: none;
     font-size: 12px;
     padding: 15px;    
+    cursor: pointer;
   }
 
   #notes-entry-box, #ai-chat-entry-box{
@@ -155,7 +165,7 @@ async function main() {
   #notes-card-area, #ai-chat-card-area{
     widht:100%;
     height:370px;
-    overflow-y: scroll;
+    overflow-y: auto;
     display:flex;
     flex-direction: column;
 
@@ -166,7 +176,7 @@ async function main() {
     width: 50px;
     left: 312px;
     top:-30px;
-    background-color: blue;
+    background-color: rgb(169, 32, 30);
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -175,17 +185,18 @@ async function main() {
   #summary-area, #ai-chat-area{
     background-color: white;
     width: 90%;
-    height: 57vh;
     margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
-    overflow-y: scroll;
+    line-height: 1.7;
+    height: 100%;
+    padding: 15px;
+    overflow-y: auto;
     border-radius: 5px;
+
   }
   
   #get-summary-button{
@@ -195,36 +206,55 @@ async function main() {
     border-radius: 5px;
   }
 
-    .my-component-right {
-      display: flex;
-      align-items: center;
-      color: #828282;
-      position: relative;
-      flex-direction: row;
-    }
+  .my-component-right {
+    display: flex;
+    align-items: center;
+    color: #828282;
+    position: relative;
+    flex-direction: row;
+  }
 
-    .icon-copy, .icon-edit, .icon-delete {
-        font-size: 20px;
-        margin-left: 12px;
-        cursor: pointer;
-    }
+  .icon-copy, .icon-edit, .icon-delete {
+      font-size: 20px;
+      margin-left: 12px;
+      cursor: pointer;
+  }
 
     .edit-text-area {
       width :100%;
       border-radius:5px;
     }
+    #navbar{
+      margin-bottom:5px;
+    }
+
+  #save-button{
+    border-radius: 5px;
+    background-color: rgba(152, 32, 30,0.9);
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    left: 20px;
+    color: white;
+    cursor: pointer
+  }
+
+  #save-button:hover{
+    background-color: rgba(180, 32, 30,1);
+    scale: 1.02;
+  }
     
   }
   
   `);
 
-  const container = add_element("div", "id", "ext-container", "");
+  container = add_element("div", "id", "ext-container", "");
 
   const t_icon = add_element(
     "div",
     "id",
     "t-icon",
-    `<svg data-v-8ec02cea="" width="17.59" height="20" viewBox="0 0 176 200" xmlns="http://www.w3.org/2000/svg" class="nav-top" xmlns:xlink="http://www.w3.org/1999/xlink" filter="none"><g data-v-8ec02cea=""><path data-v-8ec02cea="" d="M140.914 0H35.0863C25.9618 0.0101648 17.2139 3.63956 10.7622 10.0918C4.31045 16.5441 0.681772 25.2923 0.672363 34.4168V165.583C0.682546 174.707 4.31146 183.455 10.763 189.907C17.2146 196.359 25.962 199.989 35.0862 200H140.914C150.038 199.989 158.786 196.359 165.237 189.907C171.689 183.455 175.318 174.707 175.328 165.583V34.4168C175.319 25.2923 171.69 16.5441 165.238 10.0918C158.786 3.63955 150.039 0.0101544 140.914 0ZM43.9545 41.0451H134.126V63.8299H43.9545V41.0451ZM134.126 161.612H43.9545C42.7773 161.612 41.6483 161.144 40.8159 160.312C39.9835 159.48 39.5159 158.351 39.5159 157.174C39.5159 155.996 39.9835 154.867 40.8159 154.035C41.6483 153.203 42.7773 152.735 43.9545 152.735H134.126C135.303 152.735 136.432 153.203 137.265 154.035C138.097 154.867 138.565 155.996 138.565 157.174C138.565 158.351 138.097 159.48 137.265 160.312C136.432 161.144 135.303 161.612 134.126 161.612ZM134.126 138.827H43.9545C43.3716 138.827 42.7944 138.713 42.2559 138.489C41.7174 138.266 41.2281 137.939 40.8159 137.527C40.4038 137.115 40.0768 136.626 39.8538 136.087C39.6307 135.549 39.5159 134.972 39.5159 134.389C39.5159 133.806 39.6307 133.229 39.8538 132.69C40.0768 132.152 40.4038 131.662 40.8159 131.25C41.2281 130.838 41.7174 130.511 42.2559 130.288C42.7944 130.065 43.3716 129.95 43.9545 129.95H134.126C135.303 129.95 136.432 130.418 137.265 131.25C138.097 132.083 138.565 133.212 138.565 134.389C138.565 135.566 138.097 136.695 137.265 137.527C136.432 138.36 135.303 138.827 134.126 138.827Z" fill="rgb(169, 32, 30)" stroke="none"></path></g></svg>`
+    `<svg data-v-57b574a0="" width="20" height="20" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="nav-top" fill="none"><g data-v-57b574a0="" clip-path="url(#clip0_900_165)"><path data-v-57b574a0="" d="M152.914 0H47.0863C37.9618 0.0101648 29.2139 3.63956 22.7622 10.0918C16.3104 16.5441 12.6818 25.2923 12.6724 34.4168V165.583C12.6825 174.707 16.3115 183.455 22.763 189.907C29.2146 196.359 37.962 199.989 47.0862 200H152.914C162.038 199.989 170.786 196.359 177.237 189.907C183.689 183.455 187.318 174.707 187.328 165.583V34.4168C187.319 25.2923 183.69 16.5441 177.238 10.0918C170.786 3.63955 162.039 0.0101544 152.914 0ZM175.492 165.583C175.486 171.57 173.105 177.309 168.872 181.542C164.639 185.775 158.9 188.157 152.914 188.164H47.0863C41.1 188.157 35.3609 185.775 31.1282 181.542C26.8955 177.309 24.5148 171.57 24.5086 165.583V34.4168C24.5149 28.4305 26.8955 22.6911 31.1282 18.4579C35.3609 14.2246 41.1 11.8433 47.0863 11.8363H152.914C158.901 11.8433 164.64 14.2247 168.872 18.4579C173.105 22.6912 175.486 28.4306 175.492 34.4169L175.492 165.583Z" fill="rgba(33,36,39,0.8)"></path> <path data-v-57b574a0="" d="M146.126 129.936H55.9542C55.3713 129.936 54.7942 130.051 54.2556 130.274C53.7171 130.497 53.2278 130.824 52.8157 131.236C52.4035 131.648 52.0766 132.138 51.8535 132.676C51.6304 133.215 51.5156 133.792 51.5156 134.375C51.5156 134.958 51.6304 135.535 51.8535 136.073C52.0766 136.612 52.4035 137.101 52.8157 137.513C53.2278 137.925 53.7171 138.252 54.2556 138.475C54.7942 138.699 55.3713 138.813 55.9542 138.813H146.126C147.303 138.813 148.432 138.346 149.264 137.513C150.097 136.681 150.564 135.552 150.564 134.375C150.564 133.198 150.097 132.069 149.264 131.236C148.432 130.404 147.303 129.936 146.126 129.936ZM146.126 152.736H55.9542C55.3713 152.736 54.7942 152.851 54.2556 153.074C53.7171 153.297 53.2278 153.624 52.8157 154.036C52.4035 154.448 52.0766 154.937 51.8535 155.476C51.6304 156.014 51.5156 156.591 51.5156 157.174C51.5156 157.757 51.6304 158.334 51.8535 158.873C52.0766 159.411 52.4035 159.901 52.8157 160.313C53.2278 160.725 53.7171 161.052 54.2556 161.275C54.7942 161.498 55.3713 161.613 55.9542 161.613H146.126C147.303 161.613 148.432 161.145 149.264 160.313C150.097 159.481 150.564 158.352 150.564 157.174C150.564 155.997 150.097 154.868 149.264 154.036C148.432 153.203 147.303 152.736 146.126 152.736ZM146.126 36.6074H55.9542C54.777 36.6074 53.6481 37.0751 52.8157 37.9075C51.9833 38.7399 51.5156 39.8688 51.5156 41.046V63.8308C51.5156 65.008 51.9833 66.1369 52.8157 66.9693C53.6481 67.8017 54.777 68.2694 55.9542 68.2694H146.126C147.303 68.2694 148.432 67.8017 149.264 66.9693C150.097 66.1369 150.564 65.008 150.564 63.8308V41.046C150.564 39.8688 150.097 38.7399 149.264 37.9075C148.432 37.0751 147.303 36.6074 146.126 36.6074ZM141.687 59.407H60.3929V45.4994H141.687L141.687 59.407Z" fill="rgba(33,36,39,0.8)"></path></g> <defs data-v-57b574a0=""><clipPath data-v-57b574a0="" id="clip0_900_165"><rect data-v-57b574a0="" width="200" height="200" fill="white"></rect></clipPath></defs></svg>`
   );
 
   const notes_icon = add_element(
@@ -238,8 +268,7 @@ async function main() {
     "div",
     "id",
     "ai-chat-icon",
-    `<svg data-v-38979994="" width="20" height="20" viewBox="0 0 213 178" xmlns="http://www.w3.org/2000/svg" class="nav-top" fill="none"><path data-v-38979994="" d="M23.5 7H132.5" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M132.5 6.9994C139 6.99881 146.6 9.0994 147 21.4994V36.5M55.5002 106L33.0002 129C29.3335 132.5 22.0002 136.6 22.0002 125C22.0002 113.4 22.0002 107.5 22.0002 106C17.0002 104.833 6.90016 100.3 6.50016 91.5C6.10016 82.7 6.33349 41.1663 6.50016 21.4994C6.54677 15.9994 10 6 27 6.9994" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path> <path data-v-38979994="" d="M191.721 53H86.7209C74.721 53 69.2559 60 69.2209 64C69.0542 83 68.8209 123.7 69.2209 134.5C69.6209 145.3 81.0542 148.333 86.7209 148.5H160.221C165.388 154.333 177.221 166.8 183.221 170C189.221 173.2 191.388 168.667 191.721 166V142.5C202.521 142.5 205.888 134.167 206.221 130V64C206.221 55.6 196.554 53.1667 191.721 53Z" stroke="rgb(169, 32, 30)" stroke-width="12" stroke-linecap="round"></path>
-    </svg>`
+    `<svg data-v-57b574a0="" width="20" height="20" viewBox="0 0 213 178" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-top"><path data-v-57b574a0="" d="M23.5 7H132.5" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path> <path data-v-57b574a0="" d="M132.5 6.9994C139 6.99881 146.6 9.0994 147 21.4994V36.5M55.5002 106L33.0002 129C29.3335 132.5 22.0002 136.6 22.0002 125C22.0002 113.4 22.0002 107.5 22.0002 106C17.0002 104.833 6.90016 100.3 6.50016 91.5C6.10016 82.7 6.33349 41.1663 6.50016 21.4994C6.54677 15.9994 10 6 27 6.9994" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path> <path data-v-57b574a0="" d="M191.721 53H86.7209C74.721 53 69.2559 60 69.2209 64C69.0542 83 68.8209 123.7 69.2209 134.5C69.6209 145.3 81.0542 148.333 86.7209 148.5H160.221C165.388 154.333 177.221 166.8 183.221 170C189.221 173.2 191.388 168.667 191.721 166V142.5C202.521 142.5 205.888 134.167 206.221 130V64C206.221 55.6 196.554 53.1667 191.721 53Z" stroke="rgba(33,36,39,0.8)" stroke-width="12" stroke-linecap="round"></path></svg>`
   );
 
   const summary_icon = add_element(
@@ -285,20 +314,28 @@ async function main() {
   ai_chat_button.innerHTML += "AI Chat";
 
   navbar.appendChild(ai_chat_button);
+
+  save_button = add_element("button", "id", "save-button", "");
+
+  const save_icon = add_element(
+    "div",
+    "id",
+    "save-icon",
+    `
+    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z" fill="#ffffff"></path> </g></svg>`
+  );
+
+  save_button.appendChild(save_icon);
+  // save_button.innerHTML += "Save";
+
+  navbar.appendChild(save_button);
   container.appendChild(navbar);
 
   const transcript = add_element("div", "id", "transcript", "");
   const notes = add_element("div", "id", "notes", "");
   const summary = add_element("div", "id", "summary", "");
   const summary_area = add_element("div", "id", "summary-area", "");
-  const get_summary = add_element(
-    "button",
-    "id",
-    "get-summary-button",
-    `Get Summary`
-  );
   summary.appendChild(summary_area);
-  summary_area.appendChild(get_summary);
   const t_navbar = add_element("div", "id", "t-navbar", ``);
   const ai_chat = add_element("div", "id", "ai-chat", "");
   const notes_entry = add_element(
@@ -337,9 +374,8 @@ async function main() {
 
   //rgb(169, 32, 30) -> icon colour
 
-  const t_body = add_element("div", "id", "t-body", "");
-
   t_button.classList.add("active");
+  t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
 
   t_button.addEventListener("click", () => {
     t_button.classList.add("active");
@@ -350,6 +386,10 @@ async function main() {
     transcript.style.display = "flex";
     notes.style.display = "none";
     ai_chat.style.display = "none";
+    t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="none";
   });
 
   notes_button.addEventListener("click", () => {
@@ -361,6 +401,10 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "flex";
     ai_chat.style.display = "none";
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="none";
   });
 
   ai_chat_button.addEventListener("click", () => {
@@ -372,9 +416,15 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "none";
     ai_chat.style.display = "flex";
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="none";
+    ai_chat_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
   });
 
-  summary_button.addEventListener("click", () => {
+  let summary_text = null;
+
+  summary_button.addEventListener("click", async () => {
     t_button.classList.remove("active");
     notes_button.classList.remove("active");
     ai_chat_button.classList.remove("active");
@@ -383,6 +433,50 @@ async function main() {
     transcript.style.display = "none";
     notes.style.display = "none";
     ai_chat.style.display = "none";
+    t_button.style.borderBottom = "none";
+    notes_button.style.borderBottom = "none";
+    summary_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
+    ai_chat_button.style.borderBottom ="none";
+
+
+    let videoUrl = window.location.href;
+    console.log("Video URL:", videoUrl);
+    try {
+      const response = await fetch("http://localhost:5000/summaries/generate", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          videoId: getVideoId(videoUrl),
+        }),
+      });
+
+      const json = await response.json();
+
+      console.log(json);
+
+      let summary_dict = await JSON.parse(json.summary);
+      summary_text = summary_dict.summary;
+      console.log(summary_text);
+    } catch (error) {
+      console.error("Error fetching summary:", error);
+    }
+    if (summary_text) {
+      summary_area.style.display = "block";
+      var words = summary_text.split(" ");
+      var index = 0;
+      var intervalId = setInterval(function () {
+        summary_area.innerHTML += words[index] + " ";
+        index++;
+        if (index == words.length) {
+          clearInterval(intervalId);
+        }
+      }, 50);
+    }
+
   });
 
   const getVideoId = (url) => {
@@ -404,65 +498,84 @@ async function main() {
       var timestramp = convertSeconds(htmlVideoPlayer.currentTime);
       notesDict[timestramp] = notesText;
       getNotes();
-      
+
       document.getElementById("notes-entry-box").value = "";
     }
   });
-  
-  let summary_text = null;
 
-  get_summary.addEventListener("click", async () => {
-    get_summary.style.display = "none";
-    let videoUrl = window.location.href;
-    console.log("Video URL:", videoUrl);
-    try {
-      const response = await fetch("http://localhost:5000/summaries/generate", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          videoId: getVideoId(videoUrl),
-        }),
-      });
+  // get_summary.addEventListener("click", async () => {
+  //   get_summary.style.display = "none";
+  //   let videoUrl = window.location.href;
+  //   console.log("Video URL:", videoUrl);
+  //   try {
+  //     const response = await fetch("http://localhost:5000/summaries/generate", {
+  //       method: "POST",
+  //       mode: "cors",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         videoId: getVideoId(videoUrl),
+  //       }),
+  //     });
 
-      const json = await response.json();
+  //     const json = await response.json();
 
-      console.log(json);
+  //     console.log(json);
 
-      let summary_dict = await JSON.parse(json.summary);
-      console.log(summary_text);
-      summary_text = summary_dict.summary;
-      console.log(summary_text);
-    } catch (error) {
-      console.error("Error fetching summary:", error);
-    }
+  //     let summary_dict = await JSON.parse(json.summary);
+  //     summary_text = summary_dict.summary;
+  //     console.log(summary_text);
+  //   } catch (error) {
+  //     console.error("Error fetching summary:", error);
+  //   }
+  //   if (summary_text) {
+  //     summary_area.style.display = "block";
+  //     var words = summary_text.split(" ");
+  //     var index = 0;
+  //     var intervalId = setInterval(function () {
+  //       summary_area.innerHTML += words[index] + " ";
+  //       index++;
+  //       if (index == words.length) {
+  //         clearInterval(intervalId);
+  //       }
+  //     }, 50);
+  //   }
+  // });
+
+  save_button.onclick = async function () {
     if (summary_text) {
-      summary_area.style.display = "block";
-      var words = summary_text.split(" ");
-      var index = 0;
-      var intervalId = setInterval(function () {
-        summary_area.innerHTML += words[index] + " ";
-        index++;
-        if (index == words.length) {
-          clearInterval(intervalId);
-        }
-      }, 50);
+      try {
+        const response = await fetch("http://localhost:5000/summaries/save", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            summaryBody: summary_text,
+            videoId: getVideoId(window.location.href),
+            userId: userId,
+          }),
+        });
+      } catch (error) {
+        console.error("Error saving summary:", error);
+      }
     }
-  });
+  };
 
   ai_chat_entry_button.addEventListener("click", async () => {
     const AiQues = document.getElementById("ai-chat-entry-box").value.trim();
     let answer = null;
     if (AiQues) {
-      const question_card = add_element("div","class","question-card",``);
+      const question_card = add_element("div", "class", "question-card", ``);
       question_card.style.display = "block";
-      question_card.innerHTML+= AiQues;
+      question_card.innerHTML += AiQues;
       ai_chat_card_area.appendChild(question_card);
       document.getElementById("ai-chat-entry-box").value = "";
-      
+
       try {
         const response = await fetch("http://localhost:5000/chatbot/generate", {
           method: "POST",
@@ -472,29 +585,27 @@ async function main() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            summary : summary_text,
+            summary: summary_text,
             question: AiQues,
           }),
         });
-  
+
         const json = await response.json();
-  
+
         console.log(json);
-  
-        answer = await JSON.parse(json.response);
+
+        answer = await json.response;
         console.log(answer);
       } catch (error) {
-        console.error("Error fetching summary:", error);
+        console.error("Error fetching ai-chat response:", error);
       }
-      const answer_card = add_element("div","class","answer-card","");
-      if(answer){
-        answer_card.innerHTML+=answer;
-      }
-      else{
-        answer_card.innerHTML+="Failed to load";
+      const answer_card = add_element("div", "class", "answer-card", "");
+      if (answer) {
+        answer_card.innerHTML += answer;
+      } else {
+        answer_card.innerHTML += "Could not generate a response ";
       }
       ai_chat_card_area.appendChild(answer_card);
-      
     }
   });
 
@@ -532,14 +643,16 @@ async function main() {
         "div",
         "class",
         "icon-copy",
-        `<i data-v-12aa23d4="" class="el-icon-copy-document icon-copy" style="font-size: 16px;"></i>`
+        `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z" fill="#080341"></path> </g></svg>`
       );
-      const edit_icon = add_element("div", "class", "icon-edit", `<i data-v-12aa23d4="" class="el-icon-edit icon-edit" style="font-size: 16px;"></i>`)
+      const edit_icon = add_element("div", "class", "icon-edit", 
+      `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Edit_Pencil_01"> <path id="Vector" d="M12 8.00012L4 16.0001V20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
+    );
       const delete_icon = add_element(
         "div",
         "class",
         "icon-delete",
-        `<i data-v-12aa23d4="" class="el-icon-delete icon-delete" style="font-size: 16px;"></i>`
+        `<svg width="16px" height="16px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M160 256H96a32 32 0 0 1 0-64h256V95.936a32 32 0 0 1 32-32h256a32 32 0 0 1 32 32V192h256a32 32 0 1 1 0 64h-64v672a32 32 0 0 1-32 32H192a32 32 0 0 1-32-32V256zm448-64v-64H416v64h192zM224 896h576V256H224v640zm192-128a32 32 0 0 1-32-32V416a32 32 0 0 1 64 0v320a32 32 0 0 1-32 32zm192 0a32 32 0 0 1-32-32V416a32 32 0 0 1 64 0v320a32 32 0 0 1-32 32z"></path></g></svg>`
       );
       my_component_right.appendChild(copy_icon);
       my_component_right.appendChild(edit_icon);
@@ -600,52 +713,56 @@ async function main() {
       };
     }
   }
+  const t_body = add_element("div", "id", "t-body", "Loading...");
 
-  const data = await fetch("http://localhost:5000/transcript/", {
-    method: "POST",
-    mode: "cors", // this cannot be 'no-cors'
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      url: window.location.href,
-    }),
-  });
-  const json = await data.json();
-  console.log(json);
-  let res = await JSON.parse(json.transcript);
-  console.log(res);
-  let transcripts = [];
-  const countWords = (str) => str.split(" ").length;
-  let totalWords = 0;
-  let currStart = -1;
-  let currText = "";
-  res.forEach((transcript) => {
-    if (currStart == -1) currStart = transcript.start;
-    currText += transcript.text + " ";
-    let words = countWords(transcript.text);
-    totalWords += words;
-    if (totalWords > 40) {
-      totalWords = 0;
+  const get_transcript = async () => {
+    const temp_t_body = add_element("div", "id", "t-body", "");
+
+    const data = await fetch("http://localhost:5000/transcript/", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: window.location.href,
+      }),
+    });
+    const json = await data.json();
+    console.log(json);
+    let res = [];
+    if (json?.transcript) res = await JSON.parse(json.transcript);
+    let transcripts = [];
+    const countWords = (str) => str.split(" ").length;
+    let totalWords = 0;
+    let currStart = -1;
+    let currText = "";
+    res.forEach((transcript) => {
+      if (currStart == -1) currStart = transcript.start;
+      currText += transcript.text + " ";
+      let words = countWords(transcript.text);
+      totalWords += words;
+      if (totalWords > 40) {
+        totalWords = 0;
+        transcripts.push({ start: currStart, text: currText });
+        currText = "";
+        currStart = -1;
+      }
+    });
+
+    if (currText != "") {
       transcripts.push({ start: currStart, text: currText });
-      currText = "";
-      currStart = -1;
     }
-  });
 
-  if (currText != "") {
-    transcripts.push({ start: currStart, text: currText });
-  }
-
-  transcripts.forEach((transcript) => {
-    console.log(typeof transcript.text);
-    let card = add_element("div", "class", "card", "");
-    let time_card = add_element(
-      "div",
-      "class",
-      "time-card",
-      `
+    transcripts.forEach((transcript) => {
+      console.log(typeof transcript.text);
+      let card = add_element("div", "class", "card", "");
+      let time_card = add_element(
+        "div",
+        "class",
+        "time-card",
+        `
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="13px" viewBox="0 0 13 13" version="1.1">
         <g id="surface1">
         <path style=" stroke:none;fill-rule:evenodd;fill:blue;fill-opacity:1;" d="M 6 0 C 9.3125 0 12 2.6875 12 6 C 12 9.3125 9.3125 12 6 12 C 2.6875 12 0 9.3125 0 6 C 0 2.6875 2.6875 0 6 0 Z M 6 0.5 C 9.035156 0.5 11.5 2.964844 11.5 6 C 11.5 9.035156 9.035156 11.5 6 11.5 C 2.964844 11.5 0.5 9.035156 0.5 6 C 0.5 2.964844 2.964844 0.5 6 0.5 Z M 6 6 L 9 6 L 9 6.5 L 5.5 6.5 L 5.5 2 L 6 2 Z M 6 6 "/>
@@ -654,18 +771,21 @@ async function main() {
       
       ${convertSeconds(transcript.start)}
       `
-    );
-    let text_card = add_element(
-      "div",
-      "class",
-      "text-card",
-      `<div>${transcript.text}</div>`
-    );
-    card.appendChild(time_card);
-    card.appendChild(add_element("hr", "class", "divider", ""));
-    card.appendChild(text_card);
-    t_body.appendChild(card);
-  });
+      );
+      let text_card = add_element(
+        "div",
+        "class",
+        "text-card",
+        `<div>${transcript.text}</div>`
+      );
+      card.appendChild(time_card);
+      card.appendChild(add_element("hr", "class", "divider", ""));
+      card.appendChild(text_card);
+      temp_t_body.appendChild(card);
+    });
+
+    t_body.replaceWith(temp_t_body);
+  };
 
   transcript.appendChild(t_navbar);
   transcript.appendChild(t_body);
@@ -677,10 +797,12 @@ async function main() {
   container.appendChild(summary);
   container.appendChild(notes);
   container.appendChild(ai_chat);
-
+  console.log("now");
   const ele = document.getElementById("secondary-inner");
   const parent = document.getElementById("secondary");
   parent.insertBefore(container, ele);
+
+  await get_transcript();
 }
 
 const observer = new MutationObserver((mutationsList, observer) => {
@@ -701,3 +823,16 @@ const observer = new MutationObserver((mutationsList, observer) => {
 const targetNode = document.body;
 const config = { childList: true, subtree: true };
 observer.observe(targetNode, config);
+
+const observeUrlChange = () => {
+  let oldHref = document.location.href;
+  const observer = new MutationObserver((mutations) => {
+    if (oldHref !== document.location.href) {
+      oldHref = document.location.href;
+      main();
+    }
+  });
+  observer.observe(targetNode, { childList: true, subtree: true });
+};
+
+window.onload = observeUrlChange;
