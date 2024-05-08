@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
-import "./LandingPage2.css"; // Make sure to create an App.css file for styling
+import "./LandingPage2.css"; 
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../components/shared/Navbar/Navbar";
@@ -55,20 +55,6 @@ function Card({ item }) {
     </div>
   );
 }
-// function Card({ item }) {
-//   return (
-//     <div className="flex flex-col w-[500px] bg-[rgba(255,255,255,0.7)] overflow-hidden border rounded-lg shadow-lg">
-//       <div className="h-96 w-full">
-//         <img className="h-full w-full" src={item.img} />
-//       </div>
-
-//       <div className="p-2">
-//         <div className="text-xl">{item.title}</div>
-//         <div className="text-justify p-2 text-md">{item.body}</div>
-//       </div>
-//     </div>
-//   );
-// }
 
 function LandingPage2() {
   AOS.init();
@@ -76,25 +62,26 @@ function LandingPage2() {
   console.log(user.id);
   const email = user.email;
   console.log("email=> ", email);
-  let webSocket;
-  useEffect(() => {
+
+  let webSocket = null;
+  const handleStart = () => {
     webSocket = new WebSocket("ws://localhost:443/");
+    if (webSocket) {
+      webSocket.onopen = (event) => {
+        console.log("Connected to server");
+        webSocket.send("Hello from client");
+        webSocket.onmessage = (event) => {
+          console.log(event);
+        };
+      };
+    }
+  };
 
-    return () => {
-      webSocket.close();
-    };
-  }, []);
+  const handleStop = () => {
+    if (webSocket) webSocket.close();
+    // websocket = null
+  };
 
-  if (webSocket) {
-    webSocket.onmessage = (event) => {
-      console.log(event);
-    };
-    webSocket.onopen = (event) => {
-      console.log("Connected to server");
-      webSocket.send("Hello from client");
-    };
-  }
-  // webSocket.send("Hello from client");
   return (
     <>
       <div className="App bg-gradient-to-b p-8">
@@ -111,6 +98,8 @@ function LandingPage2() {
           >
             Get started!
           </Link>
+          <button onClick={handleStart}>Start</button>
+          <button onClick={handleStop}>Stop</button>
         </div>
         <div className="flex flex-wrap justify-around gap-14 p-10 mt-36 font-['Gothic A1']">
           {/* {data.map((item) => (

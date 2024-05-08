@@ -103,26 +103,4 @@ const getTranscript = async (req, res) => {
   }
 };
 
-const getTsGmeet = async (req, res) => {
-  try {
-    const pythonProcess = spawnSync("python", [
-      "../condense/g_meet_summarizer.py",
-    ]);
-
-    const dataToSend = await pythonProcess.stdout.toString();
-
-    if (dataToSend) {
-      await redisClient.set("transcript-" + url, JSON.stringify(dataToSend));
-      res.status(200).json({
-        transcript: dataToSend,
-        message: "Transcript generated successfully",
-      });
-    } else {
-      res.status(400).send({ message: "Error in getting transcript" });
-    }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
-
-module.exports = { getTranscript, getTs, getTsGmeet };
+module.exports = { getTranscript, getTs };

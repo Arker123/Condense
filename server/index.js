@@ -9,6 +9,7 @@ const transcriptRoute = require("./routes/transcriptRoute");
 const chatbotRoute = require("./routes/chatbotRoute");
 const userRoute = require("./routes/userRoute");
 const redisClient = require("./redisConfig.js");
+const { spawn } = require('child_process'); 
 
 const app = express();
 dotenv.config();
@@ -29,14 +30,23 @@ const { WebSocketServer } = require("ws");
 const sockserver = new WebSocketServer({ port: 443 });
 sockserver.on("connection", (ws) => {
   console.log("New client connected!");
-  ws.send("connection established");
-  ws.on("close", () => console.log("Client has disconnected!"));
-  ws.on("message", (data) => {
-    sockserver.clients.forEach((client) => {
-      console.log(`distributing message: ${data}`);
-      client.send(`${data}`);
-    });
+
+  const pythonProcess = spawn("python", ["../condense/g_meet_summarizer.py"]);
+
+  pythonProcess.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
   });
+  pythonProcess.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+    ws.send(data);
+  });
+
+
+  ws.on("close", () => {
+    pythonProcess.kill();
+    console.log("Client has disconnected!");
+  });
+  
   ws.onerror = function () {
     console.log("websocket error");
   };
