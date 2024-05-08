@@ -76,9 +76,7 @@ const MyChatBot = (summary) => {
           }}
         >
           <button onClick={onClickOpenBot}>
-            {/* &nbsp;&nbsp;Conversation with ClarifyBot  */}
-            Conversation with ClarifyBot 
-            {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- */}
+            <TbMessageChatbot size={50} /> {/* Render the chatbot icon */}
           </button>
         </div>
       )}

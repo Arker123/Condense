@@ -1,22 +1,35 @@
 .chatbotStyle {
-  /* border: 1px solid red; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border: 1px solid grey;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 50%; /* Make the chatbot icon container circular */
+  background-color: black; /* Black background */
+  padding: 5px; /* Adjust padding as needed */
   position: fixed;
-  bottom: 0px;
-  right: 8px;
+  bottom: 20px; /* Adjust position as needed */
+  right: 20px; /* Adjust position as needed */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.chatbotStyle:hover {
+  background-color: #2e2e2e; /* Darker shade of black on hover */
 }
 
 .collapsed {
-  background-color: #cbd5e1; /* Default background color */
-  transition: background-color 0.3s ease; /* Smooth transition effect */
-
-  /* Other styles here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; /* Set width to match icon size */
+  height: 60px; /* Set height to match icon size */
+  border-radius: 10%; /* Make it round */
+  cursor: pointer;
 }
 
 .collapsed:hover {
-  background-color: #2e8bee; /* Background color on hover */
+  background-color: #2e2e2e; /* Darker shade of black on hover */
+}
+
+.collapsed button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
