@@ -73,9 +73,7 @@ def clean_data(data: List[Dict], check_meet: int) -> List[Dict]:
 def get_summary(data: List[Dict[str, str]], summarizer, check_meet: int) -> Tuple[List[Dict], List[Dict]]:
     summary = []
     for chunk in data:
-        summary_text = summarizer(chunk["text"], max_length=13 if check_meet else 50, min_length=1, do_sample=False)[0][
-            "summary_text"
-        ]
+        summary_text = summarizer(chunk["text"], max_length=13 if check_meet else 50, min_length=1, do_sample=False)[0]["summary_text"]
         summary.append({"start": chunk["start"], "end": chunk["end"], "summary_text": summary_text})
 
     time_stamp = []

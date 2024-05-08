@@ -456,7 +456,7 @@ const SummaryPage = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-5">
-            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll px-5 ">
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto px-5 ">
               <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
@@ -488,7 +488,7 @@ const SummaryPage = () => {
                 className="w-full h-[250px] outline-none overflow-auto text-black text-[18px] font-normal rounded-xl"
               />
             </div>
-            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll px-5">
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto px-5">
               <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
@@ -517,7 +517,7 @@ const SummaryPage = () => {
                 ))}
               </div>
             </div>
-            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll px-5">
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg  px-5">
               <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
@@ -537,15 +537,13 @@ const SummaryPage = () => {
               >
                 {transcripts.map((transcript, index) => (
                   <div className="flex" key={index}>
-                    <div className="text-[rgb(116,173,252)] w-10 mr-2">
-                      {transcript.start}
-                    </div>
+                    <div className="text-[rgb(116,173,252)] w-10 mr-2">{convertTime(transcript.start)}</div>
                     <div className="px-2">{transcript.text}</div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-scroll mb-5 px-5">
+            <div className="w-full h-full max-h-[400px] bg-white rounded-lg overflow-y-auto mb-5 px-5">
               <div className="h-[50px] w-full flex flex-row items-center justify-between text-red-800 font-bold text-3xl">
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}

@@ -1,3 +1,10 @@
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log(message);
+  return true;
+  // sendResponse({ message: "Received" });
+});
+// console.log("Here");
+
 const add_css = (css) =>
   (document.head.appendChild(document.createElement("style")).innerHTML = css);
 
@@ -226,6 +233,7 @@ async function main() {
     }
     #navbar{
       margin-bottom:5px;
+      display:flex;
     }
 
   #save-button{
@@ -236,7 +244,8 @@ async function main() {
     position: relative;
     left: 20px;
     color: white;
-    cursor: pointer
+    cursor: pointer;
+    display: none;
   }
 
   #save-button:hover{
@@ -388,8 +397,8 @@ async function main() {
     ai_chat.style.display = "none";
     t_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
     notes_button.style.borderBottom = "none";
-    summary_button.style.borderBottom ="none";
-    ai_chat_button.style.borderBottom ="none";
+    summary_button.style.borderBottom = "none";
+    ai_chat_button.style.borderBottom = "none";
   });
 
   notes_button.addEventListener("click", () => {
@@ -403,8 +412,8 @@ async function main() {
     ai_chat.style.display = "none";
     t_button.style.borderBottom = "none";
     notes_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
-    summary_button.style.borderBottom ="none";
-    ai_chat_button.style.borderBottom ="none";
+    summary_button.style.borderBottom = "none";
+    ai_chat_button.style.borderBottom = "none";
   });
 
   ai_chat_button.addEventListener("click", () => {
@@ -418,8 +427,8 @@ async function main() {
     ai_chat.style.display = "flex";
     t_button.style.borderBottom = "none";
     notes_button.style.borderBottom = "none";
-    summary_button.style.borderBottom ="none";
-    ai_chat_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
+    summary_button.style.borderBottom = "none";
+    ai_chat_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
   });
 
   let summary_text = null;
@@ -435,9 +444,8 @@ async function main() {
     ai_chat.style.display = "none";
     t_button.style.borderBottom = "none";
     notes_button.style.borderBottom = "none";
-    summary_button.style.borderBottom ="2px solid rgb(169, 32, 30)";
-    ai_chat_button.style.borderBottom ="none";
-
+    summary_button.style.borderBottom = "2px solid rgb(169, 32, 30)";
+    ai_chat_button.style.borderBottom = "none";
 
     let videoUrl = window.location.href;
     console.log("Video URL:", videoUrl);
@@ -476,8 +484,15 @@ async function main() {
         }
       }, 50);
     }
-
   });
+  const user_local = await chrome.storage.local.get("userInfo");
+  // const user_local_json = JSON.parse(user_local);
+  console.log(user_local);
+  if (user_local.userInfo) {
+    save_button.style.display = "block";
+  } else {
+    save_button.style.display = "none";
+  }
 
   const getVideoId = (url) => {
     const videoIdRegex =
@@ -488,37 +503,58 @@ async function main() {
     return videoId;
   };
 
-const Fetchuser = async (userId) => {
-  try {
-    const response = await fetch("http://localhost:5000/user/", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: userId
-      }),
-    });
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return  null;
-  }
-}
+  const Fetchuser = async (userId) => {
+    try {
+      const response = await fetch("http://localhost:5000/user/email", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userId,
+        }),
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null;
+    }
+  };
 
   const notesDict = {};
 
-  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-      if (message.message === 'user_info') {
-          const user_info = message.data;
-          console.log('Received user_info:', user_info);
+  chrome.runtime.onMessage.addListener(async function (
+    message,
+    sender,
+    sendResponse
+  ) {
+    if (message.message === "user_info") {
+      const user_info = message.data;
+      chrome.storage.local.set({ user: user_info.email });
+      const email = user_info.email;
+      try {
+        const res = await Fetchuser(email);
+        console.log(res);
+        const user = res.user;
+        if (user) {
+          save_button.style.display = "block";
+        }
+        chrome.storage.local.set({ userInfo: JSON.stringify(user) });
+      } catch (e) {
+        console.log(e.message);
       }
+      console.log("Received user_info:", user_info);
+    }
+    if (message.message === "logout") {
+      chrome.storage.local.remove("userInfo");
+      save_button.style.display = "none";
+    }
   });
 
-  const userId = "66165f6e494b692f52ee5250";
+  // const userId = "66165f6e494b692f52ee5250";
 
   notes_entry_button.addEventListener("click", () => {
     const notesText = document.getElementById("notes-entry-box").value.trim();
@@ -533,6 +569,16 @@ const Fetchuser = async (userId) => {
   });
 
   save_button.onclick = async function () {
+    const userInfo = await chrome.storage.local.get("userInfo");
+    console.log(userInfo);
+    const userData = await JSON.parse(userInfo.userInfo);
+    console.log(userData);
+    const userId = userData._id;
+    const email = userData.email;
+    console.log(email);
+    console.log(userId);
+    if (!userId) return;
+
     const videoId = getVideoId(window.location.href);
     if (summary_text) {
       try {
@@ -555,9 +601,9 @@ const Fetchuser = async (userId) => {
     }
     let allNotes = Object.values(notesDict).join("\n");
     console.log(allNotes);
-    if(allNotes){
-      note = {title: "Untitled", body : allNotes};
-      const res = await Fetchuser(userId);
+    if (allNotes) {
+      note = { title: "Untitled", body: allNotes };
+      const res = await Fetchuser(email);
       const user = res.user;
       const notes = user.notes;
       console.log(notes);
@@ -572,17 +618,16 @@ const Fetchuser = async (userId) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              userId: userId, 
-              videoId: videoId, 
-              note: note
+              userId: userId,
+              videoId: videoId,
+              note: note,
             }),
           });
           console.log("notes created successfully ");
         } catch (error) {
           console.error("Error creating notes :", error);
         }
-      } 
-      else {
+      } else {
         try {
           const response = await fetch("http://localhost:5000/note/modify", {
             method: "POST",
@@ -592,9 +637,9 @@ const Fetchuser = async (userId) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              userId: userId, 
-              videoId: videoId, 
-              note: note
+              userId: userId,
+              videoId: videoId,
+              note: note,
             }),
           });
           console.log("notes modified successfully ");
@@ -685,9 +730,12 @@ const Fetchuser = async (userId) => {
         "icon-copy",
         `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z" fill="#080341"></path> </g></svg>`
       );
-      const edit_icon = add_element("div", "class", "icon-edit", 
-      `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Edit_Pencil_01"> <path id="Vector" d="M12 8.00012L4 16.0001V20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
-    );
+      const edit_icon = add_element(
+        "div",
+        "class",
+        "icon-edit",
+        `<svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Edit / Edit_Pencil_01"> <path id="Vector" d="M12 8.00012L4 16.0001V20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
+      );
       const delete_icon = add_element(
         "div",
         "class",

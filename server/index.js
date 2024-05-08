@@ -10,6 +10,7 @@ const analyticsRoute = require("./routes/analyticsRoute")
 const chatbotRoute = require("./routes/chatbotRoute");
 const userRoute = require("./routes/userRoute");
 const redisClient = require("./redisConfig.js");
+const { spawn } = require('child_process'); 
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,32 @@ app.use("/summaries", summaryRoute);
 app.use("/transcript", transcriptRoute);
 app.use("/youtube-stats", analyticsRoute)
 app.use("/chatbot", chatbotRoute);
+
+const { WebSocketServer } = require("ws");
+const sockserver = new WebSocketServer({ port: 443 });
+sockserver.on("connection", (ws) => {
+  console.log("New client connected!");
+
+  const pythonProcess = spawn("python", ["../condense/g_meet_summarizer.py"]);
+
+  pythonProcess.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  pythonProcess.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+    ws.send(data);
+  });
+
+
+  ws.on("close", () => {
+    pythonProcess.kill();
+    console.log("Client has disconnected!");
+  });
+  
+  ws.onerror = function () {
+    console.log("websocket error");
+  };
+});
 
 mongoose
   .connect(process.env.MONGO_URL)
