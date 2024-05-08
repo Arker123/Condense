@@ -1,6 +1,8 @@
 import os
 import sys
+import string
 import logging
+import random
 import argparse
 
 import pandas as pd
@@ -37,7 +39,7 @@ def make_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def word_cloud(video_url: str) -> WordCloud:
+def word_cloud(video_url: str) -> str:
     load_dotenv()
 
     api_key = os.getenv("API_KEY")
@@ -60,15 +62,14 @@ def word_cloud(video_url: str) -> WordCloud:
         width=800, height=800, background_color="white", stopwords=stopwords, min_font_size=10
     ).generate(comment_words)
 
-    return wordcloud
-    # plt.figure(figsize=(8, 8), facecolor=None)
-    # plt.imshow(wordcloud)
-    # plt.axis("off")
-    # plt.tight_layout(pad=0)
+    plt.figure(figsize=(8, 8), facecolor=None)
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.tight_layout(pad=0)
 
-    # plt.show()
-
-    return wordcloud
+    filename = "".join(random.choices(string.ascii_letters + string.digits, k=16)) + ".png"
+    plt.savefig(filename)
+    return filename
 
 
 def display_engagement_metrics(video_url: str):
@@ -100,7 +101,7 @@ def main(argv=None) -> int:
     print(sentiment_results)
 
     # Word cloud generation
-    wordcloud = word_cloud(args.video_url)
+    file_name = word_cloud(args.video_url)
 
     # Display engagement metrics
     statistics = display_engagement_metrics(args.video_url)
@@ -113,7 +114,7 @@ def main(argv=None) -> int:
     print("Shares:", statistics.get("shareCount", 0))
     os.remove("./comments.csv")
 
-    print(wordcloud)
+    print(file_name)
     return 0
 
 

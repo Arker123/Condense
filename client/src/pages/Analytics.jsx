@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import axios from "axios";
 import JSON5 from "json5";
 import { useLocation } from "react-router-dom";
@@ -87,8 +87,7 @@ const WordCloud = ({ wordcloudData }) => {
     return (
         <div className="bg-slate-50 h-[300px] w-[800px] flex flex-col rounded-2xl  mt-4">
             <p className=" ml-[25px] mt-2.5 text-[28px] font-bold text-[#6f0000]">Word Cloud</p>
-            <p className="ml-[25px] text-[18px] font-normal">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus voluptatibus libero odio, obcaecati sapiente maiores debitis in a eveniet numquam. Commodi nesciunt eos odio voluptatem non velit magnam ratione temporibus!</p>
-            {/* Render word cloud content here */}
+            <p className="ml-[25px] text-[18px] font-normal">{wordcloudData}</p>
         </div>
     );
 };
@@ -102,7 +101,6 @@ const Analytics = () => {
     const [startCounting, setStartCounting] = useState(false);
 
     var [wordcloudData, setWordCloudData] = useState([]);
-    var [engagementData, setEngagementData] = useState({});
     var [youtubeStats, setYoutubeStats] = useState({
         positiveComments: 0,
         negativeComments : 0,
@@ -140,8 +138,10 @@ const Analytics = () => {
                 comments: parseInt(lines[10].match(/Comments: (\d+)/)[1]),
                 shares: parseInt(lines[11].match(/Shares: (\d+)/)[1])
             };
+            const cloud = lines[12]
             setSentiment(result)
             setYoutubeStats(engagementMetrics)
+            setWordCloudData(cloud)
         })
         .catch(error => {
             console.error('Error fetching YouTube statistics:', error);
@@ -161,8 +161,6 @@ const Analytics = () => {
     const handleButtonClick = (buttonName) => {
         setSelectedButton(buttonName);
     };
-
-    const [selectedButton, setSelectedButton] = useState("Sentiment Analysis");
 
     return (
         <>
