@@ -20,7 +20,7 @@ from condense.render import Verbosity
 from condense.results import Analysis, Metadata, ResultDocument, ResultDocumentUrl
 from condense.version import __version__
 from condense.logging_ import TRACE, DebugLevel
-from condense.analytics import word_cloud, display_engagement_metrics
+from condense.analystics import word_cloud, display_engagement_metrics
 from condense.summarizer import summerize_text, load_summarize_model, get_summary_from_transcript
 from condense.transcript import get_transcript
 from condense.video_audio_to_data import extract_audio
