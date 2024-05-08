@@ -11,7 +11,6 @@ import { store, persistor } from "./redux/store";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/feedback";
 import Analytics from "./pages/Analytics";
-
 import MyNotes from './pages/MyNotes';
 import MyNotesAndSummaries from "./pages/MyNotesAndSummaries";
 import SummaryAndNotes from "./pages/SummaryAndNotes";
@@ -20,7 +19,7 @@ import Profile from "./pages/Profile";
 import Auth from "./utils/Auth";
 import NotFound from "./pages/NotFound";
 import YTSummaries from "./pages/YTSummaries"; 
-
+import SummaryMeet from "./pages/Summary_Meet";
 
 /**
  * Renders the main application component.
@@ -48,7 +47,7 @@ function App() {
               <Route exact path="/mynotesandsummaries" element={<MyNotesAndSummaries/>} />
               <Route exact path="/summaryAndNote" element={<SummaryAndNotes/>} />
               <Route exact path="/analytics" element={<Analytics/>} />
-
+              <Route exact path="/summarymeet" element={<SummaryMeet/>} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

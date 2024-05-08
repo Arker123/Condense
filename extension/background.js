@@ -12,7 +12,7 @@ const CLIENT_ID = encodeURIComponent('448942832307-nqg04bmbbbcd98rg456e495ppcvcq
 const RESPONSE_TYPE = encodeURIComponent('id_token');
 const REDIRECT_URI = encodeURIComponent('https://nmmhkkegccagdldgiimedpiccmgmieda.chromiumapp.org');
 const STATE = encodeURIComponent('asdf');
-const SCOPE = encodeURIComponent('openid');
+const SCOPE = encodeURIComponent('openid email profile');
 const PROMPT = encodeURIComponent('consent');
 
 
@@ -42,11 +42,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 let id_token = redirect_url.substring(redirect_url.indexOf('id_token=') + 9);
                 id_token = id_token.substring(0, id_token.indexOf('&'));
                 const user_info = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(id_token.split(".")[1]));
-
+                
                 if ((user_info.iss === 'https://accounts.google.com' || user_info.iss === 'accounts.google.com')
                     && user_info.aud === CLIENT_ID) {
                     chrome.action.setPopup({ popup: './popup-signed-in.html' }, function () {
                         user_signed_in = true;
+                        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                            chrome.tabs.sendMessage(tabs[0].id, { message: 'user_info', data: user_info });
+                        });
                         sendResponse('success');
                     });
                 } else {
