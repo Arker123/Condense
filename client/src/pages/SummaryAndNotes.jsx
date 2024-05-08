@@ -57,13 +57,13 @@ const SummaryAndNotes = () => {
                   </div>
                 </div>
 
-                <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
+                {/* <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
                   <IoMdSettings />
                 </div>
 
                 <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full">
                   <IoIosNotifications />
-                </div>
+                </div> */}
 
                 <div className="bg-white w-10 h-[40px] flex items-center text-[30px] justify-center rounded-full cursor-pointer" onClick={handleProfileRedirect}>
                   <CgProfile />
