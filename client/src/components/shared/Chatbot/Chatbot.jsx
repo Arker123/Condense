@@ -5,6 +5,7 @@ import getConfig from "./config.js";
 import MessageParser from "./MessageParser.js";
 import ActionProvider from "./ActionProvider.js";
 import React, { useState, useEffect, useRef } from "react";
+import { TbMessageChatbot } from "react-icons/tb";
 
 const MyChatBot = (summary) => {
   const [showBot, toggleShow] = useState(false);
@@ -51,8 +52,8 @@ const MyChatBot = (summary) => {
   };
 
   return (
-    <div className="chatbotStyle">
-      {showBot ? (
+    <div className={`chatbotStyle mb-5 rounded-3xl mr-3 `}>
+    {showBot ? (
         <div ref={chatbotRef}>
           <Chatbot
             config={getConfig(onClickCloseBot, summary)}
@@ -66,17 +67,16 @@ const MyChatBot = (summary) => {
       ) : (
         // Don't Show Bot
         <div
-          className="collapsed"
-          style={{
-            padding: "5px",
-            borderTopLeftRadius: "5px",
-            borderTopRightRadius: "5px",
-            width: "275px", 
-          }}
+          className="collapsed h-[50px] text-[18px] text-slate-50 flex items-center justify-center rounded-3xl"
+          // style={{
+          //   padding: "5px",
+          //   borderTopLeftRadius: "5px",
+          //   borderTopRightRadius: "5px",
+          //   width: "275px", 
+          // }}
         >
           <button onClick={onClickOpenBot}>
-            &nbsp;&nbsp;Conversation with ClarifyBot
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+            <TbMessageChatbot size={50} /> {/* Render the chatbot icon */}
           </button>
         </div>
       )}

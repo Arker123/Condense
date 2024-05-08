@@ -77,7 +77,7 @@ const Card = ({ title, youtubeUrl, note, summary }) => {
           </div>
         </div>
       </div> */}
-      <div className="bg-gray-200 rounded-2xl w-[400px] h-[370px] ml-[70px] mt-10 overflow-hidden hover:scale-105 transition-all duration-300 ease-in-out hover:bg-slate-300">
+      <div className="bg-gray-200 rounded-2xl w-[400px] h-[370px] ml-[70px] mt-10 overflow-hidden hover:scale-105 transition-all duration-300 ease-in-out hover:bg-slate-300 mb-4">
   <div className="flex flex-col">
     {thumbnailUrl && (
       <img
