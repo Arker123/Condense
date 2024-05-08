@@ -510,6 +510,14 @@ const Fetchuser = async (userId) => {
 }
 
   const notesDict = {};
+
+  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+      if (message.message === 'user_info') {
+          const user_info = message.data;
+          console.log('Received user_info:', user_info);
+      }
+  });
+
   const userId = "66165f6e494b692f52ee5250";
 
   notes_entry_button.addEventListener("click", () => {
