@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "json5": "^2.2.3"
+    "json5": "^2.2.3",
+    "puppeteer": "^22.8.0"
   }
 }
