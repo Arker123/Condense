@@ -40,7 +40,7 @@ function Navbar() {
         <div className="user-actions">
           {user.email ? (
             <div className="login-signup-button rounded-full mt-[-12px]">
-              <button onClick={() => dispatch(logout())}>Logout</button>
+              <button data-testid = "logout_testid" onClick={() => dispatch(logout())}>Logout</button>
             </div>
           ) : (
             <div className="login-signup-button rounded-full mt-[-12px]">

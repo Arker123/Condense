@@ -87,12 +87,13 @@ function LandingPage2() {
       <div className=" flex flex-col items-center justify-center mt-28 gap-5  text-white">
         <div className="text-7xl font-bold">
           <p className="">Summarize </p>
-          <p className="">Effortlessly</p>
+          <p data-testid = "summarize_button_landing" className="">Effortlessly</p>
         </div>
         <p className="text-lg">Condense long videos into short summaries.</p>
         <Link
           to="/dashboard"
           className="bg-[#5a377b] p-3 rounded-lg px-16 mt-8 hover:bg-[#42285a]"
+          data-testid = "get_started_button"
         >
           Get started!
         </Link>
