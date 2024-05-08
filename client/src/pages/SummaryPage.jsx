@@ -354,6 +354,7 @@ const SummaryPage = () => {
                 </div>
               </div>
               <textarea
+                data-testid="notes-test"
                 id="note"
                 type="text"
                 value={note}
@@ -423,7 +424,7 @@ const SummaryPage = () => {
                   <FontAwesomeIcon icon={faStar} className="cursor-pointer" />
                 </div>
               </div>
-              <div className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
+              <div data-testid="summary-test" className="w-full h-[250px] overflow-auto text-black text-[18px] font-normal rounded-xl">{summaryText}</div>
             </div>
           </div>
         </motion.div>
