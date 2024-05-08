@@ -38,8 +38,7 @@ const SummaryPage = () => {
   const user = useSelector((state) => state.user);
   const notes = user.notes;
   const summaries = user.summaries;
-  console.log("summaa:  ", summaries);
-
+  const analytics = 1;
   const convertTime = (time) => {
     let seconds = Math.floor(time);
     // const minutes = "0" + Math.floor(seconds / 60) ;
@@ -134,10 +133,7 @@ const SummaryPage = () => {
           console.log(err);
         });
     } else {
-      console.log("in fetch one summary");
       const userId = user.id;
-      console.log(userId);
-      console.log(url);
 
       // Construct the URL with query parameters
       const apiUrl = `${process.env.REACT_APP_API_URL}/summaries/getOne?userId=${userId}&videoId=${url}`;
@@ -291,7 +287,7 @@ const SummaryPage = () => {
   return (
     <>
       <div className="flex flex-row">
-        <Sidebar />
+        <Sidebar analytics={analytics} />
         <motion.div
           className="flex flex-col flex-grow bg-gradient-to-b from-black to-[#6f0000] px-4 md:px-8"
           initial={{ opacity: 0 }}

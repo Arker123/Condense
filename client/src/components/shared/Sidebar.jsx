@@ -9,16 +9,17 @@ import { IoMdHome } from "react-icons/io";
 import { FaChartBar } from 'react-icons/fa';
 
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const menus = [
     { name: "Dashboard", link: "/dashboard", icon: IoMdHome },
     { name: "Chat with AI", link: "/", icon: BsChatFill },
     { name: "My Notes", link: "/mynotesandsummaries", icon: FaNoteSticky },
     { name: "Youtube Summaries", link: "/", icon: MdSummarize },
     { name: "Chrome Extension", link: "/", icon: IoExtensionPuzzle },
-    { name: "Analytics", link: "/analytics", icon: FaChartBar },
-
   ];
+  if (props.analytics) {
+    menus.push({ name: "Analytics", link: "/analytics", icon: FaChartBar });
+  }
   const [open, setOpen] = useState(true);
 
     return (
