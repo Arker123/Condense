@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------
 
 ## Overview
-Condense is a YouTube Video Analyzer project, a tool that enhances the YouTube viewing experience. This tool will be accessible as both a browser extension and a website. It aims to offer detailed transcripts, brief summaries, AI Chatbot Assistance, and Sentiment Analysis of YouTube video comments. It also extends to take Mp4 and Mp3 files as input and even live meetings. By leveraging in-depth analytics, users can gain insights into video performance, viewer engagement, and content sentiment, among other metrics.
+Condense is a multipurpose YouTube Video Analyzer project which can also be used for google meet, Microsoft teams, etc. , a tool that enhances the YouTube viewing experience. This tool will be accessible as both a browser extension and a website. It aims to offer detailed transcripts, brief summaries, AI Chatbot Assistance, and Sentiment Analysis of YouTube video comments. It also extends to take Mp4 and Mp3 files as input and even live meetings. By leveraging in-depth analytics, users can gain insights into video performance, viewer engagement, and content sentiment, among other metrics.
 
 ## Installation
 You can install condense and its development tools using pip:
